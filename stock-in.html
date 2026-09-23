@@ -5,13 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#1d5b8e">
 <meta name="description" content="الوارد - إلكترونك لصيانة الأجهزة الإلكترونية">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>الوارد | إلكترونك - لصيانة الأجهزة الإلكترونية</title>
 
 <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
-<link rel="icon" type="image/png" sizes="16x16" href="logo.png">
 <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
 <link rel="manifest" href="manifest.json">
 
@@ -23,6 +19,9 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
 
 <style>
+/* ═══════════════════════════════════════════════════════════════
+   🎨 Design System
+   ═══════════════════════════════════════════════════════════════ */
 :root {
     --tech-blue: #1d5b8e;
     --tech-blue-dark: #154668;
@@ -33,7 +32,6 @@
     --warning: #f59e0b;
     --info: #3b82f6;
     --purple: #8b5cf6;
-    --pink: #ec4899;
     
     --bg-primary: #f6f8fb;
     --bg-secondary: #ffffff;
@@ -123,6 +121,7 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 0 10px rgba(29, 91, 142, 0.6);
 }
 
+/* Navbar */
 .navbar {
     position: fixed;
     top: 0;
@@ -155,17 +154,9 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.navbar-menu-btn:hover {
-    background: var(--bg-hover);
-    color: var(--tech-blue);
-}
+.navbar-menu-btn:hover { background: var(--bg-hover); color: var(--tech-blue); }
 
-.navbar-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-shrink: 0;
-}
+.navbar-brand { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
 
 .navbar-logo {
     width: 40px;
@@ -270,6 +261,7 @@ img { max-width: 100%; height: auto; display: block; }
 .navbar-user-info strong { font-size: 0.8rem; font-weight: 700; }
 .navbar-user-info span { font-size: 0.65rem; color: var(--text-muted); }
 
+/* Sidebar */
 .sidebar {
     position: fixed;
     top: var(--navbar-height);
@@ -353,6 +345,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .sidebar-overlay.show { opacity: 1; visibility: visible; }
 
+/* Main Content */
 .main-content {
     margin-top: var(--navbar-height);
     margin-right: var(--sidebar-width);
@@ -649,10 +642,7 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.9rem;
 }
 
-.stock-in-product-info {
-    min-width: 0;
-    flex: 1;
-}
+.stock-in-product-info { min-width: 0; flex: 1; }
 
 .stock-in-product-name {
     font-size: 0.85rem;
@@ -701,6 +691,40 @@ img { max-width: 100%; height: auto; display: block; }
 .badge-info { background: rgba(59, 130, 246, 0.15); color: var(--info); }
 .badge-gray { background: var(--bg-hover); color: var(--text-secondary); }
 .badge-purple { background: rgba(139, 92, 246, 0.15); color: var(--purple); }
+
+/* Warning Banner */
+.warning-banner {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.05));
+    border: 1.5px solid rgba(245, 158, 11, 0.4);
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1.15rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--warning);
+    font-weight: 600;
+}
+
+.warning-banner i { font-size: 1.15rem; flex-shrink: 0; margin-top: 0.1rem; }
+.warning-banner strong { display: block; margin-bottom: 0.25rem; color: var(--text-primary); font-weight: 800; }
+.warning-banner code {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    direction: ltr;
+    display: inline-block;
+}
+.warning-banner .close-btn {
+    margin-right: auto;
+    color: inherit;
+    opacity: 0.7;
+    padding: 0.25rem;
+}
+.warning-banner .close-btn:hover { opacity: 1; }
 
 /* Pagination */
 .pagination {
@@ -926,9 +950,7 @@ img { max-width: 100%; height: auto; display: block; }
 .form-error.show { display: flex; }
 
 /* Product Picker */
-.product-picker {
-    position: relative;
-}
+.product-picker { position: relative; }
 
 .product-picker-input {
     width: 100%;
@@ -986,6 +1008,7 @@ img { max-width: 100%; height: auto; display: block; }
     top: 0;
     background: var(--bg-card);
     z-index: 2;
+    position: relative;
 }
 
 .product-dropdown-search input {
@@ -1160,9 +1183,7 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.9rem;
 }
 
-.summary-row:not(:last-child) {
-    border-bottom: 1px dashed var(--border-color);
-}
+.summary-row:not(:last-child) { border-bottom: 1px dashed var(--border-color); }
 
 .summary-row-label {
     color: var(--text-secondary);
@@ -1691,6 +1712,21 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
     </div>
     
+    <!-- Warning Banner -->
+    <div class="warning-banner" id="warningBanner" style="display: none;">
+        <i class="fas fa-triangle-exclamation"></i>
+        <div style="flex: 1;">
+            <strong>⚠️ يحتاج تحديث قاعدة البيانات</strong>
+            <div style="margin-top: 0.35rem; font-weight: 500;">
+                عمود <code>supplier_id</code> غير موجود في جدول <code>stock_movements</code>.
+                يُرجى تنفيذ كود SQL المرفق في Supabase SQL Editor لتفعيل كل الميزات.
+            </div>
+        </div>
+        <button class="close-btn" onclick="document.getElementById('warningBanner').style.display='none'">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
     <!-- Stats Bar -->
     <div class="stats-bar">
         <div class="stat-item">
@@ -1793,7 +1829,7 @@ img { max-width: 100%; height: auto; display: block; }
                             <input type="text" class="product-picker-input" id="productSearch" placeholder="اضغط لاختيار صنف..." readonly>
                             <i class="fas fa-box product-picker-icon"></i>
                             <div class="product-dropdown" id="productDropdown">
-                                <div class="product-dropdown-search" style="position: relative;">
+                                <div class="product-dropdown-search">
                                     <input type="text" id="productDropdownSearch" placeholder="ابحث عن صنف..." autocomplete="off">
                                     <i class="fas fa-magnifying-glass"></i>
                                 </div>
@@ -1993,13 +2029,15 @@ img { max-width: 100%; height: auto; display: block; }
 var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
 var DB_NAME = 'electronic_db';
-var DB_VERSION = 4;
+var DB_VERSION = 5;
 var PAGE_SIZE = 20;
+var SCHEMA_OK_KEY = 'elk_stock_in_schema_ok';
 
 // ═══════════════════════════════════════════════════════════════
 // 🗄️ Supabase
 // ═══════════════════════════════════════════════════════════════
 var supabaseClient = null;
+var schemaSupported = { supplier_id: true, po_number: true };
 
 function getSupabaseClient() {
     if (supabaseClient) return supabaseClient;
@@ -2056,15 +2094,6 @@ function formatDate(date) {
     } catch (e) { return '—'; }
 }
 
-function formatDateTime(date) {
-    if (!date) return '—';
-    try {
-        return new Date(date).toLocaleDateString('ar-EG', { 
-            year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-        });
-    } catch (e) { return '—'; }
-}
-
 function formatTimeAgo(date) {
     if (!date) return '';
     try {
@@ -2085,12 +2114,10 @@ function initTheme() {
     document.documentElement.setAttribute('data-theme', saved);
     updateThemeIcon(saved);
 }
-
 function updateThemeIcon(theme) {
     var icon = document.querySelector('#themeToggle i');
     if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
 }
-
 function toggleTheme() {
     var current = document.documentElement.getAttribute('data-theme') || 'light';
     var next = current === 'dark' ? 'light' : 'dark';
@@ -2107,18 +2134,15 @@ function showToast(message, type, duration) {
     duration = duration || 3500;
     var container = document.getElementById('toastContainer');
     if (!container) return;
-    
     var icons = {
         success: 'fa-circle-check',
         error: 'fa-circle-xmark',
         warning: 'fa-triangle-exclamation',
         info: 'fa-circle-info'
     };
-    
     var toast = document.createElement('div');
     toast.className = 'toast ' + type;
     toast.innerHTML = '<i class="fas ' + (icons[type] || icons.info) + '"></i><span>' + escapeHtml(message) + '</span>';
-    
     container.appendChild(toast);
     setTimeout(function() {
         toast.classList.add('hide');
@@ -2174,7 +2198,6 @@ function resetInactivity() {
         logout('تم تسجيل خروجك بسبب عدم النشاط');
     }, INACTIVITY_TIMEOUT);
 }
-
 function startInactivityMonitor() {
     ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(function(evt) {
         document.addEventListener(evt, resetInactivity, { passive: true });
@@ -2183,7 +2206,7 @@ function startInactivityMonitor() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📦 IndexedDB
+// 📦 IndexedDB v5
 // ═══════════════════════════════════════════════════════════════
 var dbInstance = null;
 var dbPromise = null;
@@ -2200,7 +2223,9 @@ function openDB() {
             
             req.onupgradeneeded = function(e) {
                 var db = e.target.result;
-                var stores = ['accounts', 'cache', 'settings', 'products', 'categories', 'customers', 'invoices', 'repairs', 'suppliers', 'stock_movements'];
+                var stores = ['accounts', 'cache', 'settings', 'products', 'categories', 
+                              'customers', 'invoices', 'repairs', 'suppliers', 
+                              'stock_movements', 'notifications'];
                 stores.forEach(function(name) {
                     if (!db.objectStoreNames.contains(name)) {
                         db.createObjectStore(name, { keyPath: 'id' });
@@ -2209,6 +2234,7 @@ function openDB() {
                 if (!db.objectStoreNames.contains('outbox')) {
                     var s = db.createObjectStore('outbox', { keyPath: 'id', autoIncrement: true });
                     s.createIndex('status', 'status');
+                    s.createIndex('created_at', 'created_at');
                 }
             };
             
@@ -2254,6 +2280,23 @@ function dbPut(store, data) {
                 r.onsuccess = function() { resolve(r.result); };
                 r.onerror = function() { resolve(null); };
             } catch (e) { resolve(null); }
+        });
+    });
+}
+
+function dbBulkPut(store, items) {
+    return openDB().then(function(db) {
+        if (!db || !db.objectStoreNames.contains(store)) return;
+        return new Promise(function(resolve) {
+            try {
+                var tx = db.transaction(store, 'readwrite');
+                var os = tx.objectStore(store);
+                items.forEach(function(item) {
+                    try { os.put(item); } catch(e) {}
+                });
+                tx.oncomplete = function() { resolve(); };
+                tx.onerror = function() { resolve(); };
+            } catch (e) { resolve(); }
         });
     });
 }
@@ -2318,63 +2361,240 @@ var state = {
 };
 
 // ═══════════════════════════════════════════════════════════════
-// 📥 Load Data
+// 🔍 Schema Detection
+// ═══════════════════════════════════════════════════════════════
+function detectSchema() {
+    var sb = getSupabaseClient();
+    if (!sb || !navigator.onLine) return Promise.resolve();
+    
+    // Try query with supplier_id
+    return sb.from('stock_movements')
+        .select('supplier_id')
+        .limit(1)
+        .then(function(result) {
+            if (result.error && result.error.code === 'PGRST204') {
+                schemaSupported.supplier_id = false;
+                console.warn('⚠️ supplier_id column not found');
+            } else if (result.error && result.error.code === '42703') {
+                schemaSupported.supplier_id = false;
+                console.warn('⚠️ supplier_id column not found');
+            } else if (result.error) {
+                // Unknown error, try po_number
+            }
+            // Try po_number
+            return sb.from('stock_movements').select('po_number').limit(1);
+        })
+        .then(function(result) {
+            if (result && result.error && (result.error.code === 'PGRST204' || result.error.code === '42703')) {
+                schemaSupported.po_number = false;
+                console.warn('⚠️ po_number column not found');
+            }
+        })
+        .catch(function(e) {
+            console.warn('Schema detection error:', e);
+        })
+        .then(function() {
+            // Show warning if any schema issue
+            if (!schemaSupported.supplier_id || !schemaSupported.po_number) {
+                var banner = document.getElementById('warningBanner');
+                if (banner) banner.style.display = 'flex';
+                localStorage.setItem(SCHEMA_OK_KEY, 'false');
+            } else {
+                localStorage.setItem(SCHEMA_OK_KEY, 'true');
+            }
+        });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📥 Load Data - 3-tier fallback strategy
 // ═══════════════════════════════════════════════════════════════
 function loadData() {
     var sb = getSupabaseClient();
     
-    if (sb && navigator.onLine) {
-        return Promise.all([
-            sb.from('stock_movements')
-                .select('*, product:products(id, name, barcode, image_url, cost_price), supplier:suppliers(id, name, phone)')
-                .eq('type', 'in')
-                .order('created_at', { ascending: false })
-                .limit(500),
-            sb.from('products').select('id, name, barcode, image_url, cost_price, quantity, sell_price').order('name'),
-            sb.from('suppliers').select('id, name, phone, quality_rating').order('name')
-        ]).then(function(results) {
-            state.stockMovements = results[0].data || [];
-            state.products = results[1].data || [];
-            state.suppliers = results[2].data || [];
-            
-            // Cache
-            return Promise.all([
-                Promise.all(state.stockMovements.map(function(m) { return dbPut('stock_movements', m); })),
-                Promise.all(state.products.map(function(p) { return dbPut('products', p); })),
-                Promise.all(state.suppliers.map(function(s) { return dbPut('suppliers', s); }))
-            ]);
-        }).catch(function(err) {
-            console.warn('Load failed, using cache:', err);
-            return Promise.all([
-                dbGetAll('stock_movements'),
-                dbGetAll('products'),
-                dbGetAll('suppliers')
-            ]).then(function(cached) {
-                state.stockMovements = (cached[0] || []).filter(function(m) { return m.type === 'in'; });
-                state.products = cached[1] || [];
-                state.suppliers = cached[2] || [];
-            });
-        }).then(function() {
-            updateStats();
-            populateSupplierSelects();
-            applyFilters();
-        });
-    } else {
-        return Promise.all([
-            dbGetAll('stock_movements'),
-            dbGetAll('products'),
-            dbGetAll('suppliers')
-        ]).then(function(cached) {
-            state.stockMovements = (cached[0] || []).filter(function(m) { return m.type === 'in'; });
-            state.products = cached[1] || [];
-            state.suppliers = cached[2] || [];
-            updateStats();
-            populateSupplierSelects();
-            applyFilters();
-        });
+    if (!sb || !navigator.onLine) {
+        return loadFromCache();
     }
+    
+    // Strategy 1: Use view v_stock_in_full (if exists)
+    return tryLoadFromView(sb)
+        .catch(function() {
+            // Strategy 2: Use join syntax
+            return tryLoadFromJoin(sb);
+        })
+        .catch(function() {
+            // Strategy 3: Separate queries + merge
+            return tryLoadSeparate(sb);
+        })
+        .catch(function(err) {
+            console.warn('All load strategies failed:', err);
+            return loadFromCache();
+        })
+        .then(function() {
+            updateStats();
+            populateSupplierSelects();
+            applyFilters();
+        });
 }
 
+function tryLoadFromView(sb) {
+    return sb.from('v_stock_in_full')
+        .select('*')
+        .limit(500)
+        .then(function(result) {
+            if (result.error) throw result.error;
+            // Transform view data into the expected shape
+            state.stockMovements = (result.data || []).map(function(v) {
+                return {
+                    id: v.id,
+                    product_id: v.product_id,
+                    supplier_id: v.supplier_id,
+                    type: 'in',
+                    quantity: v.quantity,
+                    cost_price: v.cost_price,
+                    po_number: v.po_number,
+                    notes: v.notes,
+                    created_by: v.created_by,
+                    created_at: v.created_at,
+                    product: {
+                        id: v.product_id,
+                        name: v.product_name,
+                        barcode: v.product_barcode,
+                        image_url: v.product_image
+                    },
+                    supplier: {
+                        id: v.supplier_id,
+                        name: v.supplier_name,
+                        phone: v.supplier_phone
+                    }
+                };
+            });
+            
+            // Also load products & suppliers
+            return Promise.all([
+                sb.from('products').select('id, name, barcode, image_url, cost_price, quantity, sell_price').order('name'),
+                sb.from('suppliers').select('id, name, phone, quality_rating').order('name')
+            ]);
+        })
+        .then(function(results) {
+            if (results) {
+                state.products = results[0].data || [];
+                state.suppliers = results[1].data || [];
+            }
+            // Cache
+            return Promise.all([
+                dbBulkPut('stock_movements', state.stockMovements),
+                dbBulkPut('products', state.products),
+                dbBulkPut('suppliers', state.suppliers)
+            ]);
+        });
+}
+
+function tryLoadFromJoin(sb) {
+    console.log('🔄 Trying join strategy...');
+    return sb.from('stock_movements')
+        .select('*, product:products(id, name, barcode, image_url, cost_price), supplier:suppliers(id, name, phone)')
+        .eq('type', 'in')
+        .order('created_at', { ascending: false })
+        .limit(500)
+        .then(function(result) {
+            if (result.error) throw result.error;
+            state.stockMovements = result.data || [];
+            
+            return Promise.all([
+                sb.from('products').select('id, name, barcode, image_url, cost_price, quantity, sell_price').order('name'),
+                sb.from('suppliers').select('id, name, phone, quality_rating').order('name')
+            ]);
+        })
+        .then(function(results) {
+            state.products = results[0].data || [];
+            state.suppliers = results[1].data || [];
+            return Promise.all([
+                dbBulkPut('stock_movements', state.stockMovements),
+                dbBulkPut('products', state.products),
+                dbBulkPut('suppliers', state.suppliers)
+            ]);
+        });
+}
+
+function tryLoadSeparate(sb) {
+    console.log('🔄 Trying separate queries strategy...');
+    return Promise.all([
+        sb.from('stock_movements')
+            .select('*')
+            .eq('type', 'in')
+            .order('created_at', { ascending: false })
+            .limit(500),
+        sb.from('products').select('id, name, barcode, image_url, cost_price, quantity, sell_price').order('name'),
+        sb.from('suppliers').select('id, name, phone, quality_rating').order('name')
+    ]).then(function(results) {
+        var movements = results[0].data || [];
+        state.products = results[1].data || [];
+        state.suppliers = results[2].data || [];
+        
+        // Manual join
+        var productMap = {};
+        state.products.forEach(function(p) { productMap[p.id] = p; });
+        
+        var supplierMap = {};
+        state.suppliers.forEach(function(s) { supplierMap[s.id] = s; });
+        
+        state.stockMovements = movements.map(function(m) {
+            var enriched = Object.assign({}, m);
+            if (m.product_id && productMap[m.product_id]) {
+                enriched.product = productMap[m.product_id];
+            }
+            if (m.supplier_id && supplierMap[m.supplier_id]) {
+                enriched.supplier = supplierMap[m.supplier_id];
+            }
+            return enriched;
+        });
+        
+        return Promise.all([
+            dbBulkPut('stock_movements', state.stockMovements),
+            dbBulkPut('products', state.products),
+            dbBulkPut('suppliers', state.suppliers)
+        ]);
+    });
+}
+
+function loadFromCache() {
+    return Promise.all([
+        dbGetAll('stock_movements'),
+        dbGetAll('products'),
+        dbGetAll('suppliers')
+    ]).then(function(cached) {
+        var movements = cached[0] || [];
+        state.products = cached[1] || [];
+        state.suppliers = cached[2] || [];
+        
+        // Build maps for enrichment
+        var productMap = {};
+        state.products.forEach(function(p) { productMap[p.id] = p; });
+        var supplierMap = {};
+        state.suppliers.forEach(function(s) { supplierMap[s.id] = s; });
+        
+        state.stockMovements = movements
+            .filter(function(m) { return m.type === 'in'; })
+            .map(function(m) {
+                var enriched = Object.assign({}, m);
+                if (m.product_id && productMap[m.product_id]) {
+                    enriched.product = productMap[m.product_id];
+                }
+                if (m.supplier_id && supplierMap[m.supplier_id]) {
+                    enriched.supplier = supplierMap[m.supplier_id];
+                }
+                return enriched;
+            });
+        
+        updateStats();
+        populateSupplierSelects();
+        applyFilters();
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📊 Stats
+// ═══════════════════════════════════════════════════════════════
 function updateStats() {
     var totalOps = state.stockMovements.length;
     var totalCost = 0;
@@ -2567,10 +2787,12 @@ function renderMovementRow(m) {
     var unitPrice = parseFloat(m.cost_price) || 0;
     var total = qty * unitPrice;
     
-    var productImg = p.image_url 
-        ? '<img src="' + escapeHtml(p.image_url) + '" alt="" class="stock-in-product-img" loading="lazy" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';">' +
-          '<div class="stock-in-product-img placeholder" style="display:none;"><i class="fas fa-image"></i></div>'
-        : '<div class="stock-in-product-img placeholder"><i class="fas fa-image"></i></div>';
+    var productImg;
+    if (p.image_url) {
+        productImg = '<img src="' + escapeHtml(p.image_url) + '" alt="" class="stock-in-product-img" loading="lazy" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><div class="stock-in-product-img placeholder" style="display:none;"><i class="fas fa-image"></i></div>';
+    } else {
+        productImg = '<div class="stock-in-product-img placeholder"><i class="fas fa-image"></i></div>';
+    }
     
     return '<div class="stock-in-item" data-id="' + m.id + '">' +
         '<div class="stock-in-cell" data-label="التاريخ">' +
@@ -2770,8 +2992,7 @@ function renderProductOptions(search) {
     
     list.querySelectorAll('.product-option').forEach(function(el) {
         el.addEventListener('click', function() {
-            var id = el.dataset.productId;
-            selectProduct(id);
+            selectProduct(el.dataset.productId);
         });
     });
 }
@@ -2787,7 +3008,6 @@ function selectProduct(id) {
     document.getElementById('productDropdown').classList.remove('show');
     document.getElementById('productSearch').value = p.name;
     
-    // Render selected
     var container = document.getElementById('selectedProductContainer');
     var img = p.image_url 
         ? '<img src="' + escapeHtml(p.image_url) + '" alt="" class="selected-product-img">'
@@ -2807,7 +3027,6 @@ function selectProduct(id) {
         '</button>' +
     '</div>';
     
-    // Prefill cost price
     var costInput = document.getElementById('costPriceInput');
     if (costInput && !costInput.value && p.cost_price) {
         costInput.value = parseFloat(p.cost_price).toFixed(2);
@@ -2815,7 +3034,6 @@ function selectProduct(id) {
     
     updateSummary();
     
-    // Remove button
     var removeBtn = document.getElementById('removeSelectedProduct');
     if (removeBtn) {
         removeBtn.addEventListener('click', function() {
@@ -2895,52 +3113,69 @@ function saveStockIn(e) {
     var session = getSession();
     var sb = getSupabaseClient();
     
+    // Build payload dynamically based on schema support
     var movementData = {
         product_id: productId,
-        supplier_id: supplierId,
         type: 'in',
         quantity: quantity,
         cost_price: costPrice,
-        reason: 'وارد من مورد',
-        reference_id: poNumber,
-        po_number: poNumber,
-        notes: notes,
-        created_by: session && session.user ? session.user.id : null
+        reason: 'وارد من مورد'
     };
+    
+    if (schemaSupported.supplier_id) {
+        movementData.supplier_id = supplierId;
+    }
+    if (schemaSupported.po_number) {
+        movementData.po_number = poNumber;
+        movementData.reference_id = poNumber;
+    }
+    if (schemaSupported.supplier_id) {
+        movementData.notes = notes;
+    }
+    if (session && session.user) {
+        movementData.created_by = session.user.id;
+    }
     
     var tempId = 'temp_' + Date.now();
     
     var savePromise;
     
     if (sb && navigator.onLine) {
-        savePromise = sb.from('stock_movements').insert(movementData).select('*, product:products(id, name, barcode, image_url), supplier:suppliers(id, name, phone)').single()
+        savePromise = sb.from('stock_movements')
+            .insert(movementData)
+            .select('*')
+            .single()
             .then(function(result) {
                 if (result.error) throw result.error;
                 return result.data;
             })
             .then(function(data) {
-                // Update product quantity
+                // Enrich with product/supplier info
+                var enriched = Object.assign({}, data);
                 if (state.selectedProduct) {
-                    var newQty = (parseInt(state.selectedProduct.quantity) || 0) + quantity;
-                    return sb.from('products').update({ quantity: newQty }).eq('id', productId)
-                        .then(function() {
-                            state.selectedProduct.quantity = newQty;
-                            return dbPut('products', state.selectedProduct);
-                        })
-                        .then(function() { return data; });
+                    enriched.product = state.selectedProduct;
                 }
-                return data;
+                if (supplierId) {
+                    for (var i = 0; i < state.suppliers.length; i++) {
+                        if (state.suppliers[i].id === supplierId) {
+                            enriched.supplier = state.suppliers[i];
+                            break;
+                        }
+                    }
+                }
+                return enriched;
             })
             .then(function(data) {
-                // Audit log
-                sb.from('audit_log').insert({
-                    user_id: session && session.user ? session.user.id : null,
-                    action: 'INSERT',
-                    table_name: 'stock_movements',
-                    record_id: data.id,
-                    new_data: data
-                }).then(function(){}, function(){});
-                
+                // Update local product quantity (in case trigger doesn't exist)
+                if (state.selectedProduct) {
+                    var newQty = (parseInt(state.selectedProduct.quantity) || 0) + quantity;
+                    state.selectedProduct.quantity = newQty;
+                    dbPut('products', state.selectedProduct);
+                    
+                    // Also update in DB (best effort, since trigger may handle it)
+                    sb.from('products').update({ quantity: newQty }).eq('id', productId)
+                        .then(function(){}, function(){});
+                }
                 return data;
             });
     } else {
@@ -2950,18 +3185,16 @@ function saveStockIn(e) {
             tempId: tempId,
             data: movementData
         }).then(function() {
-            // Local update
             var newMovement = Object.assign({
                 id: tempId,
                 created_at: new Date().toISOString()
             }, movementData);
             
-            // Find product/supplier for display
-            for (var i = 0; i < state.products.length; i++) {
-                if (state.products[i].id === productId) {
-                    newMovement.product = state.products[i];
-                    break;
-                }
+            // Enrich
+            if (state.selectedProduct) {
+                newMovement.product = state.selectedProduct;
+                state.selectedProduct.quantity = (parseInt(state.selectedProduct.quantity) || 0) + quantity;
+                dbPut('products', state.selectedProduct);
             }
             for (var j = 0; j < state.suppliers.length; j++) {
                 if (state.suppliers[j].id === supplierId) {
@@ -2970,18 +3203,11 @@ function saveStockIn(e) {
                 }
             }
             
-            // Update local product quantity
-            if (state.selectedProduct) {
-                state.selectedProduct.quantity = (parseInt(state.selectedProduct.quantity) || 0) + quantity;
-                dbPut('products', state.selectedProduct);
-            }
-            
             return newMovement;
         });
     }
     
     savePromise.then(function(newMovement) {
-        // Add to state
         if (newMovement) {
             state.stockMovements.unshift(newMovement);
             dbPut('stock_movements', newMovement);
@@ -2992,8 +3218,17 @@ function saveStockIn(e) {
         updateStats();
         applyFilters();
     }).catch(function(err) {
-        console.error(err);
-        showToast((err && err.message) || 'حدث خطأ أثناء الحفظ', 'error');
+        console.error('Save error:', err);
+        var msg = (err && err.message) || 'حدث خطأ أثناء الحفظ';
+        
+        // If schema error, show helpful message
+        if (err && (err.code === 'PGRST204' || err.code === '42703')) {
+            msg = 'يجب تحديث قاعدة البيانات - يُرجى تنفيذ كود SQL';
+            var banner = document.getElementById('warningBanner');
+            if (banner) banner.style.display = 'flex';
+        }
+        
+        showToast(msg, 'error', 5000);
     }).then(function() {
         btn.disabled = false;
         spinner.style.display = 'none';
@@ -3024,7 +3259,6 @@ function confirmDelete() {
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner" style="display:block;width:16px;height:16px;"></span>';
     
-    var session = getSession();
     var sb = getSupabaseClient();
     var promise;
     
@@ -3033,37 +3267,22 @@ function confirmDelete() {
             .then(function(result) {
                 if (result.error) throw result.error;
                 
-                // Return quantity to product
+                // Update local product quantity
                 if (m.product_id) {
-                    return sb.from('products').select('quantity').eq('id', m.product_id).single()
-                        .then(function(pr) {
-                            if (pr.data) {
-                                var newQty = Math.max(0, (parseInt(pr.data.quantity) || 0) - parseInt(m.quantity || 0));
-                                return sb.from('products').update({ quantity: newQty }).eq('id', m.product_id);
-                            }
-                        });
+                    for (var i = 0; i < state.products.length; i++) {
+                        if (state.products[i].id === m.product_id) {
+                            state.products[i].quantity = Math.max(0, (state.products[i].quantity || 0) - (parseInt(m.quantity) || 0));
+                            dbPut('products', state.products[i]);
+                            break;
+                        }
+                    }
                 }
-            })
-            .then(function() {
-                sb.from('audit_log').insert({
-                    user_id: session && session.user ? session.user.id : null,
-                    action: 'DELETE',
-                    table_name: 'stock_movements',
-                    record_id: m.id,
-                    old_data: m
-                }).then(function(){}, function(){});
             });
     } else {
         promise = addToOutbox({ type: 'delete', table: 'stock_movements', id: m.id });
     }
     
     promise.then(function() {
-        // Update local product quantity
-        if (m.product_id && state.selectedProduct && state.selectedProduct.id === m.product_id) {
-            state.selectedProduct.quantity = Math.max(0, (state.selectedProduct.quantity || 0) - (parseInt(m.quantity) || 0));
-            dbPut('products', state.selectedProduct);
-        }
-        
         state.stockMovements = state.stockMovements.filter(function(x) { return x.id !== m.id; });
         dbDelete('stock_movements', m.id);
         
@@ -3254,6 +3473,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('online', function() {
         updateOnlineStatus();
         showToast('تم استعادة الاتصال', 'success');
+        detectSchema().then(function() {
+            return loadData();
+        });
     });
     window.addEventListener('offline', function() {
         updateOnlineStatus();
@@ -3432,12 +3654,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load
     openDB().then(function() {
+        return detectSchema();
+    }).then(function() {
         return loadData();
     }).then(function() {
         loadNotifications();
         setInterval(loadNotifications, 60000);
     }).catch(function(err) {
-        console.error('Load error:', err);
+        console.error('Init error:', err);
         showToast('حدث خطأ في تحميل البيانات', 'error');
     });
     
