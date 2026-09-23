@@ -3,11 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-<meta name="theme-color" content="#1d5b8e">
+<meta name="theme-color" content="#1d5b8e" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a1628" media="(prefers-color-scheme: dark)">
 <meta name="description" content="الموردين - إلكترونك لصيانة الأجهزة الإلكترونية">
+<meta name="format-detection" content="telephone=no">
+<meta name="color-scheme" content="light dark">
+
+<!-- ✅ PWA Meta Tags - المعيار الجديد -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="إلكترونك">
+
+<!-- ✅ Apple Meta Tags (للتوافق مع Safari القديم) -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="إلكترونك">
+
 <title>الموردين | إلكترونك - لصيانة الأجهزة الإلكترونية</title>
 
 <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
@@ -20,66 +30,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
 
-<!-- Supabase UMD -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
-
-<!-- xlsx + jsPDF -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
 
-<!--
-═══════════════════════════════════════════════════════════════════════
-📦 SQL Schema (مرجعي - بدون RLS نهائيًا)
-═══════════════════════════════════════════════════════════════════════
-
-CREATE TABLE IF NOT EXISTS suppliers (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  name TEXT NOT NULL,
-  phone TEXT,
-  address TEXT,
-  notes TEXT,
-  quality_rating INT DEFAULT 3 CHECK (quality_rating BETWEEN 1 AND 5),
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE IF NOT EXISTS supplier_orders (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  supplier_id UUID REFERENCES suppliers(id) ON DELETE CASCADE,
-  product_id UUID,
-  quantity INT NOT NULL DEFAULT 0,
-  cost_price NUMERIC(12,2) DEFAULT 0,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE IF NOT EXISTS audit_log (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID, action TEXT, table_name TEXT, record_id UUID,
-  old_data JSONB, new_data JSONB, created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE OR REPLACE VIEW v_best_suppliers AS
-SELECT s.id, s.name, s.phone, s.address, s.quality_rating,
-  COALESCE(SUM(so.quantity * so.cost_price), 0) AS total_purchased,
-  COUNT(so.id) AS orders_count,
-  COALESCE(AVG(so.cost_price), 0) AS avg_price
-FROM suppliers s
-LEFT JOIN supplier_orders so ON so.supplier_id = s.id
-GROUP BY s.id, s.name, s.phone, s.address, s.quality_rating;
-
-CREATE INDEX IF NOT EXISTS idx_suppliers_name ON suppliers(name);
-CREATE INDEX IF NOT EXISTS idx_suppliers_phone ON suppliers(phone);
-CREATE INDEX IF NOT EXISTS idx_supplier_orders_supplier ON supplier_orders(supplier_id);
-CREATE INDEX IF NOT EXISTS idx_supplier_orders_product ON supplier_orders(product_id);
-
--- ⚠️ لا RLS ولا Policies
-═══════════════════════════════════════════════════════════════════════
--->
-
 <style>
-/* ═══════════════════════════════════════════════════════════════
-   🎨 Design System (نفس نظام الداشبورد)
-   ═══════════════════════════════════════════════════════════════ */
 :root {
     --tech-blue: #1d5b8e;
     --tech-blue-dark: #154668;
@@ -167,7 +123,6 @@ button { cursor: pointer; border: none; background: none; }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; height: auto; display: block; }
 
-/* Reading Progress */
 .reading-progress {
     position: fixed; top: 0; right: 0; height: 3px;
     background: linear-gradient(90deg, var(--tech-blue), var(--tech-blue-light), var(--success));
@@ -189,7 +144,6 @@ img { max-width: 100%; height: auto; display: block; }
     gap: 1rem; box-shadow: var(--shadow-sm);
     transition: all var(--transition);
 }
-
 .navbar-menu-btn {
     width: 40px; height: 40px; border-radius: var(--radius-md);
     display: flex; align-items: center; justify-content: center;
@@ -197,7 +151,6 @@ img { max-width: 100%; height: auto; display: block; }
     transition: all var(--transition); flex-shrink: 0;
 }
 .navbar-menu-btn:hover { background: var(--bg-hover); color: var(--tech-blue); }
-
 .navbar-brand { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
 .navbar-logo {
     width: 40px; height: 40px; object-fit: contain;
@@ -457,7 +410,6 @@ img { max-width: 100%; height: auto; display: block; }
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1rem;
 }
-
 .supplier-card {
     background: var(--bg-card); border: 1px solid var(--border-color);
     border-radius: var(--radius-lg); padding: 1.15rem;
@@ -475,7 +427,6 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: var(--shadow-lg);
     border-color: var(--tech-blue);
 }
-
 .supplier-head {
     display: flex; align-items: flex-start; justify-content: space-between;
     gap: 0.75rem; margin-bottom: 1rem;
@@ -544,7 +495,6 @@ img { max-width: 100%; height: auto; display: block; }
 .contact-btn.sms { background: rgba(139, 92, 246, 0.12); color: var(--purple); }
 .contact-btn.sms:hover { background: var(--purple); color: white; }
 
-/* Badge */
 .badge {
     display: inline-flex; align-items: center; gap: 0.25rem;
     padding: 0.2rem 0.6rem; border-radius: var(--radius-full);
@@ -556,7 +506,6 @@ img { max-width: 100%; height: auto; display: block; }
 .badge-info { background: rgba(59, 130, 246, 0.12); color: var(--info); }
 .badge-gray { background: var(--bg-hover); color: var(--text-secondary); }
 
-/* Empty State */
 .empty-state {
     grid-column: 1 / -1;
     padding: 3rem 1rem; text-align: center; color: var(--text-muted);
@@ -612,7 +561,6 @@ img { max-width: 100%; height: auto; display: block; }
     position: sticky; bottom: 0; background: var(--bg-card);
 }
 
-/* Form */
 .form-group { margin-bottom: 1rem; }
 .form-group label {
     display: block; font-size: 0.85rem; font-weight: 600;
@@ -638,7 +586,6 @@ img { max-width: 100%; height: auto; display: block; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 @media(max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
 
-/* Rating Input */
 .rating-input {
     display: flex; gap: 0.4rem;
     flex-direction: row-reverse; justify-content: flex-end;
@@ -686,7 +633,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 @keyframes toastOut { to { opacity: 0; transform: translateY(-20px) scale(0.95); } }
 
-/* Skeleton */
 .skeleton {
     background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
     background-size: 200% 100%;
@@ -746,18 +692,36 @@ img { max-width: 100%; height: auto; display: block; }
 .notification-item-icon.danger { background: rgba(239, 68, 68, 0.12); color: var(--danger); }
 .notification-item-icon.success { background: rgba(16, 185, 129, 0.12); color: var(--success); }
 .notification-item-content { flex: 1; min-width: 0; }
-.notification-item-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.15rem; }
+.notification-item-title {
+    font-size: 0.85rem; font-weight: 700; margin-bottom: 0.15rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.5rem;
+}
+.notification-item-title .time {
+    font-size: 0.65rem; color: var(--text-muted); font-weight: 500; flex-shrink: 0;
+}
 .notification-item-message {
     font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.notification-item-time {
-    font-size: 0.65rem; color: var(--text-muted);
-    display: flex; align-items: center; gap: 0.25rem;
+.notification-item-action {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-size: 0.7rem; font-weight: 700; color: var(--tech-blue);
+    margin-top: 0.25rem; transition: all var(--transition-fast);
 }
+.notification-item-action:hover { text-decoration: underline; }
 .notifications-empty { padding: 2.5rem 1rem; text-align: center; color: var(--text-muted); }
 .notifications-empty i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
 .notifications-empty p { font-size: 0.85rem; font-weight: 600; }
+.notifications-footer {
+    padding: 0.75rem 1rem; border-top: 1px solid var(--border-color);
+    text-align: center; background: var(--bg-primary); flex-shrink: 0;
+}
+.notifications-footer button {
+    font-size: 0.8rem; font-weight: 700; color: var(--tech-blue);
+    display: inline-flex; align-items: center; gap: 0.35rem;
+}
+.notifications-footer button:hover { text-decoration: underline; }
 
 /* User Dropdown */
 .user-dropdown {
@@ -902,13 +866,11 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .install-dismiss:hover { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
 
-/* Animations */
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive */
 @media (max-width: 968px) {
     .sidebar { transform: translateX(100%); box-shadow: var(--shadow-xl); }
     .sidebar.show { transform: translateX(0); }
@@ -947,7 +909,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 <div class="reading-progress" id="readingProgress"></div>
 
-<!-- Navbar -->
 <nav class="navbar">
     <button class="navbar-menu-btn" id="menuBtn" aria-label="القائمة">
         <i class="fas fa-bars"></i>
@@ -992,7 +953,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-<!-- Sidebar -->
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-section">
         <div class="sidebar-section-title">الرئيسية</div>
@@ -1075,7 +1035,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </aside>
 
-<!-- Main Content -->
 <main class="main-content">
     
     <div class="page-header">
@@ -1231,7 +1190,15 @@ img { max-width: 100%; height: auto; display: block; }
         <h3 class="notifications-title"><i class="fas fa-bell"></i> الإشعارات</h3>
         <button class="notifications-mark-read" id="markAllReadBtn">تعيين الكل كمقروء</button>
     </div>
-    <div class="notifications-list" id="notificationsList"></div>
+    <div class="notifications-list" id="notificationsList">
+        <div class="notifications-empty">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>جاري التحميل...</p>
+        </div>
+    </div>
+    <div class="notifications-footer">
+        <button id="refreshNotifsBtn"><i class="fas fa-rotate"></i> تحديث الإشعارات</button>
+    </div>
 </div>
 
 <!-- User Dropdown -->
@@ -1314,6 +1281,17 @@ function formatDate(date) {
     if (isNaN(d.getTime())) return '';
     try { return d.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' }); }
     catch (e) { return d.toISOString().split('T')[0]; }
+}
+function formatTimeAgo(date) {
+    if (!date) return '';
+    var d = new Date(date);
+    if (isNaN(d.getTime())) return '';
+    var seconds = Math.floor((Date.now() - d.getTime()) / 1000);
+    if (seconds < 60) return 'الآن';
+    if (seconds < 3600) return 'منذ ' + Math.floor(seconds / 60) + ' دقيقة';
+    if (seconds < 86400) return 'منذ ' + Math.floor(seconds / 3600) + ' ساعة';
+    if (seconds < 604800) return 'منذ ' + Math.floor(seconds / 86400) + ' يوم';
+    return formatDate(date);
 }
 function sanitizePhone(p) { return String(p || '').replace(/[^\d+]/g, '').trim(); }
 function debounce(fn, ms) {
@@ -1423,9 +1401,12 @@ var allOrders = [];
 var filteredSuppliers = [];
 var searchTerm = '';
 var sortMode = 'recent';
+var allNotifications = [];
+var notificationsTimer = null;
 
 var CACHE_SUPPLIERS = 'elk_suppliers_cache';
 var CACHE_ORDERS = 'elk_supplier_orders_cache';
+var CACHE_NOTIFS = 'elk_notifications_cache';
 var OUTBOX_KEY = 'elk_outbox';
 
 function getCache(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
@@ -1443,7 +1424,6 @@ function queueOutbox(op, table, id, payload) {
 // 📥 Load Data
 // ═══════════════════════════════════════════════════════════════
 function loadSuppliers() {
-    // Cache أولاً
     var cached = getCache(CACHE_SUPPLIERS);
     if (cached && Array.isArray(cached)) {
         suppliers = cached;
@@ -1678,6 +1658,8 @@ window.saveSupplier = function() {
         logAudit(id ? 'update' : 'insert', 'suppliers', id || (result.data && result.data.id), null, payload);
         doLocal();
         showToast('تم حفظ بيانات المورد بنجاح', 'success');
+        // إضافة إشعار محلي
+        addLocalNotification(id ? 'تم تحديث مورد' : 'تم إضافة مورد جديد', name, 'info', 'suppliers.html');
     }).catch(function(e) {
         console.warn(e);
         queueOutbox(id ? 'update' : 'insert', 'suppliers', id, payload);
@@ -1688,9 +1670,10 @@ window.saveSupplier = function() {
 
 window.deleteSupplier = function(id) {
     if (!confirm('هل أنت متأكد من حذف هذا المورد؟')) return;
+    var s = suppliers.find(function(x) { return x.id === id; });
     var sb = getSupabaseClient();
     var finalize = function() {
-        suppliers = suppliers.filter(function(s) { return s.id !== id; });
+        suppliers = suppliers.filter(function(x) { return x.id !== id; });
         allOrders = allOrders.filter(function(o) { return o.supplier_id !== id; });
         setCache(CACHE_SUPPLIERS, suppliers);
         renderSuppliers();
@@ -1704,7 +1687,7 @@ window.deleteSupplier = function(id) {
     }
     sb.from('suppliers').delete().eq('id', id).then(function(result) {
         if (result.error) throw result.error;
-        logAudit('delete', 'suppliers', id, null, null);
+        logAudit('delete', 'suppliers', id, s, null);
         finalize();
     }).catch(function(e) {
         console.warn(e);
@@ -1877,56 +1860,159 @@ function autoSync() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🔔 Notifications
+// 🔔 Notifications - نظام كامل
 // ═══════════════════════════════════════════════════════════════
-var allNotifications = [];
 function loadNotifications() {
     var session = getSession();
-    if (!session) return;
+    if (!session) return Promise.resolve();
     var sb = getSupabaseClient();
-    if (!sb || !navigator.onLine) { allNotifications = []; renderNotifications(); return; }
-    sb.from('notifications').select('*').eq('user_id', session.user.id)
-        .order('created_at', { ascending: false }).limit(20)
+
+    // Cache أول
+    var cached = getCache(CACHE_NOTIFS);
+    if (cached && Array.isArray(cached)) {
+        allNotifications = cached;
+        renderNotifications();
+    }
+
+    if (!sb || !navigator.onLine) return Promise.resolve();
+
+    return sb.from('notifications')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .order('created_at', { ascending: false })
+        .limit(30)
         .then(function(result) {
+            if (result.error) {
+                console.warn('Notifications load error:', result.error);
+                return;
+            }
             allNotifications = result.data || [];
+            setCache(CACHE_NOTIFS, allNotifications);
             renderNotifications();
         })
-        .catch(function() { allNotifications = []; renderNotifications(); });
+        .catch(function(err) {
+            console.warn('Notifications fetch failed:', err);
+        });
 }
+
 function renderNotifications() {
     var list = document.getElementById('notificationsList');
     var badge = document.getElementById('notifBadge');
     if (!list || !badge) return;
+
     var unread = allNotifications.filter(function(n) { return !n.read; }).length;
-    if (unread > 0) { badge.textContent = unread > 99 ? '99+' : unread; badge.style.display = 'flex'; }
-    else badge.style.display = 'none';
+    if (unread > 0) {
+        badge.textContent = unread > 99 ? '99+' : unread;
+        badge.style.display = 'flex';
+    } else {
+        badge.style.display = 'none';
+    }
+
     if (!allNotifications.length) {
         list.innerHTML = '<div class="notifications-empty"><i class="fas fa-bell-slash"></i><p>لا توجد إشعارات</p></div>';
         return;
     }
+
     var typeMap = {
-        'out_of_stock': { icon: 'fa-circle-xmark', cls: 'danger' },
-        'low_stock': { icon: 'fa-triangle-exclamation', cls: 'warning' },
-        'unpaid_invoice': { icon: 'fa-file-invoice-dollar', cls: 'danger' },
-        'new_repair': { icon: 'fa-screwdriver-wrench', cls: 'info' },
-        'ready_repair': { icon: 'fa-circle-check', cls: 'success' },
-        'info': { icon: 'fa-circle-info', cls: 'info' }
+        'out_of_stock': { icon: 'fa-circle-xmark', cls: 'danger', defaultAction: 'products.html?filter=out' },
+        'low_stock': { icon: 'fa-triangle-exclamation', cls: 'warning', defaultAction: 'products.html?filter=low' },
+        'unpaid_invoice': { icon: 'fa-file-invoice-dollar', cls: 'danger', defaultAction: 'invoices.html' },
+        'new_repair': { icon: 'fa-screwdriver-wrench', cls: 'info', defaultAction: 'repairs.html' },
+        'ready_repair': { icon: 'fa-circle-check', cls: 'success', defaultAction: 'repairs.html' },
+        'new_supplier': { icon: 'fa-handshake', cls: 'info', defaultAction: 'suppliers.html' },
+        'new_product': { icon: 'fa-box', cls: 'info', defaultAction: 'products.html' },
+        'info': { icon: 'fa-circle-info', cls: 'info', defaultAction: null }
     };
-    list.innerHTML = allNotifications.map(function(n) {
+
+    list.innerHTML = allNotifications.map(function(n, idx) {
         var t = typeMap[n.type] || typeMap.info;
-        return '<div class="notification-item ' + (n.read ? '' : 'unread') + '">' +
-            '<div class="notification-item-icon ' + t.cls + '"><i class="fas ' + t.icon + '"></i></div>' +
+        var action = (n.data && n.data.action) || t.defaultAction;
+
+        return '<div class="notification-item ' + (n.read ? '' : 'unread') + '" data-idx="' + idx + '" data-id="' + escapeHtml(n.id) + '">' +
+            '<div class="notification-item-icon ' + t.cls + '">' +
+                '<i class="fas ' + t.icon + '"></i>' +
+            '</div>' +
             '<div class="notification-item-content">' +
-                '<div class="notification-item-title">' + escapeHtml(n.title) + '</div>' +
+                '<div class="notification-item-title">' +
+                    '<span>' + escapeHtml(n.title || '') + '</span>' +
+                    '<span class="time">' + formatTimeAgo(n.created_at) + '</span>' +
+                '</div>' +
                 '<div class="notification-item-message">' + escapeHtml(n.message || '') + '</div>' +
-                '<div class="notification-item-time"><i class="fas fa-clock"></i> ' + formatDate(n.created_at) + '</div>' +
+                (action ? '<a class="notification-item-action" href="' + action + '">فتح <i class="fas fa-arrow-left"></i></a>' : '') +
             '</div>' +
         '</div>';
     }).join('');
+
+    // Click على إشعار
+    list.querySelectorAll('.notification-item').forEach(function(el) {
+        el.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' || e.target.closest('a')) return;
+            var idx = parseInt(el.dataset.idx);
+            var notif = allNotifications[idx];
+            if (!notif || notif.read) return;
+
+            notif.read = true;
+            el.classList.remove('unread');
+            setCache(CACHE_NOTIFS, allNotifications);
+            renderNotifications();
+            markNotificationRead(notif.id);
+        });
+    });
+}
+
+function markNotificationRead(id) {
+    if (!id || String(id).indexOf('temp_') === 0) return;
+    var sb = getSupabaseClient();
+    if (sb && navigator.onLine) {
+        sb.from('notifications').update({ read: true }).eq('id', id).then(function(){}, function(){});
+    }
+}
+
+function markAllRead() {
+    var session = getSession();
+    if (!session) return;
+
+    allNotifications.forEach(function(n) { n.read = true; });
+    setCache(CACHE_NOTIFS, allNotifications);
+    renderNotifications();
+
+    var sb = getSupabaseClient();
+    if (sb && navigator.onLine) {
+        sb.from('notifications')
+            .update({ read: true })
+            .eq('user_id', session.user.id)
+            .eq('read', false)
+            .then(function() {
+                showToast('تم تعيين الكل كمقروء', 'success');
+            })
+            .catch(function() {
+                showToast('تم محليًا', 'info');
+            });
+    } else {
+        showToast('تم محليًا (Offline)', 'info');
+    }
+}
+
+function addLocalNotification(title, message, type, action) {
+    var session = getSession();
+    if (!session) return;
+    var notif = {
+        id: 'temp_' + Date.now(),
+        user_id: session.user.id,
+        type: type || 'info',
+        title: title,
+        message: message,
+        read: false,
+        created_at: new Date().toISOString(),
+        data: action ? { action: action } : null
+    };
+    allNotifications.unshift(notif);
+    setCache(CACHE_NOTIFS, allNotifications);
+    renderNotifications();
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🔍 Global Search (مبسط)
+// 🔍 Global Search
 // ═══════════════════════════════════════════════════════════════
 var searchTimeout = null;
 function initGlobalSearch() {
@@ -2001,6 +2087,47 @@ function performGlobalSearch(query) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// 📱 PWA Install
+// ═══════════════════════════════════════════════════════════════
+var deferredPrompt = null;
+function initPWAInstall() {
+    var banner = document.getElementById('installBanner');
+    var installBtn = document.getElementById('installBannerBtn');
+    var dismissBtn = document.getElementById('installDismissBtn');
+    if (localStorage.getItem('pwa_install_dismissed') === 'true') return;
+
+    window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (banner) banner.classList.add('show');
+    });
+    if (installBtn) {
+        installBtn.addEventListener('click', function() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(function(choice) {
+                if (choice.outcome === 'accepted') {
+                    showToast('تم تثبيت التطبيق بنجاح 🎉', 'success');
+                }
+                deferredPrompt = null;
+                if (banner) banner.classList.remove('show');
+            });
+        });
+    }
+    if (dismissBtn) {
+        dismissBtn.addEventListener('click', function() {
+            localStorage.setItem('pwa_install_dismissed', 'true');
+            if (banner) banner.classList.remove('show');
+        });
+    }
+    window.addEventListener('appinstalled', function() {
+        showToast('تم تثبيت التطبيق بنجاح 🎉', 'success');
+        if (banner) banner.classList.remove('show');
+        deferredPrompt = null;
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
 // 🎬 Init
 // ═══════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', function() {
@@ -2009,7 +2136,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (session.user.must_change_password) { window.location.href = 'index.html'; return; }
 
     initTheme();
-    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    var themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
 
     updateOnlineStatus();
     window.addEventListener('online', function() {
@@ -2018,6 +2146,7 @@ document.addEventListener('DOMContentLoaded', function() {
         autoSync();
         loadSuppliers();
         loadOrders();
+        loadNotifications();
     });
     window.addEventListener('offline', function() {
         updateOnlineStatus();
@@ -2031,11 +2160,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var menuBtn = document.getElementById('menuBtn');
     var sidebar = document.getElementById('sidebar');
     var overlay = document.getElementById('sidebarOverlay');
-    menuBtn.addEventListener('click', function() {
+    if (menuBtn) menuBtn.addEventListener('click', function() {
         sidebar.classList.toggle('show');
         overlay.classList.toggle('show');
     });
-    overlay.addEventListener('click', function() {
+    if (overlay) overlay.addEventListener('click', function() {
         sidebar.classList.remove('show');
         overlay.classList.remove('show');
     });
@@ -2043,59 +2172,78 @@ document.addEventListener('DOMContentLoaded', function() {
     // User dropdown
     var userBtn = document.getElementById('userBtn');
     var userDropdown = document.getElementById('userDropdown');
-    userBtn.addEventListener('click', function(e) {
+    if (userBtn) userBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         userDropdown.classList.toggle('show');
         document.getElementById('notificationsPanel').classList.remove('show');
     });
-    document.getElementById('logoutBtn').addEventListener('click', function() {
+    var logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) logoutBtn.addEventListener('click', function() {
         if (confirm('هل أنت متأكد من تسجيل الخروج؟')) logout();
     });
 
     // Notifications
     var notifBtn = document.getElementById('notificationsBtn');
     var notifPanel = document.getElementById('notificationsPanel');
-    notifBtn.addEventListener('click', function(e) {
+    if (notifBtn) notifBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         notifPanel.classList.toggle('show');
         userDropdown.classList.remove('show');
+        if (notifPanel.classList.contains('show')) loadNotifications();
     });
     document.addEventListener('click', function(e) {
-        if (!userDropdown.contains(e.target) && !userBtn.contains(e.target)) userDropdown.classList.remove('show');
-        if (!notifPanel.contains(e.target) && !notifBtn.contains(e.target)) notifPanel.classList.remove('show');
+        if (userDropdown && !userDropdown.contains(e.target) && userBtn && !userBtn.contains(e.target)) {
+            userDropdown.classList.remove('show');
+        }
+        if (notifPanel && !notifPanel.contains(e.target) && notifBtn && !notifBtn.contains(e.target)) {
+            notifPanel.classList.remove('show');
+        }
     });
-    document.getElementById('markAllReadBtn').addEventListener('click', function() {
-        allNotifications.forEach(function(n) { n.read = true; });
-        renderNotifications();
-        showToast('تم تعيين الكل كمقروء', 'success');
+    var markAllBtn = document.getElementById('markAllReadBtn');
+    if (markAllBtn) markAllBtn.addEventListener('click', markAllRead);
+
+    var refreshNotifsBtn = document.getElementById('refreshNotifsBtn');
+    if (refreshNotifsBtn) refreshNotifsBtn.addEventListener('click', function() {
+        showToast('جاري تحديث الإشعارات...', 'info', 1500);
+        loadNotifications().then(function() {
+            showToast('تم التحديث', 'success', 1500);
+        });
     });
 
     // Buttons
-    document.getElementById('addSupplierBtn').addEventListener('click', openSupplierModal);
-    document.getElementById('refreshBtn').addEventListener('click', function() {
+    var addBtn = document.getElementById('addSupplierBtn');
+    if (addBtn) addBtn.addEventListener('click', openSupplierModal);
+    var refreshBtn = document.getElementById('refreshBtn');
+    if (refreshBtn) refreshBtn.addEventListener('click', function() {
         showToast('جاري التحديث...', 'info');
         loadSuppliers();
         loadOrders();
         setTimeout(function() { showToast('تم تحديث البيانات', 'success'); }, 600);
     });
-    document.getElementById('exportExcelBtn').addEventListener('click', exportExcel);
-    document.getElementById('exportPdfBtn').addEventListener('click', exportPDF);
+    var expBtn = document.getElementById('exportExcelBtn');
+    if (expBtn) expBtn.addEventListener('click', exportExcel);
+    var pdfBtn = document.getElementById('exportPdfBtn');
+    if (pdfBtn) pdfBtn.addEventListener('click', exportPDF);
 
     // Search & Sort
-    document.getElementById('searchInput').addEventListener('input', debounce(function(e) {
+    var searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.addEventListener('input', debounce(function(e) {
         searchTerm = e.target.value;
         renderSuppliers();
     }, 200));
-    document.getElementById('sortFilter').addEventListener('change', function(e) {
+    var sortFilter = document.getElementById('sortFilter');
+    if (sortFilter) sortFilter.addEventListener('change', function(e) {
         sortMode = e.target.value;
         renderSuppliers();
     });
 
     // Modal overlay click
-    document.getElementById('supplierModal').addEventListener('click', function(e) {
+    var supplierModal = document.getElementById('supplierModal');
+    if (supplierModal) supplierModal.addEventListener('click', function(e) {
         if (e.target.id === 'supplierModal') closeSupplierModal();
     });
-    document.getElementById('detailsModal').addEventListener('click', function(e) {
+    var detailsModal = document.getElementById('detailsModal');
+    if (detailsModal) detailsModal.addEventListener('click', function(e) {
         if (e.target.id === 'detailsModal') closeDetailsModal();
     });
 
@@ -2124,10 +2272,13 @@ document.addEventListener('DOMContentLoaded', function() {
         var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         var scrolled = height > 0 ? (winScroll / height) * 100 : 0;
         if (progressBar) progressBar.style.width = scrolled + '%';
-        if (winScroll > 300) scrollTopBtn.classList.add('show');
-        else scrollTopBtn.classList.remove('show');
+        if (winScroll > 300) {
+            if (scrollTopBtn) scrollTopBtn.classList.add('show');
+        } else {
+            if (scrollTopBtn) scrollTopBtn.classList.remove('show');
+        }
     }, { passive: true });
-    scrollTopBtn.addEventListener('click', function() {
+    if (scrollTopBtn) scrollTopBtn.addEventListener('click', function() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
@@ -2141,10 +2292,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Auto sync + notifications refresh
     setInterval(autoSync, 5 * 60 * 1000);
-    setInterval(loadNotifications, 60000);
+    notificationsTimer = setInterval(function() {
+        if (navigator.onLine) loadNotifications();
+    }, 60000);
 
     // Inactivity
     startInactivityMonitor();
+
+    // PWA
+    initPWAInstall();
 
     console.log('%c⚡ إلكترونك - الموردين جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
 });
@@ -2185,7 +2341,8 @@ function applyPermissions(user) {
 window.SuppliersApp = {
     showToast: showToast, logout: logout, getSession: getSession,
     formatCurrency: formatCurrency, formatDate: formatDate,
-    escapeHtml: escapeHtml, getSupabaseClient: getSupabaseClient
+    escapeHtml: escapeHtml, getSupabaseClient: getSupabaseClient,
+    loadNotifications: loadNotifications
 };
 </script>
 
