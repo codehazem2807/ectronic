@@ -1,0 +1,3478 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#1d5b8e">
+<meta name="description" content="لوحة التحكم - إلكترونك لصيانة الأجهزة الإلكترونية">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="إلكترونك">
+<title>لوحة التحكم | إلكترونك - لصيانة الأجهزة الإلكترونية</title>
+
+<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+<link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+<link rel="manifest" href="manifest.json">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   🎨 Design System
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+    --tech-blue: #1d5b8e;
+    --tech-blue-dark: #154668;
+    --tech-blue-light: #2d7ab8;
+    --tech-black: #0a1f33;
+    --tech-black-soft: #142f4a;
+    --gray-light: #f6f8fb;
+    --gray-mid: #e1e8f0;
+    --gray-dark: #94a3b8;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+    --purple: #8b5cf6;
+    --pink: #ec4899;
+    
+    --bg-primary: #f6f8fb;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-hover: #f1f5f9;
+    --text-primary: #0a1f33;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --border-color: #e1e8f0;
+    
+    --shadow-sm: 0 1px 3px rgba(10, 31, 51, 0.06);
+    --shadow-md: 0 4px 12px rgba(10, 31, 51, 0.08);
+    --shadow-lg: 0 12px 32px rgba(10, 31, 51, 0.12);
+    --shadow-xl: 0 24px 48px rgba(10, 31, 51, 0.16);
+    
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+    
+    --navbar-height: 64px;
+    --sidebar-width: 260px;
+    
+    --transition-fast: 0.15s ease;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    --safe-top: env(safe-area-inset-top, 0);
+    --safe-bottom: env(safe-area-inset-bottom, 0);
+    --safe-left: env(safe-area-inset-left, 0);
+    --safe-right: env(safe-area-inset-right, 0);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #0a1628;
+    --bg-secondary: #0f2035;
+    --bg-card: #142f4a;
+    --bg-hover: #1a3a5c;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #64748b;
+    --border-color: #1e3a5f;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.6);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🔄 Reset
+   ═══════════════════════════════════════════════════════════════ */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+    font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: background var(--transition), color var(--transition);
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+button { cursor: pointer; border: none; background: none; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* ═══════════════════════════════════════════════════════════════
+   📊 Reading Progress
+   ═══════════════════════════════════════════════════════════════ */
+.reading-progress {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--tech-blue), var(--tech-blue-light), var(--success));
+    width: 0%;
+    z-index: 10000;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(29, 91, 142, 0.6);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🧭 Navbar
+   ═══════════════════════════════════════════════════════════════ */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navbar-height);
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    padding-top: var(--safe-top);
+    padding-left: calc(1rem + var(--safe-left));
+    padding-right: calc(1rem + var(--safe-right));
+    gap: 1rem;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition);
+}
+
+.navbar-menu-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    transition: all var(--transition);
+    flex-shrink: 0;
+}
+
+.navbar-menu-btn:hover {
+    background: var(--bg-hover);
+    color: var(--tech-blue);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.navbar-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    padding: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.navbar-brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.navbar-brand-text strong {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.navbar-brand-text span {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.navbar-search {
+    flex: 1;
+    max-width: 480px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.navbar-search-input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    padding-right: 2.75rem;
+    padding-left: 3rem;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-full);
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    outline: none;
+    transition: all var(--transition);
+}
+
+.navbar-search-input::placeholder { color: var(--text-muted); }
+
+.navbar-search-input:focus {
+    border-color: var(--tech-blue);
+    background: var(--bg-card);
+    box-shadow: 0 0 0 4px rgba(29, 91, 142, 0.12);
+}
+
+.navbar-search-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.navbar-search-shortcut {
+    position: absolute;
+    left: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.2rem 0.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: auto;
+}
+
+.navbar-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all var(--transition);
+    position: relative;
+    flex-shrink: 0;
+}
+
+.navbar-btn:hover {
+    background: var(--bg-hover);
+    color: var(--tech-blue);
+}
+
+.navbar-badge {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background: var(--danger);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg-card);
+    animation: pulse-badge 2s infinite;
+}
+
+@keyframes pulse-badge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.online-dot {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--success);
+    border: 2px solid var(--bg-card);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+    animation: pulse-online 2s infinite;
+}
+
+.online-dot.offline {
+    background: var(--danger);
+    animation: none;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}
+
+@keyframes pulse-online {
+    0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+    70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.35rem 0.85rem 0.35rem 0.5rem;
+    background: var(--bg-primary);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.navbar-user:hover {
+    background: var(--bg-hover);
+    border-color: var(--tech-blue);
+}
+
+.navbar-user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.navbar-user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.navbar-user-info strong {
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.navbar-user-info span {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📂 Sidebar
+   ═══════════════════════════════════════════════════════════════ */
+.sidebar {
+    position: fixed;
+    top: var(--navbar-height);
+    right: 0;
+    bottom: 0;
+    width: var(--sidebar-width);
+    background: var(--bg-card);
+    border-left: 1px solid var(--border-color);
+    z-index: 900;
+    overflow-y: auto;
+    padding: 1rem 0.75rem calc(1rem + var(--safe-bottom));
+    transition: transform var(--transition);
+    scrollbar-width: thin;
+}
+
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.sidebar-section {
+    margin-bottom: 1.25rem;
+}
+
+.sidebar-section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+    margin-bottom: 0.15rem;
+    position: relative;
+}
+
+.sidebar-link:hover {
+    background: var(--bg-hover);
+    color: var(--tech-blue);
+    transform: translateX(-3px);
+}
+
+.sidebar-link.active {
+    background: linear-gradient(135deg, rgba(29, 91, 142, 0.12), rgba(45, 122, 184, 0.08));
+    color: var(--tech-blue);
+    font-weight: 700;
+}
+
+.sidebar-link.active::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 60%;
+    background: var(--tech-blue);
+    border-radius: 4px;
+}
+
+.sidebar-link i:first-child {
+    width: 20px;
+    text-align: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.sidebar-link-badge {
+    margin-right: auto;
+    padding: 0.15rem 0.5rem;
+    background: var(--danger);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    min-width: 20px;
+    text-align: center;
+}
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 31, 51, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 899;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition);
+    top: var(--navbar-height);
+}
+
+.sidebar-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📄 Main Content
+   ═══════════════════════════════════════════════════════════════ */
+.main-content {
+    margin-top: var(--navbar-height);
+    margin-right: var(--sidebar-width);
+    padding: 1.5rem;
+    min-height: calc(100vh - var(--navbar-height));
+    transition: margin var(--transition);
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.page-header-text h1 {
+    font-size: 1.65rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.page-header-text h1 i {
+    color: var(--tech-blue);
+}
+
+.page-header-text p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.page-header-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.65rem 1.15rem;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    box-shadow: 0 4px 12px rgba(29, 91, 142, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(29, 91, 142, 0.4);
+}
+
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--tech-blue);
+    color: var(--tech-blue);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+}
+
+.btn-ghost:hover {
+    background: var(--bg-hover);
+    color: var(--tech-blue);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎴 Stats Cards
+   ═══════════════════════════════════════════════════════════════ */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition);
+    animation: fadeInUp 0.5s ease backwards;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.05s; }
+.stat-card:nth-child(2) { animation-delay: 0.1s; }
+.stat-card:nth-child(3) { animation-delay: 0.15s; }
+.stat-card:nth-child(4) { animation-delay: 0.2s; }
+.stat-card:nth-child(5) { animation-delay: 0.25s; }
+.stat-card:nth-child(6) { animation-delay: 0.3s; }
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--tech-blue);
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, var(--accent-color, var(--tech-blue)) 0%, transparent 70%);
+    opacity: 0.08;
+    border-radius: 50%;
+    transform: translate(30%, -30%);
+}
+
+.stat-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.85rem;
+}
+
+.stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: white;
+    background: linear-gradient(135deg, var(--accent-color, var(--tech-blue)), var(--accent-color-dark, var(--tech-blue-dark)));
+    box-shadow: 0 4px 12px var(--accent-shadow, rgba(29, 91, 142, 0.3));
+}
+
+.stat-trend {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-full);
+}
+
+.stat-trend.up {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.stat-trend.down {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+
+.stat-value small {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🃏 Cards
+   ═══════════════════════════════════════════════════════════════ */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition);
+    animation: fadeInUp 0.5s ease backwards;
+}
+
+.card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.card-title i {
+    color: var(--tech-blue);
+    font-size: 0.95rem;
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.card-action-btn {
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--tech-blue);
+    transition: all var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.card-action-btn:hover {
+    background: rgba(29, 91, 142, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📊 Dashboard Grid
+   ═══════════════════════════════════════════════════════════════ */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-grid-full {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📈 Chart
+   ═══════════════════════════════════════════════════════════════ */
+.chart-container {
+    position: relative;
+    height: 280px;
+    width: 100%;
+}
+
+.chart-period-tabs {
+    display: flex;
+    gap: 0.25rem;
+    background: var(--bg-primary);
+    padding: 0.25rem;
+    border-radius: var(--radius-md);
+}
+
+.chart-period-tab {
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all var(--transition);
+}
+
+.chart-period-tab.active {
+    background: var(--bg-card);
+    color: var(--tech-blue);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📋 Lists
+   ═══════════════════════════════════════════════════════════════ */
+.list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: all var(--transition-fast);
+    border-radius: var(--radius-sm);
+}
+
+.list-item:last-child { border-bottom: none; }
+
+.list-item:hover {
+    background: var(--bg-hover);
+    padding-right: 0.85rem;
+    padding-left: 0.85rem;
+}
+
+.list-item-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    background: var(--bg-primary);
+    color: var(--tech-blue);
+    border: 1px solid var(--border-color);
+}
+
+.list-item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.list-item-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.list-item-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.list-item-meta {
+    text-align: left;
+    flex-shrink: 0;
+}
+
+.list-item-amount {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--tech-blue);
+    display: block;
+}
+
+.list-item-date {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🏷️ Badges
+   ═══════════════════════════════════════════════════════════════ */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-full);
+    font-size: 0.7rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.badge-success {
+    background: rgba(16, 185, 129, 0.12);
+    color: var(--success);
+}
+
+.badge-danger {
+    background: rgba(239, 68, 68, 0.12);
+    color: var(--danger);
+}
+
+.badge-warning {
+    background: rgba(245, 158, 11, 0.12);
+    color: var(--warning);
+}
+
+.badge-info {
+    background: rgba(59, 130, 246, 0.12);
+    color: var(--info);
+}
+
+.badge-purple {
+    background: rgba(139, 92, 246, 0.12);
+    color: var(--purple);
+}
+
+.badge-gray {
+    background: var(--bg-hover);
+    color: var(--text-secondary);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ⚡ Quick Actions
+   ═══════════════════════════════════════════════════════════════ */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 0.65rem;
+}
+
+.quick-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 0.5rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all var(--transition);
+    text-align: center;
+}
+
+.quick-action:hover {
+    background: linear-gradient(135deg, rgba(29, 91, 142, 0.08), rgba(45, 122, 184, 0.05));
+    border-color: var(--tech-blue);
+    color: var(--tech-blue);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.quick-action i {
+    font-size: 1.35rem;
+    color: var(--tech-blue);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🔔 Notifications Panel
+   ═══════════════════════════════════════════════════════════════ */
+.notifications-panel {
+    position: fixed;
+    top: calc(var(--navbar-height) + 0.5rem);
+    left: 1rem;
+    width: 380px;
+    max-width: calc(100vw - 2rem);
+    max-height: 500px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    z-index: 1200;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.98);
+    transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.notifications-panel.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.notifications-header {
+    padding: 1rem 1.15rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.notifications-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.notifications-title i { color: var(--tech-blue); }
+
+.notifications-mark-read {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--tech-blue);
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition);
+}
+
+.notifications-mark-read:hover {
+    background: rgba(29, 91, 142, 0.1);
+}
+
+.notifications-list {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.notification-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.85rem 1.15rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.notification-item:hover {
+    background: var(--bg-hover);
+}
+
+.notification-item.unread {
+    background: rgba(29, 91, 142, 0.04);
+}
+
+.notification-item.unread::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 60%;
+    background: var(--tech-blue);
+    border-radius: 3px;
+}
+
+.notification-item-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.notification-item-icon.info {
+    background: rgba(59, 130, 246, 0.12);
+    color: var(--info);
+}
+
+.notification-item-icon.warning {
+    background: rgba(245, 158, 11, 0.12);
+    color: var(--warning);
+}
+
+.notification-item-icon.danger {
+    background: rgba(239, 68, 68, 0.12);
+    color: var(--danger);
+}
+
+.notification-item-icon.success {
+    background: rgba(16, 185, 129, 0.12);
+    color: var(--success);
+}
+
+.notification-item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-item-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.15rem;
+}
+
+.notification-item-message {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.notification-item-time {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.notifications-empty {
+    padding: 2.5rem 1rem;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.notifications-empty i {
+    font-size: 2.5rem;
+    opacity: 0.3;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.notifications-empty p {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   👤 User Dropdown
+   ═══════════════════════════════════════════════════════════════ */
+.user-dropdown {
+    position: fixed;
+    top: calc(var(--navbar-height) + 0.5rem);
+    left: 1rem;
+    width: 240px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    z-index: 1200;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.98);
+    transition: all var(--transition);
+    overflow: hidden;
+}
+
+.user-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.user-dropdown-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-dropdown-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.user-dropdown-info strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+}
+
+.user-dropdown-info span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.user-dropdown-menu {
+    padding: 0.5rem;
+}
+
+.user-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+    width: 100%;
+    text-align: right;
+}
+
+.user-dropdown-item:hover {
+    background: var(--bg-hover);
+    color: var(--tech-blue);
+}
+
+.user-dropdown-item.danger:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+.user-dropdown-item i {
+    width: 18px;
+    text-align: center;
+}
+
+.user-dropdown-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 0.35rem 0.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🔍 Global Search Results
+   ═══════════════════════════════════════════════════════════════ */
+.global-search-panel {
+    position: fixed;
+    top: calc(var(--navbar-height) + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px) scale(0.98);
+    width: 640px;
+    max-width: calc(100vw - 2rem);
+    max-height: 70vh;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    z-index: 1300;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.global-search-panel.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.global-search-results {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+}
+
+.search-section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.5rem 0.75rem 0.35rem;
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.search-result-item:hover,
+.search-result-item.active {
+    background: var(--bg-hover);
+}
+
+.search-result-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    background: var(--bg-primary);
+    color: var(--tech-blue);
+}
+
+.search-result-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.search-result-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-result-title mark {
+    background: rgba(245, 158, 11, 0.3);
+    color: inherit;
+    padding: 0 2px;
+    border-radius: 3px;
+}
+
+.search-result-subtitle {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.search-result-type {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-full);
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.search-empty {
+    padding: 2.5rem 1rem;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.search-empty i {
+    font-size: 2.5rem;
+    opacity: 0.3;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.search-empty p {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.search-loading {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.search-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--tech-blue);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 0.75rem;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ═══════════════════════════════════════════════════════════════
+   🍞 Toast
+   ═══════════════════════════════════════════════════════════════ */
+.toast-container {
+    position: fixed;
+    top: calc(var(--navbar-height) + 1rem);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    pointer-events: none;
+    max-width: 90vw;
+    width: 400px;
+}
+
+.toast {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    pointer-events: auto;
+    animation: toastIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-right: 4px solid var(--info);
+}
+
+.toast.success { border-right-color: var(--success); }
+.toast.error { border-right-color: var(--danger); }
+.toast.warning { border-right-color: var(--warning); }
+
+.toast i { font-size: 1.2rem; flex-shrink: 0; }
+.toast.success i { color: var(--success); }
+.toast.error i { color: var(--danger); }
+.toast.warning i { color: var(--warning); }
+.toast.info i { color: var(--info); }
+
+.toast.hide {
+    animation: toastOut 0.3s ease forwards;
+}
+
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toastOut {
+    to { opacity: 0; transform: translateY(-20px) scale(0.95); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🦴 Skeleton Loaders
+   ═══════════════════════════════════════════════════════════════ */
+.skeleton {
+    background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📭 Empty State
+   ═══════════════════════════════════════════════════════════════ */
+.empty-state {
+    padding: 2.5rem 1rem;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    opacity: 0.25;
+    margin-bottom: 1rem;
+    display: block;
+    color: var(--tech-blue);
+}
+
+.empty-state h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+}
+
+.empty-state p {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📱 PWA Install Banner
+   ═══════════════════════════════════════════════════════════════ */
+.install-banner {
+    position: fixed;
+    bottom: calc(1rem + var(--safe-bottom));
+    left: 1rem;
+    right: 1rem;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    padding: 1rem 1.25rem;
+    display: none;
+    align-items: center;
+    gap: 1rem;
+    z-index: 1500;
+    border: 1px solid var(--border-color);
+    animation: slideUp 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.install-banner.show { display: flex; }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(100px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.install-banner-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.install-banner-icon img { width: 100%; height: 100%; object-fit: cover; }
+
+.install-banner-text { flex: 1; min-width: 0; }
+.install-banner-text strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+}
+.install-banner-text span {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.install-banner-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+
+.install-btn {
+    padding: 0.6rem 1rem;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: all var(--transition);
+    white-space: nowrap;
+}
+
+.install-btn:hover { transform: translateY(-2px); }
+
+.install-dismiss {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all var(--transition);
+}
+
+.install-dismiss:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ⬆️ Scroll to Top
+   ═══════════════════════════════════════════════════════════════ */
+.scroll-top {
+    position: fixed;
+    bottom: calc(1rem + var(--safe-bottom));
+    left: calc(1rem + var(--safe-left));
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all var(--transition);
+    z-index: 1400;
+}
+
+.scroll-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-top:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(29, 91, 142, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ✨ Animations
+   ═══════════════════════════════════════════════════════════════ */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📱 Responsive
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 968px) {
+    .sidebar {
+        transform: translateX(100%);
+        box-shadow: var(--shadow-xl);
+    }
+    
+    .sidebar.show { transform: translateX(0); }
+    
+    .main-content { margin-right: 0; padding: 1rem; }
+    
+    .navbar-search { display: none; }
+    
+    .navbar-brand-text { display: none; }
+    
+    .navbar-user-info { display: none; }
+    
+    .navbar-user { padding: 0.35rem; }
+    
+    .dashboard-grid-full { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+    .page-header { flex-direction: column; align-items: flex-start; }
+    
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+    
+    .stat-card { padding: 1rem; }
+    
+    .stat-value { font-size: 1.35rem; }
+    
+    .stat-icon { width: 38px; height: 38px; font-size: 1rem; }
+    
+    .navbar { padding: 0 0.65rem; gap: 0.5rem; }
+    
+    .navbar-actions { gap: 0.25rem; }
+    
+    .navbar-btn { width: 36px; height: 36px; font-size: 0.9rem; }
+    
+    .notifications-panel,
+    .user-dropdown { left: 0.5rem; right: 0.5rem; width: auto; max-width: calc(100vw - 1rem); }
+    
+    .global-search-panel { max-height: 80vh; }
+    
+    .chart-container { height: 220px; }
+}
+
+@media (max-width: 400px) {
+    .stats-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Reading Progress -->
+<div class="reading-progress" id="readingProgress"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     🧭 Navbar
+     ═══════════════════════════════════════════════════════════════ -->
+<nav class="navbar">
+    <button class="navbar-menu-btn" id="menuBtn" aria-label="القائمة">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <a href="dashboard.html" class="navbar-brand">
+        <img src="logo.png" alt="إلكترونك" class="navbar-logo" onerror="this.style.display='none'">
+        <div class="navbar-brand-text">
+            <strong>إلكترونك</strong>
+            <span>لصيانة الأجهزة الإلكترونية</span>
+        </div>
+    </a>
+    
+    <div class="navbar-search">
+        <input 
+            type="text" 
+            class="navbar-search-input" 
+            id="globalSearchInput" 
+            placeholder="ابحث عن صنف، عميل، فاتورة، أمر صيانة..."
+            autocomplete="off"
+        >
+        <i class="fas fa-magnifying-glass navbar-search-icon"></i>
+        <span class="navbar-search-shortcut">Ctrl+K</span>
+    </div>
+    
+    <div class="navbar-actions">
+        <button class="navbar-btn" id="onlineBtn" title="حالة الاتصال">
+            <i class="fas fa-wifi"></i>
+            <span class="online-dot" id="onlineDot"></span>
+        </button>
+        
+        <button class="navbar-btn" id="themeToggle" title="تبديل الوضع">
+            <i class="fas fa-moon"></i>
+        </button>
+        
+        <button class="navbar-btn" id="notificationsBtn" title="الإشعارات">
+            <i class="fas fa-bell"></i>
+            <span class="navbar-badge" id="notifBadge" style="display: none;">0</span>
+        </button>
+        
+        <button class="navbar-user" id="userBtn">
+            <div class="navbar-user-avatar" id="userAvatar">م</div>
+            <div class="navbar-user-info">
+                <strong id="userName">المستخدم</strong>
+                <span id="userRole">موظف</span>
+            </div>
+        </button>
+    </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     📂 Sidebar
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">الرئيسية</div>
+        <a href="dashboard.html" class="sidebar-link active">
+            <i class="fas fa-house"></i>
+            <span>لوحة التحكم</span>
+        </a>
+    </div>
+    
+    <div class="sidebar-section" id="sectionInventory">
+        <div class="sidebar-section-title">المخزون</div>
+        <a href="products.html" class="sidebar-link" data-perm="can_view_products">
+            <i class="fas fa-boxes-stacked"></i>
+            <span>الأصناف</span>
+        </a>
+        <a href="categories.html" class="sidebar-link" data-perm="can_view_categories">
+            <i class="fas fa-tags"></i>
+            <span>الفئات</span>
+        </a>
+        <a href="stock-in.html" class="sidebar-link" data-perm="can_view_warehouse_in">
+            <i class="fas fa-truck-ramp-box"></i>
+            <span>الوارد</span>
+        </a>
+        <a href="suppliers.html" class="sidebar-link" data-perm="can_view_suppliers">
+            <i class="fas fa-handshake"></i>
+            <span>الموردين</span>
+        </a>
+    </div>
+    
+    <div class="sidebar-section" id="sectionSales">
+        <div class="sidebar-section-title">المبيعات</div>
+        <a href="invoices.html" class="sidebar-link" data-perm="can_view_invoices">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <span>الفواتير</span>
+        </a>
+        <a href="customers.html" class="sidebar-link" data-perm="can_view_customers">
+            <i class="fas fa-users"></i>
+            <span>العملاء</span>
+        </a>
+        <a href="debts.html" class="sidebar-link" data-perm="can_view_debts">
+            <i class="fas fa-hand-holding-dollar"></i>
+            <span>المديونيات</span>
+        </a>
+    </div>
+    
+    <div class="sidebar-section" id="sectionRepairs">
+        <div class="sidebar-section-title">الصيانة</div>
+        <a href="repairs.html" class="sidebar-link" data-perm="can_view_repairs">
+            <i class="fas fa-screwdriver-wrench"></i>
+            <span>أوامر الصيانة</span>
+        </a>
+    </div>
+    
+    <div class="sidebar-section" id="sectionReports">
+        <div class="sidebar-section-title">التقارير</div>
+        <a href="reports.html" class="sidebar-link" data-perm="can_view_reports">
+            <i class="fas fa-chart-pie"></i>
+            <span>التقارير</span>
+        </a>
+        <a href="shifts.html" class="sidebar-link" data-perm="can_manage_shifts">
+            <i class="fas fa-clock"></i>
+            <span>الورديات</span>
+        </a>
+        <a href="audit-log.html" class="sidebar-link" data-perm="can_view_audit_log">
+            <i class="fas fa-clipboard-list"></i>
+            <span>سجل الحركات</span>
+        </a>
+    </div>
+    
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">أدوات</div>
+        <a href="favorites.html" class="sidebar-link">
+            <i class="fas fa-star"></i>
+            <span>المفضلة</span>
+        </a>
+        <a href="admin.html" class="sidebar-link" id="adminLink" style="display: none;">
+            <i class="fas fa-shield-halved"></i>
+            <span>لوحة الأدمن</span>
+        </a>
+    </div>
+</aside>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     📄 Main Content
+     ═══════════════════════════════════════════════════════════════ -->
+<main class="main-content">
+    
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-text">
+            <h1>
+                <i class="fas fa-house"></i>
+                لوحة التحكم
+            </h1>
+            <p id="welcomeText">أهلاً بك 👋 نظرة سريعة على أداء المركز</p>
+        </div>
+        <div class="page-header-actions">
+            <button class="btn btn-secondary" onclick="window.location.reload()">
+                <i class="fas fa-rotate"></i>
+                تحديث
+            </button>
+            <button class="btn btn-primary" id="syncBtn">
+                <i class="fas fa-cloud-arrow-up"></i>
+                مزامنة
+            </button>
+        </div>
+    </div>
+    
+    <!-- Stats Grid -->
+    <div class="stats-grid" id="statsGrid">
+        <!-- سيتم تعبئتها بالـ JS -->
+    </div>
+    
+    <!-- Chart + Quick Actions -->
+    <div class="dashboard-grid">
+        
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-chart-line"></i>
+                    مبيعات آخر 7 أيام
+                </h3>
+                <div class="chart-period-tabs">
+                    <button class="chart-period-tab active" data-days="7">7 أيام</button>
+                    <button class="chart-period-tab" data-days="30">30 يوم</button>
+                    <button class="chart-period-tab" data-days="90">3 شهور</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-bolt"></i>
+                    إجراءات سريعة
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="quick-actions" id="quickActions">
+                    <!-- سيتم تعبئتها بالـ JS -->
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Recent Invoices + Recent Repairs -->
+    <div class="dashboard-grid-full">
+        
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-file-invoice"></i>
+                    أحدث الفواتير
+                </h3>
+                <a href="invoices.html" class="card-action-btn">
+                    عرض الكل
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="card-body" id="recentInvoices" style="padding: 0.5rem;">
+                <div class="skeleton" style="height: 60px; margin-bottom: 0.5rem;"></div>
+                <div class="skeleton" style="height: 60px; margin-bottom: 0.5rem;"></div>
+                <div class="skeleton" style="height: 60px;"></div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-screwdriver-wrench"></i>
+                    أحدث أوامر الصيانة
+                </h3>
+                <a href="repairs.html" class="card-action-btn">
+                    عرض الكل
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="card-body" id="recentRepairs" style="padding: 0.5rem;">
+                <div class="skeleton" style="height: 60px; margin-bottom: 0.5rem;"></div>
+                <div class="skeleton" style="height: 60px; margin-bottom: 0.5rem;"></div>
+                <div class="skeleton" style="height: 60px;"></div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Low Stock Alert -->
+    <div class="card" id="lowStockCard" style="display: none; margin-bottom: 1.5rem;">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-triangle-exclamation" style="color: var(--warning);"></i>
+                تنبيه: أصناف على وشك النفاذ
+            </h3>
+            <a href="products.html" class="card-action-btn">
+                إدارة المخزون
+                <i class="fas fa-arrow-left"></i>
+            </a>
+        </div>
+        <div class="card-body" id="lowStockList" style="padding: 0.5rem;"></div>
+    </div>
+    
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     🔔 Notifications Panel
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="notifications-panel" id="notificationsPanel">
+    <div class="notifications-header">
+        <h3 class="notifications-title">
+            <i class="fas fa-bell"></i>
+            الإشعارات
+        </h3>
+        <button class="notifications-mark-read" id="markAllReadBtn">تعيين الكل كمقروء</button>
+    </div>
+    <div class="notifications-list" id="notificationsList"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     👤 User Dropdown
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="user-dropdown" id="userDropdown">
+    <div class="user-dropdown-header">
+        <div class="user-dropdown-avatar" id="dropdownAvatar">م</div>
+        <div class="user-dropdown-info">
+            <strong id="dropdownName">المستخدم</strong>
+            <span id="dropdownRole">موظف</span>
+        </div>
+    </div>
+    <div class="user-dropdown-menu">
+        <a href="favorites.html" class="user-dropdown-item">
+            <i class="fas fa-star"></i>
+            <span>المفضلة</span>
+        </a>
+        <a href="admin.html" class="user-dropdown-item" id="dropdownAdminLink" style="display: none;">
+            <i class="fas fa-shield-halved"></i>
+            <span>لوحة الأدمن</span>
+        </a>
+        <div class="user-dropdown-divider"></div>
+        <button class="user-dropdown-item danger" id="logoutBtn">
+            <i class="fas fa-right-from-bracket"></i>
+            <span>تسجيل الخروج</span>
+        </button>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     🔍 Global Search Panel
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="global-search-panel" id="globalSearchPanel">
+    <div class="global-search-results" id="globalSearchResults"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     🍞 Toast Container
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     📱 PWA Install Banner
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="install-banner" id="installBanner">
+    <div class="install-banner-icon">
+        <img src="logo.png" alt="إلكترونك" onerror="this.parentElement.innerHTML='<i class=\'fas fa-bolt\'></i>'">
+    </div>
+    <div class="install-banner-text">
+        <strong>ثبّت التطبيق</strong>
+        <span>للوصول السريع والعمل بدون إنترنت</span>
+    </div>
+    <div class="install-banner-actions">
+        <button class="install-btn" id="installBannerBtn">تثبيت</button>
+        <button class="install-dismiss" id="installDismissBtn" aria-label="إغلاق">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
+
+<!-- ⬆️ Scroll to Top -->
+<button class="scroll-top" id="scrollTop" aria-label="العودة للأعلى">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     📜 JavaScript
+     ═══════════════════════════════════════════════════════════════ -->
+<script type="module">
+
+// ═══════════════════════════════════════════════════════════════
+// 🔑 Supabase Config
+// ═══════════════════════════════════════════════════════════════
+const SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
+
+// ═══════════════════════════════════════════════════════════════
+// 🧰 Helpers
+// ═══════════════════════════════════════════════════════════════
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function formatCurrency(amount) {
+    const num = parseFloat(amount) || 0;
+    return num.toLocaleString('ar-EG', { 
+        minimumFractionDigits: 0, 
+        maximumFractionDigits: 2 
+    }) + ' ج.م';
+}
+
+function formatNumber(num) {
+    return (parseInt(num) || 0).toLocaleString('ar-EG');
+}
+
+function formatDate(date) {
+    if (!date) return '';
+    const d = new Date(date);
+    return d.toLocaleDateString('ar-EG', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+    });
+}
+
+function formatTimeAgo(date) {
+    if (!date) return '';
+    const d = new Date(date);
+    const seconds = Math.floor((Date.now() - d.getTime()) / 1000);
+    
+    if (seconds < 60) return 'الآن';
+    if (seconds < 3600) return `منذ ${Math.floor(seconds / 60)} دقيقة`;
+    if (seconds < 86400) return `منذ ${Math.floor(seconds / 3600)} ساعة`;
+    if (seconds < 604800) return `منذ ${Math.floor(seconds / 86400)} يوم`;
+    return formatDate(date);
+}
+
+function getStatusBadge(status) {
+    const map = {
+        'received': { text: 'تم الاستلام', class: 'badge-info', icon: 'fa-inbox' },
+        'repairing': { text: 'قيد الإصلاح', class: 'badge-warning', icon: 'fa-wrench' },
+        'ready': { text: 'جاهز للتسليم', class: 'badge-success', icon: 'fa-circle-check' },
+        'delivered': { text: 'تم التسليم', class: 'badge-gray', icon: 'fa-truck' },
+        'cancelled': { text: 'ملغي', class: 'badge-danger', icon: 'fa-ban' }
+    };
+    const s = map[status] || { text: status, class: 'badge-gray', icon: 'fa-circle' };
+    return `<span class="badge ${s.class}"><i class="fas ${s.icon}"></i>${s.text}</span>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎨 Theme
+// ═══════════════════════════════════════════════════════════════
+function initTheme() {
+    const saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    updateThemeIcon(saved);
+}
+
+function updateThemeIcon(theme) {
+    const icon = document.querySelector('#themeToggle i');
+    if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateThemeIcon(next);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🍞 Toast
+// ═══════════════════════════════════════════════════════════════
+function showToast(message, type = 'info', duration = 3500) {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+    
+    const icons = {
+        success: 'fa-circle-check',
+        error: 'fa-circle-xmark',
+        warning: 'fa-triangle-exclamation',
+        info: 'fa-circle-info'
+    };
+    
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+        <i class="fas ${icons[type] || icons.info}"></i>
+        <span>${escapeHtml(message)}</span>
+    `;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🌐 Online Status
+// ═══════════════════════════════════════════════════════════════
+function updateOnlineStatus() {
+    const dot = document.getElementById('onlineDot');
+    const btn = document.getElementById('onlineBtn');
+    if (!dot || !btn) return;
+    
+    if (navigator.onLine) {
+        dot.classList.remove('offline');
+        btn.title = 'متصل بالإنترنت';
+    } else {
+        dot.classList.add('offline');
+        btn.title = 'غير متصل - وضع Offline';
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔐 Session
+// ═══════════════════════════════════════════════════════════════
+function getSession() {
+    try {
+        const raw = localStorage.getItem('session');
+        if (!raw) return null;
+        const session = JSON.parse(raw);
+        if (!session || !session.user) return null;
+        if (session.expiresAt && Date.now() > session.expiresAt) {
+            localStorage.removeItem('session');
+            return null;
+        }
+        return session;
+    } catch { return null; }
+}
+
+function logout(message) {
+    localStorage.removeItem('session');
+    if (message) {
+        showToast(message, 'info');
+        setTimeout(() => window.location.href = 'index.html', 1000);
+    } else {
+        window.location.href = 'index.html';
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ⏱️ Auto Logout
+// ═══════════════════════════════════════════════════════════════
+const INACTIVITY_TIMEOUT = 30 * 60 * 1000;
+let inactivityTimer = null;
+
+function resetInactivity() {
+    if (inactivityTimer) clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+        logout('تم تسجيل خروجك تلقائيًا بسبب عدم النشاط');
+    }, INACTIVITY_TIMEOUT);
+}
+
+function startInactivityMonitor() {
+    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evt => {
+        document.addEventListener(evt, resetInactivity, { passive: true });
+    });
+    resetInactivity();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📦 IndexedDB
+// ═══════════════════════════════════════════════════════════════
+const DB_NAME = 'electronic_db';
+const DB_VERSION = 1;
+let dbInstance = null;
+
+function openDB() {
+    return new Promise((resolve, reject) => {
+        if (dbInstance) return resolve(dbInstance);
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('accounts')) db.createObjectStore('accounts', { keyPath: 'id' });
+            if (!db.objectStoreNames.contains('outbox')) {
+                const s = db.createObjectStore('outbox', { keyPath: 'id', autoIncrement: true });
+                s.createIndex('status', 'status');
+            }
+            if (!db.objectStoreNames.contains('cache')) db.createObjectStore('cache', { keyPath: 'key' });
+            if (!db.objectStoreNames.contains('settings')) db.createObjectStore('settings', { keyPath: 'key' });
+            if (!db.objectStoreNames.contains('products')) db.createObjectStore('products', { keyPath: 'id' });
+            if (!db.objectStoreNames.contains('customers')) db.createObjectStore('customers', { keyPath: 'id' });
+            if (!db.objectStoreNames.contains('invoices')) db.createObjectStore('invoices', { keyPath: 'id' });
+            if (!db.objectStoreNames.contains('repairs')) db.createObjectStore('repairs', { keyPath: 'id' });
+        };
+        req.onsuccess = () => { dbInstance = req.result; resolve(dbInstance); };
+        req.onerror = () => reject(req.error);
+    });
+}
+
+async function dbPut(store, data) {
+    const db = await openDB();
+    return new Promise((res, rej) => {
+        const tx = db.transaction(store, 'readwrite');
+        const r = tx.objectStore(store).put(data);
+        r.onsuccess = () => res(r.result);
+        r.onerror = () => rej(r.error);
+    });
+}
+
+async function dbGetAll(store) {
+    const db = await openDB();
+    return new Promise((res, rej) => {
+        const tx = db.transaction(store, 'readonly');
+        const r = tx.objectStore(store).getAll();
+        r.onsuccess = () => res(r.result || []);
+        r.onerror = () => rej(r.error);
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🗄️ Supabase
+// ═══════════════════════════════════════════════════════════════
+let supabaseClient = null;
+
+async function getSupabase() {
+    if (supabaseClient) return supabaseClient;
+    try {
+        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+        supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { persistSession: false }
+        });
+        return supabaseClient;
+    } catch (err) {
+        console.warn('فشل تحميل Supabase:', err);
+        return null;
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📊 Load Dashboard Data
+// ═══════════════════════════════════════════════════════════════
+let currentChart = null;
+let currentChartDays = 7;
+let allNotifications = [];
+
+async function loadStats() {
+    const session = getSession();
+    if (!session) return;
+    
+    const stats = {
+        todaySales: 0,
+        todayInvoices: 0,
+        monthSales: 0,
+        monthInvoices: 0,
+        totalProducts: 0,
+        lowStockCount: 0,
+        activeRepairs: 0,
+        readyRepairs: 0,
+        totalCustomers: 0,
+        totalDebts: 0
+    };
+    
+    try {
+        const sb = await getSupabase();
+        if (sb && navigator.onLine) {
+            // فواتير اليوم
+            const todayStart = new Date();
+            todayStart.setHours(0, 0, 0, 0);
+            
+            const { data: todayInv } = await sb
+                .from('invoices')
+                .select('total')
+                .gte('created_at', todayStart.toISOString());
+            
+            if (todayInv) {
+                stats.todayInvoices = todayInv.length;
+                stats.todaySales = todayInv.reduce((s, i) => s + (parseFloat(i.total) || 0), 0);
+            }
+            
+            // فواتير الشهر
+            const monthStart = new Date();
+            monthStart.setDate(1);
+            monthStart.setHours(0, 0, 0, 0);
+            
+            const { data: monthInv } = await sb
+                .from('invoices')
+                .select('total')
+                .gte('created_at', monthStart.toISOString());
+            
+            if (monthInv) {
+                stats.monthInvoices = monthInv.length;
+                stats.monthSales = monthInv.reduce((s, i) => s + (parseFloat(i.total) || 0), 0);
+            }
+            
+            // عدد الأصناف + النواقص
+            const { data: products } = await sb.from('products').select('quantity, min_quantity');
+            if (products) {
+                stats.totalProducts = products.length;
+                stats.lowStockCount = products.filter(p => p.quantity <= p.min_quantity).length;
+            }
+            
+            // أوامر الصيانة النشطة
+            const { data: repairs } = await sb
+                .from('repair_orders')
+                .select('status')
+                .in('status', ['received', 'repairing', 'ready']);
+            
+            if (repairs) {
+                stats.activeRepairs = repairs.filter(r => r.status !== 'ready').length;
+                stats.readyRepairs = repairs.filter(r => r.status === 'ready').length;
+            }
+            
+            // عدد العملاء
+            const { count: custCount } = await sb
+                .from('customers')
+                .select('*', { count: 'exact', head: true });
+            stats.totalCustomers = custCount || 0;
+            
+            // المديونيات
+            const { data: unpaid } = await sb
+                .from('invoices')
+                .select('total, paid_amount')
+                .eq('paid', false);
+            
+            if (unpaid) {
+                stats.totalDebts = unpaid.reduce((s, i) => 
+                    s + (parseFloat(i.total) - parseFloat(i.paid_amount) || 0), 0);
+            }
+        }
+    } catch (err) {
+        console.warn('خطأ في تحميل الإحصائيات:', err);
+    }
+    
+    renderStats(stats);
+    return stats;
+}
+
+function renderStats(stats) {
+    const grid = document.getElementById('statsGrid');
+    if (!grid) return;
+    
+    const session = getSession();
+    const perms = session?.user?.permissions || {};
+    const isAdmin = session?.user?.role === 'admin';
+    
+    const cards = [];
+    
+    // مبيعات اليوم
+    if (isAdmin || perms.can_view_invoices) {
+        cards.push({
+            icon: 'fa-money-bill-wave',
+            color: '#10b981',
+            colorDark: '#059669',
+            shadow: 'rgba(16, 185, 129, 0.3)',
+            label: 'مبيعات اليوم',
+            value: formatCurrency(stats.todaySales),
+            trend: stats.todayInvoices > 0 ? `${stats.todayInvoices} فاتورة` : 'لا مبيعات',
+            trendType: stats.todayInvoices > 0 ? 'up' : 'down'
+        });
+    }
+    
+    // مبيعات الشهر
+    if (isAdmin || perms.can_view_reports) {
+        cards.push({
+            icon: 'fa-chart-line',
+            color: '#1d5b8e',
+            colorDark: '#154668',
+            shadow: 'rgba(29, 91, 142, 0.3)',
+            label: 'مبيعات الشهر',
+            value: formatCurrency(stats.monthSales),
+            trend: `${stats.monthInvoices} فاتورة`,
+            trendType: 'up'
+        });
+    }
+    
+    // أوامر الصيانة النشطة
+    if (isAdmin || perms.can_view_repairs) {
+        cards.push({
+            icon: 'fa-screwdriver-wrench',
+            color: '#f59e0b',
+            colorDark: '#d97706',
+            shadow: 'rgba(245, 158, 11, 0.3)',
+            label: 'أوامر صيانة نشطة',
+            value: formatNumber(stats.activeRepairs),
+            trend: stats.readyRepairs > 0 ? `${stats.readyRepairs} جاهز` : 'قيد العمل',
+            trendType: stats.readyRepairs > 0 ? 'up' : 'down'
+        });
+    }
+    
+    // الأصناف
+    if (isAdmin || perms.can_view_products) {
+        cards.push({
+            icon: 'fa-boxes-stacked',
+            color: '#8b5cf6',
+            colorDark: '#7c3aed',
+            shadow: 'rgba(139, 92, 246, 0.3)',
+            label: 'إجمالي الأصناف',
+            value: formatNumber(stats.totalProducts),
+            trend: stats.lowStockCount > 0 ? `${stats.lowStockCount} نواقص` : 'المخزون جيد',
+            trendType: stats.lowStockCount > 0 ? 'down' : 'up'
+        });
+    }
+    
+    // العملاء
+    if (isAdmin || perms.can_view_customers) {
+        cards.push({
+            icon: 'fa-users',
+            color: '#3b82f6',
+            colorDark: '#2563eb',
+            shadow: 'rgba(59, 130, 246, 0.3)',
+            label: 'إجمالي العملاء',
+            value: formatNumber(stats.totalCustomers),
+            trend: 'عميل مسجل',
+            trendType: 'up'
+        });
+    }
+    
+    // المديونيات
+    if (isAdmin || perms.can_view_debts) {
+        cards.push({
+            icon: 'fa-hand-holding-dollar',
+            color: '#ef4444',
+            colorDark: '#dc2626',
+            shadow: 'rgba(239, 68, 68, 0.3)',
+            label: 'إجمالي المديونيات',
+            value: formatCurrency(stats.totalDebts),
+            trend: stats.totalDebts > 0 ? 'تحتاج متابعة' : 'لا مديونيات',
+            trendType: stats.totalDebts > 0 ? 'down' : 'up'
+        });
+    }
+    
+    grid.innerHTML = cards.map(c => `
+        <div class="stat-card" style="--accent-color: ${c.color}; --accent-color-dark: ${c.colorDark}; --accent-shadow: ${c.shadow};">
+            <div class="stat-card-header">
+                <div class="stat-icon">
+                    <i class="fas ${c.icon}"></i>
+                </div>
+                <div class="stat-trend ${c.trendType}">
+                    <i class="fas fa-arrow-${c.trendType === 'up' ? 'up' : 'down'}"></i>
+                    ${escapeHtml(c.trend)}
+                </div>
+            </div>
+            <div class="stat-value">${c.value}</div>
+            <div class="stat-label">${escapeHtml(c.label)}</div>
+        </div>
+    `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📈 Sales Chart
+// ═══════════════════════════════════════════════════════════════
+async function loadSalesChart(days = 7) {
+    const canvas = document.getElementById('salesChart');
+    if (!canvas) return;
+    
+    let labels = [];
+    let values = [];
+    
+    try {
+        const sb = await getSupabase();
+        if (sb && navigator.onLine) {
+            const startDate = new Date();
+            startDate.setDate(startDate.getDate() - days + 1);
+            startDate.setHours(0, 0, 0, 0);
+            
+            const { data } = await sb
+                .from('invoices')
+                .select('total, created_at')
+                .gte('created_at', startDate.toISOString());
+            
+            const map = {};
+            for (let i = 0; i < days; i++) {
+                const d = new Date();
+                d.setDate(d.getDate() - (days - 1 - i));
+                const key = d.toISOString().split('T')[0];
+                map[key] = 0;
+                labels.push(d.toLocaleDateString('ar-EG', { 
+                    day: 'numeric', 
+                    month: days <= 7 ? 'short' : undefined 
+                }));
+            }
+            
+            (data || []).forEach(inv => {
+                const key = new Date(inv.created_at).toISOString().split('T')[0];
+                if (map[key] !== undefined) {
+                    map[key] += parseFloat(inv.total) || 0;
+                }
+            });
+            
+            values = Object.values(map);
+        }
+    } catch (err) {
+        console.warn('خطأ في تحميل الرسم البياني:', err);
+    }
+    
+    // لو مفيش بيانات، اعرض بيانات صفرية
+    if (!labels.length) {
+        for (let i = 0; i < days; i++) {
+            const d = new Date();
+            d.setDate(d.getDate() - (days - 1 - i));
+            labels.push(d.toLocaleDateString('ar-EG', { day: 'numeric', month: 'short' }));
+            values.push(0);
+        }
+    }
+    
+    // حمّل Chart.js لو لسه
+    if (typeof Chart === 'undefined') {
+        await new Promise((resolve) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+            script.onload = resolve;
+            document.head.appendChild(script);
+        });
+    }
+    
+    if (currentChart) currentChart.destroy();
+    
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const textColor = isDark ? '#cbd5e1' : '#475569';
+    const gridColor = isDark ? 'rgba(30, 58, 95, 0.5)' : 'rgba(225, 232, 240, 0.8)';
+    
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 280);
+    gradient.addColorStop(0, 'rgba(29, 91, 142, 0.4)');
+    gradient.addColorStop(1, 'rgba(29, 91, 142, 0.02)');
+    
+    currentChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                label: 'المبيعات (ج.م)',
+                data: values,
+                borderColor: '#1d5b8e',
+                backgroundColor: gradient,
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#1d5b8e',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: isDark ? '#142f4a' : '#0a1f33',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    padding: 12,
+                    cornerRadius: 8,
+                    displayColors: false,
+                    callbacks: {
+                        label: (ctx) => formatCurrency(ctx.parsed.y)
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: textColor, font: { family: 'Cairo', size: 11 } },
+                    grid: { display: false }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: textColor,
+                        font: { family: 'Cairo', size: 11 },
+                        callback: (v) => v >= 1000 ? (v / 1000) + 'K' : v
+                    },
+                    grid: { color: gridColor, drawBorder: false }
+                }
+            }
+        }
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📋 Recent Invoices
+// ═══════════════════════════════════════════════════════════════
+async function loadRecentInvoices() {
+    const container = document.getElementById('recentInvoices');
+    if (!container) return;
+    
+    try {
+        const sb = await getSupabase();
+        if (sb && navigator.onLine) {
+            const { data } = await sb
+                .from('invoices')
+                .select(`
+                    id, invoice_number, total, paid, created_at,
+                    customer:customers(name, phone)
+                `)
+                .order('created_at', { ascending: false })
+                .limit(5);
+            
+            if (data && data.length) {
+                container.innerHTML = data.map(inv => `
+                    <div class="list-item" onclick="window.location.href='invoice-view.html?id=${inv.id}'" style="cursor: pointer;">
+                        <div class="list-item-icon">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">${escapeHtml(inv.customer?.name || 'عميل')}</div>
+                            <div class="list-item-subtitle">
+                                <span>${escapeHtml(inv.invoice_number || '')}</span>
+                                <span>•</span>
+                                <span>${formatTimeAgo(inv.created_at)}</span>
+                            </div>
+                        </div>
+                        <div class="list-item-meta">
+                            <span class="list-item-amount">${formatCurrency(inv.total)}</span>
+                            <span class="badge ${inv.paid ? 'badge-success' : 'badge-danger'}" style="margin-top: 0.25rem;">
+                                ${inv.paid ? 'مدفوع' : 'غير مدفوع'}
+                            </span>
+                        </div>
+                    </div>
+                `).join('');
+                return;
+            }
+        }
+    } catch (err) {
+        console.warn('خطأ في تحميل الفواتير:', err);
+    }
+    
+    container.innerHTML = `
+        <div class="empty-state">
+            <i class="fas fa-file-invoice"></i>
+            <h3>لا توجد فواتير بعد</h3>
+            <p>ابدأ بإنشاء أول فاتورة</p>
+            <a href="invoices.html" class="btn btn-primary" style="margin-top: 0.5rem;">
+                <i class="fas fa-plus"></i>
+                إنشاء فاتورة
+            </a>
+        </div>
+    `;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔧 Recent Repairs
+// ═══════════════════════════════════════════════════════════════
+async function loadRecentRepairs() {
+    const container = document.getElementById('recentRepairs');
+    if (!container) return;
+    
+    try {
+        const sb = await getSupabase();
+        if (sb && navigator.onLine) {
+            const { data } = await sb
+                .from('repair_orders')
+                .select(`
+                    id, tracking_code, device_type, device_model, status, created_at,
+                    customer:customers(name, phone)
+                `)
+                .order('created_at', { ascending: false })
+                .limit(5);
+            
+            if (data && data.length) {
+                container.innerHTML = data.map(r => `
+                    <div class="list-item" onclick="window.location.href='repairs.html?id=${r.id}'" style="cursor: pointer;">
+                        <div class="list-item-icon">
+                            <i class="fas fa-screwdriver-wrench"></i>
+                        </div>
+                        <div class="list-item-content">
+                            <div class="list-item-title">${escapeHtml(r.device_type || '')} ${r.device_model ? '- ' + escapeHtml(r.device_model) : ''}</div>
+                            <div class="list-item-subtitle">
+                                <span>${escapeHtml(r.tracking_code || '')}</span>
+                                <span>•</span>
+                                <span>${escapeHtml(r.customer?.name || '')}</span>
+                            </div>
+                        </div>
+                        <div class="list-item-meta">
+                            ${getStatusBadge(r.status)}
+                            <div class="list-item-date" style="margin-top: 0.35rem;">${formatTimeAgo(r.created_at)}</div>
+                        </div>
+                    </div>
+                `).join('');
+                return;
+            }
+        }
+    } catch (err) {
+        console.warn('خطأ في تحميل أوامر الصيانة:', err);
+    }
+    
+    container.innerHTML = `
+        <div class="empty-state">
+            <i class="fas fa-screwdriver-wrench"></i>
+            <h3>لا توجد أوامر صيانة</h3>
+            <p>ابدأ باستلام أول جهاز</p>
+            <a href="repairs.html" class="btn btn-primary" style="margin-top: 0.5rem;">
+                <i class="fas fa-plus"></i>
+                استلام جهاز
+            </a>
+        </div>
+    `;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ⚠️ Low Stock
+// ═══════════════════════════════════════════════════════════════
+async function loadLowStock() {
+    const card = document.getElementById('lowStockCard');
+    const container = document.getElementById('lowStockList');
+    if (!card || !container) return;
+    
+    try {
+        const sb = await getSupabase();
+        if (sb && navigator.onLine) {
+            const { data } = await sb
+                .from('products')
+                .select('id, name, quantity, min_quantity, barcode')
+                .order('quantity', { ascending: true })
+                .limit(20);
+            
+            const lowStock = (data || []).filter(p => p.quantity <= p.min_quantity);
+            
+            if (lowStock.length) {
+                card.style.display = 'block';
+                container.innerHTML = lowStock.slice(0, 5).map(p => {
+                    const isOut = p.quantity <= 0;
+                    return `
+                        <div class="list-item">
+                            <div class="list-item-icon" style="background: ${isOut ? 'rgba(239, 68, 68, 0.1)' : 'rgba(245, 158, 11, 0.1)'}; color: ${isOut ? 'var(--danger)' : 'var(--warning)'}; border-color: ${isOut ? 'rgba(239, 68, 68, 0.2)' : 'rgba(245, 158, 11, 0.2)'};">
+                                <i class="fas ${isOut ? 'fa-circle-xmark' : 'fa-triangle-exclamation'}"></i>
+                            </div>
+                            <div class="list-item-content">
+                                <div class="list-item-title">${escapeHtml(p.name)}</div>
+                                <div class="list-item-subtitle">
+                                    <span>${escapeHtml(p.barcode || '')}</span>
+                                </div>
+                            </div>
+                            <div class="list-item-meta">
+                                <span class="badge ${isOut ? 'badge-danger' : 'badge-warning'}">
+                                    ${isOut ? 'نفذ' : `${p.quantity} متبقي`}
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                return;
+            }
+        }
+    } catch (err) {
+        console.warn('خطأ في تحميل النواقص:', err);
+    }
+    
+    card.style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ⚡ Quick Actions
+// ═══════════════════════════════════════════════════════════════
+function renderQuickActions() {
+    const container = document.getElementById('quickActions');
+    if (!container) return;
+    
+    const session = getSession();
+    const perms = session?.user?.permissions || {};
+    const isAdmin = session?.user?.role === 'admin';
+    
+    const actions = [];
+    
+    if (isAdmin || perms.can_edit_products) {
+        actions.push({ icon: 'fa-plus', label: 'إضافة صنف', href: 'products.html?action=add' });
+    }
+    if (isAdmin || perms.can_create_invoices) {
+        actions.push({ icon: 'fa-file-invoice', label: 'فاتورة جديدة', href: 'invoices.html?action=add' });
+    }
+    if (isAdmin || perms.can_edit_repairs) {
+        actions.push({ icon: 'fa-screwdriver-wrench', label: 'استلام جهاز', href: 'repairs.html?action=add' });
+    }
+    if (isAdmin || perms.can_edit_customers) {
+        actions.push({ icon: 'fa-user-plus', label: 'عميل جديد', href: 'customers.html?action=add' });
+    }
+    if (isAdmin || perms.can_view_reports) {
+        actions.push({ icon: 'fa-chart-pie', label: 'التقارير', href: 'reports.html' });
+    }
+    if (isAdmin || perms.can_view_shortages) {
+        actions.push({ icon: 'fa-triangle-exclamation', label: 'النواقص', href: 'products.html?filter=low' });
+    }
+    if (isAdmin || perms.can_view_debts) {
+        actions.push({ icon: 'fa-hand-holding-dollar', label: 'المديونيات', href: 'debts.html' });
+    }
+    if (isAdmin || perms.can_manage_shifts) {
+        actions.push({ icon: 'fa-clock', label: 'الورديات', href: 'shifts.html' });
+    }
+    
+    if (!actions.length) {
+        container.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1; padding: 1rem;">
+                <i class="fas fa-lock"></i>
+                <p>لا توجد صلاحيات متاحة</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = actions.map(a => `
+        <a href="${a.href}" class="quick-action">
+            <i class="fas ${a.icon}"></i>
+            <span>${escapeHtml(a.label)}</span>
+        </a>
+    `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔔 Notifications
+// ═══════════════════════════════════════════════════════════════
+async function loadNotifications() {
+    const session = getSession();
+    if (!session) return;
+    
+    try {
+        const sb = await getSupabase();
+        if (sb && navigator.onLine) {
+            const { data } = await sb
+                .from('notifications')
+                .select('*')
+                .eq('user_id', session.user.id)
+                .order('created_at', { ascending: false })
+                .limit(20);
+            
+            allNotifications = data || [];
+            renderNotifications();
+            return;
+        }
+    } catch (err) {
+        console.warn('خطأ في تحميل الإشعارات:', err);
+    }
+    
+    allNotifications = [];
+    renderNotifications();
+}
+
+function renderNotifications() {
+    const list = document.getElementById('notificationsList');
+    const badge = document.getElementById('notifBadge');
+    if (!list || !badge) return;
+    
+    const unread = allNotifications.filter(n => !n.read).length;
+    
+    if (unread > 0) {
+        badge.textContent = unread > 99 ? '99+' : unread;
+        badge.style.display = 'flex';
+    } else {
+        badge.style.display = 'none';
+    }
+    
+    if (!allNotifications.length) {
+        list.innerHTML = `
+            <div class="notifications-empty">
+                <i class="fas fa-bell-slash"></i>
+                <p>لا توجد إشعارات</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const typeMap = {
+        'out_of_stock': { icon: 'fa-circle-xmark', class: 'danger' },
+        'low_stock': { icon: 'fa-triangle-exclamation', class: 'warning' },
+        'unpaid_invoice': { icon: 'fa-file-invoice-dollar', class: 'danger' },
+        'new_repair': { icon: 'fa-screwdriver-wrench', class: 'info' },
+        'ready_repair': { icon: 'fa-circle-check', class: 'success' },
+        'info': { icon: 'fa-circle-info', class: 'info' }
+    };
+    
+    list.innerHTML = allNotifications.map(n => {
+        const t = typeMap[n.type] || typeMap.info;
+        return `
+            <div class="notification-item ${n.read ? '' : 'unread'}" data-id="${n.id}" style="position: relative;">
+                <div class="notification-item-icon ${t.class}">
+                    <i class="fas ${t.icon}"></i>
+                </div>
+                <div class="notification-item-content">
+                    <div class="notification-item-title">${escapeHtml(n.title)}</div>
+                    <div class="notification-item-message">${escapeHtml(n.message || '')}</div>
+                    <div class="notification-item-time">
+                        <i class="fas fa-clock"></i>
+                        ${formatTimeAgo(n.created_at)}
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    // Mark as read on click
+    list.querySelectorAll('.notification-item').forEach(item => {
+        item.addEventListener('click', async () => {
+            const id = item.dataset.id;
+            const notif = allNotifications.find(n => n.id === id);
+            if (!notif || notif.read) return;
+            
+            notif.read = true;
+            item.classList.remove('unread');
+            renderNotifications();
+            
+            try {
+                const sb = await getSupabase();
+                if (sb) await sb.from('notifications').update({ read: true }).eq('id', id);
+            } catch {}
+        });
+    });
+}
+
+async function markAllRead() {
+    const session = getSession();
+    if (!session) return;
+    
+    try {
+        const sb = await getSupabase();
+        if (sb && navigator.onLine) {
+            await sb.from('notifications')
+                .update({ read: true })
+                .eq('user_id', session.user.id)
+                .eq('read', false);
+        }
+        
+        allNotifications.forEach(n => n.read = true);
+        renderNotifications();
+        showToast('تم تعيين الكل كمقروء', 'success');
+    } catch (err) {
+        console.warn(err);
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔍 Global Search
+// ═══════════════════════════════════════════════════════════════
+let searchTimeout = null;
+let activeSearchIndex = -1;
+let currentSearchResults = [];
+
+function initGlobalSearch() {
+    const input = document.getElementById('globalSearchInput');
+    const panel = document.getElementById('globalSearchPanel');
+    const results = document.getElementById('globalSearchResults');
+    
+    if (!input || !panel || !results) return;
+    
+    input.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        const query = e.target.value.trim();
+        
+        if (query.length < 2) {
+            panel.classList.remove('show');
+            return;
+        }
+        
+        searchTimeout = setTimeout(() => performGlobalSearch(query), 200);
+    });
+    
+    input.addEventListener('focus', () => {
+        if (input.value.trim().length >= 2) {
+            panel.classList.add('show');
+        }
+    });
+    
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            panel.classList.remove('show');
+            input.blur();
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            activeSearchIndex = Math.min(activeSearchIndex + 1, currentSearchResults.length - 1);
+            highlightActiveResult();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            activeSearchIndex = Math.max(activeSearchIndex - 1, -1);
+            highlightActiveResult();
+        } else if (e.key === 'Enter' && activeSearchIndex >= 0) {
+            e.preventDefault();
+            const item = currentSearchResults[activeSearchIndex];
+            if (item) window.location.href = item.url;
+        }
+    });
+    
+    // Click outside to close
+    document.addEventListener('click', (e) => {
+        if (!panel.contains(e.target) && !input.contains(e.target)) {
+            panel.classList.remove('show');
+        }
+    });
+}
+
+function highlightActiveResult() {
+    const items = document.querySelectorAll('.search-result-item');
+    items.forEach((el, i) => {
+        el.classList.toggle('active', i === activeSearchIndex);
+    });
+}
+
+async function performGlobalSearch(query) {
+    const panel = document.getElementById('globalSearchPanel');
+    const results = document.getElementById('globalSearchResults');
+    if (!panel || !results) return;
+    
+    panel.classList.add('show');
+    results.innerHTML = `
+        <div class="search-loading">
+            <div class="search-spinner"></div>
+            <p>جاري البحث...</p>
+        </div>
+    `;
+    
+    currentSearchResults = [];
+    activeSearchIndex = -1;
+    
+    try {
+        const sb = await getSupabase();
+        if (!sb || !navigator.onLine) {
+            results.innerHTML = `
+                <div class="search-empty">
+                    <i class="fas fa-wifi"></i>
+                    <p>البحث يحتاج اتصال بالإنترنت</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const q = query.toLowerCase();
+        const searchTerm = `%${query}%`;
+        
+        const [products, customers, invoices, repairs] = await Promise.all([
+            sb.from('products').select('id, name, barcode, sell_price, quantity').or(`name.ilike.${searchTerm},barcode.ilike.${searchTerm}`).limit(5),
+            sb.from('customers').select('id, name, phone').or(`name.ilike.${searchTerm},phone.ilike.${searchTerm}`).limit(5),
+            sb.from('invoices').select('id, invoice_number, total, created_at').ilike('invoice_number', searchTerm).limit(5),
+            sb.from('repair_orders').select('id, tracking_code, device_type, status').or(`tracking_code.ilike.${searchTerm},device_type.ilike.${searchTerm}`).limit(5)
+        ]);
+        
+        const html = [];
+        
+        if (products.data?.length) {
+            html.push('<div class="search-section-title">الأصناف</div>');
+            products.data.forEach(p => {
+                const idx = html.length;
+                currentSearchResults.push({ url: `products.html?search=${encodeURIComponent(p.name)}` });
+                html.push(`
+                    <div class="search-result-item" data-idx="${idx - 1}" onclick="window.location.href='products.html?search=${encodeURIComponent(p.name)}'">
+                        <div class="search-result-icon"><i class="fas fa-box"></i></div>
+                        <div class="search-result-content">
+                            <div class="search-result-title">${highlightMatch(p.name, query)}</div>
+                            <div class="search-result-subtitle">${escapeHtml(p.barcode || '')} • ${formatCurrency(p.sell_price)} • متبقي ${p.quantity}</div>
+                        </div>
+                        <span class="search-result-type">صنف</span>
+                    </div>
+                `);
+            });
+        }
+        
+        if (customers.data?.length) {
+            html.push('<div class="search-section-title">العملاء</div>');
+            customers.data.forEach(c => {
+                currentSearchResults.push({ url: `customers.html?search=${encodeURIComponent(c.phone)}` });
+                html.push(`
+                    <div class="search-result-item" data-idx="${currentSearchResults.length - 1}" onclick="window.location.href='customers.html?search=${encodeURIComponent(c.phone)}'">
+                        <div class="search-result-icon"><i class="fas fa-user"></i></div>
+                        <div class="search-result-content">
+                            <div class="search-result-title">${highlightMatch(c.name, query)}</div>
+                            <div class="search-result-subtitle">${escapeHtml(c.phone)}</div>
+                        </div>
+                        <span class="search-result-type">عميل</span>
+                    </div>
+                `);
+            });
+        }
+        
+        if (invoices.data?.length) {
+            html.push('<div class="search-section-title">الفواتير</div>');
+            invoices.data.forEach(i => {
+                currentSearchResults.push({ url: `invoice-view.html?id=${i.id}` });
+                html.push(`
+                    <div class="search-result-item" data-idx="${currentSearchResults.length - 1}" onclick="window.location.href='invoice-view.html?id=${i.id}'">
+                        <div class="search-result-icon"><i class="fas fa-file-invoice"></i></div>
+                        <div class="search-result-content">
+                            <div class="search-result-title">${highlightMatch(i.invoice_number || '', query)}</div>
+                            <div class="search-result-subtitle">${formatCurrency(i.total)} • ${formatDate(i.created_at)}</div>
+                        </div>
+                        <span class="search-result-type">فاتورة</span>
+                    </div>
+                `);
+            });
+        }
+        
+        if (repairs.data?.length) {
+            html.push('<div class="search-section-title">أوامر الصيانة</div>');
+            repairs.data.forEach(r => {
+                currentSearchResults.push({ url: `repairs.html?id=${r.id}` });
+                html.push(`
+                    <div class="search-result-item" data-idx="${currentSearchResults.length - 1}" onclick="window.location.href='repairs.html?id=${r.id}'">
+                        <div class="search-result-icon"><i class="fas fa-screwdriver-wrench"></i></div>
+                        <div class="search-result-content">
+                            <div class="search-result-title">${highlightMatch(r.tracking_code || '', query)}</div>
+                            <div class="search-result-subtitle">${escapeHtml(r.device_type || '')}</div>
+                        </div>
+                        <span class="search-result-type">صيانة</span>
+                    </div>
+                `);
+            });
+        }
+        
+        if (html.length) {
+            results.innerHTML = html.join('');
+        } else {
+            results.innerHTML = `
+                <div class="search-empty">
+                    <i class="fas fa-search"></i>
+                    <p>لا توجد نتائج مطابقة لـ "${escapeHtml(query)}"</p>
+                </div>
+            `;
+        }
+        
+    } catch (err) {
+        console.warn(err);
+        results.innerHTML = `
+            <div class="search-empty">
+                <i class="fas fa-circle-exclamation"></i>
+                <p>حدث خطأ أثناء البحث</p>
+            </div>
+        `;
+    }
+}
+
+function highlightMatch(text, query) {
+    if (!text) return '';
+    const escaped = escapeHtml(text);
+    const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    return escaped.replace(regex, '<mark>$1</mark>');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📱 PWA Install
+// ═══════════════════════════════════════════════════════════════
+let deferredPrompt = null;
+
+function initPWAInstall() {
+    const banner = document.getElementById('installBanner');
+    const installBtn = document.getElementById('installBannerBtn');
+    const dismissBtn = document.getElementById('installDismissBtn');
+    
+    if (localStorage.getItem('pwa_install_dismissed') === 'true') return;
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (banner) banner.classList.add('show');
+    });
+    
+    installBtn?.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') showToast('تم تثبيت التطبيق بنجاح 🎉', 'success');
+        deferredPrompt = null;
+        if (banner) banner.classList.remove('show');
+    });
+    
+    dismissBtn?.addEventListener('click', () => {
+        localStorage.setItem('pwa_install_dismissed', 'true');
+        if (banner) banner.classList.remove('show');
+    });
+    
+    window.addEventListener('appinstalled', () => {
+        showToast('تم تثبيت التطبيق بنجاح 🎉', 'success');
+        if (banner) banner.classList.remove('show');
+        deferredPrompt = null;
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎬 Init
+// ═══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', async () => {
+    
+    // Check session
+    const session = getSession();
+    if (!session) {
+        window.location.href = 'index.html';
+        return;
+    }
+    
+    // لو محتاج تغيير كلمة السر
+    if (session.user.must_change_password) {
+        window.location.href = 'index.html';
+        return;
+    }
+    
+    // Theme
+    initTheme();
+    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+    
+    // Online
+    updateOnlineStatus();
+    window.addEventListener('online', () => {
+        updateOnlineStatus();
+        showToast('تم استعادة الاتصال', 'success');
+        loadAllData();
+    });
+    window.addEventListener('offline', () => {
+        updateOnlineStatus();
+        showToast('انقطع الاتصال - وضع Offline', 'warning');
+    });
+    
+    // User info
+    updateUserUI(session.user);
+    
+    // Sidebar permissions
+    applyPermissions(session.user);
+    
+    // Sidebar toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    
+    menuBtn?.addEventListener('click', () => {
+        sidebar?.classList.toggle('show');
+        overlay?.classList.toggle('show');
+    });
+    
+    overlay?.addEventListener('click', () => {
+        sidebar?.classList.remove('show');
+        overlay?.classList.remove('show');
+    });
+    
+    // User dropdown
+    const userBtn = document.getElementById('userBtn');
+    const userDropdown = document.getElementById('userDropdown');
+    
+    userBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userDropdown?.classList.toggle('show');
+        document.getElementById('notificationsPanel')?.classList.remove('show');
+    });
+    
+    document.getElementById('logoutBtn')?.addEventListener('click', () => {
+        if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+            logout();
+        }
+    });
+    
+    // Notifications
+    const notifBtn = document.getElementById('notificationsBtn');
+    const notifPanel = document.getElementById('notificationsPanel');
+    
+    notifBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        notifPanel?.classList.toggle('show');
+        userDropdown?.classList.remove('show');
+    });
+    
+    document.getElementById('markAllReadBtn')?.addEventListener('click', markAllRead);
+    
+    // Click outside
+    document.addEventListener('click', (e) => {
+        if (!userDropdown?.contains(e.target) && !userBtn?.contains(e.target)) {
+            userDropdown?.classList.remove('show');
+        }
+        if (!notifPanel?.contains(e.target) && !notifBtn?.contains(e.target)) {
+            notifPanel?.classList.remove('show');
+        }
+    });
+    
+    // Chart tabs
+    document.querySelectorAll('.chart-period-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.chart-period-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            currentChartDays = parseInt(tab.dataset.days);
+            loadSalesChart(currentChartDays);
+        });
+    });
+    
+    // Sync button
+    document.getElementById('syncBtn')?.addEventListener('click', async () => {
+        showToast('جاري المزامنة...', 'info');
+        await loadAllData();
+        showToast('تم تحديث البيانات', 'success');
+    });
+    
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('globalSearchInput')?.focus();
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+            e.preventDefault();
+            toggleTheme();
+        }
+    });
+    
+    // Scroll progress + top
+    const progressBar = document.getElementById('readingProgress');
+    const scrollTopBtn = document.getElementById('scrollTop');
+    
+    window.addEventListener('scroll', () => {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+        if (progressBar) progressBar.style.width = scrolled + '%';
+        
+        if (winScroll > 300) scrollTopBtn?.classList.add('show');
+        else scrollTopBtn?.classList.remove('show');
+    }, { passive: true });
+    
+    scrollTopBtn?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    
+    // Search
+    initGlobalSearch();
+    
+    // Welcome message
+    const hour = new Date().getHours();
+    let greeting = 'مساءً';
+    if (hour < 12) greeting = 'صباحاً';
+    else if (hour < 18) greeting = 'بعد الظهر';
+    
+    const welcomeEl = document.getElementById('welcomeText');
+    if (welcomeEl) {
+        welcomeEl.textContent = `أهلاً بك ${session.user.full_name} 👋 نتمنى لك ${greeting} سعيداً`;
+    }
+    
+    // Load all data
+    await loadAllData();
+    
+    // PWA + SW
+    initPWAInstall();
+    registerServiceWorker();
+    
+    // Start inactivity
+    startInactivityMonitor();
+    
+    // Refresh notifications every 60s
+    setInterval(loadNotifications, 60000);
+    
+    console.log('%c⚡ إلكترونك - لوحة التحكم جاهزة', 
+        'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+});
+
+function updateUserUI(user) {
+    const initial = (user.full_name || user.username || 'م').charAt(0).toUpperCase();
+    const roleText = user.role === 'admin' ? 'مدير' : 'موظف';
+    
+    const ids = ['userAvatar', 'dropdownAvatar'];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = initial;
+    });
+    
+    const nameIds = ['userName', 'dropdownName'];
+    nameIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = user.full_name || user.username;
+    });
+    
+    const roleIds = ['userRole', 'dropdownRole'];
+    roleIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = roleText;
+    });
+}
+
+function applyPermissions(user) {
+    const perms = user.permissions || {};
+    const isAdmin = user.role === 'admin';
+    
+    // Sidebar links
+    document.querySelectorAll('.sidebar-link[data-perm]').forEach(link => {
+        const perm = link.dataset.perm;
+        if (!isAdmin && !perms[perm]) {
+            link.style.display = 'none';
+        }
+    });
+    
+    // Admin link
+    if (isAdmin) {
+        document.getElementById('adminLink').style.display = 'flex';
+        document.getElementById('dropdownAdminLink').style.display = 'flex';
+    }
+}
+
+async function loadAllData() {
+    await Promise.all([
+        loadStats(),
+        loadSalesChart(currentChartDays),
+        loadRecentInvoices(),
+        loadRecentRepairs(),
+        loadLowStock(),
+        loadNotifications()
+    ]);
+    renderQuickActions();
+}
+
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('✅ SW registered:', reg.scope))
+                .catch(err => console.warn('❌ SW registration failed:', err));
+        });
+    }
+}
+
+// Export
+window.DashboardApp = {
+    showToast,
+    logout,
+    getSession,
+    formatCurrency,
+    formatDate,
+    formatTimeAgo,
+    escapeHtml
+};
+
+</script>
+
+</body>
+</html>
