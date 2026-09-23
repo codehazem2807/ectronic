@@ -1,0 +1,3015 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#1d5b8e" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a1628" media="(prefers-color-scheme: dark)">
+<meta name="description" content="التقارير - إلكترونك لصيانة الأجهزة الإلكترونية">
+<meta name="format-detection" content="telephone=no">
+<meta name="color-scheme" content="light dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="إلكترونك">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="إلكترونك">
+<title>التقارير | إلكترونك - لصيانة الأجهزة الإلكترونية</title>
+
+<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+<link rel="manifest" href="manifest.json">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+
+<style>
+:root {
+    --tech-blue: #1d5b8e;
+    --tech-blue-dark: #154668;
+    --tech-blue-light: #2d7ab8;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+    --purple: #8b5cf6;
+    --pink: #ec4899;
+    --gold: #fbbf24;
+    --bg-primary: #f6f8fb;
+    --bg-card: #ffffff;
+    --bg-hover: #f1f5f9;
+    --text-primary: #0a1f33;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --border-color: #e1e8f0;
+    --shadow-sm: 0 1px 3px rgba(10, 31, 51, 0.06);
+    --shadow-md: 0 4px 12px rgba(10, 31, 51, 0.08);
+    --shadow-lg: 0 12px 32px rgba(10, 31, 51, 0.12);
+    --shadow-xl: 0 24px 48px rgba(10, 31, 51, 0.16);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+    --navbar-height: 64px;
+    --sidebar-width: 260px;
+    --transition-fast: 0.15s ease;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --safe-top: env(safe-area-inset-top, 0);
+    --safe-bottom: env(safe-area-inset-bottom, 0);
+    --safe-left: env(safe-area-inset-left, 0);
+    --safe-right: env(safe-area-inset-right, 0);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #0a1628;
+    --bg-card: #142f4a;
+    --bg-hover: #1a3a5c;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #64748b;
+    --border-color: #1e3a5f;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.6);
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: background var(--transition), color var(--transition);
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+button { cursor: pointer; border: none; background: none; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+
+.reading-progress {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--tech-blue), var(--tech-blue-light), var(--success));
+    width: 0%;
+    z-index: 10000;
+    transition: width 0.1s linear;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--navbar-height);
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    padding-top: var(--safe-top);
+    padding-left: calc(1rem + var(--safe-left));
+    padding-right: calc(1rem + var(--safe-right));
+    gap: 1rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.navbar-menu-btn {
+    width: 40px; height: 40px;
+    border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.navbar-menu-btn:hover { background: var(--bg-hover); color: var(--tech-blue); }
+
+.navbar-brand { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+
+.navbar-logo {
+    width: 40px; height: 40px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    padding: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.navbar-brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+.navbar-brand-text strong { font-size: 1rem; font-weight: 800; }
+.navbar-brand-text span { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
+
+.navbar-actions { display: flex; align-items: center; gap: 0.5rem; margin-right: auto; }
+
+.navbar-btn {
+    width: 40px; height: 40px;
+    border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-primary);
+    font-size: 1rem;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.navbar-btn:hover { background: var(--bg-hover); color: var(--tech-blue); }
+
+.navbar-badge {
+    position: absolute;
+    top: 4px; left: 4px;
+    min-width: 18px; height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background: var(--danger);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--bg-card);
+}
+
+.online-dot {
+    position: absolute;
+    top: 6px; left: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--success);
+    border: 2px solid var(--bg-card);
+}
+
+.online-dot.offline { background: var(--danger); }
+
+.navbar-user {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.35rem 0.85rem 0.35rem 0.5rem;
+    background: var(--bg-primary);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.navbar-user:hover { background: var(--bg-hover); border-color: var(--tech-blue); }
+
+.navbar-user-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.navbar-user-info { display: flex; flex-direction: column; line-height: 1.15; }
+.navbar-user-info strong { font-size: 0.8rem; font-weight: 700; }
+.navbar-user-info span { font-size: 0.65rem; color: var(--text-muted); }
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: var(--navbar-height);
+    right: 0; bottom: 0;
+    width: var(--sidebar-width);
+    background: var(--bg-card);
+    border-left: 1px solid var(--border-color);
+    z-index: 900;
+    overflow-y: auto;
+    padding: 1rem 0.75rem calc(1rem + var(--safe-bottom));
+    transition: transform var(--transition);
+}
+
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+
+.sidebar-section { margin-bottom: 1.25rem; }
+
+.sidebar-section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+    position: relative;
+}
+
+.sidebar-link:hover { background: var(--bg-hover); color: var(--tech-blue); }
+
+.sidebar-link.active {
+    background: linear-gradient(135deg, rgba(29, 91, 142, 0.12), rgba(45, 122, 184, 0.08));
+    color: var(--tech-blue);
+    font-weight: 700;
+}
+
+.sidebar-link.active::before {
+    content: '';
+    position: absolute;
+    right: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 4px; height: 60%;
+    background: var(--tech-blue);
+    border-radius: 4px;
+}
+
+.sidebar-link i:first-child { width: 20px; text-align: center; font-size: 0.95rem; flex-shrink: 0; }
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 31, 51, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 899;
+    opacity: 0;
+    visibility: hidden;
+    top: var(--navbar-height);
+}
+
+.sidebar-overlay.show { opacity: 1; visibility: visible; }
+
+/* Main */
+.main-content {
+    margin-top: var(--navbar-height);
+    margin-right: var(--sidebar-width);
+    padding: 1.5rem;
+    min-height: calc(100vh - var(--navbar-height));
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.page-header-text h1 {
+    font-size: 1.65rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.page-header-text h1 i { color: var(--tech-blue); }
+.page-header-text p { font-size: 0.9rem; color: var(--text-secondary); }
+.page-header-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.btn {
+    padding: 0.65rem 1.15rem;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    white-space: nowrap;
+    transition: all var(--transition);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    box-shadow: 0 4px 12px rgba(29, 91, 142, 0.3);
+}
+
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(29, 91, 142, 0.4); }
+
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover { background: var(--bg-hover); border-color: var(--tech-blue); color: var(--tech-blue); }
+
+.btn-success { background: linear-gradient(135deg, var(--success), #059669); color: white; }
+.btn-success:hover { transform: translateY(-2px); }
+.btn-sm { padding: 0.45rem 0.85rem; font-size: 0.8rem; }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Period Tabs */
+.period-tabs {
+    display: flex;
+    gap: 0.35rem;
+    background: var(--bg-card);
+    padding: 0.35rem;
+    border-radius: var(--radius-lg);
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--border-color);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.period-tabs::-webkit-scrollbar { display: none; }
+
+.period-tab {
+    flex: 1;
+    min-width: 100px;
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    transition: all var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+}
+
+.period-tab:hover:not(.active) { background: var(--bg-hover); color: var(--tech-blue); }
+
+.period-tab.active {
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    box-shadow: 0 4px 12px rgba(29, 91, 142, 0.3);
+}
+
+/* Custom Date Range */
+.custom-range {
+    display: none;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.custom-range.show { display: flex; }
+
+.range-group {
+    flex: 1;
+    min-width: 160px;
+}
+
+.range-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+}
+
+.range-group input {
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    outline: none;
+}
+
+.range-group input:focus { border-color: var(--tech-blue); }
+
+/* Stats */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--tech-blue);
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 100px; height: 100px;
+    background: radial-gradient(circle, var(--accent-color, var(--tech-blue)) 0%, transparent 70%);
+    opacity: 0.08;
+    border-radius: 50%;
+    transform: translate(30%, -30%);
+}
+
+.stat-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.85rem;
+}
+
+.stat-icon {
+    width: 44px; height: 44px;
+    border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.25rem;
+    color: white;
+    background: linear-gradient(135deg, var(--accent-color, var(--tech-blue)), var(--accent-color-dark, var(--tech-blue-dark)));
+}
+
+.stat-value { font-size: 1.55rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.25rem; }
+.stat-label { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; }
+
+.stat-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-full);
+    margin-top: 0.35rem;
+}
+
+.stat-trend.up { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+.stat-trend.down { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+/* Report Sections */
+.report-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.report-section-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.report-section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.report-section-title i { color: var(--tech-blue); }
+
+.report-section-actions {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.report-section-body {
+    padding: 1.25rem;
+}
+
+/* Charts Grid */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.25rem;
+}
+
+.chart-box {
+    background: var(--bg-primary);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    position: relative;
+}
+
+.chart-box-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.chart-box-title i { color: var(--tech-blue); font-size: 0.8rem; }
+
+.chart-container {
+    position: relative;
+    height: 240px;
+    width: 100%;
+}
+
+/* Tables */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.data-table th {
+    background: var(--bg-primary);
+    padding: 0.75rem 1rem;
+    text-align: right;
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.data-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--bg-hover); }
+
+.data-table .rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.data-table .rank.gold { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; }
+.data-table .rank.silver { background: linear-gradient(135deg, #cbd5e1, #94a3b8); color: white; }
+.data-table .rank.bronze { background: linear-gradient(135deg, #d97706, #92400e); color: white; }
+
+.data-table .amount {
+    font-weight: 800;
+    color: var(--tech-blue);
+}
+
+.data-table .progress-mini {
+    display: inline-block;
+    width: 60px;
+    height: 6px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+}
+
+.data-table .progress-mini-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--tech-blue), var(--tech-blue-light));
+    border-radius: var(--radius-full);
+}
+
+/* Empty state */
+.empty-report {
+    padding: 3rem 1rem;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.empty-report i {
+    font-size: 3rem;
+    opacity: 0.25;
+    display: block;
+    margin-bottom: 0.75rem;
+    color: var(--tech-blue);
+}
+
+.empty-report h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+}
+
+.empty-report p { font-size: 0.85rem; }
+
+/* Loading skeleton */
+.skeleton {
+    background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Toast */
+.toast-container {
+    position: fixed;
+    top: calc(var(--navbar-height) + 1rem);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    pointer-events: none;
+    max-width: 90vw;
+    width: 400px;
+}
+
+.toast {
+    background: var(--bg-card);
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    pointer-events: auto;
+    border-right: 4px solid var(--info);
+}
+
+.toast.success { border-right-color: var(--success); }
+.toast.error { border-right-color: var(--danger); }
+.toast.warning { border-right-color: var(--warning); }
+.toast i { font-size: 1.2rem; flex-shrink: 0; }
+.toast.success i { color: var(--success); }
+.toast.error i { color: var(--danger); }
+.toast.warning i { color: var(--warning); }
+.toast.info i { color: var(--info); }
+
+/* Scroll top */
+.scroll-top {
+    position: fixed;
+    bottom: calc(1rem + var(--safe-bottom));
+    left: calc(1rem + var(--safe-left));
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1400;
+}
+
+.scroll-top.show { opacity: 1; visibility: visible; }
+
+/* Notifications + User Dropdown */
+.notifications-panel, .user-dropdown {
+    position: fixed;
+    top: calc(var(--navbar-height) + 0.5rem);
+    left: 1rem;
+    width: 360px;
+    max-width: calc(100vw - 2rem);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    z-index: 1200;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+}
+
+.user-dropdown { width: 240px; }
+
+.notifications-panel.show, .user-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.notifications-header {
+    padding: 1rem 1.15rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.notifications-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.notifications-title i { color: var(--tech-blue); }
+
+.notifications-mark-read {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--tech-blue);
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--radius-sm);
+}
+
+.notifications-mark-read:hover { background: rgba(29, 91, 142, 0.1); }
+
+.notifications-list { max-height: 400px; overflow-y: auto; }
+
+.notification-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.85rem 1.15rem;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+}
+
+.notification-item:hover { background: var(--bg-hover); }
+
+.notification-item-icon {
+    width: 36px; height: 36px;
+    border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.notification-item-icon.info { background: rgba(59, 130, 246, 0.12); color: var(--info); }
+.notification-item-icon.warning { background: rgba(245, 158, 11, 0.12); color: var(--warning); }
+.notification-item-icon.danger { background: rgba(239, 68, 68, 0.12); color: var(--danger); }
+.notification-item-icon.success { background: rgba(16, 185, 129, 0.12); color: var(--success); }
+
+.notification-item-content { flex: 1; min-width: 0; }
+.notification-item-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.15rem; }
+.notification-item-message { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem; }
+.notification-item-time { font-size: 0.65rem; color: var(--text-muted); }
+
+.notifications-empty { padding: 2.5rem 1rem; text-align: center; color: var(--text-muted); }
+.notifications-empty i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
+
+.user-dropdown-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-dropdown-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.user-dropdown-info strong { display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.15rem; }
+.user-dropdown-info span { font-size: 0.75rem; color: var(--text-muted); }
+
+.user-dropdown-menu { padding: 0.5rem; }
+
+.user-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    width: 100%;
+    text-align: right;
+}
+
+.user-dropdown-item:hover { background: var(--bg-hover); color: var(--tech-blue); }
+.user-dropdown-item.danger:hover { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+.user-dropdown-item i { width: 18px; text-align: center; }
+.user-dropdown-divider { height: 1px; background: var(--border-color); margin: 0.35rem 0.5rem; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+}
+
+@media (max-width: 968px) {
+    .sidebar { transform: translateX(100%); }
+    .sidebar.show { transform: translateX(0); }
+    .main-content { margin-right: 0; padding: 1rem; }
+    .navbar-brand-text { display: none; }
+    .navbar-user-info { display: none; }
+    .navbar-user { padding: 0.35rem; }
+}
+
+@media (max-width: 640px) {
+    .page-header { flex-direction: column; align-items: flex-start; }
+    .page-header-actions { width: 100%; }
+    .page-header-actions .btn { flex: 1; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+    .stat-card { padding: 1rem; }
+    .stat-value { font-size: 1.2rem; }
+    .stat-icon { width: 38px; height: 38px; font-size: 1rem; }
+    .charts-grid { grid-template-columns: 1fr; }
+    .notifications-panel, .user-dropdown { left: 0.5rem; right: 0.5rem; width: auto; }
+    .data-table { font-size: 0.78rem; }
+    .data-table th, .data-table td { padding: 0.55rem 0.7rem; }
+}
+
+@media (max-width: 400px) {
+    .stats-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="reading-progress" id="readingProgress"></div>
+
+<nav class="navbar">
+    <button class="navbar-menu-btn" id="menuBtn">
+        <i class="fas fa-bars"></i>
+    </button>
+    <a href="dashboard.html" class="navbar-brand">
+        <img src="logo.png" alt="إلكترونك" class="navbar-logo" onerror="this.style.display='none'">
+        <div class="navbar-brand-text">
+            <strong>إلكترونك</strong>
+            <span>لصيانة الأجهزة الإلكترونية</span>
+        </div>
+    </a>
+    <div class="navbar-actions">
+        <button class="navbar-btn" id="onlineBtn" title="حالة الاتصال">
+            <i class="fas fa-wifi"></i>
+            <span class="online-dot" id="onlineDot"></span>
+        </button>
+        <button class="navbar-btn" id="themeToggle" title="تبديل الوضع">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="navbar-btn" id="notificationsBtn" title="الإشعارات">
+            <i class="fas fa-bell"></i>
+            <span class="navbar-badge" id="notifBadge" style="display: none;">0</span>
+        </button>
+        <button class="navbar-user" id="userBtn">
+            <div class="navbar-user-avatar" id="userAvatar">م</div>
+            <div class="navbar-user-info">
+                <strong id="userName">المستخدم</strong>
+                <span id="userRole">موظف</span>
+            </div>
+        </button>
+    </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">الرئيسية</div>
+        <a href="dashboard.html" class="sidebar-link">
+            <i class="fas fa-house"></i><span>لوحة التحكم</span>
+        </a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">المخزون</div>
+        <a href="products.html" class="sidebar-link" data-perm="can_view_products">
+            <i class="fas fa-boxes-stacked"></i><span>الأصناف</span>
+        </a>
+        <a href="categories.html" class="sidebar-link" data-perm="can_view_categories">
+            <i class="fas fa-tags"></i><span>الفئات</span>
+        </a>
+        <a href="stock-in.html" class="sidebar-link" data-perm="can_view_warehouse_in">
+            <i class="fas fa-truck-ramp-box"></i><span>الوارد</span>
+        </a>
+        <a href="suppliers.html" class="sidebar-link" data-perm="can_view_suppliers">
+            <i class="fas fa-handshake"></i><span>الموردين</span>
+        </a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">المبيعات</div>
+        <a href="invoices.html" class="sidebar-link" data-perm="can_view_invoices">
+            <i class="fas fa-file-invoice-dollar"></i><span>الفواتير</span>
+        </a>
+        <a href="customers.html" class="sidebar-link" data-perm="can_view_customers">
+            <i class="fas fa-users"></i><span>العملاء</span>
+        </a>
+        <a href="debts.html" class="sidebar-link" data-perm="can_view_debts">
+            <i class="fas fa-hand-holding-dollar"></i><span>المديونيات</span>
+        </a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">الصيانة</div>
+        <a href="repairs.html" class="sidebar-link" data-perm="can_view_repairs">
+            <i class="fas fa-screwdriver-wrench"></i><span>أوامر الصيانة</span>
+        </a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">التقارير</div>
+        <a href="reports.html" class="sidebar-link active" data-perm="can_view_reports">
+            <i class="fas fa-chart-pie"></i><span>التقارير</span>
+        </a>
+        <a href="shifts.html" class="sidebar-link" data-perm="can_manage_shifts">
+            <i class="fas fa-clock"></i><span>الورديات</span>
+        </a>
+        <a href="audit-log.html" class="sidebar-link" data-perm="can_view_audit_log">
+            <i class="fas fa-clipboard-list"></i><span>سجل الحركات</span>
+        </a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">أدوات</div>
+        <a href="favorites.html" class="sidebar-link">
+            <i class="fas fa-star"></i><span>المفضلة</span>
+        </a>
+        <a href="admin.html" class="sidebar-link" id="adminLink" style="display: none;">
+            <i class="fas fa-shield-halved"></i><span>لوحة الأدمن</span>
+        </a>
+    </div>
+</aside>
+
+<main class="main-content">
+
+    <div class="page-header">
+        <div class="page-header-text">
+            <h1><i class="fas fa-chart-pie"></i> التقارير</h1>
+            <p id="pageSubtitle">تحليلات شاملة لأداء المركز</p>
+        </div>
+        <div class="page-header-actions">
+            <button class="btn btn-secondary" id="exportAllExcelBtn">
+                <i class="fas fa-file-excel"></i> Excel
+            </button>
+            <button class="btn btn-secondary" id="exportAllPdfBtn">
+                <i class="fas fa-file-pdf"></i> PDF
+            </button>
+            <button class="btn btn-primary" id="refreshBtn">
+                <i class="fas fa-rotate"></i> تحديث
+            </button>
+        </div>
+    </div>
+
+    <!-- Period Tabs -->
+    <div class="period-tabs">
+        <button class="period-tab" data-period="today">
+            <i class="fas fa-calendar-day"></i> اليوم
+        </button>
+        <button class="period-tab active" data-period="week">
+            <i class="fas fa-calendar-week"></i> الأسبوع
+        </button>
+        <button class="period-tab" data-period="month">
+            <i class="fas fa-calendar-alt"></i> الشهر
+        </button>
+        <button class="period-tab" data-period="quarter">
+            <i class="fas fa-calendar"></i> 3 شهور
+        </button>
+        <button class="period-tab" data-period="year">
+            <i class="fas fa-calendar-days"></i> السنة
+        </button>
+        <button class="period-tab" data-period="custom">
+            <i class="fas fa-sliders"></i> مخصص
+        </button>
+    </div>
+
+    <!-- Custom Range -->
+    <div class="custom-range" id="customRange">
+        <div class="range-group">
+            <label>من تاريخ</label>
+            <input type="date" id="fromDate">
+        </div>
+        <div class="range-group">
+            <label>إلى تاريخ</label>
+            <input type="date" id="toDate">
+        </div>
+        <button class="btn btn-primary" id="applyRangeBtn">
+            <i class="fas fa-check"></i> تطبيق
+        </button>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid" id="statsGrid">
+        <div class="stat-card" style="--accent-color: #10b981; --accent-color-dark: #059669;">
+            <div class="stat-card-header">
+                <div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div>
+            </div>
+            <div class="stat-value" id="statRevenue">0</div>
+            <div class="stat-label">إجمالي المبيعات</div>
+            <div id="statRevenueTrend"></div>
+        </div>
+        <div class="stat-card" style="--accent-color: #1d5b8e; --accent-color-dark: #154668;">
+            <div class="stat-card-header">
+                <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+            </div>
+            <div class="stat-value" id="statProfit">0</div>
+            <div class="stat-label">إجمالي الأرباح</div>
+            <div id="statProfitTrend"></div>
+        </div>
+        <div class="stat-card" style="--accent-color: #8b5cf6; --accent-color-dark: #7c3aed;">
+            <div class="stat-card-header">
+                <div class="stat-icon"><i class="fas fa-file-invoice"></i></div>
+            </div>
+            <div class="stat-value" id="statInvoices">0</div>
+            <div class="stat-label">عدد الفواتير</div>
+            <div id="statInvoicesTrend"></div>
+        </div>
+        <div class="stat-card" style="--accent-color: #f59e0b; --accent-color-dark: #d97706;">
+            <div class="stat-card-header">
+                <div class="stat-icon"><i class="fas fa-screwdriver-wrench"></i></div>
+            </div>
+            <div class="stat-value" id="statRepairs">0</div>
+            <div class="stat-label">أوامر صيانة</div>
+            <div id="statRepairsTrend"></div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="report-section">
+        <div class="report-section-header">
+            <h3 class="report-section-title">
+                <i class="fas fa-chart-area"></i>
+                نظرة عامة على الأداء
+            </h3>
+        </div>
+        <div class="report-section-body">
+            <div class="charts-grid">
+                <div class="chart-box">
+                    <div class="chart-box-title">
+                        <i class="fas fa-chart-line"></i>
+                        المبيعات والأرباح اليومية
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-box">
+                    <div class="chart-box-title">
+                        <i class="fas fa-chart-pie"></i>
+                        توزيع المبيعات حسب الفئات
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Products -->
+    <div class="report-section">
+        <div class="report-section-header">
+            <h3 class="report-section-title">
+                <i class="fas fa-trophy"></i>
+                أعلى 10 أصناف مبيعاً
+            </h3>
+            <div class="report-section-actions">
+                <button class="btn btn-secondary btn-sm" data-export="products">
+                    <i class="fas fa-file-excel"></i> Excel
+                </button>
+            </div>
+        </div>
+        <div class="report-section-body" id="topProductsBody">
+            <div style="text-align: center; padding: 2rem;">
+                <div class="skeleton" style="height: 200px; border-radius: 12px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Customers -->
+    <div class="report-section">
+        <div class="report-section-header">
+            <h3 class="report-section-title">
+                <i class="fas fa-users"></i>
+                أعلى 10 عملاء شراءً
+            </h3>
+            <div class="report-section-actions">
+                <button class="btn btn-secondary btn-sm" data-export="customers">
+                    <i class="fas fa-file-excel"></i> Excel
+                </button>
+            </div>
+        </div>
+        <div class="report-section-body" id="topCustomersBody">
+            <div style="text-align: center; padding: 2rem;">
+                <div class="skeleton" style="height: 200px; border-radius: 12px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Technicians -->
+    <div class="report-section">
+        <div class="report-section-header">
+            <h3 class="report-section-title">
+                <i class="fas fa-screwdriver-wrench"></i>
+                أداء الفنيين
+            </h3>
+        </div>
+        <div class="report-section-body" id="techniciansBody">
+            <div style="text-align: center; padding: 2rem;">
+                <div class="skeleton" style="height: 150px; border-radius: 12px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Suppliers Performance -->
+    <div class="report-section">
+        <div class="report-section-header">
+            <h3 class="report-section-title">
+                <i class="fas fa-handshake"></i>
+                أداء الموردين
+            </h3>
+        </div>
+        <div class="report-section-body" id="suppliersBody">
+            <div style="text-align: center; padding: 2rem;">
+                <div class="skeleton" style="height: 150px; border-radius: 12px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ratings -->
+    <div class="report-section">
+        <div class="report-section-header">
+            <h3 class="report-section-title">
+                <i class="fas fa-star"></i>
+                تقييمات العملاء
+            </h3>
+        </div>
+        <div class="report-section-body" id="ratingsBody">
+            <div style="text-align: center; padding: 2rem;">
+                <div class="skeleton" style="height: 150px; border-radius: 12px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shortages -->
+    <div class="report-section">
+        <div class="report-section-header">
+            <h3 class="report-section-title">
+                <i class="fas fa-triangle-exclamation" style="color: var(--warning);"></i>
+                النواقص والأصناف المنخفضة
+            </h3>
+            <div class="report-section-actions">
+                <a href="products.html?filter=low" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-arrow-left"></i> إدارة المخزون
+                </a>
+            </div>
+        </div>
+        <div class="report-section-body" id="shortagesBody">
+            <div style="text-align: center; padding: 2rem;">
+                <div class="skeleton" style="height: 150px; border-radius: 12px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Purchase Suggestions -->
+    <div class="report-section">
+        <div class="report-section-header">
+            <h3 class="report-section-title">
+                <i class="fas fa-shopping-cart"></i>
+                الأصناف المرشحة للشراء
+            </h3>
+            <div class="report-section-actions">
+                <button class="btn btn-secondary btn-sm" data-export="purchases">
+                    <i class="fas fa-file-excel"></i> Excel
+                </button>
+            </div>
+        </div>
+        <div class="report-section-body" id="purchasesBody">
+            <div style="text-align: center; padding: 2rem;">
+                <div class="skeleton" style="height: 150px; border-radius: 12px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison -->
+    <div class="report-section">
+        <div class="report-section-header">
+            <h3 class="report-section-title">
+                <i class="fas fa-arrows-rotate"></i>
+                مقارنة زمنية
+            </h3>
+        </div>
+        <div class="report-section-body" id="comparisonBody">
+            <div style="text-align: center; padding: 2rem;">
+                <div class="skeleton" style="height: 150px; border-radius: 12px;"></div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<div class="notifications-panel" id="notificationsPanel">
+    <div class="notifications-header">
+        <h3 class="notifications-title"><i class="fas fa-bell"></i> الإشعارات</h3>
+        <button class="notifications-mark-read" id="markAllReadBtn">تعيين الكل كمقروء</button>
+    </div>
+    <div class="notifications-list" id="notificationsList"></div>
+</div>
+
+<div class="user-dropdown" id="userDropdown">
+    <div class="user-dropdown-header">
+        <div class="user-dropdown-avatar" id="dropdownAvatar">م</div>
+        <div class="user-dropdown-info">
+            <strong id="dropdownName">المستخدم</strong>
+            <span id="dropdownRole">موظف</span>
+        </div>
+    </div>
+    <div class="user-dropdown-menu">
+        <a href="favorites.html" class="user-dropdown-item"><i class="fas fa-star"></i><span>المفضلة</span></a>
+        <a href="admin.html" class="user-dropdown-item" id="dropdownAdminLink" style="display: none;"><i class="fas fa-shield-halved"></i><span>لوحة الأدمن</span></a>
+        <div class="user-dropdown-divider"></div>
+        <button class="user-dropdown-item danger" id="logoutBtn"><i class="fas fa-right-from-bracket"></i><span>تسجيل الخروج</span></button>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<button class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+(function() {
+'use strict';
+
+var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
+
+var supabaseClient = null;
+
+function getSupabaseClient() {
+    if (supabaseClient) return supabaseClient;
+    if (typeof window.supabase === 'undefined' || !window.supabase.createClient) return null;
+    try {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { persistSession: false, autoRefreshToken: false }
+        });
+        return supabaseClient;
+    } catch (e) {
+        return null;
+    }
+}
+
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function formatCurrency(amount) {
+    var num = parseFloat(amount) || 0;
+    try {
+        return num.toLocaleString('ar-EG', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' ج.م';
+    } catch (e) {
+        return num.toFixed(2) + ' ج.م';
+    }
+}
+
+function formatCurrencyShort(amount) {
+    var num = parseFloat(amount) || 0;
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M ج.م';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'K ج.م';
+    return num.toFixed(0) + ' ج.م';
+}
+
+function formatNumber(num) {
+    var n = parseInt(num) || 0;
+    try { return n.toLocaleString('ar-EG'); } catch (e) { return String(n); }
+}
+
+function formatDate(date) {
+    if (!date) return '—';
+    var d = new Date(date);
+    if (isNaN(d.getTime())) return '—';
+    try {
+        return d.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
+    } catch (e) {
+        return d.toISOString().split('T')[0];
+    }
+}
+
+function initTheme() {
+    var saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    updateThemeIcon(saved);
+}
+
+function updateThemeIcon(theme) {
+    var icon = document.querySelector('#themeToggle i');
+    if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') || 'light';
+    var next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateThemeIcon(next);
+    refreshAllCharts();
+}
+
+function showToast(message, type, duration) {
+    type = type || 'info';
+    duration = duration || 3500;
+    var container = document.getElementById('toastContainer');
+    if (!container) return;
+    var icons = {
+        success: 'fa-circle-check',
+        error: 'fa-circle-xmark',
+        warning: 'fa-triangle-exclamation',
+        info: 'fa-circle-info'
+    };
+    var toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    toast.innerHTML = '<i class="fas ' + (icons[type] || icons.info) + '"></i><span>' + escapeHtml(message) + '</span>';
+    container.appendChild(toast);
+    setTimeout(function() {
+        toast.style.opacity = '0';
+        setTimeout(function() { toast.remove(); }, 300);
+    }, duration);
+}
+
+function updateOnlineStatus() {
+    var dot = document.getElementById('onlineDot');
+    if (!dot) return;
+    dot.classList.toggle('offline', !navigator.onLine);
+}
+
+function getSession() {
+    try {
+        var raw = localStorage.getItem('session');
+        if (!raw) return null;
+        var s = JSON.parse(raw);
+        if (!s || !s.user) return null;
+        if (s.expiresAt && Date.now() > s.expiresAt) {
+            localStorage.removeItem('session');
+            return null;
+        }
+        return s;
+    } catch (e) {
+        return null;
+    }
+}
+
+function logout(message) {
+    localStorage.removeItem('session');
+    if (message) {
+        showToast(message, 'info');
+        setTimeout(function() { window.location.href = 'index.html'; }, 1000);
+    } else {
+        window.location.href = 'index.html';
+    }
+}
+
+var INACTIVITY_TIMEOUT = 30 * 60 * 1000;
+var inactivityTimer = null;
+
+function resetInactivity() {
+    if (inactivityTimer) clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(function() {
+        logout('تم تسجيل خروجك بسبب عدم النشاط');
+    }, INACTIVITY_TIMEOUT);
+}
+
+function startInactivityMonitor() {
+    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(function(evt) {
+        document.addEventListener(evt, resetInactivity, { passive: true });
+    });
+    resetInactivity();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📊 State
+// ═══════════════════════════════════════════════════════════════
+var state = {
+    period: 'week',
+    fromDate: null,
+    toDate: null,
+    invoices: [],
+    invoiceItems: [],
+    products: [],
+    customers: [],
+    repairs: [],
+    repairTimeline: [],
+    suppliers: [],
+    stockMovements: [],
+    ratings: [],
+    charts: {
+        revenue: null,
+        category: null
+    },
+    topProducts: [],
+    topCustomers: [],
+    technicians: [],
+    suppliersPerf: [],
+    ratingsData: null,
+    shortages: [],
+    purchases: [],
+    stats: {
+        revenue: 0,
+        profit: 0,
+        invoices: 0,
+        repairs: 0,
+        prevRevenue: 0,
+        prevProfit: 0,
+        prevInvoices: 0,
+        prevRepairs: 0
+    }
+};
+
+// ═══════════════════════════════════════════════════════════════
+// 📅 Period Helpers
+// ═══════════════════════════════════════════════════════════════
+function getPeriodDates(period) {
+    var now = new Date();
+    var start = new Date();
+    var end = new Date();
+
+    end.setHours(23, 59, 59, 999);
+
+    if (period === 'today') {
+        start.setHours(0, 0, 0, 0);
+    } else if (period === 'week') {
+        start.setDate(start.getDate() - 6);
+        start.setHours(0, 0, 0, 0);
+    } else if (period === 'month') {
+        start.setDate(start.getDate() - 29);
+        start.setHours(0, 0, 0, 0);
+    } else if (period === 'quarter') {
+        start.setDate(start.getDate() - 89);
+        start.setHours(0, 0, 0, 0);
+    } else if (period === 'year') {
+        start.setDate(start.getDate() - 364);
+        start.setHours(0, 0, 0, 0);
+    } else if (period === 'custom') {
+        start = state.fromDate ? new Date(state.fromDate) : new Date();
+        start.setHours(0, 0, 0, 0);
+        end = state.toDate ? new Date(state.toDate) : new Date();
+        end.setHours(23, 59, 59, 999);
+    }
+
+    return { start: start, end: end };
+}
+
+function getPreviousPeriodDates(period) {
+    var current = getPeriodDates(period);
+    var duration = current.end.getTime() - current.start.getTime();
+    var prevEnd = new Date(current.start.getTime() - 1);
+    var prevStart = new Date(prevEnd.getTime() - duration);
+    return { start: prevStart, end: prevEnd };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📥 Load Data
+// ═══════════════════════════════════════════════════════════════
+function loadData() {
+    var sb = getSupabaseClient();
+    if (!sb || !navigator.onLine) {
+        return Promise.reject(new Error('No connection'));
+    }
+
+    var dates = getPeriodDates(state.period);
+    var fromISO = dates.start.toISOString();
+    var toISO = dates.end.toISOString();
+
+    var prevDates = getPreviousPeriodDates(state.period);
+    var prevFromISO = prevDates.start.toISOString();
+    var prevToISO = prevDates.end.toISOString();
+
+    return Promise.all([
+        // Current period invoices
+        sb.from('invoices')
+            .select('id, invoice_number, customer_id, total, paid_amount, paid, created_at, payment_method')
+            .gte('created_at', fromISO)
+            .lte('created_at', toISO),
+        // Previous period invoices
+        sb.from('invoices')
+            .select('id, total, created_at')
+            .gte('created_at', prevFromISO)
+            .lte('created_at', prevToISO),
+        // Invoice items (all for current period via invoice_id)
+        sb.from('invoice_items')
+            .select('id, invoice_id, product_id, description, quantity, unit_price, total')
+            .limit(5000),
+        // Products
+        sb.from('products')
+            .select('id, name, barcode, quantity, min_quantity, cost_price, sell_price, category_id, created_at')
+            .limit(2000),
+        // Customers
+        sb.from('customers')
+            .select('id, name, phone, created_at')
+            .limit(2000),
+        // Repairs
+        sb.from('repair_orders')
+            .select('id, tracking_code, customer_id, device_type, status, labor_cost, created_by, created_at, delivered_at')
+            .gte('created_at', fromISO)
+            .lte('created_at', toISO)
+            .limit(2000),
+        // Suppliers
+        sb.from('suppliers')
+            .select('id, name, phone, quality_rating, created_at')
+            .limit(500),
+        // Stock movements (for supplier performance)
+        sb.from('stock_movements')
+            .select('id, supplier_id, product_id, quantity, cost_price, created_at, type')
+            .eq('type', 'in')
+            .not('supplier_id', 'is', null)
+            .limit(2000),
+        // Ratings
+        sb.from('service_ratings')
+            .select('id, repair_order_id, customer_id, rating, comment, created_at')
+            .limit(500)
+    ]).then(function(results) {
+        state.invoices = results[0].data || [];
+        var prevInvoices = results[1].data || [];
+        state.invoiceItems = results[2].data || [];
+        state.products = results[3].data || [];
+        state.customers = results[4].data || [];
+        state.repairs = results[5].data || [];
+        state.suppliers = results[6].data || [];
+        state.stockMovements = results[7].data || [];
+        state.ratings = results[8].data || [];
+
+        // Calculate stats
+        calculateStats(prevInvoices);
+
+        return true;
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📊 Calculate Stats
+// ═══════════════════════════════════════════════════════════════
+function calculateStats(prevInvoices) {
+    var revenue = 0;
+    var invoiceIds = {};
+    state.invoices.forEach(function(inv) {
+        revenue += parseFloat(inv.total) || 0;
+        invoiceIds[inv.id] = true;
+    });
+
+    // Profit calc — from invoice items matching this period
+    var profit = 0;
+    var costMap = {};
+    state.products.forEach(function(p) {
+        costMap[p.id] = parseFloat(p.cost_price) || 0;
+    });
+
+    state.invoiceItems.forEach(function(item) {
+        if (!invoiceIds[item.invoice_id]) return;
+        var unitPrice = parseFloat(item.unit_price) || 0;
+        var qty = parseInt(item.quantity) || 0;
+        var cost = costMap[item.product_id] || 0;
+        profit += (unitPrice - cost) * qty;
+    });
+
+    // Previous period
+    var prevRevenue = 0;
+    prevInvoices.forEach(function(inv) {
+        prevRevenue += parseFloat(inv.total) || 0;
+    });
+
+    state.stats.revenue = revenue;
+    state.stats.profit = profit;
+    state.stats.invoices = state.invoices.length;
+    state.stats.repairs = state.repairs.length;
+    state.stats.prevRevenue = prevRevenue;
+    state.stats.prevInvoices = prevInvoices.length;
+
+    // Update UI
+    document.getElementById('statRevenue').textContent = formatCurrencyShort(revenue);
+    document.getElementById('statProfit').textContent = formatCurrencyShort(profit);
+    document.getElementById('statInvoices').textContent = formatNumber(state.invoices.length);
+    document.getElementById('statRepairs').textContent = formatNumber(state.repairs.length);
+
+    // Trends
+    updateTrend('statRevenueTrend', revenue, prevRevenue);
+    updateTrend('statInvoicesTrend', state.invoices.length, prevInvoices.length);
+}
+
+function updateTrend(elementId, current, previous) {
+    var el = document.getElementById(elementId);
+    if (!el) return;
+
+    if (!previous) {
+        el.innerHTML = '';
+        return;
+    }
+
+    var change = ((current - previous) / previous) * 100;
+    var isUp = change >= 0;
+    var icon = isUp ? 'fa-arrow-up' : 'fa-arrow-down';
+    var cls = isUp ? 'up' : 'down';
+
+    el.innerHTML = '<span class="stat-trend ' + cls + '">' +
+        '<i class="fas ' + icon + '"></i> ' +
+        Math.abs(change).toFixed(1) + '%' +
+    '</span>';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📈 Charts
+// ═══════════════════════════════════════════════════════════════
+function renderRevenueChart() {
+    var canvas = document.getElementById('revenueChart');
+    if (!canvas) return;
+
+    var dates = getPeriodDates(state.period);
+    var dailyMap = {};
+    var profitMap = {};
+
+    // Build empty days
+    var days = Math.ceil((dates.end - dates.start) / (1000 * 60 * 60 * 24));
+    if (days > 92) days = 92; // cap for chart readability
+
+    for (var i = 0; i < days; i++) {
+        var d = new Date(dates.start);
+        d.setDate(d.getDate() + i);
+        var key = d.toISOString().split('T')[0];
+        dailyMap[key] = 0;
+        profitMap[key] = 0;
+    }
+
+    // Fill with actual data
+    var invoiceIds = {};
+    state.invoices.forEach(function(inv) {
+        var key = new Date(inv.created_at).toISOString().split('T')[0];
+        if (dailyMap[key] !== undefined) {
+            dailyMap[key] += parseFloat(inv.total) || 0;
+        }
+        invoiceIds[inv.id] = true;
+    });
+
+    // Profit per day
+    var costMap = {};
+    state.products.forEach(function(p) {
+        costMap[p.id] = parseFloat(p.cost_price) || 0;
+    });
+
+    var invoiceDateMap = {};
+    state.invoices.forEach(function(inv) {
+        invoiceDateMap[inv.id] = new Date(inv.created_at).toISOString().split('T')[0];
+    });
+
+    state.invoiceItems.forEach(function(item) {
+        if (!invoiceIds[item.invoice_id]) return;
+        var dayKey = invoiceDateMap[item.invoice_id];
+        if (!dayKey || profitMap[dayKey] === undefined) return;
+        var unitPrice = parseFloat(item.unit_price) || 0;
+        var qty = parseInt(item.quantity) || 0;
+        var cost = costMap[item.product_id] || 0;
+        profitMap[dayKey] += (unitPrice - cost) * qty;
+    });
+
+    var labels = [];
+    var revenueData = [];
+    var profitData = [];
+
+    Object.keys(dailyMap).forEach(function(k) {
+        var d = new Date(k);
+        labels.push(d.toLocaleDateString('ar-EG', { day: 'numeric', month: 'short' }));
+        revenueData.push(dailyMap[k]);
+        profitData.push(profitMap[k]);
+    });
+
+    if (state.charts.revenue) {
+        state.charts.revenue.destroy();
+    }
+
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var textColor = isDark ? '#cbd5e1' : '#475569';
+    var gridColor = isDark ? 'rgba(30, 58, 95, 0.5)' : 'rgba(225, 232, 240, 0.8)';
+
+    var ctx = canvas.getContext('2d');
+
+    state.charts.revenue = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'المبيعات',
+                    data: revenueData,
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    borderWidth: 2.5,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 3,
+                    pointHoverRadius: 6
+                },
+                {
+                    label: 'الأرباح',
+                    data: profitData,
+                    borderColor: '#1d5b8e',
+                    backgroundColor: 'rgba(29, 91, 142, 0.1)',
+                    borderWidth: 2.5,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 3,
+                    pointHoverRadius: 6
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        color: textColor,
+                        font: { family: 'Cairo', size: 11 },
+                        boxWidth: 12,
+                        boxHeight: 12
+                    }
+                },
+                tooltip: {
+                    backgroundColor: isDark ? '#142f4a' : '#0a1f33',
+                    titleColor: '#fff',
+                    bodyColor: '#fff',
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(ctx) {
+                            return ctx.dataset.label + ': ' + formatCurrency(ctx.parsed.y);
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: textColor, font: { family: 'Cairo', size: 10 }, maxRotation: 45 },
+                    grid: { display: false }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: textColor,
+                        font: { family: 'Cairo', size: 10 },
+                        callback: function(v) { 
+                            if (v >= 1000000) return (v/1000000).toFixed(1) + 'M';
+                            if (v >= 1000) return (v/1000).toFixed(0) + 'K';
+                            return v;
+                        }
+                    },
+                    grid: { color: gridColor, drawBorder: false }
+                }
+            }
+        }
+    });
+}
+
+function renderCategoryChart() {
+    var canvas = document.getElementById('categoryChart');
+    if (!canvas) return;
+
+    // Aggregate sales by category (via products)
+    var productCategory = {};
+    state.products.forEach(function(p) {
+        productCategory[p.id] = p.category_id;
+    });
+
+    var categoryTotals = {};
+    var invoiceIds = {};
+    state.invoices.forEach(function(inv) { invoiceIds[inv.id] = true; });
+
+    state.invoiceItems.forEach(function(item) {
+        if (!invoiceIds[item.invoice_id]) return;
+        var catId = productCategory[item.product_id] || 'unknown';
+        if (!categoryTotals[catId]) categoryTotals[catId] = 0;
+        categoryTotals[catId] += parseFloat(item.total) || 0;
+    });
+
+    // Get category names
+    var catNames = {};
+    // We'll display generic names since we don't have categories loaded
+    // Use 'أخرى' for unknown
+    var labels = [];
+    var data = [];
+    var colors = [
+        '#1d5b8e', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6',
+        '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#a855f7'
+    ];
+
+    var total = 0;
+    Object.keys(categoryTotals).forEach(function(k) {
+        total += categoryTotals[k];
+    });
+
+    if (total === 0) {
+        if (state.charts.category) state.charts.category.destroy();
+        return;
+    }
+
+    var idx = 0;
+    Object.keys(categoryTotals).forEach(function(k) {
+        var val = categoryTotals[k];
+        if (val <= 0) return;
+        labels.push('فئة ' + (idx + 1));
+        data.push(val);
+        idx++;
+        if (idx >= 10) return;
+    });
+
+    if (state.charts.category) {
+        state.charts.category.destroy();
+    }
+
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var textColor = isDark ? '#cbd5e1' : '#475569';
+
+    state.charts.category = new Chart(canvas.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: colors,
+                borderWidth: 2,
+                borderColor: isDark ? '#142f4a' : '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        color: textColor,
+                        font: { family: 'Cairo', size: 10 },
+                        boxWidth: 10,
+                        padding: 8
+                    }
+                },
+                tooltip: {
+                    backgroundColor: isDark ? '#142f4a' : '#0a1f33',
+                    padding: 12,
+                    callbacks: {
+                        label: function(ctx) {
+                            var pct = ((ctx.parsed / total) * 100).toFixed(1);
+                            return ctx.label + ': ' + formatCurrency(ctx.parsed) + ' (' + pct + '%)';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function refreshAllCharts() {
+    renderRevenueChart();
+    renderCategoryChart();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🏆 Top Products
+// ═══════════════════════════════════════════════════════════════
+function renderTopProducts() {
+    var container = document.getElementById('topProductsBody');
+    if (!container) return;
+
+    var invoiceIds = {};
+    state.invoices.forEach(function(inv) { invoiceIds[inv.id] = true; });
+
+    var productStats = {};
+
+    state.invoiceItems.forEach(function(item) {
+        if (!invoiceIds[item.invoice_id]) return;
+        var pid = item.product_id;
+        if (!pid) return;
+
+        if (!productStats[pid]) {
+            productStats[pid] = {
+                id: pid,
+                name: item.description || 'منتج',
+                quantity: 0,
+                revenue: 0
+            };
+        }
+        productStats[pid].quantity += parseInt(item.quantity) || 0;
+        productStats[pid].revenue += parseFloat(item.total) || 0;
+    });
+
+    // Enrich with product names
+    var productMap = {};
+    state.products.forEach(function(p) { productMap[p.id] = p; });
+    Object.keys(productStats).forEach(function(pid) {
+        if (productMap[pid]) {
+            productStats[pid].name = productMap[pid].name || productStats[pid].name;
+        }
+    });
+
+    var arr = Object.keys(productStats).map(function(k) { return productStats[k]; });
+    arr.sort(function(a, b) { return b.revenue - a.revenue; });
+    arr = arr.slice(0, 10);
+
+    state.topProducts = arr;
+
+    if (!arr.length) {
+        container.innerHTML = '<div class="empty-report"><i class="fas fa-box-open"></i><h3>لا توجد بيانات</h3><p>لا توجد مبيعات في هذه الفترة</p></div>';
+        return;
+    }
+
+    var maxRevenue = arr[0].revenue;
+
+    var html = '<div class="table-wrapper"><table class="data-table">';
+    html += '<thead><tr>';
+    html += '<th>#</th><th>الصنف</th><th>الكمية المباعة</th><th>الإيراد</th><th>النسبة</th>';
+    html += '</tr></thead><tbody>';
+
+    arr.forEach(function(p, i) {
+        var rank = i + 1;
+        var rankClass = rank === 1 ? 'gold' : (rank === 2 ? 'silver' : (rank === 3 ? 'bronze' : ''));
+        var pct = maxRevenue > 0 ? (p.revenue / maxRevenue) * 100 : 0;
+
+        html += '<tr>';
+        html += '<td><span class="rank ' + rankClass + '">' + rank + '</span></td>';
+        html += '<td>' + escapeHtml(p.name) + '</td>';
+        html += '<td>' + formatNumber(p.quantity) + '</td>';
+        html += '<td class="amount">' + formatCurrency(p.revenue) + '</td>';
+        html += '<td><span class="progress-mini"><span class="progress-mini-fill" style="width: ' + pct.toFixed(1) + '%"></span></span>' + pct.toFixed(0) + '%</td>';
+        html += '</tr>';
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 👥 Top Customers
+// ═══════════════════════════════════════════════════════════════
+function renderTopCustomers() {
+    var container = document.getElementById('topCustomersBody');
+    if (!container) return;
+
+    var customerMap = {};
+    state.customers.forEach(function(c) { customerMap[c.id] = c; });
+
+    var customerStats = {};
+
+    state.invoices.forEach(function(inv) {
+        var cid = inv.customer_id;
+        if (!cid) return;
+
+        if (!customerStats[cid]) {
+            var c = customerMap[cid] || { name: 'عميل', phone: '' };
+            customerStats[cid] = {
+                id: cid,
+                name: c.name || 'عميل',
+                phone: c.phone || '',
+                invoices: 0,
+                revenue: 0
+            };
+        }
+        customerStats[cid].invoices += 1;
+        customerStats[cid].revenue += parseFloat(inv.total) || 0;
+    });
+
+    var arr = Object.keys(customerStats).map(function(k) { return customerStats[k]; });
+    arr.sort(function(a, b) { return b.revenue - a.revenue; });
+    arr = arr.slice(0, 10);
+
+    state.topCustomers = arr;
+
+    if (!arr.length) {
+        container.innerHTML = '<div class="empty-report"><i class="fas fa-users"></i><h3>لا توجد بيانات</h3><p>لا توجد مبيعات في هذه الفترة</p></div>';
+        return;
+    }
+
+    var maxRevenue = arr[0].revenue;
+
+    var html = '<div class="table-wrapper"><table class="data-table">';
+    html += '<thead><tr>';
+    html += '<th>#</th><th>العميل</th><th>الموبايل</th><th>عدد الفواتير</th><th>إجمالي الشراء</th><th>النسبة</th>';
+    html += '</tr></thead><tbody>';
+
+    arr.forEach(function(c, i) {
+        var rank = i + 1;
+        var rankClass = rank === 1 ? 'gold' : (rank === 2 ? 'silver' : (rank === 3 ? 'bronze' : ''));
+        var pct = maxRevenue > 0 ? (c.revenue / maxRevenue) * 100 : 0;
+
+        html += '<tr>';
+        html += '<td><span class="rank ' + rankClass + '">' + rank + '</span></td>';
+        html += '<td>' + escapeHtml(c.name) + '</td>';
+        html += '<td style="font-family: monospace; direction: ltr;">' + escapeHtml(c.phone || '—') + '</td>';
+        html += '<td>' + formatNumber(c.invoices) + '</td>';
+        html += '<td class="amount">' + formatCurrency(c.revenue) + '</td>';
+        html += '<td><span class="progress-mini"><span class="progress-mini-fill" style="width: ' + pct.toFixed(1) + '%"></span></span>' + pct.toFixed(0) + '%</td>';
+        html += '</tr>';
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔧 Technicians Performance
+// ═══════════════════════════════════════════════════════════════
+function renderTechnicians() {
+    var container = document.getElementById('techniciansBody');
+    if (!container) return;
+
+    var techStats = {};
+
+    state.repairs.forEach(function(r) {
+        var tid = r.created_by || 'unknown';
+        if (!techStats[tid]) {
+            techStats[tid] = {
+                id: tid,
+                name: tid === 'unknown' ? 'غير محدد' : tid.substring(0, 8),
+                total: 0,
+                delivered: 0,
+                revenue: 0
+            };
+        }
+        techStats[tid].total += 1;
+        if (r.status === 'delivered') {
+            techStats[tid].delivered += 1;
+            techStats[tid].revenue += parseFloat(r.labor_cost) || 0;
+        }
+    });
+
+    var arr = Object.keys(techStats).map(function(k) { return techStats[k]; });
+    arr.sort(function(a, b) { return b.total - a.total; });
+    arr = arr.slice(0, 10);
+
+    state.technicians = arr;
+
+    if (!arr.length) {
+        container.innerHTML = '<div class="empty-report"><i class="fas fa-screwdriver-wrench"></i><h3>لا توجد بيانات</h3><p>لا توجد أوامر صيانة في هذه الفترة</p></div>';
+        return;
+    }
+
+    var html = '<div class="table-wrapper"><table class="data-table">';
+    html += '<thead><tr>';
+    html += '<th>الفني</th><th>إجمالي الأوامر</th><th>تم التسليم</th><th>معدل الإنجاز</th><th>الإيرادات (مصنعية)</th>';
+    html += '</tr></thead><tbody>';
+
+    arr.forEach(function(t) {
+        var rate = t.total > 0 ? (t.delivered / t.total) * 100 : 0;
+
+        html += '<tr>';
+        html += '<td style="font-family: monospace;">' + escapeHtml(t.name) + '</td>';
+        html += '<td>' + formatNumber(t.total) + '</td>';
+        html += '<td>' + formatNumber(t.delivered) + '</td>';
+        html += '<td><span class="progress-mini"><span class="progress-mini-fill" style="width: ' + rate.toFixed(1) + '%; background: linear-gradient(90deg, #10b981, #059669);"></span></span>' + rate.toFixed(0) + '%</td>';
+        html += '<td class="amount">' + formatCurrency(t.revenue) + '</td>';
+        html += '</tr>';
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🚚 Suppliers Performance
+// ═══════════════════════════════════════════════════════════════
+function renderSuppliers() {
+    var container = document.getElementById('suppliersBody');
+    if (!container) return;
+
+    var supplierStats = {};
+    state.suppliers.forEach(function(s) {
+        supplierStats[s.id] = {
+            id: s.id,
+            name: s.name,
+            phone: s.phone || '',
+            rating: s.quality_rating || 0,
+            total: 0,
+            orders: 0
+        };
+    });
+
+    state.stockMovements.forEach(function(m) {
+        if (!m.supplier_id || !supplierStats[m.supplier_id]) return;
+        var amount = (parseFloat(m.cost_price) || 0) * (parseInt(m.quantity) || 0);
+        supplierStats[m.supplier_id].total += amount;
+        supplierStats[m.supplier_id].orders += 1;
+    });
+
+    var arr = Object.keys(supplierStats).map(function(k) { return supplierStats[k]; });
+    arr.sort(function(a, b) { return b.total - a.total; });
+    arr = arr.filter(function(s) { return s.total > 0; }).slice(0, 10);
+
+    state.suppliersPerf = arr;
+
+    if (!arr.length) {
+        container.innerHTML = '<div class="empty-report"><i class="fas fa-handshake"></i><h3>لا توجد بيانات</h3><p>لا توجد توريدات من موردين</p></div>';
+        return;
+    }
+
+    var html = '<div class="table-wrapper"><table class="data-table">';
+    html += '<thead><tr>';
+    html += '<th>المورد</th><th>الموبايل</th><th>عدد التوريدات</th><th>إجمالي المشتريات</th><th>التقييم</th>';
+    html += '</tr></thead><tbody>';
+
+    arr.forEach(function(s) {
+        var stars = '';
+        for (var i = 1; i <= 5; i++) stars += i <= s.rating ? '★' : '☆';
+
+        html += '<tr>';
+        html += '<td>' + escapeHtml(s.name) + '</td>';
+        html += '<td style="font-family: monospace; direction: ltr;">' + escapeHtml(s.phone || '—') + '</td>';
+        html += '<td>' + formatNumber(s.orders) + '</td>';
+        html += '<td class="amount">' + formatCurrency(s.total) + '</td>';
+        html += '<td style="color: #fbbf24;">' + stars + '</td>';
+        html += '</tr>';
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ⭐ Ratings
+// ═══════════════════════════════════════════════════════════════
+function renderRatings() {
+    var container = document.getElementById('ratingsBody');
+    if (!container) return;
+
+    if (!state.ratings.length) {
+        container.innerHTML = '<div class="empty-report"><i class="fas fa-star"></i><h3>لا توجد تقييمات</h3><p>لا يوجد عملاء قيموا الخدمة بعد</p></div>';
+        return;
+    }
+
+    var total = 0;
+    var count = 0;
+    var distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+    state.ratings.forEach(function(r) {
+        var rating = parseInt(r.rating) || 0;
+        if (rating >= 1 && rating <= 5) {
+            total += rating;
+            count += 1;
+            distribution[rating] += 1;
+        }
+    });
+
+    var avg = count > 0 ? total / count : 0;
+
+    var html = '<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem; align-items: center;">';
+
+    // Left: Average
+    html += '<div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md);">';
+    html += '<div style="font-size: 3rem; font-weight: 900; color: var(--gold); line-height: 1;">' + avg.toFixed(1) + '</div>';
+    html += '<div style="font-size: 1.5rem; color: var(--gold); margin: 0.35rem 0;">';
+    for (var i = 1; i <= 5; i++) {
+        html += i <= Math.round(avg) ? '★' : '☆';
+    }
+    html += '</div>';
+    html += '<div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">من ' + count + ' تقييم</div>';
+    html += '</div>';
+
+    // Right: Distribution
+    html += '<div>';
+    for (var r = 5; r >= 1; r--) {
+        var cnt = distribution[r];
+        var pct = count > 0 ? (cnt / count) * 100 : 0;
+        html += '<div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">';
+        html += '<div style="min-width: 60px; font-size: 0.8rem; font-weight: 700;">' + r + ' ⭐</div>';
+        html += '<div style="flex: 1; height: 8px; background: var(--bg-primary); border-radius: 4px; overflow: hidden;">';
+        html += '<div style="height: 100%; width: ' + pct.toFixed(1) + '%; background: linear-gradient(90deg, #fbbf24, #f59e0b); border-radius: 4px;"></div>';
+        html += '</div>';
+        html += '<div style="min-width: 50px; text-align: left; font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">' + cnt + '</div>';
+        html += '</div>';
+    }
+    html += '</div>';
+    html += '</div>';
+
+    // Comments
+    var withComments = state.ratings.filter(function(r) { return r.comment; });
+    if (withComments.length) {
+        html += '<div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">';
+        html += '<h4 style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem;"><i class="fas fa-comments"></i> أحدث التعليقات</h4>';
+        html += '<div style="display: flex; flex-direction: column; gap: 0.65rem;">';
+        withComments.slice(0, 5).forEach(function(r) {
+            var stars = '';
+            for (var i = 1; i <= 5; i++) stars += i <= r.rating ? '★' : '☆';
+            html += '<div style="padding: 0.85rem 1rem; background: var(--bg-primary); border-radius: var(--radius-md); border-right: 3px solid var(--gold);">';
+            html += '<div style="color: var(--gold); font-size: 0.9rem; margin-bottom: 0.35rem;">' + stars + '</div>';
+            html += '<div style="font-size: 0.85rem; line-height: 1.6;">' + escapeHtml(r.comment) + '</div>';
+            html += '<div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.35rem;">' + formatDate(r.created_at) + '</div>';
+            html += '</div>';
+        });
+        html += '</div>';
+        html += '</div>';
+    }
+
+    state.ratingsData = { avg: avg, count: count, distribution: distribution };
+    container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ⚠️ Shortages
+// ═══════════════════════════════════════════════════════════════
+function renderShortages() {
+    var container = document.getElementById('shortagesBody');
+    if (!container) return;
+
+    var shortages = state.products.filter(function(p) {
+        var qty = parseInt(p.quantity) || 0;
+        var minQty = parseInt(p.min_quantity) || 0;
+        return qty <= minQty;
+    }).sort(function(a, b) {
+        return (parseInt(a.quantity) || 0) - (parseInt(b.quantity) || 0);
+    }).slice(0, 15);
+
+    state.shortages = shortages;
+
+    if (!shortages.length) {
+        container.innerHTML = '<div class="empty-report"><i class="fas fa-circle-check" style="color: var(--success);"></i><h3>المخزون في حالة جيدة</h3><p>لا توجد أصناف منخفضة</p></div>';
+        return;
+    }
+
+    var html = '<div class="table-wrapper"><table class="data-table">';
+    html += '<thead><tr>';
+    html += '<th>الصنف</th><th>الباركود</th><th>الكمية</th><th>حد التنبيه</th><th>الحالة</th>';
+    html += '</tr></thead><tbody>';
+
+    shortages.forEach(function(p) {
+        var qty = parseInt(p.quantity) || 0;
+        var isOut = qty <= 0;
+        var badge = isOut 
+            ? '<span style="display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 700; background: rgba(239, 68, 68, 0.12); color: var(--danger);">نفذ</span>'
+            : '<span style="display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.7rem; font-weight: 700; background: rgba(245, 158, 11, 0.12); color: var(--warning);">منخفض</span>';
+
+        html += '<tr>';
+        html += '<td>' + escapeHtml(p.name) + '</td>';
+        html += '<td style="font-family: monospace; font-size: 0.75rem;">' + escapeHtml(p.barcode || '—') + '</td>';
+        html += '<td style="font-weight: 800; color: ' + (isOut ? 'var(--danger)' : 'var(--warning)') + ';">' + qty + '</td>';
+        html += '<td>' + (parseInt(p.min_quantity) || 0) + '</td>';
+        html += '<td>' + badge + '</td>';
+        html += '</tr>';
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🛒 Purchase Suggestions
+// ═══════════════════════════════════════════════════════════════
+function renderPurchases() {
+    var container = document.getElementById('purchasesBody');
+    if (!container) return;
+
+    // Sales rate per product from invoices
+    var invoiceIds = {};
+    var oldestInvoiceDate = null;
+    state.invoices.forEach(function(inv) {
+        invoiceIds[inv.id] = true;
+        var d = new Date(inv.created_at);
+        if (!oldestInvoiceDate || d < oldestInvoiceDate) {
+            oldestInvoiceDate = d;
+        }
+    });
+
+    var productSales = {};
+    state.invoiceItems.forEach(function(item) {
+        if (!invoiceIds[item.invoice_id]) return;
+        var pid = item.product_id;
+        if (!pid) return;
+        if (!productSales[pid]) productSales[pid] = 0;
+        productSales[pid] += parseInt(item.quantity) || 0;
+    });
+
+    var productMap = {};
+    state.products.forEach(function(p) { productMap[p.id] = p; });
+
+    // Days elapsed
+    var daysElapsed = 1;
+    if (oldestInvoiceDate) {
+        daysElapsed = Math.max(1, Math.ceil((Date.now() - oldestInvoiceDate.getTime()) / (1000 * 60 * 60 * 24)));
+    }
+
+    var suggestions = [];
+    Object.keys(productSales).forEach(function(pid) {
+        var p = productMap[pid];
+        if (!p) return;
+
+        var salesRate = productSales[pid] / daysElapsed;
+        var currentQty = parseInt(p.quantity) || 0;
+        var minQty = parseInt(p.min_quantity) || 5;
+        var suggestedQty = Math.ceil(salesRate * 30) - currentQty;
+
+        if (currentQty <= minQty || suggestedQty > 0) {
+            suggestions.push({
+                id: pid,
+                name: p.name,
+                barcode: p.barcode || '',
+                current: currentQty,
+                min: minQty,
+                sold: productSales[pid],
+                rate: salesRate,
+                suggested: Math.max(suggestedQty, 5)
+            });
+        }
+    });
+
+    suggestions.sort(function(a, b) { return b.rate - a.rate; });
+    suggestions = suggestions.slice(0, 15);
+
+    state.purchases = suggestions;
+
+    if (!suggestions.length) {
+        container.innerHTML = '<div class="empty-report"><i class="fas fa-shopping-cart"></i><h3>لا توجد اقتراحات</h3><p>لا توجد بيانات كافية للحساب</p></div>';
+        return;
+    }
+
+    var html = '<div class="table-wrapper"><table class="data-table">';
+    html += '<thead><tr>';
+    html += '<th>الصنف</th><th>الكمية الحالية</th><th>معدل البيع/يوم</th><th>الكمية المقترحة</th>';
+    html += '</tr></thead><tbody>';
+
+    suggestions.forEach(function(s) {
+        html += '<tr>';
+        html += '<td>' + escapeHtml(s.name) + '</td>';
+        html += '<td>' + formatNumber(s.current) + '</td>';
+        html += '<td style="font-weight: 800; color: var(--tech-blue);">' + s.rate.toFixed(2) + '</td>';
+        html += '<td><span style="display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.35rem 0.75rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 800; background: rgba(29, 91, 142, 0.12); color: var(--tech-blue);">+ ' + formatNumber(s.suggested) + '</span></td>';
+        html += '</tr>';
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔄 Comparison
+// ═══════════════════════════════════════════════════════════════
+function renderComparison() {
+    var container = document.getElementById('comparisonBody');
+    if (!container) return;
+
+    var current = state.stats.revenue;
+    var previous = state.stats.prevRevenue;
+    var change = previous > 0 ? ((current - previous) / previous) * 100 : 0;
+
+    var html = '<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; align-items: center;">';
+
+    // Current
+    html += '<div style="padding: 1rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.02)); border-radius: var(--radius-md); border: 1px solid rgba(16, 185, 129, 0.3); text-align: center;">';
+    html += '<div style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 700; margin-bottom: 0.35rem;">الفترة الحالية</div>';
+    html += '<div style="font-size: 1.5rem; font-weight: 900; color: var(--success);">' + formatCurrencyShort(current) + '</div>';
+    html += '</div>';
+
+    // Change
+    var changeIcon = change >= 0 ? 'fa-arrow-up' : 'fa-arrow-down';
+    var changeColor = change >= 0 ? 'var(--success)' : 'var(--danger)';
+    html += '<div style="text-align: center;">';
+    html += '<div style="font-size: 2.5rem; color: ' + changeColor + '; margin-bottom: 0.35rem;"><i class="fas ' + changeIcon + '"></i></div>';
+    html += '<div style="font-size: 1.15rem; font-weight: 900; color: ' + changeColor + ';">' + (change >= 0 ? '+' : '') + change.toFixed(1) + '%</div>';
+    html += '<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600; margin-top: 0.35rem;">التغيير</div>';
+    html += '</div>';
+
+    // Previous
+    html += '<div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center;">';
+    html += '<div style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 700; margin-bottom: 0.35rem;">الفترة السابقة</div>';
+    html += '<div style="font-size: 1.5rem; font-weight: 900; color: var(--text-secondary);">' + formatCurrencyShort(previous) + '</div>';
+    html += '</div>';
+
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📤 Export
+// ═══════════════════════════════════════════════════════════════
+function exportProductsExcel() {
+    if (typeof XLSX === 'undefined') {
+        showToast('مكتبة Excel غير محملة', 'error');
+        return;
+    }
+    if (!state.topProducts.length) {
+        showToast('لا توجد بيانات للتصدير', 'warning');
+        return;
+    }
+
+    var data = state.topProducts.map(function(p, i) {
+        return {
+            'الترتيب': i + 1,
+            'الصنف': p.name,
+            'الكمية المباعة': p.quantity,
+            'الإيراد': p.revenue.toFixed(2)
+        };
+    });
+
+    var ws = XLSX.utils.json_to_sheet(data);
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'أعلى الأصناف');
+    XLSX.writeFile(wb, 'top_products_' + Date.now() + '.xlsx');
+    showToast('تم تصدير الأصناف', 'success');
+}
+
+function exportCustomersExcel() {
+    if (typeof XLSX === 'undefined') {
+        showToast('مكتبة Excel غير محملة', 'error');
+        return;
+    }
+    if (!state.topCustomers.length) {
+        showToast('لا توجد بيانات للتصدير', 'warning');
+        return;
+    }
+
+    var data = state.topCustomers.map(function(c, i) {
+        return {
+            'الترتيب': i + 1,
+            'العميل': c.name,
+            'الموبايل': c.phone,
+            'عدد الفواتير': c.invoices,
+            'إجمالي الشراء': c.revenue.toFixed(2)
+        };
+    });
+
+    var ws = XLSX.utils.json_to_sheet(data);
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'أعلى العملاء');
+    XLSX.writeFile(wb, 'top_customers_' + Date.now() + '.xlsx');
+    showToast('تم تصدير العملاء', 'success');
+}
+
+function exportPurchasesExcel() {
+    if (typeof XLSX === 'undefined') {
+        showToast('مكتبة Excel غير محملة', 'error');
+        return;
+    }
+    if (!state.purchases.length) {
+        showToast('لا توجد بيانات للتصدير', 'warning');
+        return;
+    }
+
+    var data = state.purchases.map(function(p) {
+        return {
+            'الصنف': p.name,
+            'الكمية الحالية': p.current,
+            'حد التنبيه': p.min,
+            'معدل البيع اليومي': p.rate.toFixed(2),
+            'الكمية المقترحة': p.suggested
+        };
+    });
+
+    var ws = XLSX.utils.json_to_sheet(data);
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'اقتراحات الشراء');
+    XLSX.writeFile(wb, 'purchase_suggestions_' + Date.now() + '.xlsx');
+    showToast('تم تصدير الاقتراحات', 'success');
+}
+
+function exportAllPDF() {
+    if (typeof window.jspdf === 'undefined') {
+        showToast('مكتبة PDF غير محملة', 'error');
+        return;
+    }
+
+    var jsPDF = window.jspdf.jsPDF;
+    var doc = new jsPDF('p', 'mm', 'a4');
+
+    doc.setFontSize(18);
+    doc.text('Reports Summary', 105, 15, { align: 'center' });
+    doc.setFontSize(10);
+    doc.text('Electronk - Electronics Repair Center', 105, 22, { align: 'center' });
+    doc.text('Period: ' + state.period.toUpperCase(), 105, 28, { align: 'center' });
+    doc.text('Generated: ' + new Date().toLocaleDateString('en-GB'), 105, 34, { align: 'center' });
+
+    var y = 45;
+
+    // Stats
+    doc.setFontSize(12);
+    doc.text('Key Statistics', 14, y);
+    y += 6;
+
+    var statsData = [
+        ['Revenue', formatCurrency(state.stats.revenue)],
+        ['Profit', formatCurrency(state.stats.profit)],
+        ['Invoices', state.stats.invoices],
+        ['Repairs', state.stats.repairs]
+    ];
+
+    doc.autoTable({
+        head: [['Metric', 'Value']],
+        body: statsData,
+        startY: y,
+        styles: { fontSize: 9, halign: 'center' },
+        headStyles: { fillColor: [29, 91, 142] }
+    });
+
+    y = doc.lastAutoTable.finalY + 10;
+
+    // Top Products
+    if (state.topProducts.length) {
+        doc.setFontSize(12);
+        doc.text('Top 10 Products', 14, y);
+        y += 6;
+
+        var prodData = state.topProducts.slice(0, 10).map(function(p, i) {
+            return [(i + 1), p.name.substring(0, 40), p.quantity, p.revenue.toFixed(2) + ' EGP'];
+        });
+
+        doc.autoTable({
+            head: [['#', 'Product', 'Qty', 'Revenue']],
+            body: prodData,
+            startY: y,
+            styles: { fontSize: 8, halign: 'center' },
+            headStyles: { fillColor: [16, 185, 129] }
+        });
+
+        y = doc.lastAutoTable.finalY + 10;
+    }
+
+    // Top Customers
+    if (state.topCustomers.length && y < 240) {
+        doc.setFontSize(12);
+        doc.text('Top 10 Customers', 14, y);
+        y += 6;
+
+        var custData = state.topCustomers.slice(0, 10).map(function(c, i) {
+            return [(i + 1), c.name.substring(0, 30), c.phone || '-', c.invoices, c.revenue.toFixed(2) + ' EGP'];
+        });
+
+        doc.autoTable({
+            head: [['#', 'Customer', 'Phone', 'Inv', 'Total']],
+            body: custData,
+            startY: y,
+            styles: { fontSize: 8, halign: 'center' },
+            headStyles: { fillColor: [139, 92, 246] }
+        });
+
+        y = doc.lastAutoTable.finalY + 10;
+    }
+
+    // Shortages
+    if (state.shortages.length && y < 240) {
+        doc.addPage();
+        y = 20;
+
+        doc.setFontSize(12);
+        doc.text('Low Stock Items', 14, y);
+        y += 6;
+
+        var shortData = state.shortages.slice(0, 15).map(function(s) {
+            return [s.name.substring(0, 40), s.quantity, s.min_quantity];
+        });
+
+        doc.autoTable({
+            head: [['Product', 'Qty', 'Min']],
+            body: shortData,
+            startY: y,
+            styles: { fontSize: 8, halign: 'center' },
+            headStyles: { fillColor: [245, 158, 11] }
+        });
+    }
+
+    doc.save('reports_' + Date.now() + '.pdf');
+    showToast('تم تصدير التقرير الشامل', 'success');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔄 Refresh All
+// ═══════════════════════════════════════════════════════════════
+function refreshAllReports() {
+    updateOnlineStatus();
+    var sb = getSupabaseClient();
+    if (!sb || !navigator.onLine) {
+        showToast('لا يمكن التحديث في وضع Offline', 'warning');
+        return;
+    }
+
+    showToast('جاري تحديث التقارير...', 'info');
+
+    loadData().then(function() {
+        refreshAllCharts();
+        renderTopProducts();
+        renderTopCustomers();
+        renderTechnicians();
+        renderSuppliers();
+        renderRatings();
+        renderShortages();
+        renderPurchases();
+        renderComparison();
+        showToast('تم تحديث التقارير', 'success');
+    }).catch(function(err) {
+        console.error('Refresh error:', err);
+        showToast('فشل التحديث: ' + (err.message || ''), 'error');
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔔 Notifications
+// ═══════════════════════════════════════════════════════════════
+var allNotifications = [];
+
+function loadNotifications() {
+    var session = getSession();
+    if (!session) return Promise.resolve();
+    var sb = getSupabaseClient();
+    if (!sb || !navigator.onLine) return Promise.resolve();
+
+    return sb.from('notifications')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .order('created_at', { ascending: false })
+        .limit(20)
+        .then(function(result) {
+            allNotifications = result.data || [];
+            renderNotifications();
+        })
+        .catch(function() {});
+}
+
+function renderNotifications() {
+    var list = document.getElementById('notificationsList');
+    var badge = document.getElementById('notifBadge');
+    if (!list || !badge) return;
+
+    var unread = 0;
+    allNotifications.forEach(function(n) {
+        if (!n.read) unread++;
+    });
+
+    if (unread > 0) {
+        badge.textContent = unread > 99 ? '99+' : unread;
+        badge.style.display = 'flex';
+    } else {
+        badge.style.display = 'none';
+    }
+
+    if (!allNotifications.length) {
+        list.innerHTML = '<div class="notifications-empty"><i class="fas fa-bell-slash"></i><p>لا توجد إشعارات</p></div>';
+        return;
+    }
+
+    var typeMap = {
+        'out_of_stock': { icon: 'fa-circle-xmark', cls: 'danger' },
+        'low_stock': { icon: 'fa-triangle-exclamation', cls: 'warning' },
+        'unpaid_invoice': { icon: 'fa-file-invoice-dollar', cls: 'danger' },
+        'new_repair': { icon: 'fa-screwdriver-wrench', cls: 'info' },
+        'ready_repair': { icon: 'fa-circle-check', cls: 'success' },
+        'info': { icon: 'fa-circle-info', cls: 'info' }
+    };
+
+    var html = '';
+    allNotifications.forEach(function(n) {
+        var t = typeMap[n.type] || typeMap.info;
+        html += '<div class="notification-item">';
+        html += '<div class="notification-item-icon ' + t.cls + '"><i class="fas ' + t.icon + '"></i></div>';
+        html += '<div class="notification-item-content">';
+        html += '<div class="notification-item-title">' + escapeHtml(n.title || '') + '</div>';
+        html += '<div class="notification-item-message">' + escapeHtml(n.message || '') + '</div>';
+        html += '</div>';
+        html += '</div>';
+    });
+    list.innerHTML = html;
+}
+
+function markAllRead() {
+    var session = getSession();
+    if (!session) return;
+    allNotifications.forEach(function(n) { n.read = true; });
+    renderNotifications();
+    var sb = getSupabaseClient();
+    if (sb && navigator.onLine) {
+        sb.from('notifications').update({ read: true })
+            .eq('user_id', session.user.id)
+            .eq('read', false)
+            .then(function() {
+                showToast('تم تعيين الكل كمقروء', 'success');
+            })
+            .catch(function() {});
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 👤 User UI
+// ═══════════════════════════════════════════════════════════════
+function updateUserUI(user) {
+    var initial = ((user.full_name || user.username || 'م') + '').charAt(0).toUpperCase();
+    var roleText = user.role === 'admin' ? 'مدير' : 'موظف';
+
+    ['userAvatar', 'dropdownAvatar'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = initial;
+    });
+    ['userName', 'dropdownName'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = user.full_name || user.username;
+    });
+    ['userRole', 'dropdownRole'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = roleText;
+    });
+}
+
+function applyPermissions(user) {
+    var perms = user.permissions || {};
+    var isAdmin = user.role === 'admin';
+
+    document.querySelectorAll('.sidebar-link[data-perm]').forEach(function(link) {
+        if (!isAdmin && !perms[link.dataset.perm]) link.style.display = 'none';
+    });
+
+    if (isAdmin) {
+        var al = document.getElementById('adminLink');
+        var dal = document.getElementById('dropdownAdminLink');
+        if (al) al.style.display = 'flex';
+        if (dal) dal.style.display = 'flex';
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎬 Init
+// ═══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+
+    var session = getSession();
+    if (!session) { window.location.href = 'index.html'; return; }
+    if (session.user.must_change_password) { window.location.href = 'index.html'; return; }
+
+    initTheme();
+    var themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+
+    updateOnlineStatus();
+    window.addEventListener('online', function() {
+        updateOnlineStatus();
+        showToast('تم استعادة الاتصال', 'success');
+        refreshAllReports();
+    });
+    window.addEventListener('offline', function() {
+        updateOnlineStatus();
+        showToast('انقطع الاتصال', 'warning');
+    });
+
+    updateUserUI(session.user);
+    applyPermissions(session.user);
+
+    // Sidebar
+    var menuBtn = document.getElementById('menuBtn');
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('sidebarOverlay');
+    if (menuBtn) menuBtn.addEventListener('click', function() {
+        sidebar.classList.toggle('show');
+        overlay.classList.toggle('show');
+    });
+    if (overlay) overlay.addEventListener('click', function() {
+        sidebar.classList.remove('show');
+        overlay.classList.remove('show');
+    });
+
+    // User dropdown
+    var userBtn = document.getElementById('userBtn');
+    var userDropdown = document.getElementById('userDropdown');
+    var notifBtn = document.getElementById('notificationsBtn');
+    var notifPanel = document.getElementById('notificationsPanel');
+
+    if (userBtn) userBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        userDropdown.classList.toggle('show');
+        notifPanel.classList.remove('show');
+    });
+
+    var logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) logoutBtn.addEventListener('click', function() {
+        if (confirm('هل أنت متأكد من تسجيل الخروج؟')) logout();
+    });
+
+    if (notifBtn) notifBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        notifPanel.classList.toggle('show');
+        userDropdown.classList.remove('show');
+    });
+
+    var markAllBtn = document.getElementById('markAllReadBtn');
+    if (markAllBtn) markAllBtn.addEventListener('click', markAllRead);
+
+    document.addEventListener('click', function(e) {
+        if (userDropdown && !userDropdown.contains(e.target) && userBtn && !userBtn.contains(e.target)) {
+            userDropdown.classList.remove('show');
+        }
+        if (notifPanel && !notifPanel.contains(e.target) && notifBtn && !notifBtn.contains(e.target)) {
+            notifPanel.classList.remove('show');
+        }
+    });
+
+    // Period tabs
+    document.querySelectorAll('.period-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.period-tab').forEach(function(t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+            state.period = tab.dataset.period;
+
+            var customRange = document.getElementById('customRange');
+            if (state.period === 'custom') {
+                customRange.classList.add('show');
+            } else {
+                customRange.classList.remove('show');
+                refreshAllReports();
+            }
+        });
+    });
+
+    // Apply custom range
+    var applyRangeBtn = document.getElementById('applyRangeBtn');
+    if (applyRangeBtn) {
+        applyRangeBtn.addEventListener('click', function() {
+            var from = document.getElementById('fromDate').value;
+            var to = document.getElementById('toDate').value;
+            if (!from || !to) {
+                showToast('الرجاء اختيار التاريخين', 'warning');
+                return;
+            }
+            state.fromDate = from;
+            state.toDate = to;
+            refreshAllReports();
+        });
+    }
+
+    // Set default custom range
+    var today = new Date();
+    var lastMonth = new Date();
+    lastMonth.setDate(lastMonth.getDate() - 30);
+    if (document.getElementById('fromDate')) {
+        document.getElementById('fromDate').value = lastMonth.toISOString().split('T')[0];
+        document.getElementById('toDate').value = today.toISOString().split('T')[0];
+    }
+
+    // Refresh button
+    var refreshBtn = document.getElementById('refreshBtn');
+    if (refreshBtn) refreshBtn.addEventListener('click', refreshAllReports);
+
+    // Export buttons
+    var expAllExcel = document.getElementById('exportAllExcelBtn');
+    if (expAllExcel) {
+        expAllExcel.addEventListener('click', function() {
+            exportProductsExcel();
+            setTimeout(function() { exportCustomersExcel(); }, 400);
+            setTimeout(function() { exportPurchasesExcel(); }, 800);
+        });
+    }
+
+    var expAllPdf = document.getElementById('exportAllPdfBtn');
+    if (expAllPdf) expAllPdf.addEventListener('click', exportAllPDF);
+
+    // Section exports
+    document.querySelectorAll('[data-export]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var type = btn.dataset.export;
+            if (type === 'products') exportProductsExcel();
+            else if (type === 'customers') exportCustomersExcel();
+            else if (type === 'purchases') exportPurchasesExcel();
+        });
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+            e.preventDefault();
+            toggleTheme();
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
+            e.preventDefault();
+            refreshAllReports();
+        }
+    });
+
+    // Scroll
+    var progressBar = document.getElementById('readingProgress');
+    var scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', function() {
+        var winScroll = document.documentElement.scrollTop;
+        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+        if (progressBar) progressBar.style.width = scrolled + '%';
+        if (winScroll > 300) {
+            if (scrollTopBtn) scrollTopBtn.classList.add('show');
+        } else {
+            if (scrollTopBtn) scrollTopBtn.classList.remove('show');
+        }
+    }, { passive: true });
+    if (scrollTopBtn) scrollTopBtn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Load initial data
+    refreshAllReports();
+    loadNotifications();
+    setInterval(loadNotifications, 60000);
+
+    startInactivityMonitor();
+    console.log('%c📊 صفحة التقارير جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+});
+
+})();
+</script>
+
+</body>
+</html>
