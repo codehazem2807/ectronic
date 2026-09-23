@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#1d5b8e">
-<meta name="description" content="المخزون - إلكترونك لصيانة الأجهزة الإلكترونية">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>المخزون | إلكترونك - لصيانة الأجهزة الإلكترونية</title>
 
 <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
@@ -33,10 +30,8 @@
     --warning: #f59e0b;
     --info: #3b82f6;
     --purple: #8b5cf6;
-    --pink: #ec4899;
     
     --bg-primary: #f6f8fb;
-    --bg-secondary: #ffffff;
     --bg-card: #ffffff;
     --bg-hover: #f1f5f9;
     --text-primary: #0a1f33;
@@ -69,7 +64,6 @@
 
 [data-theme="dark"] {
     --bg-primary: #0a1628;
-    --bg-secondary: #0f2035;
     --bg-card: #142f4a;
     --bg-hover: #1a3a5c;
     --text-primary: #f1f5f9;
@@ -189,16 +183,8 @@ img { max-width: 100%; height: auto; display: block; }
     line-height: 1.15;
 }
 
-.navbar-brand-text strong {
-    font-size: 1rem;
-    font-weight: 800;
-}
-
-.navbar-brand-text span {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    font-weight: 500;
-}
+.navbar-brand-text strong { font-size: 1rem; font-weight: 800; }
+.navbar-brand-text span { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
 
 .navbar-search {
     flex: 1;
@@ -532,29 +518,9 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
 }
 
-.btn-success {
-    background: linear-gradient(135deg, var(--success), #059669);
-    color: white;
-}
-
-.btn-success:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-}
-
 .btn-sm {
-    padding: 0.4rem 0.75rem;
+    padding: 0.45rem 0.8rem;
     font-size: 0.8rem;
-}
-
-.btn-icon {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border-radius: var(--radius-md);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .btn:disabled {
@@ -719,7 +685,7 @@ img { max-width: 100%; height: auto; display: block; }
    ═══════════════════════════════════════════════════════════════ */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
     gap: 1rem;
 }
 
@@ -806,8 +772,8 @@ img { max-width: 100%; height: auto; display: block; }
     color: var(--warning);
 }
 
-.product-favorite.active i {
-    font-weight: 900;
+[data-theme="dark"] .product-favorite {
+    background: rgba(20, 47, 74, 0.95);
 }
 
 .product-body {
@@ -890,15 +856,15 @@ img { max-width: 100%; height: auto; display: block; }
     font-weight: 800;
 }
 
+.product-qty-value.ok { color: var(--success); }
+.product-qty-value.low { color: var(--warning); }
+.product-qty-value.out { color: var(--danger); }
+
 .product-qty-label {
     font-size: 0.65rem;
     color: var(--text-muted);
     font-weight: 600;
 }
-
-.product-qty-value.ok { color: var(--success); }
-.product-qty-value.low { color: var(--warning); }
-.product-qty-value.out { color: var(--danger); }
 
 .product-actions {
     padding: 0.65rem;
@@ -926,7 +892,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .products-list-item {
     display: grid;
-    grid-template-columns: 60px 1fr 120px 100px 100px 160px;
+    grid-template-columns: 60px 1fr 130px 110px 90px 130px;
     gap: 1rem;
     align-items: center;
     padding: 0.85rem 1rem;
@@ -935,10 +901,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .products-list-item:last-child { border-bottom: none; }
-
-.products-list-item:hover {
-    background: var(--bg-hover);
-}
+.products-list-item:hover { background: var(--bg-hover); }
 
 .products-list-image {
     width: 60px;
@@ -998,16 +961,15 @@ img { max-width: 100%; height: auto; display: block; }
 .badge-danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
 .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
 .badge-info { background: rgba(59, 130, 246, 0.15); color: var(--info); }
-.badge-purple { background: rgba(139, 92, 246, 0.15); color: var(--purple); }
 .badge-gray { background: var(--bg-hover); color: var(--text-secondary); }
 
 /* ═══════════════════════════════════════════════════════════════
-   🪟 Modal
+   🪟 Modal with Scroll
    ═══════════════════════════════════════════════════════════════ */
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(10, 31, 51, 0.7);
+    background: rgba(10, 31, 51, 0.75);
     backdrop-filter: blur(8px);
     display: none;
     align-items: center;
@@ -1034,9 +996,11 @@ img { max-width: 100%; height: auto; display: block; }
     display: flex;
     flex-direction: column;
     margin: auto;
+    border: 1px solid var(--border-color);
 }
 
-.modal-lg { max-width: 900px; }
+.modal-sm { max-width: 440px; }
+.modal-lg { max-width: 820px; }
 
 @keyframes modalIn {
     from { opacity: 0; transform: scale(0.9) translateY(20px); }
@@ -1051,6 +1015,7 @@ img { max-width: 100%; height: auto; display: block; }
     justify-content: space-between;
     gap: 1rem;
     flex-shrink: 0;
+    background: var(--bg-card);
 }
 
 .modal-title {
@@ -1078,12 +1043,39 @@ img { max-width: 100%; height: auto; display: block; }
 .modal-close:hover {
     background: rgba(239, 68, 68, 0.1);
     color: var(--danger);
+    transform: rotate(90deg);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   📜 Modal Body with Scroll (المهم!)
+   ═══════════════════════════════════════════════════════════════ */
 .modal-body {
     padding: 1.5rem;
     overflow-y: auto;
+    overflow-x: hidden;
     flex: 1;
+    min-height: 0;
+    max-height: calc(92vh - 180px);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+    transition: background var(--transition);
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
 }
 
 .modal-footer {
@@ -1094,6 +1086,19 @@ img { max-width: 100%; height: auto; display: block; }
     justify-content: flex-end;
     flex-shrink: 0;
     background: var(--bg-primary);
+    flex-wrap: wrap;
+}
+
+.modal-footer .btn {
+    flex: 1;
+    min-width: 110px;
+}
+
+@media (min-width: 480px) {
+    .modal-footer .btn {
+        flex: initial;
+        min-width: auto;
+    }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1113,17 +1118,17 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.45rem;
 }
 
 .form-label .required { color: var(--danger); }
-.form-label i { color: var(--tech-blue); margin-left: 0.3rem; font-size: 0.8rem; }
+.form-label i { color: var(--tech-blue); margin-left: 0.35rem; font-size: 0.8rem; }
 
 .form-input,
 .form-select,
 .form-textarea {
     width: 100%;
-    padding: 0.7rem 0.95rem;
+    padding: 0.75rem 0.95rem;
     background: var(--bg-primary);
     border: 1.5px solid var(--border-color);
     border-radius: var(--radius-md);
@@ -1145,8 +1150,9 @@ img { max-width: 100%; height: auto; display: block; }
 
 .form-textarea {
     resize: vertical;
-    min-height: 80px;
-    line-height: 1.5;
+    min-height: 90px;
+    max-height: 200px;
+    line-height: 1.6;
 }
 
 .form-select {
@@ -1158,41 +1164,50 @@ img { max-width: 100%; height: auto; display: block; }
     padding-left: 2.25rem;
 }
 
-.form-hint {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    margin-top: 0.35rem;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-}
-
-.form-error {
-    font-size: 0.75rem;
-    color: var(--danger);
-    margin-top: 0.35rem;
-    display: none;
-    align-items: center;
-    gap: 0.3rem;
-    font-weight: 600;
-}
-
-.form-error.show { display: flex; }
-
 .form-input.error,
 .form-select.error,
 .form-textarea.error {
     border-color: var(--danger);
     box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+    animation: shake 0.4s ease;
 }
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+.form-hint {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    line-height: 1.5;
+}
+
+.form-error {
+    font-size: 0.75rem;
+    color: var(--danger);
+    margin-top: 0.4rem;
+    display: none;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 600;
+}
+
+.form-error.show { display: flex; }
 
 /* Image Upload */
 .image-upload {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 0.75rem;
-    padding: 1.25rem;
+    padding: 1.5rem;
     background: var(--bg-primary);
     border: 2px dashed var(--border-color);
     border-radius: var(--radius-md);
@@ -1200,6 +1215,7 @@ img { max-width: 100%; height: auto; display: block; }
     transition: all var(--transition);
     position: relative;
     overflow: hidden;
+    min-height: 200px;
 }
 
 .image-upload:hover {
@@ -1212,20 +1228,23 @@ img { max-width: 100%; height: auto; display: block; }
     inset: 0;
     opacity: 0;
     cursor: pointer;
+    width: 100%;
+    height: 100%;
 }
 
 .image-upload-preview {
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
     border-radius: var(--radius-md);
     object-fit: cover;
     background: var(--bg-card);
-    border: 1px solid var(--border-color);
+    border: 2px solid var(--border-color);
+    box-shadow: var(--shadow-md);
 }
 
 .image-upload-icon {
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     background: var(--bg-card);
     display: flex;
@@ -1233,23 +1252,46 @@ img { max-width: 100%; height: auto; display: block; }
     justify-content: center;
     font-size: 1.5rem;
     color: var(--tech-blue);
-    border: 1px solid var(--border-color);
+    border: 2px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
 }
 
-.image-upload-text {
-    text-align: center;
-}
+.image-upload-text { text-align: center; }
 
 .image-upload-text strong {
     display: block;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 700;
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.2rem;
+    color: var(--text-primary);
 }
 
 .image-upload-text span {
     font-size: 0.75rem;
     color: var(--text-muted);
+}
+
+.image-remove-btn {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--danger);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition);
+    z-index: 3;
+}
+
+.image-remove-btn:hover {
+    transform: scale(1.1);
+    background: #dc2626;
 }
 
 /* Barcode field */
@@ -1258,12 +1300,12 @@ img { max-width: 100%; height: auto; display: block; }
     gap: 0.5rem;
 }
 
-.barcode-input-group .form-input { flex: 1; }
+.barcode-input-group .form-input { flex: 1; min-width: 0; }
 
 .barcode-scan-btn,
 .barcode-gen-btn {
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
     border-radius: var(--radius-md);
     background: var(--bg-primary);
     border: 1.5px solid var(--border-color);
@@ -1282,6 +1324,7 @@ img { max-width: 100%; height: auto; display: block; }
     color: white;
     border-color: var(--tech-blue);
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(29, 91, 142, 0.3);
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1348,6 +1391,52 @@ img { max-width: 100%; height: auto; display: block; }
     border-top: none;
 }
 
+/* Barcode Print List */
+.barcode-list-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.barcode-list-item:hover {
+    background: var(--bg-hover);
+}
+
+.barcode-list-item:last-child { border-bottom: none; }
+
+.barcode-list-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--tech-blue);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.barcode-list-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.barcode-list-info strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.barcode-list-info span {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-family: 'Courier New', monospace;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    🍞 Toast
    ═══════════════════════════════════════════════════════════════ */
@@ -1410,7 +1499,7 @@ img { max-width: 100%; height: auto; display: block; }
     background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s infinite;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
 }
 
 @keyframes skeleton-loading {
@@ -1418,9 +1507,7 @@ img { max-width: 100%; height: auto; display: block; }
     100% { background-position: -200% 0; }
 }
 
-.skeleton-card {
-    height: 320px;
-}
+.skeleton-card { height: 320px; }
 
 /* ═══════════════════════════════════════════════════════════════
    📭 Empty State
@@ -1430,6 +1517,9 @@ img { max-width: 100%; height: auto; display: block; }
     text-align: center;
     color: var(--text-muted);
     grid-column: 1 / -1;
+    background: var(--bg-card);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-lg);
 }
 
 .empty-state i {
@@ -1525,6 +1615,11 @@ img { max-width: 100%; height: auto; display: block; }
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+}
+
+.scroll-top:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(29, 91, 142, 0.5);
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1766,8 +1861,9 @@ img { max-width: 100%; height: auto; display: block; }
     .navbar-brand-text { display: none; }
     .navbar-user-info { display: none; }
     .navbar-user { padding: 0.35rem; }
+    
     .products-list-item {
-        grid-template-columns: 50px 1fr 80px 80px;
+        grid-template-columns: 50px 1fr 100px 100px;
         gap: 0.65rem;
     }
     .products-list-item > *:nth-child(4),
@@ -1780,28 +1876,42 @@ img { max-width: 100%; height: auto; display: block; }
     .page-header { flex-direction: column; align-items: flex-start; }
     .page-header-actions { width: 100%; }
     .page-header-actions .btn { flex: 1; }
+    
     .products-grid { grid-template-columns: repeat(2, 1fr); gap: 0.65rem; }
     .product-title { font-size: 0.85rem; }
     .product-price-value { font-size: 0.95rem; }
     .product-qty-value { font-size: 0.9rem; }
-    .product-actions { padding: 0.5rem; }
+    .product-actions { padding: 0.5rem; gap: 0.25rem; }
     .product-actions .btn { font-size: 0.7rem; padding: 0.4rem; }
+    
     .form-grid { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: 1; }
+    
     .notifications-panel, .user-dropdown { left: 0.5rem; right: 0.5rem; width: auto; }
+    
     .toolbar { padding: 0.85rem; }
     .toolbar-row { gap: 0.5rem; }
-    .toolbar-select { min-width: 0; flex: 1; }
+    .toolbar-search { min-width: 0; flex: 1 1 100%; }
+    .toolbar-select { flex: 1; min-width: 0; }
     .view-toggle { display: none; }
+    
     .products-list-item {
-        grid-template-columns: 40px 1fr 80px;
+        grid-template-columns: 50px 1fr 80px;
         padding: 0.65rem 0.75rem;
     }
-    .products-list-image { width: 40px; height: 40px; }
+    .products-list-image { width: 50px; height: 50px; }
     .products-list-item > *:nth-child(4),
     .products-list-item > *:nth-child(5),
     .products-list-item > *:nth-child(6) {
         display: none;
     }
+    
+    .modal-body { padding: 1rem; max-height: calc(92vh - 160px); }
+    .modal-header { padding: 1rem 1.25rem; }
+    .modal-footer { padding: 0.85rem 1.25rem; gap: 0.5rem; }
+    
+    .image-upload { min-height: 160px; padding: 1rem; }
+    .image-upload-preview { width: 110px; height: 110px; }
 }
 
 @media (max-width: 400px) {
@@ -1837,13 +1947,7 @@ img { max-width: 100%; height: auto; display: block; }
     </a>
     
     <div class="navbar-search">
-        <input 
-            type="text" 
-            class="navbar-search-input" 
-            id="globalSearchInput" 
-            placeholder="ابحث عن صنف، عميل، فاتورة، أمر صيانة..."
-            autocomplete="off"
-        >
+        <input type="text" class="navbar-search-input" id="globalSearchInput" placeholder="ابحث..." autocomplete="off">
         <i class="fas fa-magnifying-glass navbar-search-icon"></i>
         <span class="navbar-search-shortcut">Ctrl+K</span>
     </div>
@@ -1965,7 +2069,6 @@ img { max-width: 100%; height: auto; display: block; }
      ═══════════════════════════════════════════════════════════════ -->
 <main class="main-content">
     
-    <!-- Page Header -->
     <div class="page-header">
         <div class="page-header-text">
             <h1>
@@ -1975,7 +2078,7 @@ img { max-width: 100%; height: auto; display: block; }
             <p id="pageSubtitle">إدارة الأصناف والمخزون</p>
         </div>
         <div class="page-header-actions">
-            <button class="btn btn-secondary" id="printBarcodesBtn" title="طباعة ملصقات الباركود">
+            <button class="btn btn-secondary" id="printBarcodesBtn" title="طباعة ملصقات">
                 <i class="fas fa-barcode"></i>
                 ملصقات
             </button>
@@ -1990,17 +2093,10 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
     </div>
     
-    <!-- Toolbar -->
     <div class="toolbar">
         <div class="toolbar-row">
             <div class="toolbar-search">
-                <input 
-                    type="text" 
-                    class="toolbar-search-input" 
-                    id="searchInput" 
-                    placeholder="ابحث بالاسم، الباركود، SKU..."
-                    autocomplete="off"
-                >
+                <input type="text" class="toolbar-search-input" id="searchInput" placeholder="ابحث بالاسم، الباركود..." autocomplete="off">
                 <i class="fas fa-magnifying-glass toolbar-search-icon"></i>
             </div>
             
@@ -2053,10 +2149,8 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
     </div>
     
-    <!-- Products Container -->
     <div id="productsContainer">
         <div class="products-grid" id="productsGrid">
-            <!-- Skeleton cards -->
             <div class="skeleton skeleton-card"></div>
             <div class="skeleton skeleton-card"></div>
             <div class="skeleton skeleton-card"></div>
@@ -2066,13 +2160,12 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
     </div>
     
-    <!-- Pagination -->
     <div class="pagination" id="pagination" style="display: none;"></div>
     
 </main>
 
 <!-- ═══════════════════════════════════════════════════════════════
-     🪟 Product Modal (Add/Edit)
+     🪟 Product Modal (Add/Edit) - with Scroll
      ═══════════════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="productModal">
     <div class="modal modal-lg">
@@ -2081,12 +2174,13 @@ img { max-width: 100%; height: auto; display: block; }
                 <i class="fas fa-box" id="productModalIcon"></i>
                 <span id="productModalTitle">إضافة صنف جديد</span>
             </h3>
-            <button class="modal-close" id="closeProductModal">
+            <button class="modal-close" id="closeProductModal" aria-label="إغلاق">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         
         <form id="productForm" autocomplete="off">
+            <!-- Scrollable Body -->
             <div class="modal-body">
                 <div class="form-grid">
                     
@@ -2095,8 +2189,11 @@ img { max-width: 100%; height: auto; display: block; }
                             <i class="fas fa-image"></i>
                             صورة الصنف
                         </label>
-                        <label class="image-upload" for="productImage">
+                        <div class="image-upload" id="imageUploadWrapper">
                             <img id="imagePreview" class="image-upload-preview" style="display: none;" alt="معاينة">
+                            <button type="button" class="image-remove-btn" id="removeImageBtn" style="display: none;" title="إزالة الصورة">
+                                <i class="fas fa-times"></i>
+                            </button>
                             <div id="imageUploadPlaceholder">
                                 <div class="image-upload-icon" style="margin: 0 auto 0.75rem;">
                                     <i class="fas fa-cloud-arrow-up"></i>
@@ -2107,22 +2204,15 @@ img { max-width: 100%; height: auto; display: block; }
                                 </div>
                             </div>
                             <input type="file" id="productImage" accept="image/*">
-                        </label>
+                        </div>
                     </div>
                     
                     <div class="form-group full">
-                        <label class="form-label">
+                        <label class="form-label" for="productName">
                             <i class="fas fa-tag"></i>
                             اسم الصنف <span class="required">*</span>
                         </label>
-                        <input 
-                            type="text" 
-                            class="form-input" 
-                            id="productName" 
-                            placeholder="مثال: شاشة Samsung A50"
-                            required
-                            maxlength="200"
-                        >
+                        <input type="text" class="form-input" id="productName" placeholder="مثال: شاشة Samsung A50" required maxlength="200">
                         <div class="form-error" id="nameError">
                             <i class="fas fa-circle-exclamation"></i>
                             <span>الرجاء إدخال اسم الصنف</span>
@@ -2130,7 +2220,7 @@ img { max-width: 100%; height: auto; display: block; }
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">
+                        <label class="form-label" for="productCategory">
                             <i class="fas fa-tags"></i>
                             الفئة
                         </label>
@@ -2140,19 +2230,13 @@ img { max-width: 100%; height: auto; display: block; }
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">
+                        <label class="form-label" for="productBarcode">
                             <i class="fas fa-barcode"></i>
                             الباركود
                         </label>
                         <div class="barcode-input-group">
-                            <input 
-                                type="text" 
-                                class="form-input" 
-                                id="productBarcode" 
-                                placeholder="اتركه فارغًا للتوليد التلقائي"
-                                maxlength="50"
-                            >
-                            <button type="button" class="barcode-gen-btn" id="genBarcodeBtn" title="توليد باركود">
+                            <input type="text" class="form-input" id="productBarcode" placeholder="اتركه فارغًا للتوليد" maxlength="50">
+                            <button type="button" class="barcode-gen-btn" id="genBarcodeBtn" title="توليد تلقائي">
                                 <i class="fas fa-wand-magic-sparkles"></i>
                             </button>
                             <button type="button" class="barcode-scan-btn" id="scanBarcodeBtn" title="مسح بالكاميرا">
@@ -2161,90 +2245,52 @@ img { max-width: 100%; height: auto; display: block; }
                         </div>
                         <div class="form-hint">
                             <i class="fas fa-info-circle"></i>
-                            سيتم توليد باركود ELK-XXXXXX تلقائيًا لو تركته فارغًا
+                            سيتم توليد ELK-XXXXXX تلقائيًا لو تركته فارغًا
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">
+                        <label class="form-label" for="productCostPrice">
                             <i class="fas fa-money-bill-wave"></i>
                             سعر الشراء <span class="required">*</span>
                         </label>
-                        <input 
-                            type="number" 
-                            class="form-input" 
-                            id="productCostPrice" 
-                            placeholder="0"
-                            min="0"
-                            step="0.01"
-                            required
-                        >
+                        <input type="number" class="form-input" id="productCostPrice" placeholder="0" min="0" step="0.01" required>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">
+                        <label class="form-label" for="productSellPrice">
                             <i class="fas fa-dollar-sign"></i>
                             سعر البيع <span class="required">*</span>
                         </label>
-                        <input 
-                            type="number" 
-                            class="form-input" 
-                            id="productSellPrice" 
-                            placeholder="0"
-                            min="0"
-                            step="0.01"
-                            required
-                        >
+                        <input type="number" class="form-input" id="productSellPrice" placeholder="0" min="0" step="0.01" required>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">
+                        <label class="form-label" for="productQuantity">
                             <i class="fas fa-cubes"></i>
                             الكمية <span class="required">*</span>
                         </label>
-                        <input 
-                            type="number" 
-                            class="form-input" 
-                            id="productQuantity" 
-                            placeholder="0"
-                            min="0"
-                            step="1"
-                            value="0"
-                            required
-                        >
+                        <input type="number" class="form-input" id="productQuantity" placeholder="0" min="0" step="1" value="0" required>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label">
+                        <label class="form-label" for="productMinQty">
                             <i class="fas fa-bell"></i>
                             حد التنبيه الأدنى
                         </label>
-                        <input 
-                            type="number" 
-                            class="form-input" 
-                            id="productMinQty" 
-                            placeholder="5"
-                            min="0"
-                            step="1"
-                            value="5"
-                        >
+                        <input type="number" class="form-input" id="productMinQty" placeholder="5" min="0" step="1" value="5">
                         <div class="form-hint">
                             <i class="fas fa-info-circle"></i>
-                            هتجيلك تنبيه لو الكمية وصلت لهذا الحد
+                            تنبيه عند وصول الكمية لهذا الحد
                         </div>
                     </div>
                     
                     <div class="form-group full">
-                        <label class="form-label">
+                        <label class="form-label" for="productDescription">
                             <i class="fas fa-align-right"></i>
                             الوصف
                         </label>
-                        <textarea 
-                            class="form-textarea" 
-                            id="productDescription" 
-                            placeholder="وصف تفصيلي للصنف (اختياري)"
-                            maxlength="1000"
-                        ></textarea>
+                        <textarea class="form-textarea" id="productDescription" placeholder="وصف تفصيلي للصنف (اختياري)" maxlength="1000"></textarea>
                     </div>
                     
                 </div>
@@ -2265,9 +2311,7 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     📷 Barcode Scanner Modal
-     ═══════════════════════════════════════════════════════════════ -->
+<!-- Scanner Modal -->
 <div class="modal-overlay" id="scannerModal">
     <div class="modal">
         <div class="modal-header">
@@ -2300,11 +2344,9 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     🗑️ Delete Confirmation Modal
-     ═══════════════════════════════════════════════════════════════ -->
+<!-- Delete Modal -->
 <div class="modal-overlay" id="deleteModal">
-    <div class="modal" style="max-width: 440px;">
+    <div class="modal modal-sm">
         <div class="modal-header">
             <h3 class="modal-title">
                 <i class="fas fa-triangle-exclamation" style="color: var(--danger);"></i>
@@ -2336,9 +2378,7 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     🖨️ Barcode Print Modal
-     ═══════════════════════════════════════════════════════════════ -->
+<!-- Barcode Print Modal -->
 <div class="modal-overlay" id="barcodePrintModal">
     <div class="modal modal-lg">
         <div class="modal-header">
@@ -2356,14 +2396,9 @@ img { max-width: 100%; height: auto; display: block; }
                     <i class="fas fa-search"></i>
                     ابحث عن الصنف
                 </label>
-                <input 
-                    type="text" 
-                    class="form-input" 
-                    id="barcodeSearch" 
-                    placeholder="اكتب اسم الصنف أو الباركود..."
-                >
+                <input type="text" class="form-input" id="barcodeSearch" placeholder="اكتب اسم الصنف أو الباركود...">
             </div>
-            <div id="barcodeProductsList" style="max-height: 300px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+            <div id="barcodeProductsList" style="max-height: 320px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary);">
                 <!-- سيتم تعبئتها -->
             </div>
         </div>
@@ -2430,16 +2465,13 @@ img { max-width: 100%; height: auto; display: block; }
      ═══════════════════════════════════════════════════════════════ -->
 <script type="module">
 
-// ═══════════════════════════════════════════════════════════════
-// 🔑 Config
-// ═══════════════════════════════════════════════════════════════
 const SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
 const BUCKET_NAME = 'product-images';
 const PAGE_SIZE = 24;
 
 // ═══════════════════════════════════════════════════════════════
-// 🧰 Helpers
+// Helpers
 // ═══════════════════════════════════════════════════════════════
 function escapeHtml(str) {
     if (str == null) return '';
@@ -2453,10 +2485,7 @@ function escapeHtml(str) {
 
 function formatCurrency(amount) {
     const num = parseFloat(amount) || 0;
-    return num.toLocaleString('ar-EG', { 
-        minimumFractionDigits: 0, 
-        maximumFractionDigits: 2 
-    }) + ' ج.م';
+    return num.toLocaleString('ar-EG', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' ج.م';
 }
 
 function formatNumber(num) {
@@ -2465,9 +2494,7 @@ function formatNumber(num) {
 
 function formatDate(date) {
     if (!date) return '';
-    return new Date(date).toLocaleDateString('ar-EG', { 
-        year: 'numeric', month: 'short', day: 'numeric' 
-    });
+    return new Date(date).toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
 function formatTimeAgo(date) {
@@ -2485,13 +2512,8 @@ function generateBarcode() {
     return 'ELK-' + String(num).padStart(6, '0');
 }
 
-function validateBarcode(barcode) {
-    if (!barcode) return true;
-    return /^[A-Za-z0-9\-_]{3,50}$/.test(barcode);
-}
-
 // ═══════════════════════════════════════════════════════════════
-// 🎨 Theme
+// Theme
 // ═══════════════════════════════════════════════════════════════
 function initTheme() {
     const saved = localStorage.getItem('theme') || 'light';
@@ -2513,7 +2535,7 @@ function toggleTheme() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🍞 Toast
+// Toast
 // ═══════════════════════════════════════════════════════════════
 function showToast(message, type = 'info', duration = 3500) {
     const container = document.getElementById('toastContainer');
@@ -2538,7 +2560,7 @@ function showToast(message, type = 'info', duration = 3500) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🌐 Online
+// Online Status
 // ═══════════════════════════════════════════════════════════════
 function updateOnlineStatus() {
     const dot = document.getElementById('onlineDot');
@@ -2547,7 +2569,7 @@ function updateOnlineStatus() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🔐 Session
+// Session
 // ═══════════════════════════════════════════════════════════════
 function getSession() {
     try {
@@ -2574,7 +2596,7 @@ function logout(message) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ⏱️ Inactivity
+// Inactivity
 // ═══════════════════════════════════════════════════════════════
 const INACTIVITY_TIMEOUT = 30 * 60 * 1000;
 let inactivityTimer = null;
@@ -2592,7 +2614,7 @@ function startInactivityMonitor() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📦 IndexedDB
+// IndexedDB
 // ═══════════════════════════════════════════════════════════════
 const DB_NAME = 'electronic_db';
 const DB_VERSION = 1;
@@ -2613,7 +2635,6 @@ function openDB() {
             if (!db.objectStoreNames.contains('settings')) db.createObjectStore('settings', { keyPath: 'key' });
             if (!db.objectStoreNames.contains('products')) db.createObjectStore('products', { keyPath: 'id' });
             if (!db.objectStoreNames.contains('categories')) db.createObjectStore('categories', { keyPath: 'id' });
-            if (!db.objectStoreNames.contains('favorites')) db.createObjectStore('favorites', { keyPath: 'id' });
         };
         req.onsuccess = () => { dbInstance = req.result; resolve(dbInstance); };
         req.onerror = () => reject(req.error);
@@ -2625,16 +2646,6 @@ async function dbPut(store, data) {
     return new Promise((res, rej) => {
         const tx = db.transaction(store, 'readwrite');
         const r = tx.objectStore(store).put(data);
-        r.onsuccess = () => res(r.result);
-        r.onerror = () => rej(r.error);
-    });
-}
-
-async function dbGet(store, key) {
-    const db = await openDB();
-    return new Promise((res, rej) => {
-        const tx = db.transaction(store, 'readonly');
-        const r = tx.objectStore(store).get(key);
         r.onsuccess = () => res(r.result);
         r.onerror = () => rej(r.error);
     });
@@ -2664,18 +2675,14 @@ async function addToOutbox(action) {
     const db = await openDB();
     return new Promise((res, rej) => {
         const tx = db.transaction('outbox', 'readwrite');
-        const r = tx.objectStore('outbox').add({
-            ...action,
-            status: 'pending',
-            created_at: Date.now()
-        });
+        const r = tx.objectStore('outbox').add({ ...action, status: 'pending', created_at: Date.now() });
         r.onsuccess = () => res(r.result);
         r.onerror = () => rej(r.error);
     });
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🗄️ Supabase
+// Supabase
 // ═══════════════════════════════════════════════════════════════
 let supabaseClient = null;
 
@@ -2683,9 +2690,7 @@ async function getSupabase() {
     if (supabaseClient) return supabaseClient;
     try {
         const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
-        supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-            auth: { persistSession: false }
-        });
+        supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false } });
         return supabaseClient;
     } catch (err) {
         console.warn('فشل تحميل Supabase:', err);
@@ -2694,7 +2699,7 @@ async function getSupabase() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📊 State
+// State
 // ═══════════════════════════════════════════════════════════════
 const state = {
     products: [],
@@ -2710,12 +2715,11 @@ const state = {
     editingProduct: null,
     deletingProduct: null,
     imageFile: null,
-    imagePreviewUrl: null,
     scanner: null
 };
 
 // ═══════════════════════════════════════════════════════════════
-// 📥 Load Data
+// Load Data
 // ═══════════════════════════════════════════════════════════════
 async function loadCategories() {
     try {
@@ -2792,7 +2796,6 @@ async function loadFavorites() {
         console.warn('خطأ في تحميل المفضلة:', err);
     }
     
-    // دائمًا احفظ في localStorage كـ cache إضافي
     const localFav = JSON.parse(localStorage.getItem('favorites_' + session.user.id) || '[]');
     localFav.forEach(id => state.favorites.add(id));
 }
@@ -2804,13 +2807,12 @@ function saveFavoritesLocal() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🎯 Filters
+// Filters
 // ═══════════════════════════════════════════════════════════════
 function applyFilters() {
     let list = [...state.products];
     const q = state.searchQuery.trim().toLowerCase();
     
-    // Search
     if (q) {
         list = list.filter(p => 
             (p.name || '').toLowerCase().includes(q) ||
@@ -2819,12 +2821,10 @@ function applyFilters() {
         );
     }
     
-    // Category
     if (state.categoryFilter) {
         list = list.filter(p => p.category_id === state.categoryFilter);
     }
     
-    // Filter chips
     if (state.currentFilter === 'favorites') {
         list = list.filter(p => state.favorites.has(p.id));
     } else if (state.currentFilter === 'low') {
@@ -2833,7 +2833,6 @@ function applyFilters() {
         list = list.filter(p => p.quantity <= 0);
     }
     
-    // Sort
     switch (state.sortFilter) {
         case 'name':
             list.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
@@ -2873,7 +2872,7 @@ function updateCounts() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🎨 Render
+// Render
 // ═══════════════════════════════════════════════════════════════
 function render() {
     const container = document.getElementById('productsContainer');
@@ -2896,7 +2895,6 @@ function render() {
         container.innerHTML = `<div class="products-list">${pageItems.map(p => renderProductListItem(p)).join('')}</div>`;
     }
     
-    // Pagination
     if (totalPages > 1 && pagination) {
         pagination.style.display = 'flex';
         pagination.innerHTML = renderPagination(totalPages);
@@ -2915,10 +2913,6 @@ function getEmptyState() {
                 <i class="fas fa-magnifying-glass"></i>
                 <h3>لا توجد نتائج</h3>
                 <p>لم نجد أصناف تطابق "${escapeHtml(state.searchQuery)}"</p>
-                <button class="btn btn-secondary" onclick="document.getElementById('searchInput').value=''; window.dispatchEvent(new Event('clearSearch'))">
-                    <i class="fas fa-times"></i>
-                    مسح البحث
-                </button>
             </div>
         `;
     }
@@ -2933,22 +2927,12 @@ function getEmptyState() {
         `;
     }
     
-    if (state.currentFilter === 'low') {
+    if (state.currentFilter === 'low' || state.currentFilter === 'out') {
         return `
             <div class="empty-state">
                 <i class="fas fa-circle-check"></i>
-                <h3>المخزون في حالة جيدة</h3>
-                <p>لا توجد أصناف منخفضة حاليًا</p>
-            </div>
-        `;
-    }
-    
-    if (state.currentFilter === 'out') {
-        return `
-            <div class="empty-state">
-                <i class="fas fa-circle-check"></i>
-                <h3>لا توجد أصناف نافذة</h3>
-                <p>كل الأصناف متوفرة في المخزون</p>
+                <h3>لا توجد أصناف</h3>
+                <p>المخزون في حالة جيدة</p>
             </div>
         `;
     }
@@ -2979,16 +2963,14 @@ function renderProductCard(p) {
     }
     
     const imageHtml = p.image_url 
-        ? `<img src="${escapeHtml(p.image_url)}" alt="${escapeHtml(p.name)}" class="product-image" loading="lazy" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-image product-image-placeholder\\'></i>'">`
+        ? `<img src="${escapeHtml(p.image_url)}" alt="${escapeHtml(p.name)}" class="product-image" loading="lazy">`
         : `<i class="fas fa-image product-image-placeholder"></i>`;
     
     return `
         <div class="product-card" data-id="${p.id}">
             <div class="product-image-wrapper">
                 ${imageHtml}
-                <div class="product-badges">
-                    ${qtyBadge}
-                </div>
+                <div class="product-badges">${qtyBadge}</div>
                 <button class="product-favorite ${isFav ? 'active' : ''}" data-action="favorite" data-id="${p.id}" title="المفضلة">
                     <i class="${isFav ? 'fas' : 'far'} fa-star"></i>
                 </button>
@@ -3013,8 +2995,7 @@ function renderProductCard(p) {
             </div>
             <div class="product-actions">
                 <button class="btn btn-secondary btn-sm" data-action="edit" data-id="${p.id}">
-                    <i class="fas fa-pen"></i>
-                    تعديل
+                    <i class="fas fa-pen"></i> تعديل
                 </button>
                 <button class="btn btn-danger btn-sm" data-action="delete" data-id="${p.id}">
                     <i class="fas fa-trash"></i>
@@ -3052,13 +3033,13 @@ function renderProductListItem(p) {
                 <span class="product-qty-value ${qtyClass}" style="font-size: 0.85rem;">${formatNumber(p.quantity)}</span>
             </div>
             <div class="products-list-actions">
-                <button class="btn btn-icon btn-secondary" data-action="favorite" data-id="${p.id}" title="المفضلة">
+                <button class="btn btn-sm btn-secondary" data-action="favorite" data-id="${p.id}" title="المفضلة">
                     <i class="${isFav ? 'fas' : 'far'} fa-star" style="${isFav ? 'color: var(--warning);' : ''}"></i>
                 </button>
-                <button class="btn btn-icon btn-secondary" data-action="edit" data-id="${p.id}" title="تعديل">
+                <button class="btn btn-sm btn-secondary" data-action="edit" data-id="${p.id}" title="تعديل">
                     <i class="fas fa-pen"></i>
                 </button>
-                <button class="btn btn-icon btn-danger" data-action="delete" data-id="${p.id}" title="حذف">
+                <button class="btn btn-sm btn-danger" data-action="delete" data-id="${p.id}" title="حذف">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
@@ -3070,11 +3051,7 @@ function renderPagination(totalPages) {
     const current = state.currentPage;
     const pages = [];
     
-    pages.push(`
-        <button class="pagination-btn" data-page="${current - 1}" ${current === 1 ? 'disabled' : ''}>
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    `);
+    pages.push(`<button class="pagination-btn" data-page="${current - 1}" ${current === 1 ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`);
     
     const start = Math.max(1, current - 2);
     const end = Math.min(totalPages, current + 2);
@@ -3093,11 +3070,7 @@ function renderPagination(totalPages) {
         pages.push(`<button class="pagination-btn" data-page="${totalPages}">${totalPages}</button>`);
     }
     
-    pages.push(`
-        <button class="pagination-btn" data-page="${current + 1}" ${current === totalPages ? 'disabled' : ''}>
-            <i class="fas fa-chevron-left"></i>
-        </button>
-    `);
+    pages.push(`<button class="pagination-btn" data-page="${current + 1}" ${current === totalPages ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`);
     
     return pages.join('');
 }
@@ -3130,7 +3103,7 @@ function bindProductEvents() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ⭐ Favorites
+// Favorites
 // ═══════════════════════════════════════════════════════════════
 async function toggleFavorite(productId) {
     const session = getSession();
@@ -3138,11 +3111,8 @@ async function toggleFavorite(productId) {
     
     const isFav = state.favorites.has(productId);
     
-    if (isFav) {
-        state.favorites.delete(productId);
-    } else {
-        state.favorites.add(productId);
-    }
+    if (isFav) state.favorites.delete(productId);
+    else state.favorites.add(productId);
     
     saveFavoritesLocal();
     updateCounts();
@@ -3150,7 +3120,6 @@ async function toggleFavorite(productId) {
     
     showToast(isFav ? 'تم الإزالة من المفضلة' : 'تم الإضافة للمفضلة ⭐', 'success', 2000);
     
-    // Sync to Supabase
     try {
         const sb = await getSupabase();
         if (sb && navigator.onLine) {
@@ -3166,12 +3135,11 @@ async function toggleFavorite(productId) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🪟 Add/Edit Modal
+// Add/Edit Modal
 // ═══════════════════════════════════════════════════════════════
 function openAddModal() {
     state.editingProduct = null;
     state.imageFile = null;
-    state.imagePreviewUrl = null;
     
     document.getElementById('productModalTitle').textContent = 'إضافة صنف جديد';
     document.getElementById('productModalIcon').className = 'fas fa-plus';
@@ -3182,10 +3150,9 @@ function openAddModal() {
     document.getElementById('productMinQty').value = '5';
     document.getElementById('productBarcode').value = generateBarcode();
     
-    document.getElementById('imagePreview').style.display = 'none';
-    document.getElementById('imageUploadPlaceholder').style.display = 'block';
-    
+    resetImageUpload();
     clearFormErrors();
+    
     document.getElementById('productModal').classList.add('show');
     setTimeout(() => document.getElementById('productName')?.focus(), 300);
 }
@@ -3196,7 +3163,6 @@ function openEditModal(id) {
     
     state.editingProduct = p;
     state.imageFile = null;
-    state.imagePreviewUrl = p.image_url || null;
     
     document.getElementById('productModalTitle').textContent = 'تعديل الصنف';
     document.getElementById('productModalIcon').className = 'fas fa-pen';
@@ -3215,9 +3181,9 @@ function openEditModal(id) {
         document.getElementById('imagePreview').src = p.image_url;
         document.getElementById('imagePreview').style.display = 'block';
         document.getElementById('imageUploadPlaceholder').style.display = 'none';
+        document.getElementById('removeImageBtn').style.display = 'flex';
     } else {
-        document.getElementById('imagePreview').style.display = 'none';
-        document.getElementById('imageUploadPlaceholder').style.display = 'block';
+        resetImageUpload();
     }
     
     clearFormErrors();
@@ -3229,7 +3195,14 @@ function closeProductModal() {
     document.getElementById('productModal').classList.remove('show');
     state.editingProduct = null;
     state.imageFile = null;
-    state.imagePreviewUrl = null;
+}
+
+function resetImageUpload() {
+    document.getElementById('imagePreview').style.display = 'none';
+    document.getElementById('imagePreview').src = '';
+    document.getElementById('imageUploadPlaceholder').style.display = 'block';
+    document.getElementById('removeImageBtn').style.display = 'none';
+    document.getElementById('productImage').value = '';
 }
 
 function clearFormErrors() {
@@ -3237,7 +3210,7 @@ function clearFormErrors() {
     document.querySelectorAll('.form-input.error, .form-select.error, .form-textarea.error').forEach(el => el.classList.remove('error'));
 }
 
-// Image upload
+// Image upload handler
 document.addEventListener('change', (e) => {
     if (e.target.id === 'productImage') {
         const file = e.target.files[0];
@@ -3245,11 +3218,13 @@ document.addEventListener('change', (e) => {
         
         if (file.size > 5 * 1024 * 1024) {
             showToast('حجم الصورة أكبر من 5 ميجا', 'error');
+            e.target.value = '';
             return;
         }
         
         if (!file.type.startsWith('image/')) {
             showToast('الملف ليس صورة', 'error');
+            e.target.value = '';
             return;
         }
         
@@ -3257,21 +3232,20 @@ document.addEventListener('change', (e) => {
         
         const reader = new FileReader();
         reader.onload = (ev) => {
-            state.imagePreviewUrl = ev.target.result;
             document.getElementById('imagePreview').src = ev.target.result;
             document.getElementById('imagePreview').style.display = 'block';
             document.getElementById('imageUploadPlaceholder').style.display = 'none';
+            document.getElementById('removeImageBtn').style.display = 'flex';
         };
         reader.readAsDataURL(file);
     }
 });
 
 // ═══════════════════════════════════════════════════════════════
-// 💾 Save Product
+// Save Product
 // ═══════════════════════════════════════════════════════════════
 async function saveProduct(e) {
     e.preventDefault();
-    
     clearFormErrors();
     
     const name = document.getElementById('productName').value.trim();
@@ -3283,31 +3257,12 @@ async function saveProduct(e) {
     const minQty = parseInt(document.getElementById('productMinQty').value) || 5;
     const description = document.getElementById('productDescription').value.trim() || null;
     
-    // Validation
-    let hasError = false;
-    
     if (!name) {
         document.getElementById('productName').classList.add('error');
         document.getElementById('nameError').classList.add('show');
-        hasError = true;
+        document.getElementById('productName').focus();
+        return;
     }
-    
-    if (sellPrice < 0 || costPrice < 0) {
-        showToast('الأسعار لا يمكن أن تكون سالبة', 'error');
-        hasError = true;
-    }
-    
-    if (quantity < 0) {
-        showToast('الكمية لا يمكن أن تكون سالبة', 'error');
-        hasError = true;
-    }
-    
-    if (barcode && !validateBarcode(barcode)) {
-        showToast('صيغة الباركود غير صحيحة', 'error');
-        hasError = true;
-    }
-    
-    if (hasError) return;
     
     const btn = document.getElementById('saveProductBtn');
     const spinner = btn.querySelector('.spinner');
@@ -3325,86 +3280,63 @@ async function saveProduct(e) {
         
         let imageUrl = state.editingProduct?.image_url || null;
         
-        // Upload image if new
+        // Upload image
         if (state.imageFile && sb && navigator.onLine) {
             try {
                 const fileExt = state.imageFile.name.split('.').pop().toLowerCase();
                 const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
                 
-                const { data: uploadData, error: uploadError } = await sb.storage
+                const { error: uploadError } = await sb.storage
                     .from(BUCKET_NAME)
-                    .upload(fileName, state.imageFile, {
-                        cacheControl: '3600',
-                        upsert: false
-                    });
+                    .upload(fileName, state.imageFile, { cacheControl: '3600', upsert: false });
                 
                 if (uploadError) throw uploadError;
                 
-                const { data: urlData } = sb.storage
-                    .from(BUCKET_NAME)
-                    .getPublicUrl(fileName);
-                
+                const { data: urlData } = sb.storage.from(BUCKET_NAME).getPublicUrl(fileName);
                 imageUrl = urlData.publicUrl;
             } catch (imgErr) {
                 console.warn('فشل رفع الصورة:', imgErr);
-                showToast('فشل رفع الصورة، سيتم الحفظ بدونها', 'warning');
+                showToast('فشل رفع الصورة، الحفظ بدونها', 'warning');
             }
         }
         
         const productData = {
-            name,
-            category_id: categoryId,
-            barcode,
-            sku: barcode,
-            cost_price: costPrice,
-            sell_price: sellPrice,
-            quantity,
-            min_quantity: minQty,
-            description,
-            image_url: imageUrl
+            name, category_id: categoryId, barcode, sku: barcode,
+            cost_price: costPrice, sell_price: sellPrice,
+            quantity, min_quantity: minQty, description, image_url: imageUrl
         };
         
         if (state.editingProduct) {
-            // Update
             if (sb && navigator.onLine) {
-                const { error } = await sb
-                    .from('products')
-                    .update(productData)
-                    .eq('id', state.editingProduct.id);
-                
+                const { error } = await sb.from('products').update(productData).eq('id', state.editingProduct.id);
                 if (error) throw error;
                 
-                // Audit log
                 await sb.from('audit_log').insert({
-                    user_id: session?.user?.id,
-                    action: 'UPDATE',
-                    table_name: 'products',
-                    record_id: state.editingProduct.id,
-                    old_data: state.editingProduct,
-                    new_data: productData
+                    user_id: session?.user?.id, action: 'UPDATE', table_name: 'products',
+                    record_id: state.editingProduct.id, old_data: state.editingProduct, new_data: productData
                 });
             } else {
-                await addToOutbox({
-                    type: 'update',
-                    table: 'products',
-                    id: state.editingProduct.id,
-                    data: productData
-                });
+                await addToOutbox({ type: 'update', table: 'products', id: state.editingProduct.id, data: productData });
             }
             
-            // Update local
             const idx = state.products.findIndex(x => x.id === state.editingProduct.id);
             if (idx >= 0) {
                 state.products[idx] = { 
-                    ...state.products[idx], 
-                    ...productData,
+                    ...state.products[idx], ...productData,
                     category: state.categories.find(c => c.id === categoryId)
                 };
+                await dbPut('products', state.products[idx]);
             }
             
-            showToast('تم تحديث الصنف بنجاح', 'success');
+            showToast('✅ تم تحديث الصنف بنجاح', 'success');
         } else {
-            // Insert
+            const newProduct = {
+                id: 'temp_' + Date.now(),
+                ...productData,
+                category: state.categories.find(c => c.id === categoryId),
+                created_at: new Date().toISOString()
+            };
+            
             if (sb && navigator.onLine) {
                 const { data, error } = await sb
                     .from('products')
@@ -3414,44 +3346,23 @@ async function saveProduct(e) {
                 
                 if (error) throw error;
                 
-                // Audit log
+                newProduct.id = data.id;
+                newProduct.created_at = data.created_at;
+                newProduct.category = data.category;
+                
                 await sb.from('audit_log').insert({
-                    user_id: session?.user?.id,
-                    action: 'INSERT',
-                    table_name: 'products',
-                    record_id: data.id,
-                    new_data: data
+                    user_id: session?.user?.id, action: 'INSERT', table_name: 'products',
+                    record_id: data.id, new_data: data
                 });
-                
-                state.products.unshift(data);
             } else {
-                // Offline - local only
-                const tempId = 'temp_' + Date.now();
-                const localProduct = {
-                    id: tempId,
-                    ...productData,
-                    category: state.categories.find(c => c.id === categoryId),
-                    created_at: new Date().toISOString()
-                };
-                state.products.unshift(localProduct);
-                
-                await addToOutbox({
-                    type: 'insert',
-                    table: 'products',
-                    tempId,
-                    data: productData
-                });
+                await addToOutbox({ type: 'insert', table: 'products', tempId: newProduct.id, data: productData });
             }
             
-            showToast('تم إضافة الصنف بنجاح', 'success');
+            state.products.unshift(newProduct);
+            await dbPut('products', newProduct);
+            
+            showToast('✅ تم إضافة الصنف بنجاح', 'success');
         }
-        
-        // Save to IndexedDB
-        const savedProduct = state.products.find(p => 
-            state.editingProduct ? p.id === state.editingProduct.id : 
-            (p.name === name && p.barcode === barcode)
-        );
-        if (savedProduct) await dbPut('products', savedProduct);
         
         closeProductModal();
         updateCounts();
@@ -3469,7 +3380,7 @@ async function saveProduct(e) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🗑️ Delete
+// Delete
 // ═══════════════════════════════════════════════════════════════
 function openDeleteModal(id) {
     const p = state.products.find(x => x.id === id);
@@ -3497,26 +3408,18 @@ async function confirmDelete() {
             if (error) throw error;
             
             await sb.from('audit_log').insert({
-                user_id: session?.user?.id,
-                action: 'DELETE',
-                table_name: 'products',
-                record_id: p.id,
-                old_data: p
+                user_id: session?.user?.id, action: 'DELETE', table_name: 'products',
+                record_id: p.id, old_data: p
             });
         } else if (!navigator.onLine) {
-            await addToOutbox({
-                type: 'delete',
-                table: 'products',
-                id: p.id
-            });
+            await addToOutbox({ type: 'delete', table: 'products', id: p.id });
         }
         
-        // Remove from local
         state.products = state.products.filter(x => x.id !== p.id);
         state.favorites.delete(p.id);
         await dbDelete('products', p.id);
         
-        showToast('تم حذف الصنف بنجاح', 'success');
+        showToast('✅ تم حذف الصنف بنجاح', 'success');
         document.getElementById('deleteModal').classList.remove('show');
         state.deletingProduct = null;
         
@@ -3533,7 +3436,7 @@ async function confirmDelete() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📷 Barcode Scanner
+// Barcode Scanner
 // ═══════════════════════════════════════════════════════════════
 async function openScanner() {
     document.getElementById('scannerModal').classList.add('show');
@@ -3555,17 +3458,13 @@ async function openScanner() {
         
         await state.scanner.start(
             { facingMode: "environment" },
-            {
-                fps: 10,
-                qrbox: { width: 250, height: 150 },
-                aspectRatio: 1.0
-            },
+            { fps: 10, qrbox: { width: 250, height: 150 }, aspectRatio: 1.0 },
             (decodedText) => {
                 document.getElementById('productBarcode').value = decodedText;
                 showToast('تم قراءة الباركود', 'success');
                 closeScanner();
             },
-            () => {} // ignore errors
+            () => {}
         );
     } catch (err) {
         console.error(err);
@@ -3583,13 +3482,13 @@ async function closeScanner() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🖨️ Barcode Print
+// Barcode Print
 // ═══════════════════════════════════════════════════════════════
 function openBarcodePrintModal() {
     document.getElementById('barcodePrintModal').classList.add('show');
     renderBarcodeList();
     document.getElementById('barcodeSearch').value = '';
-    document.getElementById('barcodeSearch').focus();
+    setTimeout(() => document.getElementById('barcodeSearch')?.focus(), 300);
 }
 
 function renderBarcodeList(search = '') {
@@ -3605,16 +3504,16 @@ function renderBarcodeList(search = '') {
     }
     
     if (!list.length) {
-        container.innerHTML = '<div class="empty-state" style="padding: 2rem;"><i class="fas fa-box-open"></i><p>لا توجد أصناف</p></div>';
+        container.innerHTML = '<div class="empty-state" style="padding: 2rem; border: none; background: transparent;"><i class="fas fa-box-open"></i><p>لا توجد أصناف</p></div>';
         return;
     }
     
-    container.innerHTML = list.slice(0, 50).map(p => `
-        <label style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-color); cursor: pointer;">
-            <input type="checkbox" value="${p.id}" class="barcode-checkbox" style="width: 18px; height: 18px; accent-color: var(--tech-blue);">
-            <div style="flex: 1;">
-                <div style="font-weight: 700; font-size: 0.9rem;">${escapeHtml(p.name)}</div>
-                <div style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;">${escapeHtml(p.barcode || '')}</div>
+    container.innerHTML = list.slice(0, 100).map(p => `
+        <label class="barcode-list-item">
+            <input type="checkbox" value="${p.id}" class="barcode-checkbox">
+            <div class="barcode-list-info">
+                <strong>${escapeHtml(p.name)}</strong>
+                <span>${escapeHtml(p.barcode || p.sku || '—')}</span>
             </div>
         </label>
     `).join('');
@@ -3651,8 +3550,8 @@ function printBarcodes() {
                     page-break-inside: avoid;
                     vertical-align: top;
                 }
-                .label-name { font-size: 9pt; font-weight: 700; margin-bottom: 1mm; line-height: 1.2; height: 10mm; overflow: hidden; }
-                .label-code { font-size: 8pt; font-family: monospace; font-weight: 700; letter-spacing: 1px; }
+                .label-name { font-size: 9pt; font-weight: 700; margin-bottom: 1mm; line-height: 1.2; height: 8mm; overflow: hidden; }
+                .label-code { font-size: 8pt; font-family: monospace; font-weight: 700; letter-spacing: 1px; margin-top: 1mm; }
                 .label-price { font-size: 10pt; font-weight: 800; color: #1d5b8e; margin-top: 1mm; }
                 @media print { .label { border-color: #eee; } }
             </style>
@@ -3676,14 +3575,14 @@ function printBarcodes() {
                                 JsBarcode(svg, code, {
                                     format: 'CODE128',
                                     width: 1.5,
-                                    height: 30,
+                                    height: 28,
                                     displayValue: false,
                                     margin: 0
                                 });
                             } catch(e) {}
                         }
                     });
-                    setTimeout(() => window.print(), 500);
+                    setTimeout(() => window.print(), 600);
                 };
             <\/script>
         </body>
@@ -3693,7 +3592,7 @@ function printBarcodes() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📤 Export Excel
+// Export Excel
 // ═══════════════════════════════════════════════════════════════
 async function exportExcel() {
     try {
@@ -3721,7 +3620,6 @@ async function exportExcel() {
         const ws = XLSX.utils.json_to_sheet(data);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'المخزون');
-        
         XLSX.writeFile(wb, `inventory_${new Date().toISOString().split('T')[0]}.xlsx`);
         showToast('تم التصدير بنجاح', 'success');
     } catch (err) {
@@ -3731,269 +3629,8 @@ async function exportExcel() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🎬 Init
+// Notifications
 // ═══════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', async () => {
-    
-    const session = getSession();
-    if (!session) { window.location.href = 'index.html'; return; }
-    if (session.user.must_change_password) { window.location.href = 'index.html'; return; }
-    
-    initTheme();
-    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
-    
-    updateOnlineStatus();
-    window.addEventListener('online', () => {
-        updateOnlineStatus();
-        showToast('تم استعادة الاتصال', 'success');
-        syncOutbox();
-    });
-    window.addEventListener('offline', () => {
-        updateOnlineStatus();
-        showToast('وضع Offline', 'warning');
-    });
-    
-    updateUserUI(session.user);
-    applyPermissions(session.user);
-    
-    // Sidebar
-    document.getElementById('menuBtn')?.addEventListener('click', () => {
-        document.getElementById('sidebar')?.classList.toggle('show');
-        document.getElementById('sidebarOverlay')?.classList.toggle('show');
-    });
-    document.getElementById('sidebarOverlay')?.addEventListener('click', () => {
-        document.getElementById('sidebar')?.classList.remove('show');
-        document.getElementById('sidebarOverlay')?.classList.remove('show');
-    });
-    
-    // User dropdown
-    const userBtn = document.getElementById('userBtn');
-    const userDropdown = document.getElementById('userDropdown');
-    userBtn?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        userDropdown?.classList.toggle('show');
-        document.getElementById('notificationsPanel')?.classList.remove('show');
-    });
-    document.getElementById('logoutBtn')?.addEventListener('click', () => {
-        if (confirm('هل أنت متأكد من تسجيل الخروج؟')) logout();
-    });
-    
-    // Notifications
-    const notifBtn = document.getElementById('notificationsBtn');
-    const notifPanel = document.getElementById('notificationsPanel');
-    notifBtn?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        notifPanel?.classList.toggle('show');
-        userDropdown?.classList.remove('show');
-    });
-    document.getElementById('markAllReadBtn')?.addEventListener('click', markAllRead);
-    
-    document.addEventListener('click', (e) => {
-        if (!userDropdown?.contains(e.target) && !userBtn?.contains(e.target)) userDropdown?.classList.remove('show');
-        if (!notifPanel?.contains(e.target) && !notifBtn?.contains(e.target)) notifPanel?.classList.remove('show');
-    });
-    
-    // Search
-    const searchInput = document.getElementById('searchInput');
-    let searchTimeout;
-    searchInput?.addEventListener('input', (e) => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            state.searchQuery = e.target.value;
-            applyFilters();
-        }, 250);
-    });
-    
-    window.addEventListener('clearSearch', () => {
-        state.searchQuery = '';
-        applyFilters();
-    });
-    
-    // Category filter
-    document.getElementById('categoryFilter')?.addEventListener('change', (e) => {
-        state.categoryFilter = e.target.value;
-        applyFilters();
-    });
-    
-    // Sort
-    document.getElementById('sortFilter')?.addEventListener('change', (e) => {
-        state.sortFilter = e.target.value;
-        applyFilters();
-    });
-    
-    // Filter chips
-    document.querySelectorAll('.filter-chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-            chip.classList.add('active');
-            state.currentFilter = chip.dataset.filter;
-            applyFilters();
-        });
-    });
-    
-    // View toggle
-    document.querySelectorAll('.view-toggle-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.view-toggle-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            state.viewMode = btn.dataset.view;
-            localStorage.setItem('products_view', state.viewMode);
-            render();
-        });
-    });
-    
-    // Restore view mode
-    const savedView = localStorage.getItem('products_view');
-    if (savedView) {
-        state.viewMode = savedView;
-        document.querySelectorAll('.view-toggle-btn').forEach(b => {
-            b.classList.toggle('active', b.dataset.view === savedView);
-        });
-    }
-    
-    // Add product
-    document.getElementById('addProductBtn')?.addEventListener('click', openAddModal);
-    
-    // Product modal
-    document.getElementById('closeProductModal')?.addEventListener('click', closeProductModal);
-    document.getElementById('cancelProductBtn')?.addEventListener('click', closeProductModal);
-    document.getElementById('productForm')?.addEventListener('submit', saveProduct);
-    
-    // Barcode generate
-    document.getElementById('genBarcodeBtn')?.addEventListener('click', () => {
-        document.getElementById('productBarcode').value = generateBarcode();
-        showToast('تم توليد باركود جديد', 'info', 2000);
-    });
-    
-    // Barcode scan
-    document.getElementById('scanBarcodeBtn')?.addEventListener('click', openScanner);
-    document.getElementById('closeScannerModal')?.addEventListener('click', closeScanner);
-    document.getElementById('cancelScanBtn')?.addEventListener('click', closeScanner);
-    
-    // Delete
-    document.getElementById('closeDeleteModal')?.addEventListener('click', () => {
-        document.getElementById('deleteModal').classList.remove('show');
-        state.deletingProduct = null;
-    });
-    document.getElementById('cancelDeleteBtn')?.addEventListener('click', () => {
-        document.getElementById('deleteModal').classList.remove('show');
-        state.deletingProduct = null;
-    });
-    document.getElementById('confirmDeleteBtn')?.addEventListener('click', confirmDelete);
-    
-    // Barcode print
-    document.getElementById('printBarcodesBtn')?.addEventListener('click', openBarcodePrintModal);
-    document.getElementById('closeBarcodeModal')?.addEventListener('click', () => {
-        document.getElementById('barcodePrintModal').classList.remove('show');
-    });
-    document.getElementById('cancelBarcodeBtn')?.addEventListener('click', () => {
-        document.getElementById('barcodePrintModal').classList.remove('show');
-    });
-    document.getElementById('doPrintBarcodes')?.addEventListener('click', printBarcodes);
-    document.getElementById('barcodeSearch')?.addEventListener('input', (e) => {
-        renderBarcodeList(e.target.value);
-    });
-    
-    // Export Excel
-    document.getElementById('exportExcelBtn')?.addEventListener('click', exportExcel);
-    
-    // Close modals on overlay click
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                overlay.classList.remove('show');
-                if (overlay.id === 'scannerModal') closeScanner();
-            }
-        });
-    });
-    
-    // Esc key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
-            if (state.scanner) closeScanner();
-        }
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-            e.preventDefault();
-            document.getElementById('globalSearchInput')?.focus();
-        }
-    });
-    
-    // Scroll
-    const progressBar = document.getElementById('readingProgress');
-    const scrollTopBtn = document.getElementById('scrollTop');
-    window.addEventListener('scroll', () => {
-        const winScroll = document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
-        if (progressBar) progressBar.style.width = scrolled + '%';
-        if (winScroll > 300) scrollTopBtn?.classList.add('show');
-        else scrollTopBtn?.classList.remove('show');
-    }, { passive: true });
-    
-    scrollTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    
-    // Check permissions
-    if (session.user.role !== 'admin' && !session.user.permissions?.can_edit_products) {
-        document.getElementById('addProductBtn').style.display = 'none';
-    }
-    
-    // Load data
-    await loadCategories();
-    await loadFavorites();
-    await loadProducts();
-    
-    // Notifications
-    await loadNotifications();
-    setInterval(loadNotifications, 60000);
-    
-    // Update subtitle
-    document.getElementById('pageSubtitle').textContent = 
-        `${state.products.length} صنف في المخزون`;
-    
-    // SW
-    registerServiceWorker();
-    
-    // Inactivity
-    startInactivityMonitor();
-    
-    console.log('%c📦 صفحة المخزون جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
-});
-
-function updateUserUI(user) {
-    const initial = (user.full_name || user.username || 'م').charAt(0).toUpperCase();
-    const roleText = user.role === 'admin' ? 'مدير' : 'موظف';
-    
-    ['userAvatar', 'dropdownAvatar'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = initial;
-    });
-    
-    ['userName', 'dropdownName'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = user.full_name || user.username;
-    });
-    
-    ['userRole', 'dropdownRole'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = roleText;
-    });
-}
-
-function applyPermissions(user) {
-    const perms = user.permissions || {};
-    const isAdmin = user.role === 'admin';
-    
-    document.querySelectorAll('.sidebar-link[data-perm]').forEach(link => {
-        if (!isAdmin && !perms[link.dataset.perm]) link.style.display = 'none';
-    });
-    
-    if (isAdmin) {
-        document.getElementById('adminLink').style.display = 'flex';
-        document.getElementById('dropdownAdminLink').style.display = 'flex';
-    }
-}
-
 async function loadNotifications() {
     const session = getSession();
     if (!session) return;
@@ -4074,49 +3711,263 @@ async function markAllRead() {
     } catch {}
 }
 
-async function syncOutbox() {
-    try {
-        const db = await openDB();
-        const tx = db.transaction('outbox', 'readonly');
-        const items = await new Promise((res, rej) => {
-            const r = tx.objectStore('outbox').getAll();
-            r.onsuccess = () => res(r.result || []);
-            r.onerror = () => rej(r.error);
+// ═══════════════════════════════════════════════════════════════
+// Init
+// ═══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', async () => {
+    
+    const session = getSession();
+    if (!session) { window.location.href = 'index.html'; return; }
+    if (session.user.must_change_password) { window.location.href = 'index.html'; return; }
+    
+    initTheme();
+    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+    
+    updateOnlineStatus();
+    window.addEventListener('online', () => {
+        updateOnlineStatus();
+        showToast('تم استعادة الاتصال', 'success');
+    });
+    window.addEventListener('offline', () => {
+        updateOnlineStatus();
+        showToast('وضع Offline', 'warning');
+    });
+    
+    updateUserUI(session.user);
+    applyPermissions(session.user);
+    
+    // Sidebar
+    document.getElementById('menuBtn')?.addEventListener('click', () => {
+        document.getElementById('sidebar')?.classList.toggle('show');
+        document.getElementById('sidebarOverlay')?.classList.toggle('show');
+    });
+    document.getElementById('sidebarOverlay')?.addEventListener('click', () => {
+        document.getElementById('sidebar')?.classList.remove('show');
+        document.getElementById('sidebarOverlay')?.classList.remove('show');
+    });
+    
+    // User dropdown
+    const userBtn = document.getElementById('userBtn');
+    const userDropdown = document.getElementById('userDropdown');
+    userBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userDropdown?.classList.toggle('show');
+        document.getElementById('notificationsPanel')?.classList.remove('show');
+    });
+    document.getElementById('logoutBtn')?.addEventListener('click', () => {
+        if (confirm('هل أنت متأكد من تسجيل الخروج؟')) logout();
+    });
+    
+    // Notifications
+    const notifBtn = document.getElementById('notificationsBtn');
+    const notifPanel = document.getElementById('notificationsPanel');
+    notifBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        notifPanel?.classList.toggle('show');
+        userDropdown?.classList.remove('show');
+    });
+    document.getElementById('markAllReadBtn')?.addEventListener('click', markAllRead);
+    
+    document.addEventListener('click', (e) => {
+        if (!userDropdown?.contains(e.target) && !userBtn?.contains(e.target)) userDropdown?.classList.remove('show');
+        if (!notifPanel?.contains(e.target) && !notifBtn?.contains(e.target)) notifPanel?.classList.remove('show');
+    });
+    
+    // Search
+    let searchTimeout;
+    document.getElementById('searchInput')?.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            state.searchQuery = e.target.value;
+            applyFilters();
+        }, 250);
+    });
+    
+    // Category filter
+    document.getElementById('categoryFilter')?.addEventListener('change', (e) => {
+        state.categoryFilter = e.target.value;
+        applyFilters();
+    });
+    
+    // Sort
+    document.getElementById('sortFilter')?.addEventListener('change', (e) => {
+        state.sortFilter = e.target.value;
+        applyFilters();
+    });
+    
+    // Filter chips
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            state.currentFilter = chip.dataset.filter;
+            applyFilters();
         });
-        
-        if (!items.length) return;
-        
-        const sb = await getSupabase();
-        if (!sb) return;
-        
-        let synced = 0;
-        for (const item of items) {
-            try {
-                if (item.type === 'insert') {
-                    await sb.from(item.table).insert(item.data);
-                } else if (item.type === 'update') {
-                    await sb.from(item.table).update(item.data).eq('id', item.id);
-                } else if (item.type === 'delete') {
-                    await sb.from(item.table).delete().eq('id', item.id);
-                }
-                await dbDelete('outbox', item.id);
-                synced++;
-            } catch (err) {
-                console.warn('فشل مزامنة عنصر:', err);
-            }
-        }
-        
-        if (synced > 0) showToast(`تم مزامنة ${synced} عملية`, 'success');
-    } catch (err) {
-        console.warn(err);
+    });
+    
+    // View toggle
+    document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.view-toggle-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            state.viewMode = btn.dataset.view;
+            localStorage.setItem('products_view', state.viewMode);
+            render();
+        });
+    });
+    
+    const savedView = localStorage.getItem('products_view');
+    if (savedView) {
+        state.viewMode = savedView;
+        document.querySelectorAll('.view-toggle-btn').forEach(b => {
+            b.classList.toggle('active', b.dataset.view === savedView);
+        });
     }
+    
+    // Add product
+    document.getElementById('addProductBtn')?.addEventListener('click', openAddModal);
+    
+    // Product modal
+    document.getElementById('closeProductModal')?.addEventListener('click', closeProductModal);
+    document.getElementById('cancelProductBtn')?.addEventListener('click', closeProductModal);
+    document.getElementById('productForm')?.addEventListener('submit', saveProduct);
+    
+    // Remove image
+    document.getElementById('removeImageBtn')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        state.imageFile = null;
+        resetImageUpload();
+    });
+    
+    // Barcode generate
+    document.getElementById('genBarcodeBtn')?.addEventListener('click', () => {
+        document.getElementById('productBarcode').value = generateBarcode();
+        showToast('تم توليد باركود جديد', 'info', 2000);
+    });
+    
+    // Barcode scan
+    document.getElementById('scanBarcodeBtn')?.addEventListener('click', openScanner);
+    document.getElementById('closeScannerModal')?.addEventListener('click', closeScanner);
+    document.getElementById('cancelScanBtn')?.addEventListener('click', closeScanner);
+    
+    // Delete
+    document.getElementById('closeDeleteModal')?.addEventListener('click', () => {
+        document.getElementById('deleteModal').classList.remove('show');
+        state.deletingProduct = null;
+    });
+    document.getElementById('cancelDeleteBtn')?.addEventListener('click', () => {
+        document.getElementById('deleteModal').classList.remove('show');
+        state.deletingProduct = null;
+    });
+    document.getElementById('confirmDeleteBtn')?.addEventListener('click', confirmDelete);
+    
+    // Barcode print
+    document.getElementById('printBarcodesBtn')?.addEventListener('click', openBarcodePrintModal);
+    document.getElementById('closeBarcodeModal')?.addEventListener('click', () => {
+        document.getElementById('barcodePrintModal').classList.remove('show');
+    });
+    document.getElementById('cancelBarcodeBtn')?.addEventListener('click', () => {
+        document.getElementById('barcodePrintModal').classList.remove('show');
+    });
+    document.getElementById('doPrintBarcodes')?.addEventListener('click', printBarcodes);
+    document.getElementById('barcodeSearch')?.addEventListener('input', (e) => {
+        renderBarcodeList(e.target.value);
+    });
+    
+    // Export
+    document.getElementById('exportExcelBtn')?.addEventListener('click', exportExcel);
+    
+    // Close modals on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.classList.remove('show');
+                if (overlay.id === 'scannerModal') closeScanner();
+            }
+        });
+    });
+    
+    // Esc
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+            if (state.scanner) closeScanner();
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('globalSearchInput')?.focus();
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+            e.preventDefault();
+            toggleTheme();
+        }
+    });
+    
+    // Scroll
+    const progressBar = document.getElementById('readingProgress');
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+        if (progressBar) progressBar.style.width = scrolled + '%';
+        if (winScroll > 300) scrollTopBtn?.classList.add('show');
+        else scrollTopBtn?.classList.remove('show');
+    }, { passive: true });
+    
+    scrollTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    
+    // Permissions
+    if (session.user.role !== 'admin' && !session.user.permissions?.can_edit_products) {
+        document.getElementById('addProductBtn').style.display = 'none';
+    }
+    
+    // Load data
+    await loadCategories();
+    await loadFavorites();
+    await loadProducts();
+    await loadNotifications();
+    setInterval(loadNotifications, 60000);
+    
+    document.getElementById('pageSubtitle').textContent = `${state.products.length} صنف في المخزون`;
+    
+    startInactivityMonitor();
+    
+    console.log('%c📦 صفحة المخزون جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+});
+
+function updateUserUI(user) {
+    const initial = (user.full_name || user.username || 'م').charAt(0).toUpperCase();
+    const roleText = user.role === 'admin' ? 'مدير' : 'موظف';
+    
+    ['userAvatar', 'dropdownAvatar'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = initial;
+    });
+    
+    ['userName', 'dropdownName'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = user.full_name || user.username;
+    });
+    
+    ['userRole', 'dropdownRole'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = roleText;
+    });
 }
 
-function registerServiceWorker() {
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js').catch(() => {});
-        });
+function applyPermissions(user) {
+    const perms = user.permissions || {};
+    const isAdmin = user.role === 'admin';
+    
+    document.querySelectorAll('.sidebar-link[data-perm]').forEach(link => {
+        if (!isAdmin && !perms[link.dataset.perm]) link.style.display = 'none';
+    });
+    
+    if (isAdmin) {
+        document.getElementById('adminLink').style.display = 'flex';
+        document.getElementById('dropdownAdminLink').style.display = 'flex';
     }
 }
 
