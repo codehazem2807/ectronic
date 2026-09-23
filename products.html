@@ -109,7 +109,6 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 0 10px rgba(29, 91, 142, 0.6);
 }
 
-/* Navbar */
 .navbar {
     position: fixed;
     top: 0;
@@ -254,7 +253,6 @@ img { max-width: 100%; height: auto; display: block; }
 .navbar-user-info strong { font-size: 0.8rem; font-weight: 700; }
 .navbar-user-info span { font-size: 0.65rem; color: var(--text-muted); }
 
-/* Sidebar */
 .sidebar {
     position: fixed;
     top: var(--navbar-height);
@@ -338,7 +336,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 .sidebar-overlay.show { opacity: 1; visibility: visible; }
 
-/* Main */
 .main-content {
     margin-top: var(--navbar-height);
     margin-right: var(--sidebar-width);
@@ -407,7 +404,6 @@ img { max-width: 100%; height: auto; display: block; }
 .btn-sm { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
-/* Toolbar */
 .toolbar {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -534,7 +530,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 .filter-chip:not(.active) .count { background: var(--bg-card); color: var(--text-muted); }
 
-/* Products Grid */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -689,7 +684,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 .product-actions .btn { flex: 1; padding: 0.45rem; font-size: 0.75rem; }
 
-/* List View */
 .products-list {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -727,7 +721,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 .products-list-actions { display: flex; gap: 0.35rem; justify-content: flex-end; }
 
-/* Badges */
 .badge {
     display: inline-flex;
     align-items: center;
@@ -745,7 +738,6 @@ img { max-width: 100%; height: auto; display: block; }
 .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
 .badge-info { background: rgba(59, 130, 246, 0.15); color: var(--info); }
 
-/* Modal */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -847,7 +839,6 @@ img { max-width: 100%; height: auto; display: block; }
     .modal-footer .btn { flex: initial; min-width: auto; }
 }
 
-/* Forms */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .form-group { margin-bottom: 0; }
 .form-group.full { grid-column: 1 / -1; }
@@ -933,7 +924,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 .form-error.show { display: flex; }
 
-/* Image Upload */
 .image-upload {
     display: flex;
     flex-direction: column;
@@ -1036,7 +1026,6 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 4px 12px rgba(29, 91, 142, 0.3);
 }
 
-/* Scanner */
 .scanner-container {
     position: relative;
     width: 100%;
@@ -1078,7 +1067,6 @@ img { max-width: 100%; height: auto; display: block; }
 .scanner-frame::before { top: -4px; right: -4px; border-left: none; border-bottom: none; }
 .scanner-frame::after { bottom: -4px; left: -4px; border-right: none; border-top: none; }
 
-/* Barcode List Item */
 .barcode-list-item {
     display: flex;
     align-items: center;
@@ -1104,7 +1092,6 @@ img { max-width: 100%; height: auto; display: block; }
 .barcode-list-info strong { display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.15rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .barcode-list-info span { font-size: 0.72rem; color: var(--text-muted); font-family: 'Courier New', monospace; }
 
-/* Toast */
 .toast-container {
     position: fixed;
     top: calc(var(--navbar-height) + 1rem);
@@ -1153,7 +1140,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 @keyframes toastOut { to { opacity: 0; transform: translateY(-20px) scale(0.95); } }
 
-/* Skeleton */
 .skeleton {
     background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
     background-size: 200% 100%;
@@ -1168,7 +1154,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 .skeleton-card { height: 320px; }
 
-/* Empty */
 .empty-state {
     padding: 4rem 1rem;
     text-align: center;
@@ -1183,7 +1168,6 @@ img { max-width: 100%; height: auto; display: block; }
 .empty-state h3 { font-size: 1.1rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.35rem; }
 .empty-state p { font-size: 0.85rem; margin-bottom: 1rem; }
 
-/* Pagination */
 .pagination {
     display: flex;
     align-items: center;
@@ -1218,7 +1202,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* Scroll Top */
 .scroll-top {
     position: fixed;
     bottom: calc(1rem + var(--safe-bottom));
@@ -1243,7 +1226,6 @@ img { max-width: 100%; height: auto; display: block; }
 .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
 .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(29, 91, 142, 0.5); }
 
-/* Notifications + User Dropdown */
 .notifications-panel, .user-dropdown {
     position: fixed;
     top: calc(var(--navbar-height) + 0.5rem);
@@ -1410,7 +1392,6 @@ img { max-width: 100%; height: auto; display: block; }
     animation: spin 0.8s linear infinite;
 }
 
-/* Responsive */
 @media (max-width: 968px) {
     .sidebar { transform: translateX(100%); box-shadow: var(--shadow-xl); }
     .sidebar.show { transform: translateX(0); }
@@ -1688,7 +1669,6 @@ img { max-width: 100%; height: auto; display: block; }
     
 </main>
 
-<!-- Product Modal -->
 <div class="modal-overlay" id="productModal">
     <div class="modal modal-lg">
         <div class="modal-header">
@@ -1816,7 +1796,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Scanner Modal -->
 <div class="modal-overlay" id="scannerModal">
     <div class="modal">
         <div class="modal-header">
@@ -1842,7 +1821,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Delete Modal -->
 <div class="modal-overlay" id="deleteModal">
     <div class="modal modal-sm">
         <div class="modal-header">
@@ -1870,7 +1848,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Barcode Print Modal -->
 <div class="modal-overlay" id="barcodePrintModal">
     <div class="modal modal-lg">
         <div class="modal-header">
@@ -1893,7 +1870,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Notifications Panel -->
 <div class="notifications-panel" id="notificationsPanel">
     <div class="notifications-header">
         <h3 class="notifications-title"><i class="fas fa-bell"></i> الإشعارات</h3>
@@ -1902,7 +1878,6 @@ img { max-width: 100%; height: auto; display: block; }
     <div class="notifications-list" id="notificationsList"></div>
 </div>
 
-<!-- User Dropdown -->
 <div class="user-dropdown" id="userDropdown">
     <div class="user-dropdown-header">
         <div class="user-dropdown-avatar" id="dropdownAvatar">م</div>
@@ -1935,26 +1910,18 @@ img { max-width: 100%; height: auto; display: block; }
 (function() {
 'use strict';
 
-// ═══════════════════════════════════════════════════════════════
-// Config
-// ═══════════════════════════════════════════════════════════════
 var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
 var BUCKET_NAME = 'product-images';
 var PAGE_SIZE = 24;
 var DB_NAME = 'electronic_db';
-var DB_VERSION = 4; // ← رفعناها لتفادي VersionError
+var DB_VERSION = 4;
 
-// ═══════════════════════════════════════════════════════════════
-// Supabase Client
-// ═══════════════════════════════════════════════════════════════
 var supabaseClient = null;
 
 function getSupabaseClient() {
     if (supabaseClient) return supabaseClient;
-    if (typeof window.supabase === 'undefined' || !window.supabase.createClient) {
-        return null;
-    }
+    if (typeof window.supabase === 'undefined' || !window.supabase.createClient) return null;
     try {
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
             auth: { persistSession: false, autoRefreshToken: false }
@@ -1966,26 +1933,15 @@ function getSupabaseClient() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Helpers
-// ═══════════════════════════════════════════════════════════════
 function escapeHtml(str) {
     if (str == null) return '';
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
 
 function formatCurrency(amount) {
     var num = parseFloat(amount) || 0;
-    try {
-        return num.toLocaleString('ar-EG', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' ج.م';
-    } catch (e) {
-        return num.toFixed(2) + ' ج.م';
-    }
+    try { return num.toLocaleString('ar-EG', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' ج.م'; }
+    catch (e) { return num.toFixed(2) + ' ج.م'; }
 }
 
 function formatNumber(num) {
@@ -1995,9 +1951,8 @@ function formatNumber(num) {
 
 function formatDate(date) {
     if (!date) return '';
-    try {
-        return new Date(date).toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
-    } catch (e) { return ''; }
+    try { return new Date(date).toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' }); }
+    catch (e) { return ''; }
 }
 
 function formatTimeAgo(date) {
@@ -2010,9 +1965,15 @@ function formatTimeAgo(date) {
     return formatDate(date);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Barcode
-// ═══════════════════════════════════════════════════════════════
+function getUrlParam(name) {
+    try {
+        var params = new URLSearchParams(window.location.search);
+        return params.get(name);
+    } catch (e) {
+        return null;
+    }
+}
+
 function generateBarcodeSync() {
     return 'ELK-' + Math.floor(100000 + Math.random() * 900000);
 }
@@ -2034,14 +1995,8 @@ function generateUniqueBarcode() {
                 return;
             }
             attempts++;
-            
             var barcode = generateBarcodeSync();
-            
-            if (localBarcodes[barcode]) {
-                tryGenerate();
-                return;
-            }
-            
+            if (localBarcodes[barcode]) { tryGenerate(); return; }
             if (sb && navigator.onLine) {
                 sb.from('products').select('id').eq('barcode', barcode).maybeSingle()
                     .then(function(result) {
@@ -2053,14 +2008,10 @@ function generateUniqueBarcode() {
                 resolve(barcode);
             }
         }
-        
         tryGenerate();
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Theme
-// ═══════════════════════════════════════════════════════════════
 function initTheme() {
     var saved = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
@@ -2080,27 +2031,15 @@ function toggleTheme() {
     updateThemeIcon(next);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Toast
-// ═══════════════════════════════════════════════════════════════
 function showToast(message, type, duration) {
     type = type || 'info';
     duration = duration || 3500;
-    
     var container = document.getElementById('toastContainer');
     if (!container) return;
-    
-    var icons = {
-        success: 'fa-circle-check',
-        error: 'fa-circle-xmark',
-        warning: 'fa-triangle-exclamation',
-        info: 'fa-circle-info'
-    };
-    
+    var icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', warning: 'fa-triangle-exclamation', info: 'fa-circle-info' };
     var toast = document.createElement('div');
     toast.className = 'toast ' + type;
     toast.innerHTML = '<i class="fas ' + (icons[type] || icons.info) + '"></i><span>' + escapeHtml(message) + '</span>';
-    
     container.appendChild(toast);
     setTimeout(function() {
         toast.classList.add('hide');
@@ -2108,28 +2047,19 @@ function showToast(message, type, duration) {
     }, duration);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Online Status
-// ═══════════════════════════════════════════════════════════════
 function updateOnlineStatus() {
     var dot = document.getElementById('onlineDot');
     if (!dot) return;
     dot.classList.toggle('offline', !navigator.onLine);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Session
-// ═══════════════════════════════════════════════════════════════
 function getSession() {
     try {
         var raw = localStorage.getItem('session');
         if (!raw) return null;
         var s = JSON.parse(raw);
         if (!s || !s.user) return null;
-        if (s.expiresAt && Date.now() > s.expiresAt) {
-            localStorage.removeItem('session');
-            return null;
-        }
+        if (s.expiresAt && Date.now() > s.expiresAt) { localStorage.removeItem('session'); return null; }
         return s;
     } catch (e) { return null; }
 }
@@ -2144,17 +2074,12 @@ function logout(message) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Inactivity
-// ═══════════════════════════════════════════════════════════════
 var INACTIVITY_TIMEOUT = 30 * 60 * 1000;
 var inactivityTimer = null;
 
 function resetInactivity() {
     if (inactivityTimer) clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(function() {
-        logout('تم تسجيل خروجك بسبب عدم النشاط');
-    }, INACTIVITY_TIMEOUT);
+    inactivityTimer = setTimeout(function() { logout('تم تسجيل خروجك بسبب عدم النشاط'); }, INACTIVITY_TIMEOUT);
 }
 
 function startInactivityMonitor() {
@@ -2164,9 +2089,6 @@ function startInactivityMonitor() {
     resetInactivity();
 }
 
-// ═══════════════════════════════════════════════════════════════
-// IndexedDB
-// ═══════════════════════════════════════════════════════════════
 var dbInstance = null;
 var dbPromise = null;
 var dbFailed = false;
@@ -2212,7 +2134,7 @@ function openDB() {
             };
             
             req.onblocked = function() {
-                console.warn('IndexedDB blocked - اقفل التابات التانية');
+                console.warn('IndexedDB blocked');
                 setTimeout(function() {
                     dbFailed = true;
                     dbPromise = null;
@@ -2286,9 +2208,6 @@ function addToOutbox(action) {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// State
-// ═══════════════════════════════════════════════════════════════
 var state = {
     products: [],
     filtered: [],
@@ -2306,42 +2225,22 @@ var state = {
     scanner: null
 };
 
-// ═══════════════════════════════════════════════════════════════
-// Image Upload - النسخة المصححة
-// ═══════════════════════════════════════════════════════════════
 function uploadImage(sb, file) {
     return new Promise(function(resolve, reject) {
         var fileExt = file.name.split('.').pop().toLowerCase();
         var fileName = Date.now() + '-' + Math.random().toString(36).substring(7) + '.' + fileExt;
-        
-        // جرب الأول مع contentType
-        sb.storage
-            .from(BUCKET_NAME)
-            .upload(fileName, file, {
-                cacheControl: '3600',
-                upsert: false,
-                contentType: file.type || 'image/jpeg'
-            })
-            .then(function(result) {
-                if (result.error) {
-                    console.error('Upload error details:', result.error);
-                    reject(result.error);
-                    return;
-                }
-                
-                var urlResult = sb.storage.from(BUCKET_NAME).getPublicUrl(fileName);
-                resolve(urlResult.data.publicUrl);
-            })
-            .catch(function(err) {
-                console.error('Upload exception:', err);
-                reject(err);
-            });
+        sb.storage.from(BUCKET_NAME).upload(fileName, file, {
+            cacheControl: '3600',
+            upsert: false,
+            contentType: file.type || 'image/jpeg'
+        }).then(function(result) {
+            if (result.error) { reject(result.error); return; }
+            var urlResult = sb.storage.from(BUCKET_NAME).getPublicUrl(fileName);
+            resolve(urlResult.data.publicUrl);
+        }).catch(function(err) { reject(err); });
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Load Data
-// ═══════════════════════════════════════════════════════════════
 function loadCategories() {
     var sb = getSupabaseClient();
     if (sb && navigator.onLine) {
@@ -2350,13 +2249,9 @@ function loadCategories() {
                 state.categories = result.data;
                 return Promise.all(result.data.map(function(c) { return dbPut('categories', c); }));
             }
-            return dbGetAll('categories').then(function(cached) {
-                state.categories = cached || [];
-            });
+            return dbGetAll('categories').then(function(cached) { state.categories = cached || []; });
         }).catch(function() {
-            return dbGetAll('categories').then(function(cached) {
-                state.categories = cached || [];
-            });
+            return dbGetAll('categories').then(function(cached) { state.categories = cached || []; });
         }).then(renderCategoryOptions);
     } else {
         return dbGetAll('categories').then(function(cached) {
@@ -2372,16 +2267,11 @@ function renderCategoryOptions() {
     
     if (select) {
         select.innerHTML = '<option value="">كل الفئات</option>' + 
-            state.categories.map(function(c) {
-                return '<option value="' + c.id + '">' + escapeHtml(c.name) + '</option>';
-            }).join('');
+            state.categories.map(function(c) { return '<option value="' + c.id + '">' + escapeHtml(c.name) + '</option>'; }).join('');
     }
-    
     if (modalSelect) {
         modalSelect.innerHTML = '<option value="">-- اختر الفئة --</option>' + 
-            state.categories.map(function(c) {
-                return '<option value="' + c.id + '">' + escapeHtml(c.name) + '</option>';
-            }).join('');
+            state.categories.map(function(c) { return '<option value="' + c.id + '">' + escapeHtml(c.name) + '</option>'; }).join('');
     }
 }
 
@@ -2390,9 +2280,7 @@ function loadProducts() {
     var promise;
     
     if (sb && navigator.onLine) {
-        promise = sb.from('products')
-            .select('*, category:categories(id, name, icon)')
-            .order('created_at', { ascending: false })
+        promise = sb.from('products').select('*, category:categories(id, name, icon)').order('created_at', { ascending: false })
             .then(function(result) {
                 if (result.error) throw result.error;
                 if (result.data) {
@@ -2402,14 +2290,10 @@ function loadProducts() {
             })
             .catch(function(err) {
                 console.warn('Failed to load products:', err);
-                return dbGetAll('products').then(function(cached) {
-                    state.products = cached || [];
-                });
+                return dbGetAll('products').then(function(cached) { state.products = cached || []; });
             });
     } else {
-        promise = dbGetAll('products').then(function(cached) {
-            state.products = cached || [];
-        });
+        promise = dbGetAll('products').then(function(cached) { state.products = cached || []; });
     }
     
     return promise.then(function() {
@@ -2433,9 +2317,7 @@ function loadFavorites() {
     
     var sb = getSupabaseClient();
     if (sb && navigator.onLine) {
-        return sb.from('favorites')
-            .select('product_id')
-            .eq('user_id', session.user.id)
+        return sb.from('favorites').select('product_id').eq('user_id', session.user.id)
             .then(function(result) {
                 if (!result.error && result.data) {
                     state.favorites = {};
@@ -2451,18 +2333,11 @@ function loadFavorites() {
 function saveFavoritesLocal() {
     var session = getSession();
     if (!session) return;
-    try {
-        localStorage.setItem('favorites_' + session.user.id, JSON.stringify(Object.keys(state.favorites)));
-    } catch (e) {}
+    try { localStorage.setItem('favorites_' + session.user.id, JSON.stringify(Object.keys(state.favorites))); } catch (e) {}
 }
 
-function hasFavorite(id) {
-    return state.favorites[id] === true;
-}
+function hasFavorite(id) { return state.favorites[id] === true; }
 
-// ═══════════════════════════════════════════════════════════════
-// Filters
-// ═══════════════════════════════════════════════════════════════
 function applyFilters() {
     var list = state.products.slice();
     var q = (state.searchQuery || '').trim().toLowerCase();
@@ -2482,34 +2357,19 @@ function applyFilters() {
     if (state.currentFilter === 'favorites') {
         list = list.filter(function(p) { return hasFavorite(p.id); });
     } else if (state.currentFilter === 'low') {
-        list = list.filter(function(p) {
-            return p.quantity > 0 && p.quantity <= (p.min_quantity || 5);
-        });
+        list = list.filter(function(p) { return p.quantity > 0 && p.quantity <= (p.min_quantity || 5); });
     } else if (state.currentFilter === 'out') {
         list = list.filter(function(p) { return p.quantity <= 0; });
     }
     
     switch (state.sortFilter) {
-        case 'name':
-            list.sort(function(a, b) { return (a.name || '').localeCompare(b.name || '', 'ar'); });
-            break;
-        case 'price_high':
-            list.sort(function(a, b) { return (parseFloat(b.sell_price) || 0) - (parseFloat(a.sell_price) || 0); });
-            break;
-        case 'price_low':
-            list.sort(function(a, b) { return (parseFloat(a.sell_price) || 0) - (parseFloat(b.sell_price) || 0); });
-            break;
-        case 'qty_high':
-            list.sort(function(a, b) { return (b.quantity || 0) - (a.quantity || 0); });
-            break;
-        case 'qty_low':
-            list.sort(function(a, b) { return (a.quantity || 0) - (b.quantity || 0); });
-            break;
+        case 'name': list.sort(function(a, b) { return (a.name || '').localeCompare(b.name || '', 'ar'); }); break;
+        case 'price_high': list.sort(function(a, b) { return (parseFloat(b.sell_price) || 0) - (parseFloat(a.sell_price) || 0); }); break;
+        case 'price_low': list.sort(function(a, b) { return (parseFloat(a.sell_price) || 0) - (parseFloat(b.sell_price) || 0); }); break;
+        case 'qty_high': list.sort(function(a, b) { return (b.quantity || 0) - (a.quantity || 0); }); break;
+        case 'qty_low': list.sort(function(a, b) { return (a.quantity || 0) - (b.quantity || 0); }); break;
         case 'newest':
-        default:
-            list.sort(function(a, b) {
-                return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime();
-            });
+        default: list.sort(function(a, b) { return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime(); });
     }
     
     state.filtered = list;
@@ -2520,25 +2380,16 @@ function applyFilters() {
 function updateCounts() {
     var all = state.products.length;
     var fav = state.products.filter(function(p) { return hasFavorite(p.id); }).length;
-    var low = state.products.filter(function(p) {
-        return p.quantity > 0 && p.quantity <= (p.min_quantity || 5);
-    }).length;
+    var low = state.products.filter(function(p) { return p.quantity > 0 && p.quantity <= (p.min_quantity || 5); }).length;
     var out = state.products.filter(function(p) { return p.quantity <= 0; }).length;
     
-    var setEl = function(id, val) {
-        var el = document.getElementById(id);
-        if (el) el.textContent = val;
-    };
-    
+    var setEl = function(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; };
     setEl('countAll', all);
     setEl('countFav', fav);
     setEl('countLow', low);
     setEl('countOut', out);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Render
-// ═══════════════════════════════════════════════════════════════
 function render() {
     var container = document.getElementById('productsContainer');
     var pagination = document.getElementById('pagination');
@@ -2574,35 +2425,15 @@ function render() {
 
 function getEmptyState() {
     if (state.searchQuery) {
-        return '<div class="empty-state">' +
-            '<i class="fas fa-magnifying-glass"></i>' +
-            '<h3>لا توجد نتائج</h3>' +
-            '<p>لم نجد أصناف تطابق "' + escapeHtml(state.searchQuery) + '"</p>' +
-        '</div>';
+        return '<div class="empty-state"><i class="fas fa-magnifying-glass"></i><h3>لا توجد نتائج</h3><p>لم نجد أصناف تطابق "' + escapeHtml(state.searchQuery) + '"</p></div>';
     }
-    
     if (state.currentFilter === 'favorites') {
-        return '<div class="empty-state">' +
-            '<i class="fas fa-star"></i>' +
-            '<h3>لا توجد أصناف في المفضلة</h3>' +
-            '<p>اضغط على النجمة ⭐ على أي صنف لإضافته هنا</p>' +
-        '</div>';
+        return '<div class="empty-state"><i class="fas fa-star"></i><h3>لا توجد أصناف في المفضلة</h3><p>اضغط على النجمة ⭐ على أي صنف لإضافته هنا</p></div>';
     }
-    
     if (state.currentFilter === 'low' || state.currentFilter === 'out') {
-        return '<div class="empty-state">' +
-            '<i class="fas fa-circle-check"></i>' +
-            '<h3>لا توجد أصناف</h3>' +
-            '<p>المخزون في حالة جيدة</p>' +
-        '</div>';
+        return '<div class="empty-state"><i class="fas fa-circle-check"></i><h3>لا توجد أصناف</h3><p>المخزون في حالة جيدة</p></div>';
     }
-    
-    return '<div class="empty-state">' +
-        '<i class="fas fa-box-open"></i>' +
-        '<h3>لا توجد أصناف بعد</h3>' +
-        '<p>ابدأ بإضافة أول صنف للمخزون</p>' +
-        '<button class="btn btn-primary" id="emptyAddBtn"><i class="fas fa-plus"></i> إضافة صنف</button>' +
-    '</div>';
+    return '<div class="empty-state"><i class="fas fa-box-open"></i><h3>لا توجد أصناف بعد</h3><p>ابدأ بإضافة أول صنف للمخزون</p><button class="btn btn-primary" id="emptyAddBtn"><i class="fas fa-plus"></i> إضافة صنف</button></div>';
 }
 
 function bindEmptyStateBtn() {
@@ -2616,49 +2447,30 @@ function renderProductCard(p) {
     var categoryName = (p.category && p.category.name) || '';
     
     var qtyBadge = '';
-    if (p.quantity <= 0) {
-        qtyBadge = '<span class="badge badge-danger"><i class="fas fa-circle-xmark"></i> نفذ</span>';
-    } else if (p.quantity <= (p.min_quantity || 5)) {
-        qtyBadge = '<span class="badge badge-warning"><i class="fas fa-triangle-exclamation"></i> منخفض</span>';
-    }
+    if (p.quantity <= 0) qtyBadge = '<span class="badge badge-danger"><i class="fas fa-circle-xmark"></i> نفذ</span>';
+    else if (p.quantity <= (p.min_quantity || 5)) qtyBadge = '<span class="badge badge-warning"><i class="fas fa-triangle-exclamation"></i> منخفض</span>';
     
-    var imageHtml;
-    if (p.image_url) {
-        imageHtml = '<img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '" class="product-image" loading="lazy">';
-    } else {
-        imageHtml = '<i class="fas fa-image product-image-placeholder"></i>';
-    }
+    var imageHtml = p.image_url 
+        ? '<img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '" class="product-image" loading="lazy">'
+        : '<i class="fas fa-image product-image-placeholder"></i>';
     
     return '<div class="product-card" data-id="' + p.id + '">' +
-        '<div class="product-image-wrapper">' +
-            imageHtml +
+        '<div class="product-image-wrapper">' + imageHtml +
             '<div class="product-badges">' + qtyBadge + '</div>' +
-            '<button class="product-favorite ' + (isFav ? 'active' : '') + '" data-action="favorite" data-id="' + p.id + '" title="المفضلة">' +
-                '<i class="' + (isFav ? 'fas' : 'far') + ' fa-star"></i>' +
-            '</button>' +
+            '<button class="product-favorite ' + (isFav ? 'active' : '') + '" data-action="favorite" data-id="' + p.id + '" title="المفضلة"><i class="' + (isFav ? 'fas' : 'far') + ' fa-star"></i></button>' +
         '</div>' +
         '<div class="product-body">' +
             (categoryName ? '<div class="product-category"><i class="fas ' + escapeHtml((p.category && p.category.icon) || 'fa-tag') + '"></i>' + escapeHtml(categoryName) + '</div>' : '') +
             '<h3 class="product-title">' + escapeHtml(p.name) + '</h3>' +
             '<div class="product-barcode"><i class="fas fa-barcode"></i> ' + escapeHtml(p.barcode || p.sku || '—') + '</div>' +
             '<div class="product-footer">' +
-                '<div class="product-price">' +
-                    '<span class="product-price-value">' + formatCurrency(p.sell_price) + '</span>' +
-                    '<span class="product-price-label">سعر البيع</span>' +
-                '</div>' +
-                '<div class="product-qty">' +
-                    '<span class="product-qty-value ' + qtyClass + '">' + formatNumber(p.quantity) + '</span>' +
-                    '<span class="product-qty-label">متوفر</span>' +
-                '</div>' +
+                '<div class="product-price"><span class="product-price-value">' + formatCurrency(p.sell_price) + '</span><span class="product-price-label">سعر البيع</span></div>' +
+                '<div class="product-qty"><span class="product-qty-value ' + qtyClass + '">' + formatNumber(p.quantity) + '</span><span class="product-qty-label">متوفر</span></div>' +
             '</div>' +
         '</div>' +
         '<div class="product-actions">' +
-            '<button class="btn btn-secondary btn-sm" data-action="edit" data-id="' + p.id + '">' +
-                '<i class="fas fa-pen"></i> تعديل' +
-            '</button>' +
-            '<button class="btn btn-danger btn-sm" data-action="delete" data-id="' + p.id + '">' +
-                '<i class="fas fa-trash"></i>' +
-            '</button>' +
+            '<button class="btn btn-secondary btn-sm" data-action="edit" data-id="' + p.id + '"><i class="fas fa-pen"></i> تعديل</button>' +
+            '<button class="btn btn-danger btn-sm" data-action="delete" data-id="' + p.id + '"><i class="fas fa-trash"></i></button>' +
         '</div>' +
     '</div>';
 }
@@ -2666,42 +2478,19 @@ function renderProductCard(p) {
 function renderProductListItem(p) {
     var qtyClass = p.quantity <= 0 ? 'out' : (p.quantity <= (p.min_quantity || 5) ? 'low' : 'ok');
     var isFav = hasFavorite(p.id);
+    var imageHtml = p.image_url 
+        ? '<img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '" class="products-list-image" loading="lazy">'
+        : '<div class="products-list-image" style="display:flex;align-items:center;justify-content:center;color:var(--text-muted);"><i class="fas fa-image"></i></div>';
     
-    var imageHtml;
-    if (p.image_url) {
-        imageHtml = '<img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '" class="products-list-image" loading="lazy">';
-    } else {
-        imageHtml = '<div class="products-list-image" style="display:flex;align-items:center;justify-content:center;color:var(--text-muted);"><i class="fas fa-image"></i></div>';
-    }
-    
-    return '<div class="products-list-item" data-id="' + p.id + '">' +
-        imageHtml +
-        '<div class="products-list-info">' +
-            '<h4>' + escapeHtml(p.name) + '</h4>' +
-            '<p>' + escapeHtml(p.barcode || p.sku || '—') + '</p>' +
-        '</div>' +
-        '<div class="products-list-cell">' +
-            '<small>الفئة</small>' +
-            escapeHtml((p.category && p.category.name) || '—') +
-        '</div>' +
-        '<div class="products-list-cell">' +
-            '<small>سعر البيع</small>' +
-            formatCurrency(p.sell_price) +
-        '</div>' +
-        '<div class="products-list-cell">' +
-            '<small>الكمية</small>' +
-            '<span class="product-qty-value ' + qtyClass + '" style="font-size: 0.85rem;">' + formatNumber(p.quantity) + '</span>' +
-        '</div>' +
+    return '<div class="products-list-item" data-id="' + p.id + '">' + imageHtml +
+        '<div class="products-list-info"><h4>' + escapeHtml(p.name) + '</h4><p>' + escapeHtml(p.barcode || p.sku || '—') + '</p></div>' +
+        '<div class="products-list-cell"><small>الفئة</small>' + escapeHtml((p.category && p.category.name) || '—') + '</div>' +
+        '<div class="products-list-cell"><small>سعر البيع</small>' + formatCurrency(p.sell_price) + '</div>' +
+        '<div class="products-list-cell"><small>الكمية</small><span class="product-qty-value ' + qtyClass + '" style="font-size: 0.85rem;">' + formatNumber(p.quantity) + '</span></div>' +
         '<div class="products-list-actions">' +
-            '<button class="btn btn-sm btn-secondary" data-action="favorite" data-id="' + p.id + '" title="المفضلة">' +
-                '<i class="' + (isFav ? 'fas' : 'far') + ' fa-star" style="' + (isFav ? 'color: var(--warning);' : '') + '"></i>' +
-            '</button>' +
-            '<button class="btn btn-sm btn-secondary" data-action="edit" data-id="' + p.id + '" title="تعديل">' +
-                '<i class="fas fa-pen"></i>' +
-            '</button>' +
-            '<button class="btn btn-sm btn-danger" data-action="delete" data-id="' + p.id + '" title="حذف">' +
-                '<i class="fas fa-trash"></i>' +
-            '</button>' +
+            '<button class="btn btn-sm btn-secondary" data-action="favorite" data-id="' + p.id + '" title="المفضلة"><i class="' + (isFav ? 'fas' : 'far') + ' fa-star" style="' + (isFav ? 'color: var(--warning);' : '') + '"></i></button>' +
+            '<button class="btn btn-sm btn-secondary" data-action="edit" data-id="' + p.id + '" title="تعديل"><i class="fas fa-pen"></i></button>' +
+            '<button class="btn btn-sm btn-danger" data-action="delete" data-id="' + p.id + '" title="حذف"><i class="fas fa-trash"></i></button>' +
         '</div>' +
     '</div>';
 }
@@ -2709,28 +2498,21 @@ function renderProductListItem(p) {
 function renderPagination(totalPages) {
     var current = state.currentPage;
     var pages = [];
-    
     pages.push('<button class="pagination-btn" data-page="' + (current - 1) + '" ' + (current === 1 ? 'disabled' : '') + '><i class="fas fa-chevron-right"></i></button>');
-    
     var start = Math.max(1, current - 2);
     var end = Math.min(totalPages, current + 2);
-    
     if (start > 1) {
         pages.push('<button class="pagination-btn" data-page="1">1</button>');
         if (start > 2) pages.push('<span style="padding: 0 0.5rem; color: var(--text-muted);">...</span>');
     }
-    
     for (var i = start; i <= end; i++) {
         pages.push('<button class="pagination-btn ' + (i === current ? 'active' : '') + '" data-page="' + i + '">' + i + '</button>');
     }
-    
     if (end < totalPages) {
         if (end < totalPages - 1) pages.push('<span style="padding: 0 0.5rem; color: var(--text-muted);">...</span>');
         pages.push('<button class="pagination-btn" data-page="' + totalPages + '">' + totalPages + '</button>');
     }
-    
     pages.push('<button class="pagination-btn" data-page="' + (current + 1) + '" ' + (current === totalPages ? 'disabled' : '') + '><i class="fas fa-chevron-left"></i></button>');
-    
     return pages.join('');
 }
 
@@ -2759,7 +2541,6 @@ function bindProductEvents() {
                 e.stopPropagation();
                 var action = el.dataset.action;
                 var id = el.dataset.id;
-                
                 if (action === 'favorite') toggleFavorite(id);
                 else if (action === 'edit') openEditModal(id);
                 else if (action === 'delete') openDeleteModal(id);
@@ -2768,37 +2549,23 @@ function bindProductEvents() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Favorites
-// ═══════════════════════════════════════════════════════════════
 function toggleFavorite(productId) {
     var session = getSession();
     if (!session) return;
-    
     var isFav = hasFavorite(productId);
-    
     if (isFav) delete state.favorites[productId];
     else state.favorites[productId] = true;
-    
     saveFavoritesLocal();
     updateCounts();
     render();
-    
     showToast(isFav ? 'تم الإزالة من المفضلة' : 'تم الإضافة للمفضلة ⭐', 'success', 2000);
-    
     var sb = getSupabaseClient();
     if (sb && navigator.onLine) {
-        if (isFav) {
-            sb.from('favorites').delete().eq('user_id', session.user.id).eq('product_id', productId).then(function(){}, function(){});
-        } else {
-            sb.from('favorites').insert({ user_id: session.user.id, product_id: productId }).then(function(){}, function(){});
-        }
+        if (isFav) sb.from('favorites').delete().eq('user_id', session.user.id).eq('product_id', productId).then(function(){}, function(){});
+        else sb.from('favorites').insert({ user_id: session.user.id, product_id: productId }).then(function(){}, function(){});
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Add/Edit Modal
-// ═══════════════════════════════════════════════════════════════
 function openAddModal() {
     state.editingProduct = null;
     state.imageFile = null;
@@ -2890,9 +2657,6 @@ function clearFormErrors() {
     for (var j = 0; j < inputs.length; j++) inputs[j].classList.remove('error');
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Save Product
-// ═══════════════════════════════════════════════════════════════
 function saveProduct(e) {
     e.preventDefault();
     clearFormErrors();
@@ -2927,13 +2691,10 @@ function saveProduct(e) {
     var sb = getSupabaseClient();
     var isEditing = !!state.editingProduct;
     
-    var barcodePromise = (!isEditing && !barcode) 
-        ? generateUniqueBarcode() 
-        : Promise.resolve(barcode);
+    var barcodePromise = (!isEditing && !barcode) ? generateUniqueBarcode() : Promise.resolve(barcode);
     
     barcodePromise.then(function(finalBarcode) {
         barcode = finalBarcode;
-        
         var productData = {
             name: name,
             category_id: categoryId,
@@ -2950,9 +2711,7 @@ function saveProduct(e) {
         
         if (state.imageFile && sb && navigator.onLine) {
             imagePromise = uploadImage(sb, state.imageFile)
-                .then(function(url) {
-                    return url;
-                })
+                .then(function(url) { return url; })
                 .catch(function(err) {
                     console.warn('Image upload failed:', err);
                     showToast('فشل رفع الصورة، سيتم الحفظ بدونها', 'warning', 3000);
@@ -2964,12 +2723,8 @@ function saveProduct(e) {
         
         return imagePromise.then(function(imageUrl) {
             if (imageUrl) productData.image_url = imageUrl;
-            
-            if (isEditing) {
-                return updateProduct(productData, session, sb);
-            } else {
-                return insertProduct(productData, session, sb);
-            }
+            if (isEditing) return updateProduct(productData, session, sb);
+            else return insertProduct(productData, session, sb);
         });
     }).catch(function(err) {
         console.error('Save error:', err);
@@ -2987,7 +2742,6 @@ function updateProduct(productData, session, sb) {
     if (!editing) return Promise.resolve();
     
     var savePromise;
-    
     if (sb && navigator.onLine) {
         savePromise = sb.from('products').update(productData).eq('id', editing.id).then(function(result) {
             if (result.error) {
@@ -3022,7 +2776,6 @@ function updateProduct(productData, session, sb) {
                 break;
             }
         }
-        
         showToast('✅ تم تحديث الصنف بنجاح', 'success');
         closeProductModal();
         updateCounts();
@@ -3044,12 +2797,8 @@ function insertProduct(productData, session, sb) {
     }
     
     var insertPromise;
-    
     if (sb && navigator.onLine) {
-        insertPromise = sb.from('products')
-            .insert(productData)
-            .select('*, category:categories(id, name, icon)')
-            .single()
+        insertPromise = sb.from('products').insert(productData).select('*, category:categories(id, name, icon)').single()
             .then(function(result) {
                 if (result.error) {
                     if (result.error.code === '23505') {
@@ -3057,10 +2806,7 @@ function insertProduct(productData, session, sb) {
                         return generateUniqueBarcode().then(function(newBarcode) {
                             productData.barcode = newBarcode;
                             productData.sku = newBarcode;
-                            return sb.from('products')
-                                .insert(productData)
-                                .select('*, category:categories(id, name, icon)')
-                                .single()
+                            return sb.from('products').insert(productData).select('*, category:categories(id, name, icon)').single()
                                 .then(function(r2) {
                                     if (r2.error) throw r2.error;
                                     return r2.data;
@@ -3078,7 +2824,6 @@ function insertProduct(productData, session, sb) {
                     newProduct.category = data.category;
                     newProduct.barcode = data.barcode;
                     newProduct.sku = data.sku;
-                    
                     sb.from('audit_log').insert({
                         user_id: session && session.user && session.user.id,
                         action: 'INSERT',
@@ -3102,16 +2847,12 @@ function insertProduct(productData, session, sb) {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Delete
-// ═══════════════════════════════════════════════════════════════
 function openDeleteModal(id) {
     var p = null;
     for (var i = 0; i < state.products.length; i++) {
         if (state.products[i].id === id) { p = state.products[i]; break; }
     }
     if (!p) return;
-    
     state.deletingProduct = p;
     document.getElementById('deleteProductName').textContent = p.name;
     document.getElementById('deleteModal').classList.add('show');
@@ -3151,11 +2892,9 @@ function confirmDelete() {
         delete state.favorites[p.id];
         saveFavoritesLocal();
         dbDelete('products', p.id);
-        
         showToast('✅ تم حذف الصنف بنجاح', 'success');
         document.getElementById('deleteModal').classList.remove('show');
         state.deletingProduct = null;
-        
         updateCounts();
         applyFilters();
     }).catch(function(err) {
@@ -3167,12 +2906,8 @@ function confirmDelete() {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Barcode Scanner
-// ═══════════════════════════════════════════════════════════════
 function openScanner() {
     document.getElementById('scannerModal').classList.add('show');
-    
     var loadLib = Promise.resolve();
     if (typeof Html5Qrcode === 'undefined') {
         loadLib = new Promise(function(resolve, reject) {
@@ -3183,26 +2918,25 @@ function openScanner() {
             document.head.appendChild(script);
         });
     }
-    
-    loadLib.then(function() {
-        return new Promise(function(r) { setTimeout(r, 300); });
-    }).then(function() {
-        state.scanner = new Html5Qrcode("barcodeReader");
-        return state.scanner.start(
-            { facingMode: "environment" },
-            { fps: 10, qrbox: { width: 250, height: 150 }, aspectRatio: 1.0 },
-            function(decodedText) {
-                document.getElementById('productBarcode').value = decodedText;
-                showToast('تم قراءة الباركود', 'success');
-                closeScanner();
-            },
-            function() {}
-        );
-    }).catch(function(err) {
-        console.error(err);
-        showToast('فشل تشغيل الكاميرا', 'error');
-        closeScanner();
-    });
+    loadLib.then(function() { return new Promise(function(r) { setTimeout(r, 300); }); })
+        .then(function() {
+            state.scanner = new Html5Qrcode("barcodeReader");
+            return state.scanner.start(
+                { facingMode: "environment" },
+                { fps: 10, qrbox: { width: 250, height: 150 }, aspectRatio: 1.0 },
+                function(decodedText) {
+                    document.getElementById('productBarcode').value = decodedText;
+                    showToast('تم قراءة الباركود', 'success');
+                    closeScanner();
+                },
+                function() {}
+            );
+        })
+        .catch(function(err) {
+            console.error(err);
+            showToast('فشل تشغيل الكاميرا', 'error');
+            closeScanner();
+        });
 }
 
 function closeScanner() {
@@ -3211,16 +2945,11 @@ function closeScanner() {
         var s = state.scanner;
         state.scanner = null;
         try {
-            s.stop().then(function() {
-                try { s.clear(); } catch(e) {}
-            }, function(){});
+            s.stop().then(function() { try { s.clear(); } catch(e) {} }, function(){});
         } catch (e) {}
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Barcode Print
-// ═══════════════════════════════════════════════════════════════
 function openBarcodePrintModal() {
     document.getElementById('barcodePrintModal').classList.add('show');
     renderBarcodeList('');
@@ -3234,27 +2963,20 @@ function openBarcodePrintModal() {
 function renderBarcodeList(search) {
     var container = document.getElementById('barcodeProductsList');
     var list = state.products;
-    
     if (search) {
         var q = search.toLowerCase();
         list = list.filter(function(p) {
-            return (p.name || '').toLowerCase().indexOf(q) !== -1 ||
-                   (p.barcode || '').toLowerCase().indexOf(q) !== -1;
+            return (p.name || '').toLowerCase().indexOf(q) !== -1 || (p.barcode || '').toLowerCase().indexOf(q) !== -1;
         });
     }
-    
     if (!list.length) {
         container.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-muted);"><i class="fas fa-box-open" style="font-size: 2rem; opacity: 0.3; display: block; margin-bottom: 0.5rem;"></i><p>لا توجد أصناف</p></div>';
         return;
     }
-    
     container.innerHTML = list.slice(0, 100).map(function(p) {
         return '<label class="barcode-list-item">' +
             '<input type="checkbox" value="' + p.id + '" class="barcode-checkbox">' +
-            '<div class="barcode-list-info">' +
-                '<strong>' + escapeHtml(p.name) + '</strong>' +
-                '<span>' + escapeHtml(p.barcode || p.sku || '—') + '</span>' +
-            '</div>' +
+            '<div class="barcode-list-info"><strong>' + escapeHtml(p.name) + '</strong><span>' + escapeHtml(p.barcode || p.sku || '—') + '</span></div>' +
         '</label>';
     }).join('');
 }
@@ -3265,17 +2987,10 @@ function printBarcodes() {
     for (var i = 0; i < checkboxes.length; i++) {
         var id = checkboxes[i].value;
         for (var j = 0; j < state.products.length; j++) {
-            if (state.products[j].id === id) {
-                selected.push(state.products[j]);
-                break;
-            }
+            if (state.products[j].id === id) { selected.push(state.products[j]); break; }
         }
     }
-    
-    if (!selected.length) {
-        showToast('اختر صنف واحد على الأقل', 'warning');
-        return;
-    }
+    if (!selected.length) { showToast('اختر صنف واحد على الأقل', 'warning'); return; }
     
     var html = '<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>ملصقات الباركود</title>' +
         '<style>' +
@@ -3312,18 +3027,12 @@ function printBarcodes() {
         '<\/script></body></html>';
     
     var win = window.open('', '_blank');
-    if (!win) {
-        showToast('يرجى السماح بالنوافذ المنبثقة', 'error');
-        return;
-    }
+    if (!win) { showToast('يرجى السماح بالنوافذ المنبثقة', 'error'); return; }
     win.document.open();
     win.document.write(html);
     win.document.close();
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Export Excel
-// ═══════════════════════════════════════════════════════════════
 function exportExcel() {
     var loadLib = Promise.resolve();
     if (typeof XLSX === 'undefined') {
@@ -3335,7 +3044,6 @@ function exportExcel() {
             document.head.appendChild(script);
         });
     }
-    
     loadLib.then(function() {
         var data = state.filtered.map(function(p) {
             return {
@@ -3349,7 +3057,6 @@ function exportExcel() {
                 'الوصف': p.description || ''
             };
         });
-        
         var ws = XLSX.utils.json_to_sheet(data);
         var wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'المخزون');
@@ -3361,24 +3068,13 @@ function exportExcel() {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Notifications
-// ═══════════════════════════════════════════════════════════════
 function loadNotifications() {
     var session = getSession();
     if (!session) return;
-    
     var sb = getSupabaseClient();
     if (!sb || !navigator.onLine) return;
-    
-    sb.from('notifications')
-        .select('*')
-        .eq('user_id', session.user.id)
-        .order('created_at', { ascending: false })
-        .limit(20)
-        .then(function(result) {
-            renderNotifications(result.data || []);
-        })
+    sb.from('notifications').select('*').eq('user_id', session.user.id).order('created_at', { ascending: false }).limit(20)
+        .then(function(result) { renderNotifications(result.data || []); })
         .catch(function(){});
 }
 
@@ -3386,18 +3082,12 @@ function renderNotifications(notifications) {
     var list = document.getElementById('notificationsList');
     var badge = document.getElementById('notifBadge');
     if (!list || !badge) return;
-    
     var unread = 0;
-    for (var i = 0; i < notifications.length; i++) {
-        if (!notifications[i].read) unread++;
-    }
-    
+    for (var i = 0; i < notifications.length; i++) if (!notifications[i].read) unread++;
     if (unread > 0) {
         badge.textContent = unread > 99 ? '99+' : unread;
         badge.style.display = 'flex';
-    } else {
-        badge.style.display = 'none';
-    }
+    } else badge.style.display = 'none';
     
     if (!notifications.length) {
         list.innerHTML = '<div class="notifications-empty"><i class="fas fa-bell-slash"></i><p>لا توجد إشعارات</p></div>';
@@ -3413,15 +3103,11 @@ function renderNotifications(notifications) {
     list.innerHTML = notifications.map(function(n) {
         var t = typeMap[n.type] || typeMap.info;
         return '<div class="notification-item ' + (n.read ? '' : 'unread') + '">' +
-            '<div class="notification-item-icon ' + t.cls + '">' +
-                '<i class="fas ' + t.icon + '"></i>' +
-            '</div>' +
+            '<div class="notification-item-icon ' + t.cls + '"><i class="fas ' + t.icon + '"></i></div>' +
             '<div class="notification-item-content">' +
                 '<div class="notification-item-title">' + escapeHtml(n.title) + '</div>' +
                 '<div class="notification-item-message">' + escapeHtml(n.message || '') + '</div>' +
-                '<div class="notification-item-time">' +
-                    '<i class="fas fa-clock"></i> ' + formatTimeAgo(n.created_at) +
-                '</div>' +
+                '<div class="notification-item-time"><i class="fas fa-clock"></i> ' + formatTimeAgo(n.created_at) + '</div>' +
             '</div>' +
         '</div>';
     }).join('');
@@ -3430,13 +3116,9 @@ function renderNotifications(notifications) {
 function markAllRead() {
     var session = getSession();
     if (!session) return;
-    
     var sb = getSupabaseClient();
     if (sb && navigator.onLine) {
-        sb.from('notifications')
-            .update({ read: true })
-            .eq('user_id', session.user.id)
-            .eq('read', false)
+        sb.from('notifications').update({ read: true }).eq('user_id', session.user.id).eq('read', false)
             .then(function() {
                 loadNotifications();
                 showToast('تم تعيين الكل كمقروء', 'success');
@@ -3445,63 +3127,45 @@ function markAllRead() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// Sync Outbox
-// ═══════════════════════════════════════════════════════════════
 function syncOutbox() {
     if (!navigator.onLine) return Promise.resolve();
     var sb = getSupabaseClient();
     if (!sb) return Promise.resolve();
-    
     return dbGetAll('outbox').then(function(items) {
         if (!items.length) return;
-        
         var pending = items.filter(function(i) { return i.status === 'pending'; });
         var synced = 0;
-        
         var chain = Promise.resolve();
         pending.forEach(function(item) {
             chain = chain.then(function() {
                 var p;
-                if (item.type === 'insert') {
-                    p = sb.from(item.table).insert(item.data);
-                } else if (item.type === 'update') {
-                    p = sb.from(item.table).update(item.data).eq('id', item.id);
-                } else if (item.type === 'delete') {
-                    p = sb.from(item.table).delete().eq('id', item.id);
-                } else {
-                    return;
-                }
+                if (item.type === 'insert') p = sb.from(item.table).insert(item.data);
+                else if (item.type === 'update') p = sb.from(item.table).update(item.data).eq('id', item.id);
+                else if (item.type === 'delete') p = sb.from(item.table).delete().eq('id', item.id);
+                else return;
                 return p.then(function() {
                     synced++;
                     return dbDelete('outbox', item.id);
                 }).catch(function(){});
             });
         });
-        
         return chain.then(function() {
             if (synced > 0) showToast('تم مزامنة ' + synced + ' عملية', 'success');
         });
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// UI Helpers
-// ═══════════════════════════════════════════════════════════════
 function updateUserUI(user) {
     var initial = ((user.full_name || user.username || 'م') + '').charAt(0).toUpperCase();
     var roleText = user.role === 'admin' ? 'مدير' : 'موظف';
-    
     ['userAvatar', 'dropdownAvatar'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el) el.textContent = initial;
     });
-    
     ['userName', 'dropdownName'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el) el.textContent = user.full_name || user.username;
     });
-    
     ['userRole', 'dropdownRole'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el) el.textContent = roleText;
@@ -3511,16 +3175,77 @@ function updateUserUI(user) {
 function applyPermissions(user) {
     var perms = user.permissions || {};
     var isAdmin = user.role === 'admin';
-    
     document.querySelectorAll('.sidebar-link[data-perm]').forEach(function(link) {
         if (!isAdmin && !perms[link.dataset.perm]) link.style.display = 'none';
     });
-    
     if (isAdmin) {
         var al = document.getElementById('adminLink');
         var dal = document.getElementById('dropdownAdminLink');
         if (al) al.style.display = 'flex';
         if (dal) dal.style.display = 'flex';
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ✅ معالجة URL Parameters (الجديد)
+// ═══════════════════════════════════════════════════════════════
+function handleUrlParams() {
+    var action = getUrlParam('action');
+    var filter = getUrlParam('filter');
+    var search = getUrlParam('search');
+    var id = getUrlParam('id');
+    var category = getUrlParam('category');
+    
+    // ?action=add → افتح مودال الإضافة
+    if (action === 'add') {
+        setTimeout(function() { openAddModal(); }, 500);
+    }
+    
+    // ?id=xxx → افتح تعديل الصنف
+    if (id) {
+        setTimeout(function() {
+            var exists = state.products.some(function(p) { return p.id === id; });
+            if (exists) openEditModal(id);
+        }, 700);
+    }
+    
+    // ?search=xxx → ابحث
+    if (search) {
+        var searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.value = search;
+            state.searchQuery = search;
+            applyFilters();
+        }
+    }
+    
+    // ?filter=low|out|favorites → طبّق الفلتر
+    if (filter) {
+        var chip = document.querySelector('.filter-chip[data-filter="' + filter + '"]');
+        if (chip) {
+            document.querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
+            chip.classList.add('active');
+            state.currentFilter = filter;
+            applyFilters();
+        }
+    }
+    
+    // ?category=xxx → فلتر فئة
+    if (category) {
+        var catFilter = document.getElementById('categoryFilter');
+        if (catFilter) {
+            catFilter.value = category;
+            state.categoryFilter = category;
+            applyFilters();
+        }
+    }
+    
+    // نظّف الـ URL بعد التنفيذ (اختياري - لمنع إعادة الفتح عند Refresh)
+    if (action || id) {
+        try {
+            var cleanUrl = window.location.pathname;
+            window.history.replaceState({}, '', cleanUrl);
+        } catch (e) {}
     }
 }
 
@@ -3551,7 +3276,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateUserUI(session.user);
     applyPermissions(session.user);
     
-    // Sidebar
     var menuBtn = document.getElementById('menuBtn');
     var sidebar = document.getElementById('sidebar');
     var overlay = document.getElementById('sidebarOverlay');
@@ -3565,7 +3289,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (overlay) overlay.classList.remove('show');
     });
     
-    // User dropdown
     var userBtn = document.getElementById('userBtn');
     var userDropdown = document.getElementById('userDropdown');
     var notifBtn = document.getElementById('notificationsBtn');
@@ -3592,15 +3315,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (markAllBtn) markAllBtn.addEventListener('click', markAllRead);
     
     document.addEventListener('click', function(e) {
-        if (userDropdown && !userDropdown.contains(e.target) && userBtn && !userBtn.contains(e.target)) {
-            userDropdown.classList.remove('show');
-        }
-        if (notifPanel && !notifPanel.contains(e.target) && notifBtn && !notifBtn.contains(e.target)) {
-            notifPanel.classList.remove('show');
-        }
+        if (userDropdown && !userDropdown.contains(e.target) && userBtn && !userBtn.contains(e.target)) userDropdown.classList.remove('show');
+        if (notifPanel && !notifPanel.contains(e.target) && notifBtn && !notifBtn.contains(e.target)) notifPanel.classList.remove('show');
     });
     
-    // Search
     var searchTimeout;
     var searchInput = document.getElementById('searchInput');
     if (searchInput) searchInput.addEventListener('input', function(e) {
@@ -3676,21 +3394,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (productImg) productImg.addEventListener('change', function(e) {
         var file = e.target.files[0];
         if (!file) return;
-        
-        if (file.size > 5 * 1024 * 1024) {
-            showToast('حجم الصورة أكبر من 5 ميجا', 'error');
-            e.target.value = '';
-            return;
-        }
-        
-        if (!file.type.startsWith('image/')) {
-            showToast('الملف ليس صورة', 'error');
-            e.target.value = '';
-            return;
-        }
-        
+        if (file.size > 5 * 1024 * 1024) { showToast('حجم الصورة أكبر من 5 ميجا', 'error'); e.target.value = ''; return; }
+        if (!file.type.startsWith('image/')) { showToast('الملف ليس صورة', 'error'); e.target.value = ''; return; }
         state.imageFile = file;
-        
         var reader = new FileReader();
         reader.onload = function(ev) {
             document.getElementById('imagePreview').src = ev.target.result;
@@ -3706,7 +3412,6 @@ document.addEventListener('DOMContentLoaded', function() {
         genBtn.disabled = true;
         var originalHtml = genBtn.innerHTML;
         genBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        
         generateUniqueBarcode().then(function(code) {
             document.getElementById('productBarcode').value = code;
             showToast('تم توليد باركود جديد', 'info', 2000);
@@ -3721,7 +3426,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var scanBtn = document.getElementById('scanBarcodeBtn');
     var closeScan = document.getElementById('closeScannerModal');
     var cancelScan = document.getElementById('cancelScanBtn');
-    
     if (scanBtn) scanBtn.addEventListener('click', openScanner);
     if (closeScan) closeScan.addEventListener('click', closeScanner);
     if (cancelScan) cancelScan.addEventListener('click', closeScanner);
@@ -3729,7 +3433,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var closeDel = document.getElementById('closeDeleteModal');
     var cancelDel = document.getElementById('cancelDeleteBtn');
     var confirmDel = document.getElementById('confirmDeleteBtn');
-    
     if (closeDel) closeDel.addEventListener('click', function() {
         document.getElementById('deleteModal').classList.remove('show');
         state.deletingProduct = null;
@@ -3745,18 +3448,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var cancelBc = document.getElementById('cancelBarcodeBtn');
     var doPrint = document.getElementById('doPrintBarcodes');
     var bcSearch = document.getElementById('barcodeSearch');
-    
     if (printBtn) printBtn.addEventListener('click', openBarcodePrintModal);
-    if (closeBc) closeBc.addEventListener('click', function() {
-        document.getElementById('barcodePrintModal').classList.remove('show');
-    });
-    if (cancelBc) cancelBc.addEventListener('click', function() {
-        document.getElementById('barcodePrintModal').classList.remove('show');
-    });
+    if (closeBc) closeBc.addEventListener('click', function() { document.getElementById('barcodePrintModal').classList.remove('show'); });
+    if (cancelBc) cancelBc.addEventListener('click', function() { document.getElementById('barcodePrintModal').classList.remove('show'); });
     if (doPrint) doPrint.addEventListener('click', printBarcodes);
-    if (bcSearch) bcSearch.addEventListener('input', function(e) {
-        renderBarcodeList(e.target.value);
-    });
+    if (bcSearch) bcSearch.addEventListener('input', function(e) { renderBarcodeList(e.target.value); });
     
     var expBtn = document.getElementById('exportExcelBtn');
     if (expBtn) expBtn.addEventListener('click', exportExcel);
@@ -3775,30 +3471,20 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.modal-overlay.show').forEach(function(m) { m.classList.remove('show'); });
             if (state.scanner) closeScanner();
         }
-        if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
-            e.preventDefault();
-            toggleTheme();
-        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'd') { e.preventDefault(); toggleTheme(); }
     });
     
     var progressBar = document.getElementById('readingProgress');
     var scrollTopBtn = document.getElementById('scrollTop');
-    
     window.addEventListener('scroll', function() {
         var winScroll = document.documentElement.scrollTop;
         var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         var scrolled = height > 0 ? (winScroll / height) * 100 : 0;
         if (progressBar) progressBar.style.width = scrolled + '%';
-        if (winScroll > 300) {
-            if (scrollTopBtn) scrollTopBtn.classList.add('show');
-        } else {
-            if (scrollTopBtn) scrollTopBtn.classList.remove('show');
-        }
+        if (winScroll > 300) { if (scrollTopBtn) scrollTopBtn.classList.add('show'); }
+        else { if (scrollTopBtn) scrollTopBtn.classList.remove('show'); }
     }, { passive: true });
-    
-    if (scrollTopBtn) scrollTopBtn.addEventListener('click', function() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    if (scrollTopBtn) scrollTopBtn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
     
     if (session.user.role !== 'admin' && (!session.user.permissions || !session.user.permissions.can_edit_products)) {
         var addBtn2 = document.getElementById('addProductBtn');
@@ -3817,6 +3503,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         var subtitle = document.getElementById('pageSubtitle');
         if (subtitle) subtitle.textContent = state.products.length + ' صنف في المخزون';
+        
+        // ✅ معالجة URL params بعد تحميل البيانات
+        handleUrlParams();
     }).catch(function(err) {
         console.error('Load data error:', err);
         showToast('حدث خطأ في تحميل البيانات', 'error');
