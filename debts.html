@@ -30,78 +30,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
 
-<!--
-═══════════════════════════════════════════════════════════════════════
-📦 SQL Schema (مرجعي)
-
--- جدول الفواتير
-CREATE TABLE IF NOT EXISTS invoices (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  invoice_number TEXT,
-  uuid_link TEXT,
-  customer_id UUID REFERENCES customers(id),
-  repair_order_id UUID,
-  subtotal NUMERIC(12,2) DEFAULT 0,
-  parts_total NUMERIC(12,2) DEFAULT 0,
-  labor_cost NUMERIC(12,2) DEFAULT 0,
-  discount NUMERIC(12,2) DEFAULT 0,
-  discount_type TEXT DEFAULT 'amount',
-  total NUMERIC(12,2) DEFAULT 0,
-  paid_amount NUMERIC(12,2) DEFAULT 0,
-  payment_method TEXT DEFAULT 'cash',
-  paid BOOLEAN DEFAULT FALSE,
-  notes TEXT,
-  created_by UUID,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- جدول الدفعات
-CREATE TABLE IF NOT EXISTS payments (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  invoice_id UUID REFERENCES invoices(id) ON DELETE CASCADE,
-  amount NUMERIC(12,2) DEFAULT 0,
-  method TEXT DEFAULT 'cash',
-  notes TEXT,
-  created_by UUID,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- جدول العملاء
-CREATE TABLE IF NOT EXISTS customers (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  name TEXT NOT NULL,
-  phone TEXT,
-  address TEXT,
-  notes TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- View للعملاء المدينين
-CREATE OR REPLACE VIEW v_customer_debts AS
-SELECT 
-  c.id AS customer_id,
-  c.name AS customer_name,
-  c.phone AS customer_phone,
-  c.address,
-  COUNT(i.id) AS unpaid_invoices_count,
-  SUM(i.total - COALESCE(i.paid_amount, 0)) AS total_debt,
-  MIN(i.created_at) AS oldest_debt_date,
-  MAX(i.created_at) AS latest_invoice_date
-FROM customers c
-INNER JOIN invoices i ON i.customer_id = c.id
-WHERE i.total > COALESCE(i.paid_amount, 0)
-GROUP BY c.id, c.name, c.phone, c.address
-HAVING SUM(i.total - COALESCE(i.paid_amount, 0)) > 0;
-
--- Indexes
-CREATE INDEX IF NOT EXISTS idx_invoices_customer ON invoices(customer_id);
-CREATE INDEX IF NOT EXISTS idx_invoices_paid ON invoices(paid);
-CREATE INDEX IF NOT EXISTS idx_payments_invoice ON payments(invoice_id);
-
--- ⚠️ لا RLS
-═══════════════════════════════════════════════════════════════════════
--->
-
 <style>
 :root {
     --tech-blue: #1d5b8e;
@@ -393,10 +321,6 @@ img { max-width: 100%; height: auto; display: block; }
 .btn-secondary:hover { background: var(--bg-hover); border-color: var(--tech-blue); color: var(--tech-blue); }
 .btn-danger { background: var(--danger); color: white; }
 .btn-danger:hover { background: #dc2626; }
-.btn-whatsapp {
-    background: #25d366; color: white;
-}
-.btn-whatsapp:hover { background: #128c7e; transform: translateY(-2px); }
 .btn-sm { padding: 0.4rem 0.85rem; font-size: 0.8rem; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
@@ -485,7 +409,7 @@ img { max-width: 100%; height: auto; display: block; }
     transition: all var(--transition); cursor: pointer;
     display: inline-flex; align-items: center; gap: 0.4rem;
 }
-.filter-chip:hover { border-color: var(--tech-blue); color: var(--tech-blue); }
+.filter-chip:hover { border-color: var(--danger); color: var(--danger); }
 .filter-chip.active {
     background: linear-gradient(135deg, var(--danger), #dc2626);
     color: white; border-color: var(--danger);
@@ -580,7 +504,6 @@ img { max-width: 100%; height: auto; display: block; }
 .debt-actions {
     display: flex; gap: 0.35rem; justify-content: flex-end;
 }
-.debt-actions .btn { padding: 0.45rem 0.65rem; font-size: 0.75rem; }
 .debt-actions .action-btn-sm {
     width: 34px; height: 34px; border-radius: var(--radius-sm);
     display: flex; align-items: center; justify-content: center;
@@ -674,7 +597,7 @@ img { max-width: 100%; height: auto; display: block; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
 
-/* Payment Amount Input */
+/* Payment Amount */
 .amount-input-wrapper { position: relative; }
 .amount-input-wrapper input {
     padding-left: 4rem;
@@ -726,7 +649,6 @@ img { max-width: 100%; height: auto; display: block; }
     font-weight: 800; color: var(--text-primary); font-size: 0.95rem;
 }
 .debt-summary-value.danger { color: var(--danger); font-size: 1.1rem; }
-.debt-summary-value.success { color: var(--success); }
 
 /* Toast */
 .toast-container {
@@ -773,7 +695,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .skeleton-row { height: 72px; margin-bottom: 0.5rem; border-radius: var(--radius-md); }
 
-/* Empty State */
+/* Empty */
 .empty-state {
     padding: 4rem 1rem; text-align: center; color: var(--text-muted);
     background: var(--bg-card); border: 2px dashed var(--border-color);
@@ -789,7 +711,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .empty-state p { font-size: 0.85rem; margin-bottom: 1rem; }
 
-/* Invoice List */
+/* Invoice Item */
 .invoice-item {
     display: flex; align-items: center; justify-content: space-between;
     padding: 0.85rem 1rem;
@@ -807,13 +729,11 @@ img { max-width: 100%; height: auto; display: block; }
     font-family: 'Courier New', monospace;
 }
 .invoice-date { font-size: 0.72rem; color: var(--text-muted); }
-.invoice-amounts {
-    text-align: left; flex-shrink: 0;
-}
+.invoice-amounts { text-align: left; flex-shrink: 0; }
 .invoice-total { font-size: 0.9rem; font-weight: 800; color: var(--tech-blue); }
 .invoice-remaining { font-size: 0.75rem; font-weight: 700; color: var(--danger); margin-top: 0.15rem; }
 
-/* Scroll Top */
+/* Scroll top */
 .scroll-top {
     position: fixed; bottom: calc(1rem + var(--safe-bottom));
     left: calc(1rem + var(--safe-left));
@@ -827,7 +747,7 @@ img { max-width: 100%; height: auto; display: block; }
 .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
 .scroll-top:hover { transform: translateY(-4px); }
 
-/* Notifications Panel */
+/* Notifications */
 .notifications-panel {
     position: fixed; top: calc(var(--navbar-height) + 0.5rem);
     left: 1rem; width: 380px; max-width: calc(100vw - 2rem);
@@ -947,7 +867,6 @@ img { max-width: 100%; height: auto; display: block; }
     animation: spin 0.8s linear infinite;
 }
 
-/* Responsive */
 @media (max-width: 968px) {
     .sidebar { transform: translateX(100%); box-shadow: var(--shadow-xl); }
     .sidebar.show { transform: translateX(0); }
@@ -956,7 +875,7 @@ img { max-width: 100%; height: auto; display: block; }
     .navbar-brand-text { display: none; }
     .navbar-user-info { display: none; }
     .navbar-user { padding: 0.35rem; }
-    
+
     .debts-header { display: none; }
     .debt-item {
         grid-template-columns: 1fr;
@@ -1020,7 +939,6 @@ img { max-width: 100%; height: auto; display: block; }
     <button class="navbar-menu-btn" id="menuBtn" aria-label="القائمة">
         <i class="fas fa-bars"></i>
     </button>
-    
     <a href="dashboard.html" class="navbar-brand">
         <img src="logo.png" alt="إلكترونك" class="navbar-logo" onerror="this.style.display='none'">
         <div class="navbar-brand-text">
@@ -1028,14 +946,12 @@ img { max-width: 100%; height: auto; display: block; }
             <span>لصيانة الأجهزة الإلكترونية</span>
         </div>
     </a>
-    
     <div class="navbar-search">
         <input type="text" class="navbar-search-input" id="globalSearchInput"
             placeholder="ابحث عن عميل، فاتورة، صنف..." autocomplete="off">
         <i class="fas fa-magnifying-glass navbar-search-icon"></i>
         <span class="navbar-search-shortcut">Ctrl+K</span>
     </div>
-    
     <div class="navbar-actions">
         <button class="navbar-btn" id="onlineBtn" title="حالة الاتصال">
             <i class="fas fa-wifi"></i>
@@ -1064,86 +980,66 @@ img { max-width: 100%; height: auto; display: block; }
     <div class="sidebar-section">
         <div class="sidebar-section-title">الرئيسية</div>
         <a href="dashboard.html" class="sidebar-link">
-            <i class="fas fa-house"></i>
-            <span>لوحة التحكم</span>
+            <i class="fas fa-house"></i><span>لوحة التحكم</span>
         </a>
     </div>
-    
     <div class="sidebar-section">
         <div class="sidebar-section-title">المخزون</div>
         <a href="products.html" class="sidebar-link" data-perm="can_view_products">
-            <i class="fas fa-boxes-stacked"></i>
-            <span>الأصناف</span>
+            <i class="fas fa-boxes-stacked"></i><span>الأصناف</span>
         </a>
         <a href="categories.html" class="sidebar-link" data-perm="can_view_categories">
-            <i class="fas fa-tags"></i>
-            <span>الفئات</span>
+            <i class="fas fa-tags"></i><span>الفئات</span>
         </a>
         <a href="stock-in.html" class="sidebar-link" data-perm="can_view_warehouse_in">
-            <i class="fas fa-truck-ramp-box"></i>
-            <span>الوارد</span>
+            <i class="fas fa-truck-ramp-box"></i><span>الوارد</span>
         </a>
         <a href="suppliers.html" class="sidebar-link" data-perm="can_view_suppliers">
-            <i class="fas fa-handshake"></i>
-            <span>الموردين</span>
+            <i class="fas fa-handshake"></i><span>الموردين</span>
         </a>
     </div>
-    
     <div class="sidebar-section">
         <div class="sidebar-section-title">المبيعات</div>
         <a href="invoices.html" class="sidebar-link" data-perm="can_view_invoices">
-            <i class="fas fa-file-invoice-dollar"></i>
-            <span>الفواتير</span>
+            <i class="fas fa-file-invoice-dollar"></i><span>الفواتير</span>
         </a>
         <a href="customers.html" class="sidebar-link" data-perm="can_view_customers">
-            <i class="fas fa-users"></i>
-            <span>العملاء</span>
+            <i class="fas fa-users"></i><span>العملاء</span>
         </a>
         <a href="debts.html" class="sidebar-link active" data-perm="can_view_debts">
-            <i class="fas fa-hand-holding-dollar"></i>
-            <span>المديونيات</span>
+            <i class="fas fa-hand-holding-dollar"></i><span>المديونيات</span>
         </a>
     </div>
-    
     <div class="sidebar-section">
         <div class="sidebar-section-title">الصيانة</div>
         <a href="repairs.html" class="sidebar-link" data-perm="can_view_repairs">
-            <i class="fas fa-screwdriver-wrench"></i>
-            <span>أوامر الصيانة</span>
+            <i class="fas fa-screwdriver-wrench"></i><span>أوامر الصيانة</span>
         </a>
     </div>
-    
     <div class="sidebar-section">
         <div class="sidebar-section-title">التقارير</div>
         <a href="reports.html" class="sidebar-link" data-perm="can_view_reports">
-            <i class="fas fa-chart-pie"></i>
-            <span>التقارير</span>
+            <i class="fas fa-chart-pie"></i><span>التقارير</span>
         </a>
         <a href="shifts.html" class="sidebar-link" data-perm="can_manage_shifts">
-            <i class="fas fa-clock"></i>
-            <span>الورديات</span>
+            <i class="fas fa-clock"></i><span>الورديات</span>
         </a>
         <a href="audit-log.html" class="sidebar-link" data-perm="can_view_audit_log">
-            <i class="fas fa-clipboard-list"></i>
-            <span>سجل الحركات</span>
+            <i class="fas fa-clipboard-list"></i><span>سجل الحركات</span>
         </a>
     </div>
-    
     <div class="sidebar-section">
         <div class="sidebar-section-title">أدوات</div>
         <a href="favorites.html" class="sidebar-link">
-            <i class="fas fa-star"></i>
-            <span>المفضلة</span>
+            <i class="fas fa-star"></i><span>المفضلة</span>
         </a>
         <a href="admin.html" class="sidebar-link" id="adminLink" style="display: none;">
-            <i class="fas fa-shield-halved"></i>
-            <span>لوحة الأدمن</span>
+            <i class="fas fa-shield-halved"></i><span>لوحة الأدمن</span>
         </a>
     </div>
 </aside>
 
 <main class="main-content">
-    
     <div class="page-header">
         <div class="page-header-text">
             <h1><i class="fas fa-hand-holding-dollar"></i> المديونيات</h1>
@@ -1161,8 +1057,7 @@ img { max-width: 100%; height: auto; display: block; }
             </button>
         </div>
     </div>
-    
-    <!-- Stats -->
+
     <div class="stats-grid">
         <div class="stat-card" style="--accent-color: #ef4444; --accent-color-dark: #dc2626; --accent-shadow: rgba(239, 68, 68, 0.3);">
             <div class="stat-card-header">
@@ -1193,8 +1088,7 @@ img { max-width: 100%; height: auto; display: block; }
             <div class="stat-label">متوسط المديونية</div>
         </div>
     </div>
-    
-    <!-- Toolbar -->
+
     <div class="toolbar">
         <div class="search-box">
             <i class="fas fa-magnifying-glass"></i>
@@ -1208,24 +1102,22 @@ img { max-width: 100%; height: auto; display: block; }
             <option value="name">الاسم (أ-ي)</option>
         </select>
     </div>
-    
-    <!-- Filter Chips -->
+
     <div class="filter-chips">
         <button class="filter-chip active" data-filter="all">
             <i class="fas fa-list"></i> الكل <span class="count" id="countAll">0</span>
         </button>
         <button class="filter-chip" data-filter="recent">
-            <i class="fas fa-clock"></i> حديث (أقل من 30 يوم) <span class="count" id="countRecent">0</span>
+            <i class="fas fa-clock"></i> حديث <span class="count" id="countRecent">0</span>
         </button>
         <button class="filter-chip" data-filter="medium">
-            <i class="fas fa-hourglass-half"></i> متوسط (30-90 يوم) <span class="count" id="countMedium">0</span>
+            <i class="fas fa-hourglass-half"></i> متوسط <span class="count" id="countMedium">0</span>
         </button>
         <button class="filter-chip" data-filter="old">
-            <i class="fas fa-triangle-exclamation"></i> متأخر (أكثر من 90 يوم) <span class="count" id="countOld">0</span>
+            <i class="fas fa-triangle-exclamation"></i> متأخر <span class="count" id="countOld">0</span>
         </button>
     </div>
-    
-    <!-- Debts List -->
+
     <div id="debtsContainer">
         <div class="debts-list">
             <div class="skeleton skeleton-row"></div>
@@ -1235,7 +1127,6 @@ img { max-width: 100%; height: auto; display: block; }
             <div class="skeleton skeleton-row"></div>
         </div>
     </div>
-    
 </main>
 
 <!-- Payment Modal -->
@@ -1250,9 +1141,8 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
         <div class="modal-body">
             <div id="paymentCustomerInfo"></div>
-            
             <div class="debt-summary" id="paymentSummary"></div>
-            
+
             <div class="form-group">
                 <label class="form-label">
                     <i class="fas fa-money-bill-wave"></i>
@@ -1268,7 +1158,7 @@ img { max-width: 100%; height: auto; display: block; }
                     <span>الرجاء إدخال مبلغ صحيح</span>
                 </div>
             </div>
-            
+
             <div class="form-row">
                 <div class="form-group">
                     <label class="form-label">
@@ -1290,7 +1180,7 @@ img { max-width: 100%; height: auto; display: block; }
                     <input type="date" class="form-input" id="paymentDate">
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label class="form-label">
                     <i class="fas fa-align-right"></i>
@@ -1324,7 +1214,7 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Notifications Panel -->
+<!-- Notifications -->
 <div class="notifications-panel" id="notificationsPanel">
     <div class="notifications-header">
         <h3 class="notifications-title"><i class="fas fa-bell"></i> الإشعارات</h3>
@@ -1360,7 +1250,6 @@ img { max-width: 100%; height: auto; display: block; }
 </div>
 
 <div class="toast-container" id="toastContainer"></div>
-
 <button class="scroll-top" id="scrollTop" aria-label="العودة للأعلى">
     <i class="fas fa-arrow-up"></i>
 </button>
@@ -1396,24 +1285,15 @@ function escapeHtml(str) {
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
-
 function formatCurrency(amount) {
     var num = parseFloat(amount) || 0;
     try { return num.toLocaleString('ar-EG', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' ج.م'; }
     catch (e) { return num.toFixed(2) + ' ج.م'; }
 }
-
-function formatCurrencyShort(amount) {
-    var num = parseFloat(amount) || 0;
-    try { return num.toLocaleString('ar-EG', { minimumFractionDigits: 0, maximumFractionDigits: 0 }); }
-    catch (e) { return Math.round(num).toString(); }
-}
-
 function formatNumber(num) {
     var n = parseInt(num) || 0;
     try { return n.toLocaleString('ar-EG'); } catch (e) { return String(n); }
 }
-
 function formatDate(date) {
     if (!date) return '—';
     var d = new Date(date);
@@ -1421,7 +1301,6 @@ function formatDate(date) {
     try { return d.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' }); }
     catch (e) { return d.toISOString().split('T')[0]; }
 }
-
 function formatTimeAgo(date) {
     if (!date) return '';
     var d = new Date(date);
@@ -1433,20 +1312,11 @@ function formatTimeAgo(date) {
     if (seconds < 604800) return 'منذ ' + Math.floor(seconds / 86400) + ' يوم';
     return formatDate(date);
 }
-
 function daysBetween(date) {
     if (!date) return 0;
     var d = new Date(date);
     if (isNaN(d.getTime())) return 0;
     return Math.floor((Date.now() - d.getTime()) / (1000 * 60 * 60 * 24));
-}
-
-function debounce(fn, ms) {
-    var t; return function() {
-        var args = arguments, ctx = this;
-        clearTimeout(t);
-        t = setTimeout(function() { fn.apply(ctx, args); }, ms);
-    };
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1531,7 +1401,6 @@ function logout(message) {
 // ═══════════════════════════════════════════════════════════════
 var INACTIVITY_TIMEOUT = 30 * 60 * 1000;
 var inactivityTimer = null;
-
 function resetInactivity() {
     if (inactivityTimer) clearTimeout(inactivityTimer);
     inactivityTimer = setTimeout(function() {
@@ -1549,19 +1418,20 @@ function startInactivityMonitor() {
 // 💾 State
 // ═══════════════════════════════════════════════════════════════
 var state = {
-    debts: [],           // قائمة العملاء المدينين
-    invoices: [],        // كل الفواتير غير المدفوعة
-    customers: [],       // كل العملاء
+    debts: [],
+    invoices: [],
+    customers: [],
     filtered: [],
     searchQuery: '',
     sortFilter: 'highest',
     currentFilter: 'all',
-    paymentTarget: null, // العميل اللي بنسجل له دفعة
+    paymentTarget: null,
     viewingCustomer: null
 };
 
 var CACHE_KEY = 'elk_debts_cache_v1';
 var CACHE_INVOICES = 'elk_debts_invoices_cache_v1';
+var CACHE_CUSTOMERS = 'elk_debts_customers_cache_v1';
 
 function getCache(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
 function setCache(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
@@ -1573,14 +1443,13 @@ function loadData() {
     // Cache أولاً
     var cachedDebts = getCache(CACHE_KEY);
     var cachedInvoices = getCache(CACHE_INVOICES);
-    if (cachedDebts && Array.isArray(cachedDebts)) {
-        state.debts = cachedDebts;
-    }
-    if (cachedInvoices && Array.isArray(cachedInvoices)) {
-        state.invoices = cachedInvoices;
-    }
+    var cachedCustomers = getCache(CACHE_CUSTOMERS);
+
+    if (cachedInvoices) state.invoices = cachedInvoices;
+    if (cachedCustomers) state.customers = cachedCustomers;
+    if (cachedDebts) state.debts = cachedDebts;
+
     if (state.debts.length || state.invoices.length) {
-        recomputeDebts();
         updateStats();
         applyFilters();
     }
@@ -1588,76 +1457,57 @@ function loadData() {
     var sb = getSupabaseClient();
     if (!sb || !navigator.onLine) return Promise.resolve();
 
-    // 🔑 3-tier strategy
-    return tryLoadFromView(sb)
-        .catch(function() { return tryLoadSeparately(sb); })
-        .catch(function(err) {
-            console.warn('Load failed:', err);
-        });
-}
+    console.log('📥 Loading debts from Supabase...');
 
-function tryLoadFromView(sb) {
-    // حاول استخدام الـ view
-    return sb.from('v_customer_debts').select('*')
-        .then(function(result) {
-            if (result.error) throw result.error;
-            return result.data || [];
-        });
-}
-
-function tryLoadSeparately(sb) {
-    console.log('📥 Loading debts from separate tables...');
     return Promise.all([
         sb.from('invoices').select('id, invoice_number, customer_id, total, paid_amount, paid, created_at, payment_method').order('created_at', { ascending: false }),
         sb.from('customers').select('id, name, phone, address, notes, created_at')
     ]).then(function(results) {
-        if (results[0].error) throw results[0].error;
+        var invoicesRes = results[0];
+        var customersRes = results[1];
 
-        state.invoices = (results[0].data || []).map(function(i) {
+        if (invoicesRes.error) throw invoicesRes.error;
+
+        state.invoices = (invoicesRes.data || []).map(function(i) {
+            var total = parseFloat(i.total) || 0;
+            var paid = parseFloat(i.paid_amount) || 0;
             return {
                 id: i.id,
                 invoice_number: i.invoice_number || '',
                 customer_id: i.customer_id,
-                total: parseFloat(i.total) || 0,
-                paid_amount: parseFloat(i.paid_amount) || 0,
+                total: total,
+                paid_amount: paid,
                 paid: !!i.paid,
                 created_at: i.created_at,
                 payment_method: i.payment_method || 'cash',
-                remaining: Math.max(0, (parseFloat(i.total) || 0) - (parseFloat(i.paid_amount) || 0))
+                remaining: Math.max(0, total - paid)
             };
         }).filter(function(i) {
-            // احتفظ بالغير مدفوعة كلياً أو جزئياً
             return i.remaining > 0.01;
         });
 
-        state.customers = results[1].data || [];
+        state.customers = customersRes.data || [];
 
         setCache(CACHE_INVOICES, state.invoices);
-        setCache('elk_debts_customers_cache', state.customers);
+        setCache(CACHE_CUSTOMERS, state.customers);
+
+        console.log('📊 Invoices:', state.invoices.length, 'Customers:', state.customers.length);
 
         recomputeDebts();
         updateStats();
         applyFilters();
+    }).catch(function(err) {
+        console.warn('Load error:', err);
+        showToast('فشل التحميل: ' + (err.message || ''), 'error', 4000);
     });
 }
 
 function recomputeDebts() {
-    // جمّع المديونيات حسب العميل
     var customerMap = {};
-    state.customers.forEach(function(c) {
-        customerMap[c.id] = c;
-    });
-
-    // من cache لو مش موجودين
-    if (!state.customers.length) {
-        var cc = getCache('elk_debts_customers_cache');
-        if (cc) {
-            state.customers = cc;
-            state.customers.forEach(function(c) { customerMap[c.id] = c; });
-        }
-    }
+    state.customers.forEach(function(c) { customerMap[c.id] = c; });
 
     var debtMap = {};
+
     state.invoices.forEach(function(inv) {
         var cid = inv.customer_id;
         if (!cid) return;
@@ -1696,7 +1546,6 @@ function recomputeDebts() {
 
     state.debts = Object.keys(debtMap).map(function(k) { return debtMap[k]; });
 
-    // رتّب كل عميل: فواتيره من الأحدث للأقدم
     state.debts.forEach(function(d) {
         d.invoices.sort(function(a, b) {
             return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
@@ -1728,7 +1577,6 @@ function updateStats() {
 
     document.getElementById('pageSubtitle').textContent = debtorsCount + ' عميل مدين • ' + totalInvoices + ' فاتورة';
 
-    // Counts للفلتر
     var recent = 0, medium = 0, old = 0;
     state.debts.forEach(function(d) {
         var days = daysBetween(d.oldest_debt_date);
@@ -1756,7 +1604,6 @@ function applyFilters() {
         });
     }
 
-    // فلتر الفترة
     if (state.currentFilter === 'recent') {
         list = list.filter(function(d) { return daysBetween(d.oldest_debt_date) <= 30; });
     } else if (state.currentFilter === 'medium') {
@@ -1768,7 +1615,6 @@ function applyFilters() {
         list = list.filter(function(d) { return daysBetween(d.oldest_debt_date) > 90; });
     }
 
-    // الترتيب
     switch (state.sortFilter) {
         case 'lowest':
             list.sort(function(a, b) { return a.total_debt - b.total_debt; });
@@ -1850,7 +1696,7 @@ function renderDebtRow(d) {
         '</div>' +
         '<div class="debt-cell" data-label="أقدم مديونية">' +
             '<span class="debt-days ' + daysClass + '">' +
-                '<i class="fas fa-clock"></i>' +
+                '<i class="fas fa-clock"></i> ' +
                 days + ' يوم - ' + daysLabel +
             '</span>' +
             '<small>' + formatDate(d.oldest_debt_date) + '</small>' +
@@ -1878,7 +1724,6 @@ window.openPaymentModal = function(customerId) {
 
     state.paymentTarget = d;
 
-    // معلومات العميل
     document.getElementById('paymentCustomerInfo').innerHTML =
         '<div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); margin-bottom: 1.25rem;">' +
             '<div class="debt-avatar" style="width: 56px; height: 56px; font-size: 1.4rem;">' + escapeHtml((d.customer_name || '?').charAt(0)) + '</div>' +
@@ -1888,7 +1733,6 @@ window.openPaymentModal = function(customerId) {
             '</div>' +
         '</div>';
 
-    // الملخص
     document.getElementById('paymentSummary').innerHTML =
         '<div class="debt-summary-row">' +
             '<span class="debt-summary-label"><i class="fas fa-file-invoice"></i> عدد الفواتير</span>' +
@@ -1899,10 +1743,8 @@ window.openPaymentModal = function(customerId) {
             '<span class="debt-summary-value danger">' + formatCurrency(d.total_debt) + '</span>' +
         '</div>';
 
-    // Quick amounts
     var quickHtml = '';
-    var amounts = [100, 200, 500, 1000];
-    amounts.forEach(function(a) {
+    [100, 200, 500, 1000].forEach(function(a) {
         if (a <= d.total_debt) {
             quickHtml += '<button type="button" class="quick-amount-btn" onclick="setPaymentAmount(' + a + ')">' + a + ' ج.م</button>';
         }
@@ -1910,7 +1752,6 @@ window.openPaymentModal = function(customerId) {
     quickHtml += '<button type="button" class="quick-amount-btn full" onclick="setPaymentAmount(' + d.total_debt.toFixed(2) + ')">سداد كامل</button>';
     document.getElementById('quickAmounts').innerHTML = quickHtml;
 
-    // املأ الحقول
     document.getElementById('paymentAmount').value = '';
     document.getElementById('paymentMethod').value = 'cash';
     document.getElementById('paymentNotes').value = '';
@@ -1944,7 +1785,6 @@ window.savePayment = function() {
     var payDate = document.getElementById('paymentDate').value || new Date().toISOString().split('T')[0];
     var d = state.paymentTarget;
 
-    // Validation
     if (amount <= 0) {
         document.getElementById('amountError').classList.add('show');
         document.getElementById('paymentAmount').focus();
@@ -1968,7 +1808,7 @@ window.savePayment = function() {
     var session = getSession();
     var sb = getSupabaseClient();
 
-    // 🔑 وزّع الدفعة على أقدم الفواتير أولاً
+    // وزّع الدفعة على أقدم الفواتير أولاً (FIFO)
     var remainingPayment = amount;
     var invoicesToUpdate = [];
     var sortedInvoices = d.invoices.slice().sort(function(a, b) {
@@ -1989,75 +1829,7 @@ window.savePayment = function() {
         }
     });
 
-    var processPayment = function() {
-        if (!sb || !navigator.onLine) {
-            // 🔒 Offline: خزّن في localStorage
-            queueOfflinePayment(d, amount, method, notes, payDate, invoicesToUpdate);
-            applyLocalPayment(d, amount, invoicesToUpdate);
-            showToast('تم الحفظ محليًا - سيُزامن عند رجوع الاتصال', 'warning');
-            finalize();
-            return;
-        }
-
-        // 🌐 Online: حدّث الفواتير + سجّل الدفعات
-        var chain = Promise.resolve();
-
-        invoicesToUpdate.forEach(function(upd) {
-            chain = chain.then(function() {
-                var newPaidAmount = upd.new_paid;
-                var isFullyPaid = newPaidAmount >= upd.total - 0.01;
-
-                // 1. حدّث الفاتورة
-                return sb.from('invoices').update({
-                    paid_amount: newPaidAmount,
-                    paid: isFullyPaid
-                }).eq('id', upd.id).then(function(result) {
-                    if (result.error) throw result.error;
-
-                    // 2. سجّل دفعة
-                    return sb.from('payments').insert([{
-                        invoice_id: upd.id,
-                        amount: upd.payment,
-                        method: method,
-                        notes: notes || null,
-                        created_by: session && session.user ? session.user.id : null,
-                        created_at: payDate + 'T' + new Date().toTimeString().split(' ')[0]
-                    }]);
-                }).then(function(result) {
-                    if (result.error) console.warn('Payment record failed:', result.error);
-                });
-            });
-        });
-
-        return chain.then(function() {
-            // 3. Audit log
-            sb.from('audit_log').insert([{
-                user_id: session && session.user ? session.user.id : null,
-                action: 'PAYMENT',
-                table_name: 'invoices',
-                record_id: d.customer_id,
-                new_data: {
-                    customer_name: d.customer_name,
-                    amount: amount,
-                    method: method,
-                    invoices_count: invoicesToUpdate.length
-                }
-            }]).then(function(){}, function(){});
-
-            applyLocalPayment(d, amount, invoicesToUpdate);
-            showToast('✅ تم تسجيل الدفعة بنجاح', 'success');
-        });
-    };
-
-    processPayment()
-        .then(function() { finalize(); })
-        .catch(function(err) {
-            console.error('Payment error:', err);
-            showToast('حدث خطأ أثناء الحفظ: ' + (err.message || ''), 'error', 5000);
-            finalize();
-        });
-
-    function finalize() {
+    var finalize = function() {
         btn.disabled = false;
         spinner.style.display = 'none';
         icon.style.display = '';
@@ -2066,11 +1838,64 @@ window.savePayment = function() {
         recomputeDebts();
         updateStats();
         applyFilters();
+    };
+
+    if (!sb || !navigator.onLine) {
+        queueOfflinePayment(d, amount, method, notes, payDate, invoicesToUpdate);
+        applyLocalPayment(invoicesToUpdate);
+        showToast('تم الحفظ محليًا - سيُزامن عند رجوع الاتصال', 'warning');
+        finalize();
+        return;
     }
+
+    // Online
+    var chain = Promise.resolve();
+    invoicesToUpdate.forEach(function(upd) {
+        chain = chain.then(function() {
+            var isFullyPaid = upd.new_paid >= upd.total - 0.01;
+            return sb.from('invoices').update({
+                paid_amount: upd.new_paid,
+                paid: isFullyPaid
+            }).eq('id', upd.id).then(function(result) {
+                if (result.error) throw result.error;
+                return sb.from('payments').insert([{
+                    invoice_id: upd.id,
+                    amount: upd.payment,
+                    method: method,
+                    notes: notes || null,
+                    created_by: session && session.user ? session.user.id : null
+                ]);
+            }).then(function(result) {
+                if (result && result.error) console.warn('Payment record:', result.error);
+            });
+        });
+    });
+
+    chain.then(function() {
+        sb.from('audit_log').insert([{
+            user_id: session && session.user ? session.user.id : null,
+            action: 'PAYMENT',
+            table_name: 'invoices',
+            record_id: d.customer_id,
+            new_data: {
+                customer_name: d.customer_name,
+                amount: amount,
+                method: method,
+                invoices_count: invoicesToUpdate.length
+            }
+        }]).then(function(){}, function(){});
+
+        applyLocalPayment(invoicesToUpdate);
+        showToast('✅ تم تسجيل الدفعة بنجاح', 'success');
+    }).catch(function(err) {
+        console.error('Payment error:', err);
+        showToast('حدث خطأ: ' + (err.message || ''), 'error', 5000);
+    }).then(function() {
+        finalize();
+    });
 };
 
-function applyLocalPayment(customerDebt, amount, invoicesToUpdate) {
-    // حدّث الفواتير محلياً
+function applyLocalPayment(invoicesToUpdate) {
     invoicesToUpdate.forEach(function(upd) {
         var inv = state.invoices.find(function(i) { return i.id === upd.id; });
         if (inv) {
@@ -2079,10 +1904,7 @@ function applyLocalPayment(customerDebt, amount, invoicesToUpdate) {
             inv.remaining = Math.max(0, inv.total - inv.paid_amount);
         }
     });
-
-    // احذف الفواتير المدفوعة بالكامل
     state.invoices = state.invoices.filter(function(i) { return i.remaining > 0.01; });
-
     setCache(CACHE_INVOICES, state.invoices);
 }
 
@@ -2222,7 +2044,7 @@ window.closeDetailsModal = function() {
 };
 
 // ═══════════════════════════════════════════════════════════════
-// 📱 WhatsApp Reminder
+// 📱 WhatsApp
 // ═══════════════════════════════════════════════════════════════
 window.remindWhatsApp = function(customerId) {
     var d = state.debts.find(function(x) { return x.customer_id === customerId; });
@@ -2244,7 +2066,7 @@ window.remindWhatsApp = function(customerId) {
 };
 
 // ═══════════════════════════════════════════════════════════════
-// 📤 Export
+// 📤 Export Excel
 // ═══════════════════════════════════════════════════════════════
 function exportExcel() {
     if (typeof XLSX === 'undefined') { showToast('مكتبة Excel غير محملة', 'error'); return; }
@@ -2272,8 +2094,15 @@ function exportExcel() {
     showToast('تم تصدير ملف Excel', 'success');
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📤 Export PDF (الاسم الصحيح بحروف كبيرة)
+// ═══════════════════════════════════════════════════════════════
 function exportPDF() {
-    if (typeof window.jspdf === 'undefined') { showToast('مكتبة PDF غير محملة', 'error'); return; }
+    if (typeof window.jspdf === 'undefined') {
+        showToast('مكتبة PDF غير محملة', 'error');
+        return;
+    }
+
     var jsPDF = window.jspdf.jsPDF;
     var doc = new jsPDF('p', 'mm', 'a4');
 
@@ -2282,6 +2111,9 @@ function exportPDF() {
     doc.setFontSize(10);
     doc.text('Electronk - Electronics Repair Center', 105, 22, { align: 'center' });
     doc.text('Date: ' + new Date().toLocaleDateString('en-GB'), 105, 28, { align: 'center' });
+
+    var totalDebt = state.filtered.reduce(function(s, d) { return s + d.total_debt; }, 0);
+    doc.text('Total Debt: ' + totalDebt.toFixed(2) + ' EGP', 105, 34, { align: 'center' });
 
     var rows = state.filtered.map(function(d) {
         var days = daysBetween(d.oldest_debt_date);
@@ -2296,9 +2128,10 @@ function exportPDF() {
 
     doc.autoTable({
         head: [['Customer', 'Phone', 'Invoices', 'Total Debt', 'Age']],
-        body: rows, startY: 35,
+        body: rows,
+        startY: 40,
         styles: { fontSize: 9, halign: 'center' },
-        headStyles: { fillColor: [239, 68, 68] }
+        headStyles: { fillColor: [239, 68, 68], textColor: 255 }
     });
 
     doc.save('debts_' + Date.now() + '.pdf');
@@ -2372,19 +2205,14 @@ function renderNotifications() {
 function markAllRead() {
     var session = getSession();
     if (!session) return;
-
     allNotifications.forEach(function(n) { n.read = true; });
     renderNotifications();
-
     var sb = getSupabaseClient();
     if (sb && navigator.onLine) {
-        sb.from('notifications')
-            .update({ read: true })
-            .eq('user_id', session.user.id)
-            .eq('read', false)
-            .then(function() {
-                showToast('تم تعيين الكل كمقروء', 'success');
-            }).catch(function() {});
+        sb.from('notifications').update({ read: true })
+            .eq('user_id', session.user.id).eq('read', false)
+            .then(function() { showToast('تم تعيين الكل كمقروء', 'success'); })
+            .catch(function() {});
     }
 }
 
@@ -2394,7 +2222,6 @@ function markAllRead() {
 function updateUserUI(user) {
     var initial = ((user.full_name || user.username || 'م') + '').charAt(0).toUpperCase();
     var roleText = user.role === 'admin' ? 'مدير' : 'موظف';
-
     ['userAvatar', 'dropdownAvatar'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el) el.textContent = initial;
@@ -2519,14 +2346,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 250);
     });
 
-    // Sort
     var sortFilter = document.getElementById('sortFilter');
     if (sortFilter) sortFilter.addEventListener('change', function(e) {
         state.sortFilter = e.target.value;
         applyFilters();
     });
 
-    // Filter chips
     document.querySelectorAll('.filter-chip').forEach(function(chip) {
         chip.addEventListener('click', function() {
             document.querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
@@ -2545,21 +2370,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // ✅ Excel
     var expBtn = document.getElementById('exportExcelBtn');
     if (expBtn) expBtn.addEventListener('click', exportExcel);
 
+    // ✅ PDF (الاسم الصحيح exportPDF بحروف كبيرة)
     var pdfBtn = document.getElementById('exportPdfBtn');
-    if (pdfBtn) pdfBtn.addEventListener('click', exportPdf);
+    if (pdfBtn) pdfBtn.addEventListener('click', exportPDF);
 
-    // Modal overlay click
-    document.getElementById('paymentModal').addEventListener('click', function(e) {
+    // Modal overlay
+    var pm = document.getElementById('paymentModal');
+    if (pm) pm.addEventListener('click', function(e) {
         if (e.target.id === 'paymentModal') closePaymentModal();
     });
-    document.getElementById('detailsModal').addEventListener('click', function(e) {
+    var dm = document.getElementById('detailsModal');
+    if (dm) dm.addEventListener('click', function(e) {
         if (e.target.id === 'detailsModal') closeDetailsModal();
     });
 
-    // Keyboard shortcuts
+    // Keyboard
     document.addEventListener('keydown', function(e) {
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
@@ -2579,7 +2408,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Reading progress + scroll top
+    // Scroll
     var progressBar = document.getElementById('readingProgress');
     var scrollTopBtn = document.getElementById('scrollTop');
     window.addEventListener('scroll', function() {
@@ -2597,16 +2426,14 @@ document.addEventListener('DOMContentLoaded', function() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Load data
+    // Load
     loadData().then(function() {
         loadNotifications();
     });
 
-    // Auto sync offline payments
     setInterval(syncOfflinePayments, 60000);
     setInterval(loadNotifications, 60000);
 
-    // Inactivity
     startInactivityMonitor();
 
     console.log('%c💰 إلكترونك - المديونيات جاهزة', 'color: #ef4444; font-size: 16px; font-weight: bold;');
@@ -2616,7 +2443,9 @@ window.DebtsApp = {
     showToast: showToast,
     logout: logout,
     getSession: getSession,
-    loadData: loadData
+    loadData: loadData,
+    exportExcel: exportExcel,
+    exportPDF: exportPDF
 };
 
 })();
