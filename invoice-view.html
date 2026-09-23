@@ -62,6 +62,20 @@
     --safe-right: env(safe-area-inset-right, 0);
 }
 
+[data-theme="dark"] {
+    --bg-primary: #0a1628;
+    --bg-card: #142f4a;
+    --bg-hover: #1a3a5c;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #64748b;
+    --border-color: #1e3a5f;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.6);
+}
+
 *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -94,9 +108,7 @@ button { cursor: pointer; border: none; background: none; }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; height: auto; display: block; }
 
-/* ═══════════════════════════════════════════════════════════
-   🎨 Header (شريط علوي بسيط بدون تسجيل دخول)
-   ═══════════════════════════════════════════════════════════ */
+/* Top Bar */
 .top-bar {
     max-width: 900px;
     margin: 0 auto 1rem;
@@ -132,7 +144,6 @@ img { max-width: 100%; height: auto; display: block; }
     display: block;
     font-size: 1rem;
     font-weight: 800;
-    color: var(--text-primary);
     line-height: 1.2;
 }
 
@@ -170,9 +181,7 @@ img { max-width: 100%; height: auto; display: block; }
     transform: translateY(-2px);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   📄 Invoice Container
-   ═══════════════════════════════════════════════════════════ */
+/* Invoice Container */
 .invoice-wrapper {
     max-width: 900px;
     margin: 0 auto;
@@ -192,9 +201,7 @@ img { max-width: 100%; height: auto; display: block; }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ═══════════════════════════════════════════════════════════
-   📌 Invoice Header
-   ═══════════════════════════════════════════════════════════ */
+/* Invoice Header */
 .invoice-header {
     background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
     color: white;
@@ -276,7 +283,6 @@ img { max-width: 100%; height: auto; display: block; }
     justify-content: flex-end;
 }
 
-/* Status Banner */
 .invoice-status-banner {
     display: inline-flex;
     align-items: center;
@@ -306,14 +312,11 @@ img { max-width: 100%; height: auto; display: block; }
     border-color: rgba(239, 68, 68, 0.5);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   📋 Invoice Body
-   ═══════════════════════════════════════════════════════════ */
+/* Invoice Body */
 .invoice-body {
     padding: 1.75rem 1.5rem;
 }
 
-/* Info Grid */
 .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -367,7 +370,6 @@ img { max-width: 100%; height: auto; display: block; }
     font-weight: 500;
 }
 
-/* Repair Order Badge */
 .repair-badge {
     display: inline-flex;
     align-items: center;
@@ -382,7 +384,6 @@ img { max-width: 100%; height: auto; display: block; }
     margin-top: 0.35rem;
 }
 
-/* Section Title */
 .section-title {
     font-size: 1rem;
     font-weight: 800;
@@ -400,7 +401,6 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.9rem;
 }
 
-/* Items Table */
 .items-table-wrapper {
     overflow-x: auto;
     border-radius: var(--radius-md);
@@ -420,7 +420,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .items-table th {
-    padding: 0.85rem 0.85rem;
+    padding: 0.85rem;
     text-align: right;
     font-weight: 800;
     font-size: 0.75rem;
@@ -432,10 +432,9 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .items-table td {
-    padding: 0.85rem 0.85rem;
+    padding: 0.85rem;
     border-bottom: 1px solid var(--border-color);
     font-weight: 600;
-    color: var(--text-primary);
     vertical-align: middle;
 }
 
@@ -449,7 +448,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 .items-table .item-name {
     font-weight: 700;
-    color: var(--text-primary);
     min-width: 180px;
 }
 
@@ -484,7 +482,6 @@ img { max-width: 100%; height: auto; display: block; }
     font-weight: 800;
 }
 
-/* Summary Box */
 .summary-box {
     display: flex;
     justify-content: flex-end;
@@ -577,7 +574,6 @@ img { max-width: 100%; height: auto; display: block; }
     font-weight: 900;
 }
 
-/* Notes */
 .notes-box {
     padding: 1rem;
     background: rgba(245, 158, 11, 0.08);
@@ -597,9 +593,7 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.9rem;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   📌 Invoice Footer
-   ═══════════════════════════════════════════════════════════ */
+/* Invoice Footer */
 .invoice-footer {
     padding: 1.5rem;
     background: var(--bg-primary);
@@ -661,9 +655,7 @@ img { max-width: 100%; height: auto; display: block; }
     font-weight: 700;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   📱 Action Bar
-   ═══════════════════════════════════════════════════════════ */
+/* Action Bar */
 .action-bar {
     max-width: 900px;
     margin: 1.25rem auto 0;
@@ -716,9 +708,7 @@ img { max-width: 100%; height: auto; display: block; }
     background: #128c7e;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ⏳ Loading State
-   ═══════════════════════════════════════════════════════════ */
+/* Loading State */
 .loading-state {
     max-width: 900px;
     margin: 0 auto;
@@ -747,7 +737,6 @@ img { max-width: 100%; height: auto; display: block; }
 .loading-state h3 {
     font-size: 1.1rem;
     font-weight: 800;
-    color: var(--text-primary);
     margin-bottom: 0.35rem;
 }
 
@@ -756,9 +745,7 @@ img { max-width: 100%; height: auto; display: block; }
     color: var(--text-muted);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ❌ Error State
-   ═══════════════════════════════════════════════════════════ */
+/* Error State */
 .error-state {
     max-width: 600px;
     margin: 0 auto;
@@ -786,7 +773,6 @@ img { max-width: 100%; height: auto; display: block; }
 .error-state h2 {
     font-size: 1.35rem;
     font-weight: 900;
-    color: var(--text-primary);
     margin-bottom: 0.5rem;
 }
 
@@ -814,9 +800,29 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 6px 20px rgba(29, 91, 142, 0.4);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   🔔 Toast
-   ═══════════════════════════════════════════════════════════ */
+/* Debug Panel */
+.debug-panel {
+    max-width: 900px;
+    margin: 1rem auto 0;
+    padding: 1rem 1.15rem;
+    background: #1e293b;
+    color: #cbd5e1;
+    border-radius: var(--radius-md);
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    display: none;
+}
+
+.debug-panel.show {
+    display: block;
+}
+
+.debug-panel strong {
+    color: #fbbf24;
+}
+
+/* Toast */
 .toast-container {
     position: fixed;
     top: calc(1rem + var(--safe-top));
@@ -833,7 +839,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 .toast {
     background: var(--bg-card);
-    color: var(--text-primary);
     padding: 0.9rem 1.15rem;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-xl);
@@ -852,11 +857,7 @@ img { max-width: 100%; height: auto; display: block; }
 .toast.error { border-right-color: var(--danger); }
 .toast.warning { border-right-color: var(--warning); }
 
-.toast i {
-    font-size: 1.15rem;
-    flex-shrink: 0;
-}
-
+.toast i { font-size: 1.15rem; flex-shrink: 0; }
 .toast.success i { color: var(--success); }
 .toast.error i { color: var(--danger); }
 .toast.warning i { color: var(--warning); }
@@ -867,9 +868,7 @@ img { max-width: 100%; height: auto; display: block; }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ═══════════════════════════════════════════════════════════
-   🎯 Ratings Section (Customer Service Rating)
-   ═══════════════════════════════════════════════════════════ */
+/* Rating Prompt */
 .rating-prompt {
     max-width: 900px;
     margin: 1.5rem auto 0;
@@ -883,7 +882,6 @@ img { max-width: 100%; height: auto; display: block; }
 .rating-prompt h3 {
     font-size: 1.05rem;
     font-weight: 800;
-    color: var(--text-primary);
     margin-bottom: 0.35rem;
     display: flex;
     align-items: center;
@@ -918,56 +916,26 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   📱 Responsive
-   ═══════════════════════════════════════════════════════════ */
 @media (max-width: 640px) {
     body { padding: 0.65rem; padding-top: calc(0.65rem + var(--safe-top)); }
 
-    .top-bar {
-        padding: 0.75rem 0.85rem;
-    }
-
+    .top-bar { padding: 0.75rem 0.85rem; }
     .top-brand-text strong { font-size: 0.9rem; }
     .top-brand-text span { font-size: 0.65rem; }
     .top-logo { width: 38px; height: 38px; }
-
     .icon-btn { width: 38px; height: 38px; font-size: 0.9rem; }
 
-    .invoice-header {
-        padding: 1.25rem 1rem;
-    }
-
-    .invoice-header-inner {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .invoice-brand-logo {
-        width: 52px;
-        height: 52px;
-    }
-
+    .invoice-header { padding: 1.25rem 1rem; }
+    .invoice-header-inner { flex-direction: column; align-items: flex-start; }
+    .invoice-brand-logo { width: 52px; height: 52px; }
     .invoice-brand-text h1 { font-size: 1.1rem; }
     .invoice-brand-text p { font-size: 0.72rem; }
-
-    .invoice-meta {
-        text-align: right;
-        width: 100%;
-    }
-
+    .invoice-meta { text-align: right; width: 100%; }
     .invoice-number { font-size: 1.2rem; }
     .invoice-date { justify-content: flex-start; }
 
-    .invoice-body {
-        padding: 1.25rem 1rem;
-    }
-
-    .info-grid {
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
-    }
-
+    .invoice-body { padding: 1.25rem 1rem; }
+    .info-grid { grid-template-columns: 1fr; gap: 0.75rem; }
     .info-box { padding: 0.85rem; }
     .info-box-value { font-size: 0.9rem; }
 
@@ -983,36 +951,21 @@ img { max-width: 100%; height: auto; display: block; }
         padding: 1.25rem 1rem;
     }
 
-    .footer-contact {
-        align-items: center;
-    }
+    .footer-contact { align-items: center; }
+    .footer-qr { display: flex; flex-direction: column; align-items: center; }
 
-    .footer-qr {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .action-bar {
-        flex-direction: column;
-    }
-
-    .action-btn {
-        width: 100%;
-        justify-content: center;
-    }
+    .action-bar { flex-direction: column; }
+    .action-btn { width: 100%; justify-content: center; }
 }
 
 @media print {
-    body {
-        padding: 0;
-        background: white;
-    }
+    body { padding: 0; background: white; }
 
     .top-bar,
     .action-bar,
     .rating-prompt,
-    .toast-container {
+    .toast-container,
+    .debug-panel {
         display: none !important;
     }
 
@@ -1024,11 +977,7 @@ img { max-width: 100%; height: auto; display: block; }
         border: none;
     }
 
-    .invoice-header {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-    }
-
+    .invoice-header,
     .items-table,
     .summary-inner,
     .info-box {
@@ -1040,10 +989,9 @@ img { max-width: 100%; height: auto; display: block; }
 </head>
 <body>
 
-<!-- Toast Container -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- Top Bar (بدون تسجيل دخول) -->
+<!-- Top Bar -->
 <div class="top-bar">
     <div class="top-brand">
         <img src="logo.png" alt="إلكترونك" class="top-logo" onerror="this.style.display='none'">
@@ -1053,6 +1001,9 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
     </div>
     <div class="top-actions">
+        <button class="icon-btn" id="debugToggle" title="معلومات التشخيص">
+            <i class="fas fa-bug"></i>
+        </button>
         <button class="icon-btn" id="themeToggle" title="تبديل الوضع">
             <i class="fas fa-moon"></i>
         </button>
@@ -1062,19 +1013,30 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Loading State -->
+<!-- Debug Panel -->
+<div class="debug-panel" id="debugPanel">
+    <div id="debugContent">
+        <strong>🔍 وضع التشخيص</strong><br>
+        <span id="debugUrl">URL: —</span><br>
+        <span id="debugIdentifier">Identifier: —</span><br>
+        <span id="debugStatus">Status: —</span><br>
+        <span id="debugStrategy">Strategy: —</span>
+    </div>
+</div>
+
+<!-- Loading -->
 <div class="loading-state" id="loadingState">
     <div class="loading-spinner"></div>
     <h3>جاري تحميل الفاتورة...</h3>
     <p>يرجى الانتظار قليلاً</p>
 </div>
 
-<!-- Error State -->
+<!-- Error -->
 <div class="error-state" id="errorState" style="display: none;">
     <div class="error-icon">
         <i class="fas fa-file-circle-xmark"></i>
     </div>
-    <h2>الفاتورة غير موجودة</h2>
+    <h2 id="errorTitle">الفاتورة غير موجودة</h2>
     <p id="errorMessage">
         لا يمكن العثور على هذه الفاتورة. تأكد من صحة الرابط الذي استلمته،
         أو تواصل مع مركز الصيانة للحصول على رابط جديد.
@@ -1085,11 +1047,10 @@ img { max-width: 100%; height: auto; display: block; }
     </a>
 </div>
 
-<!-- Invoice Content -->
+<!-- Invoice -->
 <div class="invoice-wrapper" id="invoiceWrapper" style="display: none;">
     <div class="invoice-card" id="invoiceCard">
 
-        <!-- Header -->
         <div class="invoice-header">
             <div class="invoice-header-inner">
                 <div class="invoice-brand">
@@ -1110,12 +1071,10 @@ img { max-width: 100%; height: auto; display: block; }
             </div>
         </div>
 
-        <!-- Body -->
         <div class="invoice-body">
 
-            <!-- Info Grid -->
             <div class="info-grid">
-                <div class="info-box">
+                <div class="info-box" id="customerInfoBox">
                     <div class="info-box-label">
                         <i class="fas fa-user"></i>
                         العميل
@@ -1145,7 +1104,6 @@ img { max-width: 100%; height: auto; display: block; }
                 </div>
             </div>
 
-            <!-- Items Table -->
             <h3 class="section-title">
                 <i class="fas fa-list"></i>
                 تفاصيل الفاتورة
@@ -1165,7 +1123,6 @@ img { max-width: 100%; height: auto; display: block; }
                 </table>
             </div>
 
-            <!-- Summary -->
             <div class="summary-box">
                 <div class="summary-inner">
                     <div class="summary-row">
@@ -1213,7 +1170,6 @@ img { max-width: 100%; height: auto; display: block; }
                 </div>
             </div>
 
-            <!-- Notes -->
             <div class="notes-box" id="notesBox" style="display: none;">
                 <strong><i class="fas fa-sticky-note"></i> ملاحظات</strong>
                 <span id="notesText"></span>
@@ -1221,7 +1177,6 @@ img { max-width: 100%; height: auto; display: block; }
 
         </div>
 
-        <!-- Footer -->
         <div class="invoice-footer">
             <div class="footer-contact">
                 <div class="footer-contact-item">
@@ -1246,7 +1201,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Rating Prompt (يظهر فقط لو الحالة delivered) -->
 <div class="rating-prompt" id="ratingPrompt" style="display: none;">
     <h3>
         <i class="fas fa-star"></i>
@@ -1259,7 +1213,6 @@ img { max-width: 100%; height: auto; display: block; }
     </button>
 </div>
 
-<!-- Action Bar -->
 <div class="action-bar" id="actionBar" style="display: none;">
     <button class="action-btn primary" id="printActionBtn">
         <i class="fas fa-print"></i>
@@ -1290,16 +1243,22 @@ var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
 
 var supabaseClient = null;
+var currentInvoice = null;
+var debugInfo = { url: '', identifier: '', status: '', strategy: '' };
 
 function getSupabaseClient() {
     if (supabaseClient) return supabaseClient;
-    if (typeof window.supabase === 'undefined' || !window.supabase.createClient) return null;
+    if (typeof window.supabase === 'undefined' || !window.supabase.createClient) {
+        console.error('Supabase library not loaded');
+        return null;
+    }
     try {
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
             auth: { persistSession: false, autoRefreshToken: false }
         });
         return supabaseClient;
     } catch (e) {
+        console.error('Supabase init failed:', e);
         return null;
     }
 }
@@ -1338,20 +1297,6 @@ function formatDate(date) {
         });
     } catch (e) {
         return d.toISOString().split('T')[0];
-    }
-}
-
-function formatDateTime(date) {
-    if (!date) return '—';
-    var d = new Date(date);
-    if (isNaN(d.getTime())) return '—';
-    try {
-        return d.toLocaleDateString('ar-EG', {
-            year: 'numeric', month: 'short', day: 'numeric',
-            hour: '2-digit', minute: '2-digit'
-        });
-    } catch (e) {
-        return '—';
     }
 }
 
@@ -1401,28 +1346,43 @@ function toggleTheme() {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// 🐛 Debug
+// ═══════════════════════════════════════════════════════════════
+function updateDebug() {
+    var el;
+    el = document.getElementById('debugUrl');
+    if (el) el.textContent = 'URL: ' + debugInfo.url;
+    el = document.getElementById('debugIdentifier');
+    if (el) el.textContent = 'Identifier: ' + debugInfo.identifier;
+    el = document.getElementById('debugStatus');
+    if (el) el.textContent = 'Status: ' + debugInfo.status;
+    el = document.getElementById('debugStrategy');
+    if (el) el.textContent = 'Strategy: ' + debugInfo.strategy;
+}
+
+function toggleDebug() {
+    var panel = document.getElementById('debugPanel');
+    if (panel) panel.classList.toggle('show');
+}
+
+// ═══════════════════════════════════════════════════════════════
 // 🍞 Toast
 // ═══════════════════════════════════════════════════════════════
 function showToast(message, type, duration) {
     type = type || 'info';
     duration = duration || 3500;
-
     var container = document.getElementById('toastContainer');
     if (!container) return;
-
     var icons = {
         success: 'fa-circle-check',
         error: 'fa-circle-xmark',
         warning: 'fa-triangle-exclamation',
         info: 'fa-circle-info'
     };
-
     var toast = document.createElement('div');
     toast.className = 'toast ' + type;
     toast.innerHTML = '<i class="fas ' + (icons[type] || icons.info) + '"></i><span>' + escapeHtml(message) + '</span>';
-
     container.appendChild(toast);
-
     setTimeout(function() {
         toast.style.opacity = '0';
         toast.style.transform = 'translateY(-20px) scale(0.95)';
@@ -1431,102 +1391,299 @@ function showToast(message, type, duration) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📥 Load Invoice
+// 📥 Load Invoice — 3-Tier Fallback Strategy
 // ═══════════════════════════════════════════════════════════════
-var currentInvoice = null;
-
 function loadInvoice() {
     var invoiceId = getUrlParam('id');
     var uuid = getUrlParam('uuid');
-
     var identifier = invoiceId || uuid;
 
+    debugInfo.url = window.location.href;
+    debugInfo.identifier = identifier || '(none)';
+    debugInfo.status = 'loading';
+    debugInfo.strategy = 'starting';
+    updateDebug();
+
+    console.log('📥 Loading invoice:', identifier);
+
     if (!identifier) {
+        debugInfo.status = 'no-identifier';
+        updateDebug();
         showError('لم يتم تحديد فاتورة. تأكد من فتح الرابط الصحيح.');
         return;
     }
 
     var sb = getSupabaseClient();
     if (!sb) {
+        debugInfo.status = 'supabase-failed';
+        updateDebug();
         showError('فشل الاتصال بقاعدة البيانات. يرجى المحاولة مرة أخرى.');
         return;
     }
 
-    // ✅ البحث بالـ UUID المباشر (id) أو بالـ uuid_link
+    // ═══════════════════════════════════════════════════════════
+    // Strategy 1: Join Query
+    // ═══════════════════════════════════════════════════════════
+    tryLoadWithJoin(sb, identifier)
+        .then(function(invoice) {
+            if (invoice) {
+                console.log('✅ Loaded via join');
+                debugInfo.strategy = 'join';
+                debugInfo.status = 'success';
+                updateDebug();
+                return finalizeInvoice(sb, invoice);
+            }
+            throw new Error('Join returned null');
+        })
+        .catch(function(err) {
+            console.warn('⚠️ Join failed:', err.message);
+            debugInfo.strategy = 'join-failed';
+
+            // ═════════════════════════════════════════════════════
+            // Strategy 2: No-Join Query
+            // ═════════════════════════════════════════════════════
+            return tryLoadNoJoin(sb, identifier)
+                .then(function(invoice) {
+                    if (invoice) {
+                        console.log('✅ Loaded via no-join');
+                        debugInfo.strategy = 'no-join';
+                        debugInfo.status = 'success';
+                        updateDebug();
+                        return finalizeInvoice(sb, invoice);
+                    }
+                    throw new Error('No-join returned null');
+                });
+        })
+        .catch(function(err) {
+            console.warn('⚠️ No-join failed:', err.message);
+
+            // ═════════════════════════════════════════════════════
+            // Strategy 3: Separate Queries + Manual Merge
+            // ═════════════════════════════════════════════════════
+            return tryLoadSeparate(sb, identifier)
+                .then(function(invoice) {
+                    if (invoice) {
+                        console.log('✅ Loaded via separate');
+                        debugInfo.strategy = 'separate';
+                        debugInfo.status = 'success';
+                        updateDebug();
+                        return finalizeInvoice(sb, invoice);
+                    }
+                    throw new Error('Separate returned null');
+                });
+        })
+        .catch(function(err) {
+            console.error('❌ All strategies failed:', err);
+            debugInfo.strategy = 'all-failed';
+            debugInfo.status = 'not-found';
+            updateDebug();
+            showError(
+                'لم نتمكن من العثور على هذه الفاتورة. ' +
+                'تأكد من صحة الرابط أو تواصل مع المركز.'
+            );
+        });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Strategy 1: Join Query
+// ═══════════════════════════════════════════════════════════════
+function tryLoadWithJoin(sb, identifier) {
+    var selectStr = '*, customer:customers(id, name, phone, address), repair:repair_orders(id, tracking_code, device_type, device_model, serial_number, status)';
     var query;
+
     if (isValidUUID(identifier)) {
-        query = sb.from('invoices')
-            .select('*, customer:customers(id, name, phone, address), repair:repair_orders(id, tracking_code, device_type, device_model, serial_number, status)')
-            .eq('id', identifier)
-            .maybeSingle();
+        query = sb.from('invoices').select(selectStr).eq('id', identifier);
     } else {
-        query = sb.from('invoices')
-            .select('*, customer:customers(id, name, phone, address), repair:repair_orders(id, tracking_code, device_type, device_model, serial_number, status)')
-            .eq('uuid_link', identifier)
-            .maybeSingle();
+        query = sb.from('invoices').select(selectStr).eq('uuid_link', identifier);
     }
 
-    query.then(function(result) {
+    return query.maybeSingle().then(function(result) {
         if (result.error) {
-            console.warn('Load error:', result.error);
-            showError('فشل تحميل الفاتورة: ' + (result.error.message || 'خطأ غير معروف'));
-            return;
+            console.warn('Join query error:', result.error.message);
+            return null;
         }
-
-        if (!result.data) {
-            showError('لم نتمكن من العثور على هذه الفاتورة. تأكد من صحة الرابط.');
-            return;
-        }
-
-        var invoice = result.data;
-
-        // جلب بنود الفاتورة
-        sb.from('invoice_items')
-            .select('id, product_id, description, quantity, unit_price, total, product:products(id, name, barcode)')
-            .eq('invoice_id', invoice.id)
-            .then(function(itemsResult) {
-                invoice.items = itemsResult.data || [];
-                currentInvoice = invoice;
-                renderInvoice(invoice);
-                hideLoading();
-                showInvoice();
-            })
-            .catch(function(err) {
-                console.warn('Items load failed:', err);
-                invoice.items = [];
-                currentInvoice = invoice;
-                renderInvoice(invoice);
-                hideLoading();
-                showInvoice();
-            });
+        return result.data || null;
     }).catch(function(err) {
-        console.error('Fatal error:', err);
-        showError('حدث خطأ في الشبكة. تحقق من اتصالك بالإنترنت.');
+        console.warn('Join query failed:', err.message);
+        return null;
     });
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🎨 Render Invoice
+// Strategy 2: No Join
+// ═══════════════════════════════════════════════════════════════
+function tryLoadNoJoin(sb, identifier) {
+    var query;
+    if (isValidUUID(identifier)) {
+        query = sb.from('invoices').select('*').eq('id', identifier);
+    } else {
+        query = sb.from('invoices').select('*').eq('uuid_link', identifier);
+    }
+
+    return query.maybeSingle().then(function(result) {
+        if (result.error) {
+            console.warn('No-join error:', result.error.message);
+            return null;
+        }
+        return result.data || null;
+    }).catch(function(err) {
+        console.warn('No-join failed:', err.message);
+        return null;
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Strategy 3: Separate Queries + Manual Merge
+// ═══════════════════════════════════════════════════════════════
+function tryLoadSeparate(sb, identifier) {
+    var invoiceQuery;
+    if (isValidUUID(identifier)) {
+        invoiceQuery = sb.from('invoices').select('*').eq('id', identifier);
+    } else {
+        invoiceQuery = sb.from('invoices').select('*').eq('uuid_link', identifier);
+    }
+
+    return invoiceQuery.maybeSingle().then(function(result) {
+        if (result.error || !result.data) return null;
+
+        var invoice = result.data;
+        var promises = [];
+
+        // Customer
+        if (invoice.customer_id) {
+            promises.push(
+                sb.from('customers')
+                    .select('id, name, phone, address')
+                    .eq('id', invoice.customer_id)
+                    .maybeSingle()
+                    .then(function(r) {
+                        invoice.customer = r.data || null;
+                    })
+                    .catch(function() {
+                        invoice.customer = null;
+                    })
+            );
+        } else {
+            invoice.customer = null;
+            promises.push(Promise.resolve());
+        }
+
+        // Repair Order
+        if (invoice.repair_order_id) {
+            promises.push(
+                sb.from('repair_orders')
+                    .select('id, tracking_code, device_type, device_model, serial_number, status')
+                    .eq('id', invoice.repair_order_id)
+                    .maybeSingle()
+                    .then(function(r) {
+                        invoice.repair = r.data || null;
+                    })
+                    .catch(function() {
+                        invoice.repair = null;
+                    })
+            );
+        } else {
+            invoice.repair = null;
+            promises.push(Promise.resolve());
+        }
+
+        return Promise.all(promises).then(function() {
+            return invoice;
+        });
+    }).catch(function(err) {
+        console.warn('Separate failed:', err.message);
+        return null;
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// Finalize — Load Items + Render
+// ═══════════════════════════════════════════════════════════════
+function finalizeInvoice(sb, invoice) {
+    console.log('📄 Invoice loaded:', invoice);
+
+    // Try to load items from invoice_items
+    return sb.from('invoice_items')
+        .select('*')
+        .eq('invoice_id', invoice.id)
+        .then(function(itemsResult) {
+            var items = itemsResult.data || [];
+
+            // If we have product_id, load products separately
+            var productIds = [];
+            items.forEach(function(item) {
+                if (item.product_id && productIds.indexOf(item.product_id) === -1) {
+                    productIds.push(item.product_id);
+                }
+            });
+
+            if (!productIds.length) {
+                invoice.items = items;
+                return invoice;
+            }
+
+            // Load products
+            return sb.from('products')
+                .select('id, name, barcode')
+                .in('id', productIds)
+                .then(function(prodResult) {
+                    var productMap = {};
+                    (prodResult.data || []).forEach(function(p) {
+                        productMap[p.id] = p;
+                    });
+
+                    items.forEach(function(item) {
+                        if (item.product_id && productMap[item.product_id]) {
+                            item.product = productMap[item.product_id];
+                        }
+                    });
+
+                    invoice.items = items;
+                    return invoice;
+                })
+                .catch(function() {
+                    invoice.items = items;
+                    return invoice;
+                });
+        })
+        .catch(function(err) {
+            console.warn('Items load failed:', err);
+            invoice.items = [];
+            return invoice;
+        })
+        .then(function(finalInvoice) {
+            currentInvoice = finalInvoice;
+            renderInvoice(finalInvoice);
+            hideLoading();
+            showInvoice();
+        });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎨 Render
 // ═══════════════════════════════════════════════════════════════
 function renderInvoice(invoice) {
     var customer = invoice.customer || {};
     var repair = invoice.repair || {};
 
     // Header
-    document.getElementById('invoiceNumber').textContent = invoice.invoice_number || ('INV-' + invoice.id.substring(0, 8).toUpperCase());
+    document.getElementById('invoiceNumber').textContent =
+        invoice.invoice_number || ('INV-' + invoice.id.substring(0, 8).toUpperCase());
     document.getElementById('invoiceDate').textContent = formatDate(invoice.created_at);
 
-    // Status Banner
-    var statusBanner = getStatusBanner(invoice);
-    document.getElementById('statusBannerContainer').innerHTML = statusBanner;
+    // Status
+    document.getElementById('statusBannerContainer').innerHTML = getStatusBanner(invoice);
 
-    // Customer Info
+    // Customer
     document.getElementById('customerName').textContent = customer.name || 'عميل';
     document.getElementById('customerPhone').textContent = customer.phone ? '📱 ' + customer.phone : '';
     document.getElementById('customerAddress').textContent = customer.address || '';
 
-    // Device Info
-    var deviceInfoBox = document.getElementById('deviceInfoBox');
+    if (!customer.name && !customer.phone) {
+        document.getElementById('customerInfoBox').style.display = 'none';
+    }
+
+    // Device
     var deviceType = repair.device_type || '';
     var deviceModel = repair.device_model || '';
     var trackingCode = repair.tracking_code || '';
@@ -1540,10 +1697,10 @@ function renderInvoice(invoice) {
                 '<span class="repair-badge"><i class="fas fa-barcode"></i> ' + escapeHtml(trackingCode) + '</span>';
         }
     } else {
-        deviceInfoBox.style.display = 'none';
+        document.getElementById('deviceInfoBox').style.display = 'none';
     }
 
-    // Payment Method
+    // Payment
     document.getElementById('paymentMethod').textContent = getPaymentMethodText(invoice.payment_method);
 
     var paidAmount = parseFloat(invoice.paid_amount) || 0;
@@ -1551,18 +1708,19 @@ function renderInvoice(invoice) {
     var isPaid = invoice.paid === true || paidAmount >= totalAmount - 0.01;
     var isPartial = paidAmount > 0 && !isPaid;
 
+    var statusTextEl = document.getElementById('paymentStatusText');
     if (isPaid) {
-        document.getElementById('paymentStatusText').textContent = 'تم السداد بالكامل';
-        document.getElementById('paymentStatusText').style.color = 'var(--success)';
+        statusTextEl.textContent = '✓ تم السداد بالكامل';
+        statusTextEl.style.color = 'var(--success)';
     } else if (isPartial) {
-        document.getElementById('paymentStatusText').textContent = 'مدفوع جزئياً';
-        document.getElementById('paymentStatusText').style.color = 'var(--warning)';
+        statusTextEl.textContent = '◐ مدفوع جزئياً';
+        statusTextEl.style.color = 'var(--warning)';
     } else {
-        document.getElementById('paymentStatusText').textContent = 'غير مدفوع';
-        document.getElementById('paymentStatusText').style.color = 'var(--danger)';
+        statusTextEl.textContent = '✗ غير مدفوع';
+        statusTextEl.style.color = 'var(--danger)';
     }
 
-    // Items Table
+    // Items
     renderItems(invoice.items || []);
 
     // Summary
@@ -1574,7 +1732,7 @@ function renderInvoice(invoice) {
     document.getElementById('laborCost').textContent = formatCurrency(laborCost);
 
     if (discount > 0) {
-        var discountText = invoice.discount_type === 'percentage' 
+        var discountText = invoice.discount_type === 'percentage'
             ? discount + '%'
             : formatCurrency(discount);
         document.getElementById('discount').textContent = '- ' + discountText;
@@ -1607,18 +1765,19 @@ function renderInvoice(invoice) {
         document.getElementById('notesBox').style.display = 'block';
     }
 
-    // QR Code
+    // QR
     renderQRCode(invoice.id);
 
-    // Rating prompt (لو الحالة delivered)
-    if (repair.status === 'delivered') {
+    // Rating (if delivered)
+    if (repair.status === 'delivered' && repair.id) {
         document.getElementById('ratingPrompt').style.display = 'block';
         var rateBtn = document.getElementById('rateBtn');
         if (rateBtn) {
-            rateBtn.addEventListener('click', function() {
-                var url = 'rate.html?repair_id=' + repair.id + '&customer_id=' + (customer.id || '');
+            rateBtn.onclick = function() {
+                var url = 'rate.html?repair_id=' + repair.id;
+                if (customer.id) url += '&customer_id=' + customer.id;
                 window.location.href = url;
-            });
+            };
         }
     }
 }
@@ -1682,14 +1841,14 @@ function renderQRCode(invoiceId) {
     var container = document.getElementById('qrContainer');
     if (!container) return;
 
-    var currentUrl = window.location.href;
+    var url = window.location.href;
 
     if (typeof QRCode === 'undefined') {
         container.innerHTML = '<i class="fas fa-qrcode" style="font-size: 2rem; color: var(--text-muted);"></i>';
         return;
     }
 
-    QRCode.toCanvas(currentUrl, {
+    QRCode.toCanvas(url, {
         width: 240,
         margin: 1,
         color: { dark: '#1d5b8e', light: '#ffffff' },
@@ -1771,7 +1930,8 @@ function downloadPDF() {
             scale: 2,
             useCORS: true,
             backgroundColor: '#ffffff',
-            logging: false
+            logging: false,
+            allowTaint: true
         },
         jsPDF: {
             unit: 'mm',
@@ -1790,7 +1950,7 @@ function downloadPDF() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📱 Share via WhatsApp
+// 📱 Share WhatsApp
 // ═══════════════════════════════════════════════════════════════
 function shareWhatsApp() {
     if (!currentInvoice) return;
@@ -1857,14 +2017,17 @@ function fallbackCopy(text) {
 document.addEventListener('DOMContentLoaded', function() {
     initTheme();
 
-    // Theme toggle
+    // Theme
     var themeToggle = document.getElementById('themeToggle');
     if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+
+    // Debug
+    var debugToggle = document.getElementById('debugToggle');
+    if (debugToggle) debugToggle.addEventListener('click', toggleDebug);
 
     // Print
     var printBtn = document.getElementById('printBtn');
     if (printBtn) printBtn.addEventListener('click', printInvoice);
-
     var printActionBtn = document.getElementById('printActionBtn');
     if (printActionBtn) printActionBtn.addEventListener('click', printInvoice);
 
@@ -1876,13 +2039,23 @@ document.addEventListener('DOMContentLoaded', function() {
     var shareWhatsappBtn = document.getElementById('shareWhatsappBtn');
     if (shareWhatsappBtn) shareWhatsappBtn.addEventListener('click', shareWhatsApp);
 
-    // Copy link
+    // Copy
     var copyLinkBtn = document.getElementById('copyLinkBtn');
     if (copyLinkBtn) copyLinkBtn.addEventListener('click', copyLink);
 
-    // Load invoice
+    // Load
     loadInvoice();
 });
+
+// Global error handler
+window.addEventListener('error', function(e) {
+    console.error('Global error:', e.error);
+});
+
+window.InvoiceViewApp = {
+    getSupabaseClient: getSupabaseClient,
+    loadInvoice: loadInvoice
+};
 
 })();
 </script>
