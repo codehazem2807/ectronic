@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#1d5b8e">
 <meta name="description" content="الفئات - إلكترونك لصيانة الأجهزة الإلكترونية">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>الفئات | إلكترونك - لصيانة الأجهزة الإلكترونية</title>
@@ -19,10 +20,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
 
+<!-- ═══════════════════════════════════════════════════════════
+     🔑 Supabase UMD
+     ═══════════════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+
 <style>
-/* ═══════════════════════════════════════════════════════════════
-   🎨 Design System
-   ═══════════════════════════════════════════════════════════════ */
 :root {
     --tech-blue: #1d5b8e;
     --tech-blue-dark: #154668;
@@ -111,9 +114,6 @@ button { cursor: pointer; border: none; background: none; }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; height: auto; display: block; }
 
-/* ═══════════════════════════════════════════════════════════════
-   📊 Reading Progress
-   ═══════════════════════════════════════════════════════════════ */
 .reading-progress {
     position: fixed;
     top: 0;
@@ -126,9 +126,6 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 0 10px rgba(29, 91, 142, 0.6);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🧭 Navbar
-   ═══════════════════════════════════════════════════════════════ */
 .navbar {
     position: fixed;
     top: 0;
@@ -183,81 +180,11 @@ img { max-width: 100%; height: auto; display: block; }
     border: 1px solid var(--border-color);
 }
 
-.navbar-brand-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.15;
-}
+.navbar-brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+.navbar-brand-text strong { font-size: 1rem; font-weight: 800; }
+.navbar-brand-text span { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
 
-.navbar-brand-text strong {
-    font-size: 1rem;
-    font-weight: 800;
-}
-
-.navbar-brand-text span {
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    font-weight: 500;
-}
-
-.navbar-search {
-    flex: 1;
-    max-width: 480px;
-    position: relative;
-    margin: 0 auto;
-}
-
-.navbar-search-input {
-    width: 100%;
-    padding: 0.6rem 1rem;
-    padding-right: 2.75rem;
-    padding-left: 3rem;
-    background: var(--bg-primary);
-    border: 1.5px solid var(--border-color);
-    border-radius: var(--radius-full);
-    font-size: 0.9rem;
-    color: var(--text-primary);
-    outline: none;
-    transition: all var(--transition);
-}
-
-.navbar-search-input:focus {
-    border-color: var(--tech-blue);
-    background: var(--bg-card);
-    box-shadow: 0 0 0 4px rgba(29, 91, 142, 0.12);
-}
-
-.navbar-search-icon {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    pointer-events: none;
-}
-
-.navbar-search-shortcut {
-    position: absolute;
-    left: 0.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 0.2rem 0.5rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 0.65rem;
-    color: var(--text-muted);
-    font-weight: 600;
-    pointer-events: none;
-}
-
-.navbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-right: auto;
-}
+.navbar-actions { display: flex; align-items: center; gap: 0.5rem; margin-right: auto; }
 
 .navbar-btn {
     width: 40px;
@@ -273,10 +200,7 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.navbar-btn:hover {
-    background: var(--bg-hover);
-    color: var(--tech-blue);
-}
+.navbar-btn:hover { background: var(--bg-hover); color: var(--tech-blue); }
 
 .navbar-badge {
     position: absolute;
@@ -308,10 +232,7 @@ img { max-width: 100%; height: auto; display: block; }
     animation: pulse-online 2s infinite;
 }
 
-.online-dot.offline {
-    background: var(--danger);
-    animation: none;
-}
+.online-dot.offline { background: var(--danger); animation: none; }
 
 @keyframes pulse-online {
     0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
@@ -332,10 +253,7 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.navbar-user:hover {
-    background: var(--bg-hover);
-    border-color: var(--tech-blue);
-}
+.navbar-user:hover { background: var(--bg-hover); border-color: var(--tech-blue); }
 
 .navbar-user-avatar {
     width: 32px;
@@ -351,18 +269,10 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.navbar-user-info {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.15;
-}
-
+.navbar-user-info { display: flex; flex-direction: column; line-height: 1.15; }
 .navbar-user-info strong { font-size: 0.8rem; font-weight: 700; }
 .navbar-user-info span { font-size: 0.65rem; color: var(--text-muted); }
 
-/* ═══════════════════════════════════════════════════════════════
-   📂 Sidebar
-   ═══════════════════════════════════════════════════════════════ */
 .sidebar {
     position: fixed;
     top: var(--navbar-height);
@@ -446,9 +356,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 .sidebar-overlay.show { opacity: 1; visibility: visible; }
 
-/* ═══════════════════════════════════════════════════════════════
-   📄 Main Content
-   ═══════════════════════════════════════════════════════════════ */
 .main-content {
     margin-top: var(--navbar-height);
     margin-right: var(--sidebar-width);
@@ -477,15 +384,8 @@ img { max-width: 100%; height: auto; display: block; }
 .page-header-text h1 i { color: var(--tech-blue); }
 .page-header-text p { font-size: 0.9rem; color: var(--text-secondary); }
 
-.page-header-actions {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
+.page-header-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
-/* ═══════════════════════════════════════════════════════════════
-   🔘 Buttons
-   ═══════════════════════════════════════════════════════════════ */
 .btn {
     padding: 0.65rem 1.15rem;
     border-radius: var(--radius-md);
@@ -532,26 +432,12 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
 }
 
-.btn-icon {
-    width: 38px;
-    height: 38px;
-    padding: 0;
-    border-radius: var(--radius-md);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
 }
 
-.btn-icon.btn-sm {
-    width: 34px;
-    height: 34px;
-    font-size: 0.85rem;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   🎛️ Toolbar
-   ═══════════════════════════════════════════════════════════════ */
 .toolbar {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -564,11 +450,7 @@ img { max-width: 100%; height: auto; display: block; }
     flex-wrap: wrap;
 }
 
-.toolbar-search {
-    flex: 1;
-    min-width: 240px;
-    position: relative;
-}
+.toolbar-search { flex: 1; min-width: 240px; position: relative; }
 
 .toolbar-search-input {
     width: 100%;
@@ -620,9 +502,6 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 0 0 4px rgba(29, 91, 142, 0.12);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   📊 Stats Bar
-   ═══════════════════════════════════════════════════════════════ */
 .stats-bar {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -676,10 +555,7 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
 }
 
-.stat-item-content {
-    flex: 1;
-    min-width: 0;
-}
+.stat-item-content { flex: 1; min-width: 0; }
 
 .stat-item-value {
     font-size: 1.35rem;
@@ -694,9 +570,6 @@ img { max-width: 100%; height: auto; display: block; }
     font-weight: 600;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   📦 Categories Grid
-   ═══════════════════════════════════════════════════════════════ */
 .categories-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -861,16 +734,9 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.75rem;
 }
 
-.category-stat.warning {
-    color: var(--warning);
-}
-
+.category-stat.warning { color: var(--warning); }
 .category-stat.warning i { color: var(--warning); }
-
-.category-stat.danger {
-    color: var(--danger);
-}
-
+.category-stat.danger { color: var(--danger); }
 .category-stat.danger i { color: var(--danger); }
 
 .category-empty-inline {
@@ -879,9 +745,6 @@ img { max-width: 100%; height: auto; display: block; }
     font-style: italic;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🪟 Modal
-   ═══════════════════════════════════════════════════════════════ */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -962,9 +825,6 @@ img { max-width: 100%; height: auto; display: block; }
     transform: rotate(90deg);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   📜 Modal Body with Scroll
-   ═══════════════════════════════════════════════════════════════ */
 .modal-body {
     padding: 1.5rem;
     overflow-y: auto;
@@ -976,23 +836,14 @@ img { max-width: 100%; height: auto; display: block; }
     scrollbar-color: var(--border-color) transparent;
 }
 
-.modal-body::-webkit-scrollbar {
-    width: 8px;
-}
-
-.modal-body::-webkit-scrollbar-track {
-    background: transparent;
-}
-
+.modal-body::-webkit-scrollbar { width: 8px; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
 .modal-body::-webkit-scrollbar-thumb {
     background: var(--border-color);
     border-radius: 4px;
     transition: background var(--transition);
 }
-
-.modal-body::-webkit-scrollbar-thumb:hover {
-    background: var(--text-muted);
-}
+.modal-body::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
 .modal-footer {
     padding: 1rem 1.5rem;
@@ -1017,16 +868,8 @@ img { max-width: 100%; height: auto; display: block; }
     }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   📝 Forms
-   ═══════════════════════════════════════════════════════════════ */
-.form-group {
-    margin-bottom: 1.15rem;
-}
-
-.form-group:last-child {
-    margin-bottom: 0;
-}
+.form-group { margin-bottom: 1.15rem; }
+.form-group:last-child { margin-bottom: 0; }
 
 .form-label {
     display: block;
@@ -1039,9 +882,7 @@ img { max-width: 100%; height: auto; display: block; }
 .form-label .required { color: var(--danger); }
 .form-label i { color: var(--tech-blue); margin-left: 0.35rem; font-size: 0.8rem; }
 
-.form-input,
-.form-textarea,
-.form-select {
+.form-input, .form-textarea, .form-select {
     width: 100%;
     padding: 0.75rem 0.95rem;
     background: var(--bg-primary);
@@ -1055,9 +896,7 @@ img { max-width: 100%; height: auto; display: block; }
     font-family: inherit;
 }
 
-.form-input:focus,
-.form-textarea:focus,
-.form-select:focus {
+.form-input:focus, .form-textarea:focus, .form-select:focus {
     border-color: var(--tech-blue);
     background: var(--bg-card);
     box-shadow: 0 0 0 4px rgba(29, 91, 142, 0.12);
@@ -1070,8 +909,7 @@ img { max-width: 100%; height: auto; display: block; }
     line-height: 1.6;
 }
 
-.form-input.error,
-.form-textarea.error {
+.form-input.error, .form-textarea.error {
     border-color: var(--danger);
     box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
     animation: shake 0.4s ease;
@@ -1105,9 +943,6 @@ img { max-width: 100%; height: auto; display: block; }
     line-height: 1.5;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🎨 Icon Picker
-   ═══════════════════════════════════════════════════════════════ */
 .icon-picker {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
@@ -1171,9 +1006,6 @@ img { max-width: 100%; height: auto; display: block; }
     justify-content: center;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🎨 Color Picker
-   ═══════════════════════════════════════════════════════════════ */
 .color-picker {
     display: flex;
     gap: 0.5rem;
@@ -1195,9 +1027,7 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.color-option:hover {
-    transform: scale(1.1);
-}
+.color-option:hover { transform: scale(1.1); }
 
 .color-option.selected {
     border-color: var(--bg-card);
@@ -1219,9 +1049,6 @@ img { max-width: 100%; height: auto; display: block; }
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🍞 Toast
-   ═══════════════════════════════════════════════════════════════ */
 .toast-container {
     position: fixed;
     top: calc(var(--navbar-height) + 1rem);
@@ -1274,9 +1101,6 @@ img { max-width: 100%; height: auto; display: block; }
     to { opacity: 0; transform: translateY(-20px) scale(0.95); }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🦴 Skeleton
-   ═══════════════════════════════════════════════════════════════ */
 .skeleton {
     background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
     background-size: 200% 100%;
@@ -1289,13 +1113,8 @@ img { max-width: 100%; height: auto; display: block; }
     100% { background-position: -200% 0; }
 }
 
-.skeleton-card {
-    height: 200px;
-}
+.skeleton-card { height: 200px; }
 
-/* ═══════════════════════════════════════════════════════════════
-   📭 Empty State
-   ═══════════════════════════════════════════════════════════════ */
 .empty-state {
     padding: 4rem 1rem;
     text-align: center;
@@ -1326,9 +1145,6 @@ img { max-width: 100%; height: auto; display: block; }
     margin-bottom: 1rem;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   ⬆️ Scroll to Top
-   ═══════════════════════════════════════════════════════════════ */
 .scroll-top {
     position: fixed;
     bottom: calc(1rem + var(--safe-bottom));
@@ -1361,11 +1177,7 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 12px 32px rgba(29, 91, 142, 0.5);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🔔 Notifications + User Dropdown
-   ═══════════════════════════════════════════════════════════════ */
-.notifications-panel,
-.user-dropdown {
+.notifications-panel, .user-dropdown {
     position: fixed;
     top: calc(var(--navbar-height) + 0.5rem);
     left: 1rem;
@@ -1385,8 +1197,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .user-dropdown { width: 240px; }
 
-.notifications-panel.show,
-.user-dropdown.show {
+.notifications-panel.show, .user-dropdown.show {
     opacity: 1;
     visibility: visible;
     transform: translateY(0) scale(1);
@@ -1421,10 +1232,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .notifications-mark-read:hover { background: rgba(29, 91, 142, 0.1); }
 
-.notifications-list {
-    max-height: 400px;
-    overflow-y: auto;
-}
+.notifications-list { max-height: 400px; overflow-y: auto; }
 
 .notification-item {
     display: flex;
@@ -1468,11 +1276,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .notification-item-content { flex: 1; min-width: 0; }
 
-.notification-item-title {
-    font-size: 0.85rem;
-    font-weight: 700;
-    margin-bottom: 0.15rem;
-}
+.notification-item-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.15rem; }
 
 .notification-item-message {
     font-size: 0.75rem;
@@ -1527,17 +1331,8 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.user-dropdown-info strong {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-
-.user-dropdown-info span {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-}
-
+.user-dropdown-info strong { display: block; font-size: 0.9rem; font-weight: 700; }
+.user-dropdown-info span { font-size: 0.75rem; color: var(--text-muted); }
 .user-dropdown-menu { padding: 0.5rem; }
 
 .user-dropdown-item {
@@ -1554,25 +1349,10 @@ img { max-width: 100%; height: auto; display: block; }
     text-align: right;
 }
 
-.user-dropdown-item:hover {
-    background: var(--bg-hover);
-    color: var(--tech-blue);
-}
+.user-dropdown-item:hover { background: var(--bg-hover); color: var(--tech-blue); }
+.user-dropdown-item.danger:hover { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+.user-dropdown-divider { height: 1px; background: var(--border-color); margin: 0.35rem 0.5rem; }
 
-.user-dropdown-item.danger:hover {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--danger);
-}
-
-.user-dropdown-divider {
-    height: 1px;
-    background: var(--border-color);
-    margin: 0.35rem 0.5rem;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   ⚡ Animations
-   ═══════════════════════════════════════════════════════════════ */
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -1589,14 +1369,10 @@ img { max-width: 100%; height: auto; display: block; }
     animation: spin 0.8s linear infinite;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   📱 Responsive
-   ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 968px) {
     .sidebar { transform: translateX(100%); box-shadow: var(--shadow-xl); }
     .sidebar.show { transform: translateX(0); }
     .main-content { margin-right: 0; padding: 1rem; }
-    .navbar-search { display: none; }
     .navbar-brand-text { display: none; }
     .navbar-user-info { display: none; }
     .navbar-user { padding: 0.35rem; }
@@ -1646,9 +1422,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 <div class="reading-progress" id="readingProgress"></div>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     🧭 Navbar
-     ═══════════════════════════════════════════════════════════════ -->
 <nav class="navbar">
     <button class="navbar-menu-btn" id="menuBtn" aria-label="القائمة">
         <i class="fas fa-bars"></i>
@@ -1661,18 +1434,6 @@ img { max-width: 100%; height: auto; display: block; }
             <span>لصيانة الأجهزة الإلكترونية</span>
         </div>
     </a>
-    
-    <div class="navbar-search">
-        <input 
-            type="text" 
-            class="navbar-search-input" 
-            id="globalSearchInput" 
-            placeholder="ابحث..."
-            autocomplete="off"
-        >
-        <i class="fas fa-magnifying-glass navbar-search-icon"></i>
-        <span class="navbar-search-shortcut">Ctrl+K</span>
-    </div>
     
     <div class="navbar-actions">
         <button class="navbar-btn" id="onlineBtn" title="حالة الاتصال">
@@ -1699,9 +1460,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </nav>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     📂 Sidebar
-     ═══════════════════════════════════════════════════════════════ -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <aside class="sidebar" id="sidebar">
@@ -1786,12 +1544,8 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </aside>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     📄 Main Content
-     ═══════════════════════════════════════════════════════════════ -->
 <main class="main-content">
     
-    <!-- Page Header -->
     <div class="page-header">
         <div class="page-header-text">
             <h1>
@@ -1812,7 +1566,6 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
     </div>
     
-    <!-- Stats Bar -->
     <div class="stats-bar">
         <div class="stat-item">
             <div class="stat-item-icon">
@@ -1852,16 +1605,9 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
     </div>
     
-    <!-- Toolbar -->
     <div class="toolbar">
         <div class="toolbar-search">
-            <input 
-                type="text" 
-                class="toolbar-search-input" 
-                id="searchInput" 
-                placeholder="ابحث عن فئة..."
-                autocomplete="off"
-            >
+            <input type="text" class="toolbar-search-input" id="searchInput" placeholder="ابحث عن فئة..." autocomplete="off">
             <i class="fas fa-magnifying-glass toolbar-search-icon"></i>
         </div>
         
@@ -1873,9 +1619,8 @@ img { max-width: 100%; height: auto; display: block; }
         </select>
     </div>
     
-    <!-- Categories Container -->
     <div id="categoriesContainer">
-        <div class="categories-grid" id="categoriesGrid">
+        <div class="categories-grid">
             <div class="skeleton skeleton-card"></div>
             <div class="skeleton skeleton-card"></div>
             <div class="skeleton skeleton-card"></div>
@@ -1887,9 +1632,6 @@ img { max-width: 100%; height: auto; display: block; }
     
 </main>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     🪟 Category Modal (Add/Edit) - with Scrollable Body
-     ═══════════════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="categoryModal">
     <div class="modal">
         <div class="modal-header">
@@ -1903,7 +1645,6 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
         
         <form id="categoryForm" autocomplete="off">
-            <!-- Modal Body with Scroll -->
             <div class="modal-body">
                 
                 <div class="form-group">
@@ -1911,14 +1652,7 @@ img { max-width: 100%; height: auto; display: block; }
                         <i class="fas fa-tag"></i>
                         اسم الفئة <span class="required">*</span>
                     </label>
-                    <input 
-                        type="text" 
-                        id="categoryName" 
-                        class="form-input" 
-                        placeholder="مثال: شاشات، موبايلات، لابتوبات..."
-                        maxlength="100"
-                        required
-                    >
+                    <input type="text" id="categoryName" class="form-input" placeholder="مثال: شاشات، موبايلات، لابتوبات..." maxlength="100" required>
                     <div class="form-error" id="nameError">
                         <i class="fas fa-circle-exclamation"></i>
                         <span>الرجاء إدخال اسم الفئة</span>
@@ -1934,12 +1668,7 @@ img { max-width: 100%; height: auto; display: block; }
                         <i class="fas fa-align-right"></i>
                         الوصف (اختياري)
                     </label>
-                    <textarea 
-                        id="categoryDescription" 
-                        class="form-textarea" 
-                        placeholder="وصف مختصر للفئة..."
-                        maxlength="300"
-                    ></textarea>
+                    <textarea id="categoryDescription" class="form-textarea" placeholder="وصف مختصر للفئة..." maxlength="300"></textarea>
                     <div class="form-hint">
                         <i class="fas fa-info-circle"></i>
                         <span id="descCounter">0 / 300</span>
@@ -1951,9 +1680,7 @@ img { max-width: 100%; height: auto; display: block; }
                         <i class="fas fa-palette"></i>
                         اللون
                     </label>
-                    <div class="color-picker" id="colorPicker">
-                        <!-- سيتم تعبئتها بالـ JS -->
-                    </div>
+                    <div class="color-picker" id="colorPicker"></div>
                 </div>
                 
                 <div class="form-group">
@@ -1961,16 +1688,13 @@ img { max-width: 100%; height: auto; display: block; }
                         <i class="fas fa-icons"></i>
                         الأيقونة
                     </label>
-                    <div class="icon-picker" id="iconPicker">
-                        <!-- سيتم تعبئتها بالـ JS -->
-                    </div>
+                    <div class="icon-picker" id="iconPicker"></div>
                     <div class="form-hint">
                         <i class="fas fa-hand-pointer"></i>
                         اضغط لاختيار الأيقونة المناسبة
                     </div>
                 </div>
                 
-                <!-- Preview -->
                 <div class="form-group">
                     <label class="form-label">
                         <i class="fas fa-eye"></i>
@@ -1992,7 +1716,6 @@ img { max-width: 100%; height: auto; display: block; }
                 </div>
                 
             </div>
-            <!-- End Modal Body -->
             
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="cancelCategoryBtn">
@@ -2009,9 +1732,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     🗑️ Delete Confirmation Modal
-     ═══════════════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="deleteModal">
     <div class="modal modal-sm">
         <div class="modal-header">
@@ -2045,9 +1765,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     📋 Category Details Modal
-     ═══════════════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="detailsModal">
     <div class="modal modal-lg">
         <div class="modal-header">
@@ -2059,9 +1776,7 @@ img { max-width: 100%; height: auto; display: block; }
                 <i class="fas fa-times"></i>
             </button>
         </div>
-        <div class="modal-body" id="detailsContent">
-            <!-- سيتم تعبئتها -->
-        </div>
+        <div class="modal-body" id="detailsContent"></div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" id="closeDetailsBtn">
                 إغلاق
@@ -2074,7 +1789,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Notifications Panel -->
 <div class="notifications-panel" id="notificationsPanel">
     <div class="notifications-header">
         <h3 class="notifications-title">
@@ -2086,7 +1800,6 @@ img { max-width: 100%; height: auto; display: block; }
     <div class="notifications-list" id="notificationsList"></div>
 </div>
 
-<!-- User Dropdown -->
 <div class="user-dropdown" id="userDropdown">
     <div class="user-dropdown-header">
         <div class="user-dropdown-avatar" id="dropdownAvatar">م</div>
@@ -2112,29 +1825,28 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Toast Container -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- Scroll to Top -->
 <button class="scroll-top" id="scrollTop" aria-label="العودة للأعلى">
     <i class="fas fa-arrow-up"></i>
 </button>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     📜 JavaScript
-     ═══════════════════════════════════════════════════════════════ -->
-<script type="module">
+<script>
+(function() {
+'use strict';
 
 // ═══════════════════════════════════════════════════════════════
 // 🔑 Config
 // ═══════════════════════════════════════════════════════════════
-const SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
+var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
+var DB_NAME = 'electronic_db';
+var DB_VERSION = 4; // ✅ متوافق مع products.html
 
 // ═══════════════════════════════════════════════════════════════
-// 🎨 Colors & Icons Presets
+// 🎨 Presets
 // ═══════════════════════════════════════════════════════════════
-const COLOR_PRESETS = [
+var COLOR_PRESETS = [
     { name: 'أزرق تقني', value: '#1d5b8e', dark: '#154668', shadow: 'rgba(29, 91, 142, 0.3)' },
     { name: 'أخضر', value: '#10b981', dark: '#059669', shadow: 'rgba(16, 185, 129, 0.3)' },
     { name: 'برتقالي', value: '#f59e0b', dark: '#d97706', shadow: 'rgba(245, 158, 11, 0.3)' },
@@ -2149,16 +1861,15 @@ const COLOR_PRESETS = [
     { name: 'رمادي', value: '#64748b', dark: '#475569', shadow: 'rgba(100, 116, 139, 0.3)' }
 ];
 
-const ICON_PRESETS = [
+var ICON_PRESETS = [
     'fa-tv', 'fa-mobile-screen', 'fa-laptop', 'fa-tablet-screen-button',
     'fa-headphones', 'fa-plug', 'fa-battery-full', 'fa-gears',
     'fa-box', 'fa-tag', 'fa-microchip', 'fa-keyboard',
     'fa-mouse', 'fa-print', 'fa-camera', 'fa-headset',
-    'fa-cable-car', 'fa-bolt', 'fa-tools', 'fa-screwdriver-wrench',
-    'fa-hard-drive', 'fa-memory', 'fa-sim-card', 'fa-sd-card',
-    'fa-compact-disc', 'fa-usb', 'fa-shield-halved', 'fa-satellite-dish',
-    'fa-radio', 'fa-video', 'fa-gamepad', 'fa-tv',
-    'fa-water', 'fa-fan', 'fa-snowflake', 'fa-fire',
+    'fa-bolt', 'fa-tools', 'fa-screwdriver-wrench', 'fa-hard-drive',
+    'fa-memory', 'fa-sim-card', 'fa-sd-card', 'fa-compact-disc',
+    'fa-usb', 'fa-shield-halved', 'fa-satellite-dish', 'fa-radio',
+    'fa-video', 'fa-gamepad', 'fa-fan', 'fa-snowflake',
     'fa-lightbulb', 'fa-wifi', 'fa-bluetooth', 'fa-signal',
     'fa-calculator', 'fa-clock', 'fa-watch', 'fa-stopwatch',
     'fa-tachometer-alt', 'fa-weight-scale', 'fa-ruler', 'fa-microscope'
@@ -2178,43 +1889,70 @@ function escapeHtml(str) {
 }
 
 function formatNumber(num) {
-    return (parseInt(num) || 0).toLocaleString('ar-EG');
+    var n = parseInt(num) || 0;
+    try { return n.toLocaleString('ar-EG'); } catch (e) { return String(n); }
 }
 
 function formatDate(date) {
-    if (!date) return '';
-    return new Date(date).toLocaleDateString('ar-EG', { 
-        year: 'numeric', month: 'short', day: 'numeric' 
-    });
+    if (!date) return '—';
+    try {
+        return new Date(date).toLocaleDateString('ar-EG', { 
+            year: 'numeric', month: 'short', day: 'numeric' 
+        });
+    } catch (e) { return '—'; }
 }
 
 function formatTimeAgo(date) {
     if (!date) return '';
-    const seconds = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
-    if (seconds < 60) return 'الآن';
-    if (seconds < 3600) return `منذ ${Math.floor(seconds / 60)} دقيقة`;
-    if (seconds < 86400) return `منذ ${Math.floor(seconds / 3600)} ساعة`;
-    if (seconds < 604800) return `منذ ${Math.floor(seconds / 86400)} يوم`;
-    return formatDate(date);
+    try {
+        var seconds = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
+        if (seconds < 60) return 'الآن';
+        if (seconds < 3600) return 'منذ ' + Math.floor(seconds / 60) + ' دقيقة';
+        if (seconds < 86400) return 'منذ ' + Math.floor(seconds / 3600) + ' ساعة';
+        if (seconds < 604800) return 'منذ ' + Math.floor(seconds / 86400) + ' يوم';
+        return formatDate(date);
+    } catch (e) { return ''; }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🗄️ Supabase Client (UMD - sync)
+// ═══════════════════════════════════════════════════════════════
+var supabaseClient = null;
+
+function getSupabaseClient() {
+    if (supabaseClient) return supabaseClient;
+    if (typeof window.supabase === 'undefined' || !window.supabase.createClient) {
+        console.warn('Supabase library not loaded');
+        return null;
+    }
+    try {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { persistSession: false, autoRefreshToken: false }
+        });
+        return supabaseClient;
+    } catch (e) {
+        console.error('Supabase init failed:', e);
+        return null;
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════
 // 🎨 Theme
 // ═══════════════════════════════════════════════════════════════
 function initTheme() {
-    const saved = localStorage.getItem('theme') || 'light';
+    var saved = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
     updateThemeIcon(saved);
 }
 
 function updateThemeIcon(theme) {
-    const icon = document.querySelector('#themeToggle i');
+    var icon = document.querySelector('#themeToggle i');
     if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
 }
 
 function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    const next = current === 'dark' ? 'light' : 'dark';
+    var current = document.documentElement.getAttribute('data-theme') || 'light';
+    var next = current === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
     updateThemeIcon(next);
@@ -2223,25 +1961,27 @@ function toggleTheme() {
 // ═══════════════════════════════════════════════════════════════
 // 🍞 Toast
 // ═══════════════════════════════════════════════════════════════
-function showToast(message, type = 'info', duration = 3500) {
-    const container = document.getElementById('toastContainer');
+function showToast(message, type, duration) {
+    type = type || 'info';
+    duration = duration || 3500;
+    var container = document.getElementById('toastContainer');
     if (!container) return;
     
-    const icons = {
+    var icons = {
         success: 'fa-circle-check',
         error: 'fa-circle-xmark',
         warning: 'fa-triangle-exclamation',
         info: 'fa-circle-info'
     };
     
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i><span>${escapeHtml(message)}</span>`;
+    var toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    toast.innerHTML = '<i class="fas ' + (icons[type] || icons.info) + '"></i><span>' + escapeHtml(message) + '</span>';
     
     container.appendChild(toast);
-    setTimeout(() => {
+    setTimeout(function() {
         toast.classList.add('hide');
-        setTimeout(() => toast.remove(), 300);
+        setTimeout(function() { toast.remove(); }, 300);
     }, duration);
 }
 
@@ -2249,7 +1989,7 @@ function showToast(message, type = 'info', duration = 3500) {
 // 🌐 Online
 // ═══════════════════════════════════════════════════════════════
 function updateOnlineStatus() {
-    const dot = document.getElementById('onlineDot');
+    var dot = document.getElementById('onlineDot');
     if (!dot) return;
     dot.classList.toggle('offline', !navigator.onLine);
 }
@@ -2259,23 +1999,23 @@ function updateOnlineStatus() {
 // ═══════════════════════════════════════════════════════════════
 function getSession() {
     try {
-        const raw = localStorage.getItem('session');
+        var raw = localStorage.getItem('session');
         if (!raw) return null;
-        const s = JSON.parse(raw);
-        if (!s?.user) return null;
+        var s = JSON.parse(raw);
+        if (!s || !s.user) return null;
         if (s.expiresAt && Date.now() > s.expiresAt) {
             localStorage.removeItem('session');
             return null;
         }
         return s;
-    } catch { return null; }
+    } catch (e) { return null; }
 }
 
 function logout(message) {
     localStorage.removeItem('session');
     if (message) {
         showToast(message, 'info');
-        setTimeout(() => window.location.href = 'index.html', 1000);
+        setTimeout(function() { window.location.href = 'index.html'; }, 1000);
     } else {
         window.location.href = 'index.html';
     }
@@ -2284,116 +2024,149 @@ function logout(message) {
 // ═══════════════════════════════════════════════════════════════
 // ⏱️ Inactivity
 // ═══════════════════════════════════════════════════════════════
-const INACTIVITY_TIMEOUT = 30 * 60 * 1000;
-let inactivityTimer = null;
+var INACTIVITY_TIMEOUT = 30 * 60 * 1000;
+var inactivityTimer = null;
 
 function resetInactivity() {
     if (inactivityTimer) clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(() => logout('تم تسجيل خروجك بسبب عدم النشاط'), INACTIVITY_TIMEOUT);
+    inactivityTimer = setTimeout(function() {
+        logout('تم تسجيل خروجك بسبب عدم النشاط');
+    }, INACTIVITY_TIMEOUT);
 }
 
 function startInactivityMonitor() {
-    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evt => {
+    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(function(evt) {
         document.addEventListener(evt, resetInactivity, { passive: true });
     });
     resetInactivity();
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📦 IndexedDB
+// 📦 IndexedDB - نفس الإصدار 4
 // ═══════════════════════════════════════════════════════════════
-const DB_NAME = 'electronic_db';
-const DB_VERSION = 1;
-let dbInstance = null;
+var dbInstance = null;
+var dbPromise = null;
+var dbFailed = false;
 
 function openDB() {
-    return new Promise((resolve, reject) => {
-        if (dbInstance) return resolve(dbInstance);
-        const req = indexedDB.open(DB_NAME, DB_VERSION);
-        req.onupgradeneeded = (e) => {
-            const db = e.target.result;
-            if (!db.objectStoreNames.contains('accounts')) db.createObjectStore('accounts', { keyPath: 'id' });
-            if (!db.objectStoreNames.contains('outbox')) {
-                const s = db.createObjectStore('outbox', { keyPath: 'id', autoIncrement: true });
-                s.createIndex('status', 'status');
-            }
-            if (!db.objectStoreNames.contains('cache')) db.createObjectStore('cache', { keyPath: 'key' });
-            if (!db.objectStoreNames.contains('settings')) db.createObjectStore('settings', { keyPath: 'key' });
-            if (!db.objectStoreNames.contains('products')) db.createObjectStore('products', { keyPath: 'id' });
-            if (!db.objectStoreNames.contains('categories')) db.createObjectStore('categories', { keyPath: 'id' });
-        };
-        req.onsuccess = () => { dbInstance = req.result; resolve(dbInstance); };
-        req.onerror = () => reject(req.error);
+    if (dbFailed) return Promise.resolve(null);
+    if (dbInstance) return Promise.resolve(dbInstance);
+    if (dbPromise) return dbPromise;
+    
+    dbPromise = new Promise(function(resolve) {
+        try {
+            var req = indexedDB.open(DB_NAME, DB_VERSION);
+            
+            req.onupgradeneeded = function(e) {
+                var db = e.target.result;
+                var stores = ['accounts', 'cache', 'settings', 'products', 'categories', 'customers', 'invoices', 'repairs'];
+                stores.forEach(function(name) {
+                    if (!db.objectStoreNames.contains(name)) {
+                        db.createObjectStore(name, { keyPath: 'id' });
+                    }
+                });
+                if (!db.objectStoreNames.contains('outbox')) {
+                    var s = db.createObjectStore('outbox', { keyPath: 'id', autoIncrement: true });
+                    s.createIndex('status', 'status');
+                }
+            };
+            
+            req.onsuccess = function() {
+                dbInstance = req.result;
+                dbInstance.onversionchange = function() {
+                    try { dbInstance.close(); } catch(e) {}
+                    dbInstance = null;
+                    dbPromise = null;
+                };
+                resolve(dbInstance);
+            };
+            
+            req.onerror = function() {
+                console.warn('IndexedDB error:', req.error);
+                dbFailed = true;
+                dbPromise = null;
+                resolve(null);
+            };
+            
+            req.onblocked = function() {
+                console.warn('IndexedDB blocked');
+                setTimeout(function() {
+                    dbFailed = true;
+                    dbPromise = null;
+                    resolve(null);
+                }, 500);
+            };
+        } catch (e) {
+            console.warn('IndexedDB not available:', e);
+            dbFailed = true;
+            resolve(null);
+        }
     });
+    
+    return dbPromise;
 }
 
-async function dbPut(store, data) {
-    const db = await openDB();
-    return new Promise((res, rej) => {
-        const tx = db.transaction(store, 'readwrite');
-        const r = tx.objectStore(store).put(data);
-        r.onsuccess = () => res(r.result);
-        r.onerror = () => rej(r.error);
-    });
-}
-
-async function dbGetAll(store) {
-    const db = await openDB();
-    return new Promise((res, rej) => {
-        const tx = db.transaction(store, 'readonly');
-        const r = tx.objectStore(store).getAll();
-        r.onsuccess = () => res(r.result || []);
-        r.onerror = () => rej(r.error);
-    });
-}
-
-async function dbDelete(store, key) {
-    const db = await openDB();
-    return new Promise((res, rej) => {
-        const tx = db.transaction(store, 'readwrite');
-        const r = tx.objectStore(store).delete(key);
-        r.onsuccess = () => res();
-        r.onerror = () => rej(r.error);
-    });
-}
-
-async function addToOutbox(action) {
-    const db = await openDB();
-    return new Promise((res, rej) => {
-        const tx = db.transaction('outbox', 'readwrite');
-        const r = tx.objectStore('outbox').add({
-            ...action,
-            status: 'pending',
-            created_at: Date.now()
+function dbPut(store, data) {
+    return openDB().then(function(db) {
+        if (!db || !db.objectStoreNames.contains(store)) return null;
+        return new Promise(function(resolve) {
+            try {
+                var tx = db.transaction(store, 'readwrite');
+                var r = tx.objectStore(store).put(data);
+                r.onsuccess = function() { resolve(r.result); };
+                r.onerror = function() { resolve(null); };
+            } catch (e) { resolve(null); }
         });
-        r.onsuccess = () => res(r.result);
-        r.onerror = () => rej(r.error);
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🗄️ Supabase
-// ═══════════════════════════════════════════════════════════════
-let supabaseClient = null;
-
-async function getSupabase() {
-    if (supabaseClient) return supabaseClient;
-    try {
-        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
-        supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-            auth: { persistSession: false }
+function dbGetAll(store) {
+    return openDB().then(function(db) {
+        if (!db || !db.objectStoreNames.contains(store)) return [];
+        return new Promise(function(resolve) {
+            try {
+                var tx = db.transaction(store, 'readonly');
+                var r = tx.objectStore(store).getAll();
+                r.onsuccess = function() { resolve(r.result || []); };
+                r.onerror = function() { resolve([]); };
+            } catch (e) { resolve([]); }
         });
-        return supabaseClient;
-    } catch (err) {
-        console.warn('فشل تحميل Supabase:', err);
-        return null;
-    }
+    });
+}
+
+function dbDelete(store, key) {
+    return openDB().then(function(db) {
+        if (!db || !db.objectStoreNames.contains(store)) return;
+        return new Promise(function(resolve) {
+            try {
+                var tx = db.transaction(store, 'readwrite');
+                var r = tx.objectStore(store).delete(key);
+                r.onsuccess = function() { resolve(); };
+                r.onerror = function() { resolve(); };
+            } catch (e) { resolve(); }
+        });
+    });
+}
+
+function addToOutbox(action) {
+    return openDB().then(function(db) {
+        if (!db) return null;
+        return new Promise(function(resolve) {
+            try {
+                var tx = db.transaction('outbox', 'readwrite');
+                var data = Object.assign({}, action, { status: 'pending', created_at: Date.now() });
+                var r = tx.objectStore('outbox').add(data);
+                r.onsuccess = function() { resolve(r.result); };
+                r.onerror = function() { resolve(null); };
+            } catch (e) { resolve(null); }
+        });
+    });
 }
 
 // ═══════════════════════════════════════════════════════════════
 // 📊 State
 // ═══════════════════════════════════════════════════════════════
-const state = {
+var state = {
     categories: [],
     products: [],
     filtered: [],
@@ -2409,85 +2182,116 @@ const state = {
 // ═══════════════════════════════════════════════════════════════
 // 📥 Load Data
 // ═══════════════════════════════════════════════════════════════
-async function loadData() {
-    try {
-        const sb = await getSupabase();
-        if (sb && navigator.onLine) {
-            const [catRes, prodRes] = await Promise.all([
-                sb.from('categories').select('*').order('created_at', { ascending: false }),
-                sb.from('products').select('id, category_id')
-            ]);
-            
-            if (catRes.data) {
-                state.categories = catRes.data;
-                for (const c of catRes.data) await dbPut('categories', c);
-            }
-            
-            if (prodRes.data) {
-                state.products = prodRes.data;
-            }
-        } else {
-            state.categories = await dbGetAll('categories');
-            state.products = await dbGetAll('products');
-        }
-    } catch (err) {
-        console.warn('خطأ في التحميل:', err);
-        state.categories = await dbGetAll('categories');
-        state.products = await dbGetAll('products');
-    }
+function loadData() {
+    var sb = getSupabaseClient();
     
-    updateStats();
-    applyFilters();
+    if (sb && navigator.onLine) {
+        return Promise.all([
+            sb.from('categories').select('*').order('created_at', { ascending: false }),
+            sb.from('products').select('id, category_id, name, barcode, quantity')
+        ]).then(function(results) {
+            if (results[0].data) {
+                state.categories = results[0].data;
+                return Promise.all(results[0].data.map(function(c) { return dbPut('categories', c); }));
+            }
+        }).then(function() {
+            if (state.categories) return;
+            return dbGetAll('categories').then(function(cached) {
+                state.categories = cached || [];
+            });
+        }).then(function() {
+            if (results && results[1] && results[1].data) {
+                state.products = results[1].data;
+            }
+        }).catch(function(err) {
+            console.warn('Load failed, using cache:', err);
+            return dbGetAll('categories').then(function(cached) {
+                state.categories = cached || [];
+            }).then(function() {
+                return dbGetAll('products').then(function(cached) {
+                    state.products = cached || [];
+                });
+            });
+        }).then(function() {
+            updateStats();
+            applyFilters();
+        });
+    } else {
+        return Promise.all([
+            dbGetAll('categories'),
+            dbGetAll('products')
+        ]).then(function(results) {
+            state.categories = results[0] || [];
+            state.products = results[1] || [];
+            updateStats();
+            applyFilters();
+        });
+    }
 }
 
 function updateStats() {
-    const totalCategories = state.categories.length;
-    const totalProducts = state.products.length;
-    const avgProducts = totalCategories > 0 ? Math.round(totalProducts / totalCategories) : 0;
-    const emptyCategories = state.categories.filter(c => 
-        !state.products.some(p => p.category_id === c.id)
-    ).length;
+    var totalCategories = state.categories.length;
+    var totalProducts = state.products.length;
+    var avgProducts = totalCategories > 0 ? Math.round(totalProducts / totalCategories) : 0;
+    var emptyCategories = state.categories.filter(function(c) {
+        return !state.products.some(function(p) { return p.category_id === c.id; });
+    }).length;
     
-    document.getElementById('totalCategories').textContent = formatNumber(totalCategories);
-    document.getElementById('totalProducts').textContent = formatNumber(totalProducts);
-    document.getElementById('avgProducts').textContent = formatNumber(avgProducts);
-    document.getElementById('emptyCategories').textContent = formatNumber(emptyCategories);
+    var setEl = function(id, val) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = formatNumber(val);
+    };
     
-    document.getElementById('pageSubtitle').textContent = 
-        `${totalCategories} فئة • ${totalProducts} صنف`;
+    setEl('totalCategories', totalCategories);
+    setEl('totalProducts', totalProducts);
+    setEl('avgProducts', avgProducts);
+    setEl('emptyCategories', emptyCategories);
+    
+    var subtitle = document.getElementById('pageSubtitle');
+    if (subtitle) subtitle.textContent = totalCategories + ' فئة • ' + totalProducts + ' صنف';
 }
 
 function getProductCountForCategory(categoryId) {
-    return state.products.filter(p => p.category_id === categoryId).length;
+    var count = 0;
+    for (var i = 0; i < state.products.length; i++) {
+        if (state.products[i].category_id === categoryId) count++;
+    }
+    return count;
+}
+
+function getProductsForCategory(categoryId) {
+    return state.products.filter(function(p) { return p.category_id === categoryId; });
 }
 
 // ═══════════════════════════════════════════════════════════════
 // 🎯 Filters
 // ═══════════════════════════════════════════════════════════════
 function applyFilters() {
-    let list = [...state.categories];
-    const q = state.searchQuery.trim().toLowerCase();
+    var list = state.categories.slice();
+    var q = (state.searchQuery || '').trim().toLowerCase();
     
     if (q) {
-        list = list.filter(c => 
-            (c.name || '').toLowerCase().includes(q) ||
-            (c.description || '').toLowerCase().includes(q)
-        );
+        list = list.filter(function(c) {
+            return (c.name || '').toLowerCase().indexOf(q) !== -1 ||
+                   (c.description || '').toLowerCase().indexOf(q) !== -1;
+        });
     }
     
     switch (state.sortFilter) {
         case 'name':
-            list.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+            list.sort(function(a, b) { return (a.name || '').localeCompare(b.name || '', 'ar'); });
             break;
         case 'products_high':
-            list.sort((a, b) => getProductCountForCategory(b.id) - getProductCountForCategory(a.id));
+            list.sort(function(a, b) { return getProductCountForCategory(b.id) - getProductCountForCategory(a.id); });
             break;
         case 'products_low':
-            list.sort((a, b) => getProductCountForCategory(a.id) - getProductCountForCategory(b.id));
+            list.sort(function(a, b) { return getProductCountForCategory(a.id) - getProductCountForCategory(b.id); });
             break;
         case 'newest':
         default:
-            list.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+            list.sort(function(a, b) {
+                return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime();
+            });
     }
     
     state.filtered = list;
@@ -2498,172 +2302,169 @@ function applyFilters() {
 // 🎨 Render
 // ═══════════════════════════════════════════════════════════════
 function render() {
-    const container = document.getElementById('categoriesContainer');
+    var container = document.getElementById('categoriesContainer');
     if (!container) return;
     
     if (!state.filtered.length) {
         container.innerHTML = getEmptyState();
+        bindEmptyStateBtn();
         return;
     }
     
-    container.innerHTML = `<div class="categories-grid">${state.filtered.map(c => renderCategoryCard(c)).join('')}</div>`;
+    container.innerHTML = '<div class="categories-grid">' + state.filtered.map(renderCategoryCard).join('') + '</div>';
     bindCategoryEvents();
 }
 
 function getEmptyState() {
     if (state.searchQuery) {
-        return `
-            <div class="empty-state">
-                <i class="fas fa-magnifying-glass"></i>
-                <h3>لا توجد نتائج</h3>
-                <p>لم نجد فئات تطابق "${escapeHtml(state.searchQuery)}"</p>
-            </div>
-        `;
+        return '<div class="empty-state">' +
+            '<i class="fas fa-magnifying-glass"></i>' +
+            '<h3>لا توجد نتائج</h3>' +
+            '<p>لم نجد فئات تطابق "' + escapeHtml(state.searchQuery) + '"</p>' +
+        '</div>';
     }
     
-    return `
-        <div class="empty-state">
-            <i class="fas fa-tags"></i>
-            <h3>لا توجد فئات بعد</h3>
-            <p>ابدأ بإضافة أول فئة لتنظيم الأصناف</p>
-            <button class="btn btn-primary" onclick="document.getElementById('addCategoryBtn').click()">
-                <i class="fas fa-plus"></i>
-                إضافة فئة
-            </button>
-        </div>
-    `;
+    return '<div class="empty-state">' +
+        '<i class="fas fa-tags"></i>' +
+        '<h3>لا توجد فئات بعد</h3>' +
+        '<p>ابدأ بإضافة أول فئة لتنظيم الأصناف</p>' +
+        '<button class="btn btn-primary" id="emptyAddBtn"><i class="fas fa-plus"></i> إضافة فئة</button>' +
+    '</div>';
+}
+
+function bindEmptyStateBtn() {
+    var btn = document.getElementById('emptyAddBtn');
+    if (btn) btn.addEventListener('click', openAddModal);
 }
 
 function renderCategoryCard(c) {
-    const color = c.color || COLOR_PRESETS[0].value;
-    const colorDark = c.color_dark || COLOR_PRESETS[0].dark;
-    const shadow = COLOR_PRESETS.find(p => p.value === color)?.shadow || 'rgba(29, 91, 142, 0.3)';
-    const icon = c.icon || 'fa-tag';
-    const productCount = getProductCountForCategory(c.id);
+    var color = c.color || COLOR_PRESETS[0].value;
+    var colorDark = c.color_dark || COLOR_PRESETS[0].dark;
+    var preset = null;
+    for (var i = 0; i < COLOR_PRESETS.length; i++) {
+        if (COLOR_PRESETS[i].value === color) { preset = COLOR_PRESETS[i]; break; }
+    }
+    var shadow = preset ? preset.shadow : 'rgba(29, 91, 142, 0.3)';
+    var icon = c.icon || 'fa-tag';
+    var productCount = getProductCountForCategory(c.id);
     
-    return `
-        <div class="category-card" 
-             data-id="${c.id}" 
-             style="--cat-color: ${escapeHtml(color)}; --cat-color-dark: ${escapeHtml(colorDark)}; --cat-shadow: ${shadow};"
-             data-action="view">
+    return '<div class="category-card" data-id="' + c.id + '" ' +
+        'style="--cat-color: ' + escapeHtml(color) + '; --cat-color-dark: ' + escapeHtml(colorDark) + '; --cat-shadow: ' + shadow + ';">' +
+        
+        '<div class="category-card-header">' +
+            '<div class="category-icon-box"><i class="fas ' + escapeHtml(icon) + '"></i></div>' +
+            '<div class="category-card-menu">' +
+                '<button class="category-menu-btn" data-action="edit" data-id="' + c.id + '" title="تعديل"><i class="fas fa-pen"></i></button>' +
+                '<button class="category-menu-btn danger" data-action="delete" data-id="' + c.id + '" title="حذف"><i class="fas fa-trash"></i></button>' +
+            '</div>' +
+        '</div>' +
+        
+        '<div class="category-card-body">' +
+            '<h3 class="category-name">' + escapeHtml(c.name) + '</h3>' +
+            '<p class="category-description">' +
+                (c.description ? escapeHtml(c.description) : '<span class="category-empty-inline">لا يوجد وصف</span>') +
+            '</p>' +
             
-            <div class="category-card-header">
-                <div class="category-icon-box">
-                    <i class="fas ${escapeHtml(icon)}"></i>
-                </div>
-                <div class="category-card-menu">
-                    <button class="category-menu-btn" data-action="edit" data-id="${c.id}" title="تعديل">
-                        <i class="fas fa-pen"></i>
-                    </button>
-                    <button class="category-menu-btn danger" data-action="delete" data-id="${c.id}" title="حذف">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="category-card-body">
-                <h3 class="category-name">${escapeHtml(c.name)}</h3>
-                <p class="category-description">
-                    ${c.description ? escapeHtml(c.description) : '<span class="category-empty-inline">لا يوجد وصف</span>'}
-                </p>
-                
-                <div class="category-stats">
-                    <span class="category-stat ${productCount === 0 ? 'warning' : ''}">
-                        <i class="fas fa-boxes-stacked"></i>
-                        ${productCount} صنف
-                    </span>
-                    <span class="category-stat">
-                        <i class="fas fa-calendar"></i>
-                        ${formatDate(c.created_at)}
-                    </span>
-                </div>
-            </div>
-        </div>
-    `;
+            '<div class="category-stats">' +
+                '<span class="category-stat ' + (productCount === 0 ? 'warning' : '') + '">' +
+                    '<i class="fas fa-boxes-stacked"></i>' + productCount + ' صنف' +
+                '</span>' +
+                '<span class="category-stat">' +
+                    '<i class="fas fa-calendar"></i>' + formatDate(c.created_at) +
+                '</span>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
 }
 
 function bindCategoryEvents() {
-    document.querySelectorAll('.category-card').forEach(card => {
-        card.addEventListener('click', (e) => {
-            const actionEl = e.target.closest('[data-action]');
-            if (actionEl && actionEl !== card) {
-                e.stopPropagation();
-                const action = actionEl.dataset.action;
-                const id = actionEl.dataset.id;
-                
-                if (action === 'edit') openEditModal(id);
-                else if (action === 'delete') openDeleteModal(id);
-                return;
-            }
-            
-            const id = card.dataset.id;
-            if (id) openDetailsModal(id);
-        });
-    });
+    var cards = document.querySelectorAll('.category-card');
+    for (var i = 0; i < cards.length; i++) {
+        (function(card) {
+            card.addEventListener('click', function(e) {
+                var actionEl = e.target.closest('[data-action]');
+                if (actionEl && actionEl !== card) {
+                    e.stopPropagation();
+                    var action = actionEl.dataset.action;
+                    var id = actionEl.dataset.id;
+                    if (action === 'edit') openEditModal(id);
+                    else if (action === 'delete') openDeleteModal(id);
+                    return;
+                }
+                var id = card.dataset.id;
+                if (id) openDetailsModal(id);
+            });
+        })(cards[i]);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════
 // 🎨 Icon & Color Pickers
 // ═══════════════════════════════════════════════════════════════
 function renderColorPicker() {
-    const container = document.getElementById('colorPicker');
+    var container = document.getElementById('colorPicker');
     if (!container) return;
     
-    container.innerHTML = COLOR_PRESETS.map((c, i) => `
-        <div class="color-option ${state.selectedColor.value === c.value ? 'selected' : ''}"
-             data-color-index="${i}"
-             title="${escapeHtml(c.name)}"
-             style="background: linear-gradient(135deg, ${c.value}, ${c.dark}); --color-value: ${c.value};">
-        </div>
-    `).join('');
+    container.innerHTML = COLOR_PRESETS.map(function(c, i) {
+        return '<div class="color-option ' + (state.selectedColor.value === c.value ? 'selected' : '') + '" ' +
+            'data-color-index="' + i + '" ' +
+            'title="' + escapeHtml(c.name) + '" ' +
+            'style="background: linear-gradient(135deg, ' + c.value + ', ' + c.dark + '); --color-value: ' + c.value + ';">' +
+        '</div>';
+    }).join('');
     
-    container.querySelectorAll('.color-option').forEach(el => {
-        el.addEventListener('click', () => {
-            const idx = parseInt(el.dataset.colorIndex);
-            state.selectedColor = COLOR_PRESETS[idx];
-            renderColorPicker();
-            updatePreview();
-        });
-    });
+    var options = container.querySelectorAll('.color-option');
+    for (var i = 0; i < options.length; i++) {
+        (function(el) {
+            el.addEventListener('click', function() {
+                var idx = parseInt(el.dataset.colorIndex);
+                state.selectedColor = COLOR_PRESETS[idx];
+                renderColorPicker();
+                updatePreview();
+            });
+        })(options[i]);
+    }
 }
 
 function renderIconPicker() {
-    const container = document.getElementById('iconPicker');
+    var container = document.getElementById('iconPicker');
     if (!container) return;
     
-    container.innerHTML = ICON_PRESETS.map(icon => `
-        <div class="icon-option ${state.selectedIcon === icon ? 'selected' : ''}"
-             data-icon="${icon}"
-             title="${icon}">
-            <i class="fas ${icon}"></i>
-        </div>
-    `).join('');
+    container.innerHTML = ICON_PRESETS.map(function(icon) {
+        return '<div class="icon-option ' + (state.selectedIcon === icon ? 'selected' : '') + '" ' +
+            'data-icon="' + icon + '" title="' + icon + '">' +
+            '<i class="fas ' + icon + '"></i>' +
+        '</div>';
+    }).join('');
     
-    container.querySelectorAll('.icon-option').forEach(el => {
-        el.addEventListener('click', () => {
-            state.selectedIcon = el.dataset.icon;
-            renderIconPicker();
-            updatePreview();
-        });
-    });
+    var options = container.querySelectorAll('.icon-option');
+    for (var i = 0; i < options.length; i++) {
+        (function(el) {
+            el.addEventListener('click', function() {
+                state.selectedIcon = el.dataset.icon;
+                renderIconPicker();
+                updatePreview();
+            });
+        })(options[i]);
+    }
 }
 
 function updatePreview() {
-    const nameInput = document.getElementById('categoryName');
-    const descInput = document.getElementById('categoryDescription');
-    const previewName = document.getElementById('previewName');
-    const previewDesc = document.getElementById('previewDesc');
-    const previewIcon = document.getElementById('previewIcon');
-    const previewIconBox = document.getElementById('previewIconBox');
-    const previewCard = document.getElementById('categoryPreview');
+    var nameInput = document.getElementById('categoryName');
+    var descInput = document.getElementById('categoryDescription');
+    var previewName = document.getElementById('previewName');
+    var previewDesc = document.getElementById('previewDesc');
+    var previewIcon = document.getElementById('previewIcon');
+    var previewIconBox = document.getElementById('previewIconBox');
+    var previewCard = document.getElementById('categoryPreview');
     
-    if (previewName) previewName.textContent = nameInput?.value || 'اسم الفئة';
-    if (previewDesc) previewDesc.textContent = descInput?.value || 'وصف الفئة سيظهر هنا...';
-    if (previewIcon) previewIcon.className = `fas ${state.selectedIcon}`;
+    if (previewName) previewName.textContent = (nameInput && nameInput.value) || 'اسم الفئة';
+    if (previewDesc) previewDesc.textContent = (descInput && descInput.value) || 'وصف الفئة سيظهر هنا...';
+    if (previewIcon) previewIcon.className = 'fas ' + state.selectedIcon;
     
     if (previewIconBox) {
-        previewIconBox.style.background = `linear-gradient(135deg, ${state.selectedColor.value}, ${state.selectedColor.dark})`;
-        previewIconBox.style.boxShadow = `0 6px 16px ${state.selectedColor.shadow}`;
+        previewIconBox.style.background = 'linear-gradient(135deg, ' + state.selectedColor.value + ', ' + state.selectedColor.dark + ')';
+        previewIconBox.style.boxShadow = '0 6px 16px ' + state.selectedColor.shadow;
     }
     
     if (previewCard) {
@@ -2694,17 +2495,25 @@ function openAddModal() {
     updatePreview();
     
     document.getElementById('categoryModal').classList.add('show');
-    setTimeout(() => document.getElementById('categoryName')?.focus(), 300);
+    setTimeout(function() {
+        var el = document.getElementById('categoryName');
+        if (el) el.focus();
+    }, 300);
 }
 
 function openEditModal(id) {
-    const c = state.categories.find(x => x.id === id);
+    var c = null;
+    for (var i = 0; i < state.categories.length; i++) {
+        if (state.categories[i].id === id) { c = state.categories[i]; break; }
+    }
     if (!c) return;
     
     state.editingCategory = c;
     
-    // Set color
-    const colorPreset = COLOR_PRESETS.find(p => p.value === c.color) || COLOR_PRESETS[0];
+    var colorPreset = COLOR_PRESETS[0];
+    for (var j = 0; j < COLOR_PRESETS.length; j++) {
+        if (COLOR_PRESETS[j].value === c.color) { colorPreset = COLOR_PRESETS[j]; break; }
+    }
     state.selectedColor = colorPreset;
     state.selectedIcon = c.icon || 'fa-tag';
     
@@ -2714,7 +2523,7 @@ function openEditModal(id) {
     
     document.getElementById('categoryName').value = c.name || '';
     document.getElementById('categoryDescription').value = c.description || '';
-    document.getElementById('descCounter').textContent = `${(c.description || '').length} / 300`;
+    document.getElementById('descCounter').textContent = ((c.description || '').length) + ' / 300';
     
     clearFormErrors();
     renderColorPicker();
@@ -2722,7 +2531,10 @@ function openEditModal(id) {
     updatePreview();
     
     document.getElementById('categoryModal').classList.add('show');
-    setTimeout(() => document.getElementById('categoryName')?.focus(), 300);
+    setTimeout(function() {
+        var el = document.getElementById('categoryName');
+        if (el) el.focus();
+    }, 300);
 }
 
 function closeCategoryModal() {
@@ -2731,172 +2543,183 @@ function closeCategoryModal() {
 }
 
 function clearFormErrors() {
-    document.querySelectorAll('.form-error').forEach(el => el.classList.remove('show'));
-    document.querySelectorAll('.form-input.error, .form-textarea.error').forEach(el => el.classList.remove('error'));
+    var errors = document.querySelectorAll('.form-error');
+    for (var i = 0; i < errors.length; i++) errors[i].classList.remove('show');
+    var inputs = document.querySelectorAll('.form-input.error, .form-textarea.error');
+    for (var j = 0; j < inputs.length; j++) inputs[j].classList.remove('error');
 }
 
 // ═══════════════════════════════════════════════════════════════
 // 💾 Save Category
 // ═══════════════════════════════════════════════════════════════
-async function saveCategory(e) {
+function saveCategory(e) {
     e.preventDefault();
     clearFormErrors();
     
-    const name = document.getElementById('categoryName').value.trim();
-    const description = document.getElementById('categoryDescription').value.trim() || null;
+    var name = document.getElementById('categoryName').value.trim();
+    var description = document.getElementById('categoryDescription').value.trim() || null;
     
     if (!name) {
         document.getElementById('categoryName').classList.add('error');
-        document.getElementById('nameError').classList.add('show');
+        var nameErr = document.getElementById('nameError');
+        nameErr.querySelector('span').textContent = 'الرجاء إدخال اسم الفئة';
+        nameErr.classList.add('show');
         document.getElementById('categoryName').focus();
         return;
     }
     
-    // Check duplicate name
-    const duplicate = state.categories.find(c => 
-        c.name.toLowerCase() === name.toLowerCase() &&
-        (!state.editingCategory || c.id !== state.editingCategory.id)
-    );
+    // فحص الاسم المكرر
+    var duplicate = null;
+    for (var i = 0; i < state.categories.length; i++) {
+        var c = state.categories[i];
+        if (c.name.toLowerCase() === name.toLowerCase()) {
+            if (!state.editingCategory || c.id !== state.editingCategory.id) {
+                duplicate = c;
+                break;
+            }
+        }
+    }
     
     if (duplicate) {
         document.getElementById('categoryName').classList.add('error');
-        const errEl = document.getElementById('nameError');
-        errEl.querySelector('span').textContent = 'هذه الفئة موجودة بالفعل';
-        errEl.classList.add('show');
+        var dupErr = document.getElementById('nameError');
+        dupErr.querySelector('span').textContent = 'هذه الفئة موجودة بالفعل';
+        dupErr.classList.add('show');
         return;
     }
     
-    const btn = document.getElementById('saveCategoryBtn');
-    const spinner = btn.querySelector('.spinner');
-    const icon = btn.querySelector('i');
-    const text = document.getElementById('saveCategoryText');
+    var btn = document.getElementById('saveCategoryBtn');
+    var spinner = btn.querySelector('.spinner');
+    var icon = btn.querySelector('i');
+    var text = document.getElementById('saveCategoryText');
     
     btn.disabled = true;
     spinner.style.display = 'block';
     icon.style.display = 'none';
     text.textContent = 'جاري الحفظ...';
     
-    try {
-        const session = getSession();
-        const sb = await getSupabase();
+    var session = getSession();
+    var sb = getSupabaseClient();
+    var isEditing = !!state.editingCategory;
+    
+    var categoryData = {
+        name: name,
+        description: description,
+        color: state.selectedColor.value,
+        color_dark: state.selectedColor.dark,
+        icon: state.selectedIcon
+    };
+    
+    var savePromise;
+    
+    if (isEditing) {
+        var editingId = state.editingCategory.id;
         
-        const categoryData = {
-            name,
-            description,
-            color: state.selectedColor.value,
-            color_dark: state.selectedColor.dark,
-            icon: state.selectedIcon
-        };
-        
-        if (state.editingCategory) {
-            // Update
-            if (sb && navigator.onLine) {
-                const { error } = await sb
-                    .from('categories')
-                    .update(categoryData)
-                    .eq('id', state.editingCategory.id);
-                
-                if (error) throw error;
-                
-                await sb.from('audit_log').insert({
-                    user_id: session?.user?.id,
-                    action: 'UPDATE',
-                    table_name: 'categories',
-                    record_id: state.editingCategory.id,
-                    old_data: state.editingCategory,
-                    new_data: categoryData
+        if (sb && navigator.onLine && editingId.indexOf('temp_') !== 0) {
+            savePromise = sb.from('categories').update(categoryData).eq('id', editingId)
+                .then(function(result) {
+                    if (result.error) throw result.error;
+                    sb.from('audit_log').insert({
+                        user_id: session && session.user && session.user.id,
+                        action: 'UPDATE',
+                        table_name: 'categories',
+                        record_id: editingId,
+                        old_data: state.editingCategory,
+                        new_data: categoryData
+                    }).then(function(){}, function(){});
                 });
-            } else {
-                await addToOutbox({
-                    type: 'update',
-                    table: 'categories',
-                    id: state.editingCategory.id,
-                    data: categoryData
-                });
-            }
-            
-            // Update local
-            const idx = state.categories.findIndex(x => x.id === state.editingCategory.id);
-            if (idx >= 0) {
-                state.categories[idx] = { ...state.categories[idx], ...categoryData };
-                await dbPut('categories', state.categories[idx]);
-            }
-            
-            showToast('✅ تم تحديث الفئة بنجاح', 'success');
         } else {
-            // Insert
-            const newCategory = {
-                id: 'temp_' + Date.now(),
-                ...categoryData,
-                created_at: new Date().toISOString()
-            };
-            
-            if (sb && navigator.onLine) {
-                const { data, error } = await sb
-                    .from('categories')
-                    .insert(categoryData)
-                    .select()
-                    .single();
-                
-                if (error) throw error;
-                
-                newCategory.id = data.id;
-                newCategory.created_at = data.created_at;
-                
-                await sb.from('audit_log').insert({
-                    user_id: session?.user?.id,
-                    action: 'INSERT',
-                    table_name: 'categories',
-                    record_id: data.id,
-                    new_data: data
-                });
-            } else {
-                await addToOutbox({
-                    type: 'insert',
-                    table: 'categories',
-                    tempId: newCategory.id,
-                    data: categoryData
-                });
-            }
-            
-            state.categories.unshift(newCategory);
-            await dbPut('categories', newCategory);
-            
-            showToast('✅ تم إضافة الفئة بنجاح', 'success');
+            savePromise = addToOutbox({
+                type: 'update',
+                table: 'categories',
+                id: editingId,
+                data: categoryData
+            });
         }
         
+        savePromise = savePromise.then(function() {
+            for (var i = 0; i < state.categories.length; i++) {
+                if (state.categories[i].id === editingId) {
+                    state.categories[i] = Object.assign({}, state.categories[i], categoryData);
+                    dbPut('categories', state.categories[i]);
+                    break;
+                }
+            }
+            showToast('✅ تم تحديث الفئة بنجاح', 'success');
+        });
+        
+    } else {
+        var newCategory = Object.assign({
+            id: 'temp_' + Date.now(),
+            created_at: new Date().toISOString()
+        }, categoryData);
+        
+        if (sb && navigator.onLine) {
+            savePromise = sb.from('categories').insert(categoryData).select().single()
+                .then(function(result) {
+                    if (result.error) throw result.error;
+                    newCategory.id = result.data.id;
+                    newCategory.created_at = result.data.created_at;
+                    
+                    sb.from('audit_log').insert({
+                        user_id: session && session.user && session.user.id,
+                        action: 'INSERT',
+                        table_name: 'categories',
+                        record_id: result.data.id,
+                        new_data: result.data
+                    }).then(function(){}, function(){});
+                });
+        } else {
+            savePromise = addToOutbox({
+                type: 'insert',
+                table: 'categories',
+                tempId: newCategory.id,
+                data: categoryData
+            });
+        }
+        
+        savePromise = savePromise.then(function() {
+            state.categories.unshift(newCategory);
+            dbPut('categories', newCategory);
+            showToast('✅ تم إضافة الفئة بنجاح', 'success');
+        });
+    }
+    
+    savePromise.then(function() {
         closeCategoryModal();
         updateStats();
         applyFilters();
-        
-    } catch (err) {
+    }).catch(function(err) {
         console.error(err);
-        showToast(err.message || 'حدث خطأ أثناء الحفظ', 'error');
-    } finally {
+        showToast((err && err.message) || 'حدث خطأ أثناء الحفظ', 'error');
+    }).then(function() {
         btn.disabled = false;
         spinner.style.display = 'none';
         icon.style.display = '';
-        text.textContent = state.editingCategory ? 'حفظ التعديلات' : 'حفظ';
-    }
+        text.textContent = isEditing ? 'حفظ التعديلات' : 'حفظ';
+    });
 }
 
 // ═══════════════════════════════════════════════════════════════
 // 🗑️ Delete
 // ═══════════════════════════════════════════════════════════════
 function openDeleteModal(id) {
-    const c = state.categories.find(x => x.id === id);
+    var c = null;
+    for (var i = 0; i < state.categories.length; i++) {
+        if (state.categories[i].id === id) { c = state.categories[i]; break; }
+    }
     if (!c) return;
     
     state.deletingCategory = c;
     document.getElementById('deleteCategoryName').textContent = c.name;
     
-    const productCount = getProductCountForCategory(c.id);
-    const warningEl = document.getElementById('deleteWarning');
-    const warningText = document.getElementById('deleteWarningText');
+    var productCount = getProductCountForCategory(c.id);
+    var warningEl = document.getElementById('deleteWarning');
+    var warningText = document.getElementById('deleteWarningText');
     
     if (productCount > 0) {
         warningEl.style.display = 'block';
-        warningText.textContent = `تنبيه: هذه الفئة تحتوي على ${productCount} صنف. سيتم إلغاء ربطها بالفئة لكن الأصناف لن تُحذف.`;
+        warningText.textContent = 'تنبيه: هذه الفئة تحتوي على ' + productCount + ' صنف. سيتم إلغاء ربطها بالفئة لكن الأصناف لن تُحذف.';
     } else {
         warningEl.style.display = 'none';
     }
@@ -2904,45 +2727,45 @@ function openDeleteModal(id) {
     document.getElementById('deleteModal').classList.add('show');
 }
 
-async function confirmDelete() {
-    const c = state.deletingCategory;
+function confirmDelete() {
+    var c = state.deletingCategory;
     if (!c) return;
     
-    const btn = document.getElementById('confirmDeleteBtn');
+    var btn = document.getElementById('confirmDeleteBtn');
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner" style="display:block;width:16px;height:16px;"></span>';
     
-    try {
-        const session = getSession();
-        const sb = await getSupabase();
-        
-        if (sb && navigator.onLine && !c.id.startsWith('temp_')) {
-            // Set products category_id to null first
-            await sb.from('products').update({ category_id: null }).eq('category_id', c.id);
-            
-            const { error } = await sb.from('categories').delete().eq('id', c.id);
-            if (error) throw error;
-            
-            await sb.from('audit_log').insert({
-                user_id: session?.user?.id,
-                action: 'DELETE',
-                table_name: 'categories',
-                record_id: c.id,
-                old_data: c
+    var session = getSession();
+    var sb = getSupabaseClient();
+    var promise;
+    
+    if (sb && navigator.onLine && c.id.indexOf('temp_') !== 0) {
+        promise = sb.from('products').update({ category_id: null }).eq('category_id', c.id)
+            .then(function() {
+                return sb.from('categories').delete().eq('id', c.id);
+            })
+            .then(function(result) {
+                if (result.error) throw result.error;
+                sb.from('audit_log').insert({
+                    user_id: session && session.user && session.user.id,
+                    action: 'DELETE',
+                    table_name: 'categories',
+                    record_id: c.id,
+                    old_data: c
+                }).then(function(){}, function(){});
             });
-        } else if (!navigator.onLine) {
-            await addToOutbox({
-                type: 'delete',
-                table: 'categories',
-                id: c.id
-            });
-        }
-        
-        state.categories = state.categories.filter(x => x.id !== c.id);
-        state.products.forEach(p => {
+    } else if (!navigator.onLine) {
+        promise = addToOutbox({ type: 'delete', table: 'categories', id: c.id });
+    } else {
+        promise = Promise.resolve();
+    }
+    
+    promise.then(function() {
+        state.categories = state.categories.filter(function(x) { return x.id !== c.id; });
+        state.products.forEach(function(p) {
             if (p.category_id === c.id) p.category_id = null;
         });
-        await dbDelete('categories', c.id);
+        dbDelete('categories', c.id);
         
         showToast('✅ تم حذف الفئة بنجاح', 'success');
         document.getElementById('deleteModal').classList.remove('show');
@@ -2950,79 +2773,87 @@ async function confirmDelete() {
         
         updateStats();
         applyFilters();
-        
-    } catch (err) {
+    }).catch(function(err) {
         console.error(err);
         showToast('حدث خطأ أثناء الحذف', 'error');
-    } finally {
+    }).then(function() {
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-trash"></i> حذف نهائي';
-    }
+    });
 }
 
 // ═══════════════════════════════════════════════════════════════
 // 📋 Details Modal
 // ═══════════════════════════════════════════════════════════════
 function openDetailsModal(id) {
-    const c = state.categories.find(x => x.id === id);
+    var c = null;
+    for (var i = 0; i < state.categories.length; i++) {
+        if (state.categories[i].id === id) { c = state.categories[i]; break; }
+    }
     if (!c) return;
     
     state.viewingCategory = c;
     
-    const color = c.color || COLOR_PRESETS[0].value;
-    const colorDark = c.color_dark || COLOR_PRESETS[0].dark;
-    const icon = c.icon || 'fa-tag';
-    const productCount = getProductCountForCategory(c.id);
-    const productsInCategory = state.products.filter(p => p.category_id === c.id);
+    var color = c.color || COLOR_PRESETS[0].value;
+    var colorDark = c.color_dark || COLOR_PRESETS[0].dark;
+    var icon = c.icon || 'fa-tag';
+    var productCount = getProductCountForCategory(c.id);
+    var productsInCategory = getProductsForCategory(c.id);
     
-    document.getElementById('detailsContent').innerHTML = `
-        <div style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: var(--bg-primary); border-radius: var(--radius-lg); margin-bottom: 1.25rem;">
-            <div style="width: 72px; height: 72px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; background: linear-gradient(135deg, ${escapeHtml(color)}, ${escapeHtml(colorDark)}); box-shadow: 0 6px 16px ${color}40; flex-shrink: 0;">
-                <i class="fas ${escapeHtml(icon)}"></i>
-            </div>
-            <div style="flex: 1; min-width: 0;">
-                <h2 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 0.35rem;">${escapeHtml(c.name)}</h2>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">${escapeHtml(c.description || 'لا يوجد وصف')}</p>
-            </div>
-        </div>
+    var productsHtml = '';
+    if (productCount > 0) {
+        var items = productsInCategory.slice(0, 20).map(function(p) {
+            var qty = p.quantity || 0;
+            return '<div style="padding: 0.65rem 0.85rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">' +
+                '<div style="min-width: 0;">' +
+                    '<div style="font-size: 0.85rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + escapeHtml(p.name || '') + '</div>' +
+                    '<div style="font-size: 0.7rem; color: var(--text-muted); font-family: monospace;">' + escapeHtml(p.barcode || '') + '</div>' +
+                '</div>' +
+                '<span class="badge ' + (qty > 0 ? 'badge-success' : 'badge-danger') + '">' + qty + '</span>' +
+            '</div>';
+        }).join('');
         
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
-            <div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">
-                <div style="font-size: 1.5rem; font-weight: 800; color: var(--tech-blue); margin-bottom: 0.25rem;">${productCount}</div>
-                <div style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600;">عدد الأصناف</div>
-            </div>
-            <div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">
-                <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">${formatDate(c.created_at)}</div>
-                <div style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600;">تاريخ الإنشاء</div>
-            </div>
-        </div>
+        if (productCount > 20) {
+            items += '<div style="padding: 0.65rem; text-align: center; font-size: 0.75rem; color: var(--text-muted);">و ' + (productCount - 20) + ' صنف آخر...</div>';
+        }
         
-        ${productCount > 0 ? `
-            <div style="margin-top: 1.25rem;">
-                <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
-                    <i class="fas fa-boxes-stacked" style="color: var(--tech-blue);"></i>
-                    الأصناف في هذه الفئة (${productCount})
-                </h3>
-                <div style="max-height: 240px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
-                    ${productsInCategory.slice(0, 20).map(p => `
-                        <div style="padding: 0.65rem 0.85rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
-                            <div style="min-width: 0;">
-                                <div style="font-size: 0.85rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(p.name || '')}</div>
-                                <div style="font-size: 0.7rem; color: var(--text-muted); font-family: monospace;">${escapeHtml(p.barcode || '')}</div>
-                            </div>
-                            <span class="badge ${p.quantity > 0 ? 'badge-success' : 'badge-danger'}">${p.quantity || 0}</span>
-                        </div>
-                    `).join('')}
-                    ${productCount > 20 ? `<div style="padding: 0.65rem; text-align: center; font-size: 0.75rem; color: var(--text-muted);">و ${productCount - 20} صنف آخر...</div>` : ''}
-                </div>
-            </div>
-        ` : `
-            <div style="padding: 2rem 1rem; text-align: center; background: var(--bg-primary); border-radius: var(--radius-md); border: 2px dashed var(--border-color);">
-                <i class="fas fa-box-open" style="font-size: 2rem; color: var(--text-muted); opacity: 0.4; margin-bottom: 0.5rem; display: block;"></i>
-                <p style="font-size: 0.85rem; color: var(--text-muted);">لا توجد أصناف في هذه الفئة بعد</p>
-            </div>
-        `}
-    `;
+        productsHtml = '<div style="margin-top: 1.25rem;">' +
+            '<h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">' +
+                '<i class="fas fa-boxes-stacked" style="color: var(--tech-blue);"></i>' +
+                'الأصناف في هذه الفئة (' + productCount + ')' +
+            '</h3>' +
+            '<div style="max-height: 240px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: var(--radius-md);">' + items + '</div>' +
+        '</div>';
+    } else {
+        productsHtml = '<div style="padding: 2rem 1rem; text-align: center; background: var(--bg-primary); border-radius: var(--radius-md); border: 2px dashed var(--border-color);">' +
+            '<i class="fas fa-box-open" style="font-size: 2rem; color: var(--text-muted); opacity: 0.4; margin-bottom: 0.5rem; display: block;"></i>' +
+            '<p style="font-size: 0.85rem; color: var(--text-muted);">لا توجد أصناف في هذه الفئة بعد</p>' +
+        '</div>';
+    }
+    
+    document.getElementById('detailsContent').innerHTML =
+        '<div style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: var(--bg-primary); border-radius: var(--radius-lg); margin-bottom: 1.25rem;">' +
+            '<div style="width: 72px; height: 72px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; background: linear-gradient(135deg, ' + escapeHtml(color) + ', ' + escapeHtml(colorDark) + '); box-shadow: 0 6px 16px ' + color + '40; flex-shrink: 0;">' +
+                '<i class="fas ' + escapeHtml(icon) + '"></i>' +
+            '</div>' +
+            '<div style="flex: 1; min-width: 0;">' +
+                '<h2 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 0.35rem;">' + escapeHtml(c.name) + '</h2>' +
+                '<p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">' + escapeHtml(c.description || 'لا يوجد وصف') + '</p>' +
+            '</div>' +
+        '</div>' +
+        
+        '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">' +
+            '<div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">' +
+                '<div style="font-size: 1.5rem; font-weight: 800; color: var(--tech-blue); margin-bottom: 0.25rem;">' + productCount + '</div>' +
+                '<div style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600;">عدد الأصناف</div>' +
+            '</div>' +
+            '<div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">' +
+                '<div style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">' + formatDate(c.created_at) + '</div>' +
+                '<div style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600;">تاريخ الإنشاء</div>' +
+            '</div>' +
+        '</div>' +
+        
+        productsHtml;
     
     document.getElementById('detailsModal').classList.add('show');
 }
@@ -3030,67 +2861,72 @@ function openDetailsModal(id) {
 // ═══════════════════════════════════════════════════════════════
 // 📤 Export Excel
 // ═══════════════════════════════════════════════════════════════
-async function exportExcel() {
-    try {
-        if (typeof XLSX === 'undefined') {
-            await new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
-                script.onload = resolve;
-                script.onerror = reject;
-                document.head.appendChild(script);
-            });
-        }
+function exportExcel() {
+    var loadLib = Promise.resolve();
+    if (typeof XLSX === 'undefined') {
+        loadLib = new Promise(function(resolve, reject) {
+            var script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+    
+    loadLib.then(function() {
+        var data = state.filtered.map(function(c) {
+            return {
+                'الاسم': c.name,
+                'الوصف': c.description || '',
+                'عدد الأصناف': getProductCountForCategory(c.id),
+                'اللون': c.color || '',
+                'الأيقونة': c.icon || '',
+                'تاريخ الإنشاء': formatDate(c.created_at)
+            };
+        });
         
-        const data = state.filtered.map(c => ({
-            'الاسم': c.name,
-            'الوصف': c.description || '',
-            'عدد الأصناف': getProductCountForCategory(c.id),
-            'اللون': c.color || '',
-            'الأيقونة': c.icon || '',
-            'تاريخ الإنشاء': formatDate(c.created_at)
-        }));
-        
-        const ws = XLSX.utils.json_to_sheet(data);
-        const wb = XLSX.utils.book_new();
+        var ws = XLSX.utils.json_to_sheet(data);
+        var wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'الفئات');
         
-        XLSX.writeFile(wb, `categories_${new Date().toISOString().split('T')[0]}.xlsx`);
+        XLSX.writeFile(wb, 'categories_' + new Date().toISOString().split('T')[0] + '.xlsx');
         showToast('تم التصدير بنجاح', 'success');
-    } catch (err) {
+    }).catch(function(err) {
         console.error(err);
         showToast('فشل التصدير', 'error');
-    }
+    });
 }
 
 // ═══════════════════════════════════════════════════════════════
 // 🔔 Notifications
 // ═══════════════════════════════════════════════════════════════
-async function loadNotifications() {
-    const session = getSession();
+function loadNotifications() {
+    var session = getSession();
     if (!session) return;
+    var sb = getSupabaseClient();
+    if (!sb || !navigator.onLine) return;
     
-    try {
-        const sb = await getSupabase();
-        if (sb && navigator.onLine) {
-            const { data } = await sb
-                .from('notifications')
-                .select('*')
-                .eq('user_id', session.user.id)
-                .order('created_at', { ascending: false })
-                .limit(20);
-            
-            renderNotifications(data || []);
-        }
-    } catch {}
+    sb.from('notifications')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .order('created_at', { ascending: false })
+        .limit(20)
+        .then(function(result) {
+            renderNotifications(result.data || []);
+        })
+        .catch(function(){});
 }
 
 function renderNotifications(notifications) {
-    const list = document.getElementById('notificationsList');
-    const badge = document.getElementById('notifBadge');
+    var list = document.getElementById('notificationsList');
+    var badge = document.getElementById('notifBadge');
     if (!list || !badge) return;
     
-    const unread = notifications.filter(n => !n.read).length;
+    var unread = 0;
+    for (var i = 0; i < notifications.length; i++) {
+        if (!notifications[i].read) unread++;
+    }
+    
     if (unread > 0) {
         badge.textContent = unread > 99 ? '99+' : unread;
         badge.style.display = 'flex';
@@ -3103,67 +2939,97 @@ function renderNotifications(notifications) {
         return;
     }
     
-    const typeMap = {
-        'out_of_stock': { icon: 'fa-circle-xmark', class: 'danger' },
-        'low_stock': { icon: 'fa-triangle-exclamation', class: 'warning' },
-        'info': { icon: 'fa-circle-info', class: 'info' }
+    var typeMap = {
+        'out_of_stock': { icon: 'fa-circle-xmark', cls: 'danger' },
+        'low_stock': { icon: 'fa-triangle-exclamation', cls: 'warning' },
+        'info': { icon: 'fa-circle-info', cls: 'info' }
     };
     
-    list.innerHTML = notifications.map(n => {
-        const t = typeMap[n.type] || typeMap.info;
-        return `
-            <div class="notification-item ${n.read ? '' : 'unread'}">
-                <div class="notification-item-icon ${t.class}">
-                    <i class="fas ${t.icon}"></i>
-                </div>
-                <div class="notification-item-content">
-                    <div class="notification-item-title">${escapeHtml(n.title)}</div>
-                    <div class="notification-item-message">${escapeHtml(n.message || '')}</div>
-                    <div class="notification-item-time">
-                        <i class="fas fa-clock"></i>
-                        ${formatTimeAgo(n.created_at)}
-                    </div>
-                </div>
-            </div>
-        `;
+    list.innerHTML = notifications.map(function(n) {
+        var t = typeMap[n.type] || typeMap.info;
+        return '<div class="notification-item ' + (n.read ? '' : 'unread') + '">' +
+            '<div class="notification-item-icon ' + t.cls + '"><i class="fas ' + t.icon + '"></i></div>' +
+            '<div class="notification-item-content">' +
+                '<div class="notification-item-title">' + escapeHtml(n.title) + '</div>' +
+                '<div class="notification-item-message">' + escapeHtml(n.message || '') + '</div>' +
+                '<div class="notification-item-time"><i class="fas fa-clock"></i> ' + formatTimeAgo(n.created_at) + '</div>' +
+            '</div>' +
+        '</div>';
     }).join('');
 }
 
-async function markAllRead() {
-    const session = getSession();
+function markAllRead() {
+    var session = getSession();
     if (!session) return;
+    var sb = getSupabaseClient();
+    if (sb && navigator.onLine) {
+        sb.from('notifications').update({ read: true }).eq('user_id', session.user.id).eq('read', false)
+            .then(function() {
+                loadNotifications();
+                showToast('تم تعيين الكل كمقروء', 'success');
+            })
+            .catch(function(){});
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 👤 User UI
+// ═══════════════════════════════════════════════════════════════
+function updateUserUI(user) {
+    var initial = ((user.full_name || user.username || 'م') + '').charAt(0).toUpperCase();
+    var roleText = user.role === 'admin' ? 'مدير' : 'موظف';
     
-    try {
-        const sb = await getSupabase();
-        if (sb && navigator.onLine) {
-            await sb.from('notifications')
-                .update({ read: true })
-                .eq('user_id', session.user.id)
-                .eq('read', false);
-        }
-        await loadNotifications();
-        showToast('تم تعيين الكل كمقروء', 'success');
-    } catch {}
+    ['userAvatar', 'dropdownAvatar'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = initial;
+    });
+    
+    ['userName', 'dropdownName'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = user.full_name || user.username;
+    });
+    
+    ['userRole', 'dropdownRole'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = roleText;
+    });
+}
+
+function applyPermissions(user) {
+    var perms = user.permissions || {};
+    var isAdmin = user.role === 'admin';
+    
+    document.querySelectorAll('.sidebar-link[data-perm]').forEach(function(link) {
+        if (!isAdmin && !perms[link.dataset.perm]) link.style.display = 'none';
+    });
+    
+    if (isAdmin) {
+        var al = document.getElementById('adminLink');
+        var dal = document.getElementById('dropdownAdminLink');
+        if (al) al.style.display = 'flex';
+        if (dal) dal.style.display = 'flex';
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════
 // 🎬 Init
 // ═══════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', function() {
     
-    const session = getSession();
+    var session = getSession();
     if (!session) { window.location.href = 'index.html'; return; }
     if (session.user.must_change_password) { window.location.href = 'index.html'; return; }
     
     initTheme();
-    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+    var themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
     
     updateOnlineStatus();
-    window.addEventListener('online', () => {
+    window.addEventListener('online', function() {
         updateOnlineStatus();
         showToast('تم استعادة الاتصال', 'success');
     });
-    window.addEventListener('offline', () => {
+    window.addEventListener('offline', function() {
         updateOnlineStatus();
         showToast('وضع Offline', 'warning');
     });
@@ -3172,185 +3038,207 @@ document.addEventListener('DOMContentLoaded', async () => {
     applyPermissions(session.user);
     
     // Sidebar
-    document.getElementById('menuBtn')?.addEventListener('click', () => {
-        document.getElementById('sidebar')?.classList.toggle('show');
-        document.getElementById('sidebarOverlay')?.classList.toggle('show');
+    var menuBtn = document.getElementById('menuBtn');
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('sidebarOverlay');
+    
+    if (menuBtn) menuBtn.addEventListener('click', function() {
+        if (sidebar) sidebar.classList.toggle('show');
+        if (overlay) overlay.classList.toggle('show');
     });
-    document.getElementById('sidebarOverlay')?.addEventListener('click', () => {
-        document.getElementById('sidebar')?.classList.remove('show');
-        document.getElementById('sidebarOverlay')?.classList.remove('show');
+    if (overlay) overlay.addEventListener('click', function() {
+        if (sidebar) sidebar.classList.remove('show');
+        if (overlay) overlay.classList.remove('show');
     });
     
     // User dropdown
-    const userBtn = document.getElementById('userBtn');
-    const userDropdown = document.getElementById('userDropdown');
-    userBtn?.addEventListener('click', (e) => {
+    var userBtn = document.getElementById('userBtn');
+    var userDropdown = document.getElementById('userDropdown');
+    var notifBtn = document.getElementById('notificationsBtn');
+    var notifPanel = document.getElementById('notificationsPanel');
+    
+    if (userBtn) userBtn.addEventListener('click', function(e) {
         e.stopPropagation();
-        userDropdown?.classList.toggle('show');
-        document.getElementById('notificationsPanel')?.classList.remove('show');
+        if (userDropdown) userDropdown.classList.toggle('show');
+        if (notifPanel) notifPanel.classList.remove('show');
     });
-    document.getElementById('logoutBtn')?.addEventListener('click', () => {
+    
+    var logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) logoutBtn.addEventListener('click', function() {
         if (confirm('هل أنت متأكد من تسجيل الخروج؟')) logout();
     });
     
-    // Notifications
-    const notifBtn = document.getElementById('notificationsBtn');
-    const notifPanel = document.getElementById('notificationsPanel');
-    notifBtn?.addEventListener('click', (e) => {
+    if (notifBtn) notifBtn.addEventListener('click', function(e) {
         e.stopPropagation();
-        notifPanel?.classList.toggle('show');
-        userDropdown?.classList.remove('show');
+        if (notifPanel) notifPanel.classList.toggle('show');
+        if (userDropdown) userDropdown.classList.remove('show');
     });
-    document.getElementById('markAllReadBtn')?.addEventListener('click', markAllRead);
     
-    document.addEventListener('click', (e) => {
-        if (!userDropdown?.contains(e.target) && !userBtn?.contains(e.target)) userDropdown?.classList.remove('show');
-        if (!notifPanel?.contains(e.target) && !notifBtn?.contains(e.target)) notifPanel?.classList.remove('show');
+    var markAllBtn = document.getElementById('markAllReadBtn');
+    if (markAllBtn) markAllBtn.addEventListener('click', markAllRead);
+    
+    document.addEventListener('click', function(e) {
+        if (userDropdown && !userDropdown.contains(e.target) && userBtn && !userBtn.contains(e.target)) {
+            userDropdown.classList.remove('show');
+        }
+        if (notifPanel && !notifPanel.contains(e.target) && notifBtn && !notifBtn.contains(e.target)) {
+            notifPanel.classList.remove('show');
+        }
     });
     
     // Search
-    let searchTimeout;
-    document.getElementById('searchInput')?.addEventListener('input', (e) => {
+    var searchTimeout;
+    var searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.addEventListener('input', function(e) {
         clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            state.searchQuery = e.target.value;
+        var val = e.target.value;
+        searchTimeout = setTimeout(function() {
+            state.searchQuery = val;
             applyFilters();
         }, 250);
     });
     
     // Sort
-    document.getElementById('sortFilter')?.addEventListener('change', (e) => {
+    var sortFilter = document.getElementById('sortFilter');
+    if (sortFilter) sortFilter.addEventListener('change', function(e) {
         state.sortFilter = e.target.value;
         applyFilters();
     });
     
     // Add category
-    document.getElementById('addCategoryBtn')?.addEventListener('click', openAddModal);
+    var addBtn = document.getElementById('addCategoryBtn');
+    if (addBtn) addBtn.addEventListener('click', openAddModal);
     
     // Category modal
-    document.getElementById('closeCategoryModal')?.addEventListener('click', closeCategoryModal);
-    document.getElementById('cancelCategoryBtn')?.addEventListener('click', closeCategoryModal);
-    document.getElementById('categoryForm')?.addEventListener('submit', saveCategory);
+    var closeP = document.getElementById('closeCategoryModal');
+    var cancelP = document.getElementById('cancelCategoryBtn');
+    var form = document.getElementById('categoryForm');
+    
+    if (closeP) closeP.addEventListener('click', closeCategoryModal);
+    if (cancelP) cancelP.addEventListener('click', closeCategoryModal);
+    if (form) form.addEventListener('submit', saveCategory);
     
     // Live preview
-    document.getElementById('categoryName')?.addEventListener('input', updatePreview);
-    document.getElementById('categoryDescription')?.addEventListener('input', (e) => {
-        document.getElementById('descCounter').textContent = `${e.target.value.length} / 300`;
+    var catName = document.getElementById('categoryName');
+    if (catName) catName.addEventListener('input', updatePreview);
+    
+    var catDesc = document.getElementById('categoryDescription');
+    if (catDesc) catDesc.addEventListener('input', function(e) {
+        document.getElementById('descCounter').textContent = e.target.value.length + ' / 300';
         updatePreview();
     });
     
     // Delete modal
-    document.getElementById('closeDeleteModal')?.addEventListener('click', () => {
+    var closeDel = document.getElementById('closeDeleteModal');
+    var cancelDel = document.getElementById('cancelDeleteBtn');
+    var confirmDel = document.getElementById('confirmDeleteBtn');
+    
+    if (closeDel) closeDel.addEventListener('click', function() {
         document.getElementById('deleteModal').classList.remove('show');
         state.deletingCategory = null;
     });
-    document.getElementById('cancelDeleteBtn')?.addEventListener('click', () => {
+    if (cancelDel) cancelDel.addEventListener('click', function() {
         document.getElementById('deleteModal').classList.remove('show');
         state.deletingCategory = null;
     });
-    document.getElementById('confirmDeleteBtn')?.addEventListener('click', confirmDelete);
+    if (confirmDel) confirmDel.addEventListener('click', confirmDelete);
     
     // Details modal
-    document.getElementById('closeDetailsModal')?.addEventListener('click', () => {
+    var closeDetails = document.getElementById('closeDetailsModal');
+    var closeDetailsBtn = document.getElementById('closeDetailsBtn');
+    var editFromDetails = document.getElementById('editFromDetailsBtn');
+    
+    if (closeDetails) closeDetails.addEventListener('click', function() {
         document.getElementById('detailsModal').classList.remove('show');
         state.viewingCategory = null;
     });
-    document.getElementById('closeDetailsBtn')?.addEventListener('click', () => {
+    if (closeDetailsBtn) closeDetailsBtn.addEventListener('click', function() {
         document.getElementById('detailsModal').classList.remove('show');
         state.viewingCategory = null;
     });
-    document.getElementById('editFromDetailsBtn')?.addEventListener('click', () => {
-        const id = state.viewingCategory?.id;
+    if (editFromDetails) editFromDetails.addEventListener('click', function() {
+        var id = state.viewingCategory && state.viewingCategory.id;
         document.getElementById('detailsModal').classList.remove('show');
-        if (id) setTimeout(() => openEditModal(id), 200);
+        if (id) setTimeout(function() { openEditModal(id); }, 200);
     });
     
     // Export
-    document.getElementById('exportExcelBtn')?.addEventListener('click', exportExcel);
+    var expBtn = document.getElementById('exportExcelBtn');
+    if (expBtn) expBtn.addEventListener('click', exportExcel);
     
     // Close modals on overlay click
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) overlay.classList.remove('show');
+    document.querySelectorAll('.modal-overlay').forEach(function(ov) {
+        ov.addEventListener('click', function(e) {
+            if (e.target === ov) ov.classList.remove('show');
         });
     });
     
     // Esc
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-            document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+            document.querySelectorAll('.modal-overlay.show').forEach(function(m) { m.classList.remove('show'); });
         }
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
-            document.getElementById('searchInput')?.focus();
+            var si = document.getElementById('searchInput');
+            if (si) si.focus();
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+            e.preventDefault();
+            toggleTheme();
         }
     });
     
     // Scroll
-    const progressBar = document.getElementById('readingProgress');
-    const scrollTopBtn = document.getElementById('scrollTop');
-    window.addEventListener('scroll', () => {
-        const winScroll = document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+    var progressBar = document.getElementById('readingProgress');
+    var scrollTopBtn = document.getElementById('scrollTop');
+    
+    window.addEventListener('scroll', function() {
+        var winScroll = document.documentElement.scrollTop;
+        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var scrolled = height > 0 ? (winScroll / height) * 100 : 0;
         if (progressBar) progressBar.style.width = scrolled + '%';
-        if (winScroll > 300) scrollTopBtn?.classList.add('show');
-        else scrollTopBtn?.classList.remove('show');
+        if (winScroll > 300) {
+            if (scrollTopBtn) scrollTopBtn.classList.add('show');
+        } else {
+            if (scrollTopBtn) scrollTopBtn.classList.remove('show');
+        }
     }, { passive: true });
     
-    scrollTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    if (scrollTopBtn) scrollTopBtn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
     
     // Permissions
-    if (session.user.role !== 'admin' && !session.user.permissions?.can_edit_categories) {
-        document.getElementById('addCategoryBtn').style.display = 'none';
+    if (session.user.role !== 'admin' && (!session.user.permissions || !session.user.permissions.can_edit_categories)) {
+        var addBtn2 = document.getElementById('addCategoryBtn');
+        if (addBtn2) addBtn2.style.display = 'none';
     }
     
     // Load data
-    await loadData();
-    await loadNotifications();
-    setInterval(loadNotifications, 60000);
+    openDB().then(function() {
+        return loadData();
+    }).then(function() {
+        loadNotifications();
+        setInterval(loadNotifications, 60000);
+    }).catch(function(err) {
+        console.error('Load error:', err);
+        showToast('حدث خطأ في تحميل البيانات', 'error');
+    });
     
     startInactivityMonitor();
     
     console.log('%c🏷️ صفحة الفئات جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
 });
 
-function updateUserUI(user) {
-    const initial = (user.full_name || user.username || 'م').charAt(0).toUpperCase();
-    const roleText = user.role === 'admin' ? 'مدير' : 'موظف';
-    
-    ['userAvatar', 'dropdownAvatar'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = initial;
-    });
-    
-    ['userName', 'dropdownName'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = user.full_name || user.username;
-    });
-    
-    ['userRole', 'dropdownRole'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = roleText;
-    });
-}
+// Expose
+window.CategoriesApp = {
+    showToast: showToast,
+    logout: logout,
+    getSession: getSession
+};
 
-function applyPermissions(user) {
-    const perms = user.permissions || {};
-    const isAdmin = user.role === 'admin';
-    
-    document.querySelectorAll('.sidebar-link[data-perm]').forEach(link => {
-        if (!isAdmin && !perms[link.dataset.perm]) link.style.display = 'none';
-    });
-    
-    if (isAdmin) {
-        document.getElementById('adminLink').style.display = 'flex';
-        document.getElementById('dropdownAdminLink').style.display = 'flex';
-    }
-}
-
-window.CategoriesApp = { showToast, logout, getSession };
-
+})();
 </script>
 
 </body>
