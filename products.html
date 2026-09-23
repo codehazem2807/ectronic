@@ -7,7 +7,6 @@
 <title>المخزون | إلكترونك - لصيانة الأجهزة الإلكترونية</title>
 
 <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
-<link rel="icon" type="image/png" sizes="16x16" href="logo.png">
 <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
 <link rel="manifest" href="manifest.json">
 
@@ -17,9 +16,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
 
 <style>
-/* ═══════════════════════════════════════════════════════════════
-   🎨 Design System
-   ═══════════════════════════════════════════════════════════════ */
 :root {
     --tech-blue: #1d5b8e;
     --tech-blue-dark: #154668;
@@ -95,19 +91,11 @@ body {
     transition: background var(--transition), color var(--transition);
 }
 
-button, input, select, textarea {
-    font-family: inherit;
-    font-size: inherit;
-    color: inherit;
-}
-
+button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
 button { cursor: pointer; border: none; background: none; }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; height: auto; display: block; }
 
-/* ═══════════════════════════════════════════════════════════════
-   📊 Reading Progress
-   ═══════════════════════════════════════════════════════════════ */
 .reading-progress {
     position: fixed;
     top: 0;
@@ -120,9 +108,7 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 0 10px rgba(29, 91, 142, 0.6);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🧭 Navbar
-   ═══════════════════════════════════════════════════════════════ */
+/* Navbar */
 .navbar {
     position: fixed;
     top: 0;
@@ -155,10 +141,7 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.navbar-menu-btn:hover {
-    background: var(--bg-hover);
-    color: var(--tech-blue);
-}
+.navbar-menu-btn:hover { background: var(--bg-hover); color: var(--tech-blue); }
 
 .navbar-brand {
     display: flex;
@@ -177,12 +160,7 @@ img { max-width: 100%; height: auto; display: block; }
     border: 1px solid var(--border-color);
 }
 
-.navbar-brand-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.15;
-}
-
+.navbar-brand-text { display: flex; flex-direction: column; line-height: 1.15; }
 .navbar-brand-text strong { font-size: 1rem; font-weight: 800; }
 .navbar-brand-text span { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
 
@@ -238,12 +216,7 @@ img { max-width: 100%; height: auto; display: block; }
     pointer-events: none;
 }
 
-.navbar-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-right: auto;
-}
+.navbar-actions { display: flex; align-items: center; gap: 0.5rem; margin-right: auto; }
 
 .navbar-btn {
     width: 40px;
@@ -259,10 +232,7 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.navbar-btn:hover {
-    background: var(--bg-hover);
-    color: var(--tech-blue);
-}
+.navbar-btn:hover { background: var(--bg-hover); color: var(--tech-blue); }
 
 .navbar-badge {
     position: absolute;
@@ -294,10 +264,7 @@ img { max-width: 100%; height: auto; display: block; }
     animation: pulse-online 2s infinite;
 }
 
-.online-dot.offline {
-    background: var(--danger);
-    animation: none;
-}
+.online-dot.offline { background: var(--danger); animation: none; }
 
 @keyframes pulse-online {
     0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
@@ -318,10 +285,7 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.navbar-user:hover {
-    background: var(--bg-hover);
-    border-color: var(--tech-blue);
-}
+.navbar-user:hover { background: var(--bg-hover); border-color: var(--tech-blue); }
 
 .navbar-user-avatar {
     width: 32px;
@@ -337,18 +301,11 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.navbar-user-info {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.15;
-}
-
+.navbar-user-info { display: flex; flex-direction: column; line-height: 1.15; }
 .navbar-user-info strong { font-size: 0.8rem; font-weight: 700; }
 .navbar-user-info span { font-size: 0.65rem; color: var(--text-muted); }
 
-/* ═══════════════════════════════════════════════════════════════
-   📂 Sidebar
-   ═══════════════════════════════════════════════════════════════ */
+/* Sidebar */
 .sidebar {
     position: fixed;
     top: var(--navbar-height);
@@ -432,9 +389,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .sidebar-overlay.show { opacity: 1; visibility: visible; }
 
-/* ═══════════════════════════════════════════════════════════════
-   📄 Main Content
-   ═══════════════════════════════════════════════════════════════ */
+/* Main */
 .main-content {
     margin-top: var(--navbar-height);
     margin-right: var(--sidebar-width);
@@ -462,16 +417,9 @@ img { max-width: 100%; height: auto; display: block; }
 
 .page-header-text h1 i { color: var(--tech-blue); }
 .page-header-text p { font-size: 0.9rem; color: var(--text-secondary); }
+.page-header-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
-.page-header-actions {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   🔘 Buttons
-   ═══════════════════════════════════════════════════════════════ */
+/* Buttons */
 .btn {
     padding: 0.65rem 1.15rem;
     border-radius: var(--radius-md);
@@ -491,10 +439,7 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 4px 12px rgba(29, 91, 142, 0.3);
 }
 
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(29, 91, 142, 0.4);
-}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(29, 91, 142, 0.4); }
 
 .btn-secondary {
     background: var(--bg-card);
@@ -502,36 +447,20 @@ img { max-width: 100%; height: auto; display: block; }
     border: 1px solid var(--border-color);
 }
 
-.btn-secondary:hover {
-    background: var(--bg-hover);
-    border-color: var(--tech-blue);
-    color: var(--tech-blue);
-}
+.btn-secondary:hover { background: var(--bg-hover); border-color: var(--tech-blue); color: var(--tech-blue); }
 
 .btn-danger {
     background: linear-gradient(135deg, var(--danger), #dc2626);
     color: white;
 }
 
-.btn-danger:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
-}
+.btn-danger:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4); }
 
-.btn-sm {
-    padding: 0.45rem 0.8rem;
-    font-size: 0.8rem;
-}
+.btn-sm { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
 
-.btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important;
-}
+.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
-/* ═══════════════════════════════════════════════════════════════
-   🎛️ Toolbar
-   ═══════════════════════════════════════════════════════════════ */
+/* Toolbar */
 .toolbar {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -543,18 +472,9 @@ img { max-width: 100%; height: auto; display: block; }
     gap: 0.85rem;
 }
 
-.toolbar-row {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-}
+.toolbar-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
 
-.toolbar-search {
-    flex: 1;
-    min-width: 240px;
-    position: relative;
-}
+.toolbar-search { flex: 1; min-width: 240px; position: relative; }
 
 .toolbar-search-input {
     width: 100%;
@@ -601,10 +521,7 @@ img { max-width: 100%; height: auto; display: block; }
     min-width: 140px;
 }
 
-.toolbar-select:focus {
-    border-color: var(--tech-blue);
-    box-shadow: 0 0 0 4px rgba(29, 91, 142, 0.12);
-}
+.toolbar-select:focus { border-color: var(--tech-blue); box-shadow: 0 0 0 4px rgba(29, 91, 142, 0.12); }
 
 .view-toggle {
     display: flex;
@@ -633,11 +550,7 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 2px 8px rgba(29, 91, 142, 0.3);
 }
 
-.filter-chips {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
+.filter-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
 .filter-chip {
     padding: 0.4rem 0.85rem;
@@ -654,10 +567,7 @@ img { max-width: 100%; height: auto; display: block; }
     gap: 0.35rem;
 }
 
-.filter-chip:hover {
-    border-color: var(--tech-blue);
-    color: var(--tech-blue);
-}
+.filter-chip:hover { border-color: var(--tech-blue); color: var(--tech-blue); }
 
 .filter-chip.active {
     background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
@@ -675,14 +585,9 @@ img { max-width: 100%; height: auto; display: block; }
     text-align: center;
 }
 
-.filter-chip:not(.active) .count {
-    background: var(--bg-card);
-    color: var(--text-muted);
-}
+.filter-chip:not(.active) .count { background: var(--bg-card); color: var(--text-muted); }
 
-/* ═══════════════════════════════════════════════════════════════
-   📦 Products Grid
-   ═══════════════════════════════════════════════════════════════ */
+/* Products Grid */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -724,9 +629,7 @@ img { max-width: 100%; height: auto; display: block; }
     transition: transform 0.5s ease;
 }
 
-.product-card:hover .product-image {
-    transform: scale(1.08);
-}
+.product-card:hover .product-image { transform: scale(1.08); }
 
 .product-image-placeholder {
     font-size: 3rem;
@@ -763,18 +666,10 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: var(--shadow-md);
 }
 
-.product-favorite:hover {
-    transform: scale(1.1);
-    color: var(--warning);
-}
+.product-favorite:hover { transform: scale(1.1); color: var(--warning); }
+.product-favorite.active { color: var(--warning); }
 
-.product-favorite.active {
-    color: var(--warning);
-}
-
-[data-theme="dark"] .product-favorite {
-    background: rgba(20, 47, 74, 0.95);
-}
+[data-theme="dark"] .product-favorite { background: rgba(20, 47, 74, 0.95); }
 
 .product-body {
     padding: 0.9rem;
@@ -826,45 +721,16 @@ img { max-width: 100%; height: auto; display: block; }
     gap: 0.5rem;
 }
 
-.product-price {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
-}
+.product-price { display: flex; flex-direction: column; line-height: 1.2; }
+.product-price-value { font-size: 1.05rem; font-weight: 800; color: var(--tech-blue); }
+.product-price-label { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; }
 
-.product-price-value {
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: var(--tech-blue);
-}
-
-.product-price-label {
-    font-size: 0.65rem;
-    color: var(--text-muted);
-    font-weight: 600;
-}
-
-.product-qty {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    line-height: 1.2;
-}
-
-.product-qty-value {
-    font-size: 1rem;
-    font-weight: 800;
-}
-
+.product-qty { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.2; }
+.product-qty-value { font-size: 1rem; font-weight: 800; }
 .product-qty-value.ok { color: var(--success); }
 .product-qty-value.low { color: var(--warning); }
 .product-qty-value.out { color: var(--danger); }
-
-.product-qty-label {
-    font-size: 0.65rem;
-    color: var(--text-muted);
-    font-weight: 600;
-}
+.product-qty-label { font-size: 0.65rem; color: var(--text-muted); font-weight: 600; }
 
 .product-actions {
     padding: 0.65rem;
@@ -874,15 +740,9 @@ img { max-width: 100%; height: auto; display: block; }
     background: var(--bg-primary);
 }
 
-.product-actions .btn {
-    flex: 1;
-    padding: 0.45rem;
-    font-size: 0.75rem;
-}
+.product-actions .btn { flex: 1; padding: 0.45rem; font-size: 0.75rem; }
 
-/* ═══════════════════════════════════════════════════════════════
-   📋 Products List View
-   ═══════════════════════════════════════════════════════════════ */
+/* List View */
 .products-list {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -912,39 +772,15 @@ img { max-width: 100%; height: auto; display: block; }
     border: 1px solid var(--border-color);
 }
 
-.products-list-info h4 {
-    font-size: 0.9rem;
-    font-weight: 700;
-    margin-bottom: 0.15rem;
-}
+.products-list-info h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.15rem; }
+.products-list-info p { font-size: 0.72rem; color: var(--text-muted); font-family: 'Courier New', monospace; }
 
-.products-list-info p {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    font-family: 'Courier New', monospace;
-}
+.products-list-cell { font-size: 0.85rem; font-weight: 600; }
+.products-list-cell small { display: block; font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
 
-.products-list-cell {
-    font-size: 0.85rem;
-    font-weight: 600;
-}
+.products-list-actions { display: flex; gap: 0.35rem; justify-content: flex-end; }
 
-.products-list-cell small {
-    display: block;
-    font-size: 0.65rem;
-    color: var(--text-muted);
-    font-weight: 500;
-}
-
-.products-list-actions {
-    display: flex;
-    gap: 0.35rem;
-    justify-content: flex-end;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   🏷️ Badges
-   ═══════════════════════════════════════════════════════════════ */
+/* Badges */
 .badge {
     display: inline-flex;
     align-items: center;
@@ -961,11 +797,8 @@ img { max-width: 100%; height: auto; display: block; }
 .badge-danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
 .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
 .badge-info { background: rgba(59, 130, 246, 0.15); color: var(--info); }
-.badge-gray { background: var(--bg-hover); color: var(--text-secondary); }
 
-/* ═══════════════════════════════════════════════════════════════
-   🪟 Modal with Scroll
-   ═══════════════════════════════════════════════════════════════ */
+/* Modal */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -1018,14 +851,7 @@ img { max-width: 100%; height: auto; display: block; }
     background: var(--bg-card);
 }
 
-.modal-title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-}
-
+.modal-title { font-size: 1.15rem; font-weight: 700; display: flex; align-items: center; gap: 0.6rem; }
 .modal-title i { color: var(--tech-blue); }
 
 .modal-close {
@@ -1040,15 +866,9 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.modal-close:hover {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--danger);
-    transform: rotate(90deg);
-}
+.modal-close:hover { background: rgba(239, 68, 68, 0.1); color: var(--danger); transform: rotate(90deg); }
 
-/* ═══════════════════════════════════════════════════════════════
-   📜 Modal Body with Scroll (المهم!)
-   ═══════════════════════════════════════════════════════════════ */
+/* Modal Body Scroll - مهم */
 .modal-body {
     padding: 1.5rem;
     overflow-y: auto;
@@ -1060,23 +880,10 @@ img { max-width: 100%; height: auto; display: block; }
     scrollbar-color: var(--border-color) transparent;
 }
 
-.modal-body::-webkit-scrollbar {
-    width: 8px;
-}
-
-.modal-body::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.modal-body::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 4px;
-    transition: background var(--transition);
-}
-
-.modal-body::-webkit-scrollbar-thumb:hover {
-    background: var(--text-muted);
-}
+.modal-body::-webkit-scrollbar { width: 8px; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
+.modal-body::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+.modal-body::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
 .modal-footer {
     padding: 1rem 1.5rem;
@@ -1089,27 +896,14 @@ img { max-width: 100%; height: auto; display: block; }
     flex-wrap: wrap;
 }
 
-.modal-footer .btn {
-    flex: 1;
-    min-width: 110px;
-}
+.modal-footer .btn { flex: 1; min-width: 110px; }
 
 @media (min-width: 480px) {
-    .modal-footer .btn {
-        flex: initial;
-        min-width: auto;
-    }
+    .modal-footer .btn { flex: initial; min-width: auto; }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   📝 Forms
-   ═══════════════════════════════════════════════════════════════ */
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-}
-
+/* Forms */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .form-group { margin-bottom: 0; }
 .form-group.full { grid-column: 1 / -1; }
 
@@ -1124,9 +918,7 @@ img { max-width: 100%; height: auto; display: block; }
 .form-label .required { color: var(--danger); }
 .form-label i { color: var(--tech-blue); margin-left: 0.35rem; font-size: 0.8rem; }
 
-.form-input,
-.form-select,
-.form-textarea {
+.form-input, .form-select, .form-textarea {
     width: 100%;
     padding: 0.75rem 0.95rem;
     background: var(--bg-primary);
@@ -1140,9 +932,7 @@ img { max-width: 100%; height: auto; display: block; }
     font-family: inherit;
 }
 
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
+.form-input:focus, .form-select:focus, .form-textarea:focus {
     border-color: var(--tech-blue);
     background: var(--bg-card);
     box-shadow: 0 0 0 4px rgba(29, 91, 142, 0.12);
@@ -1164,9 +954,7 @@ img { max-width: 100%; height: auto; display: block; }
     padding-left: 2.25rem;
 }
 
-.form-input.error,
-.form-select.error,
-.form-textarea.error {
+.form-input.error, .form-select.error, .form-textarea.error {
     border-color: var(--danger);
     box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
     animation: shake 0.4s ease;
@@ -1218,10 +1006,7 @@ img { max-width: 100%; height: auto; display: block; }
     min-height: 200px;
 }
 
-.image-upload:hover {
-    border-color: var(--tech-blue);
-    background: var(--bg-hover);
-}
+.image-upload:hover { border-color: var(--tech-blue); background: var(--bg-hover); }
 
 .image-upload input[type="file"] {
     position: absolute;
@@ -1257,19 +1042,8 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .image-upload-text { text-align: center; }
-
-.image-upload-text strong {
-    display: block;
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin-bottom: 0.2rem;
-    color: var(--text-primary);
-}
-
-.image-upload-text span {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-}
+.image-upload-text strong { display: block; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.2rem; color: var(--text-primary); }
+.image-upload-text span { font-size: 0.75rem; color: var(--text-muted); }
 
 .image-remove-btn {
     position: absolute;
@@ -1289,21 +1063,12 @@ img { max-width: 100%; height: auto; display: block; }
     z-index: 3;
 }
 
-.image-remove-btn:hover {
-    transform: scale(1.1);
-    background: #dc2626;
-}
+.image-remove-btn:hover { transform: scale(1.1); background: #dc2626; }
 
-/* Barcode field */
-.barcode-input-group {
-    display: flex;
-    gap: 0.5rem;
-}
-
+.barcode-input-group { display: flex; gap: 0.5rem; }
 .barcode-input-group .form-input { flex: 1; min-width: 0; }
 
-.barcode-scan-btn,
-.barcode-gen-btn {
+.barcode-scan-btn, .barcode-gen-btn {
     width: 46px;
     height: 46px;
     border-radius: var(--radius-md);
@@ -1318,8 +1083,7 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.barcode-scan-btn:hover,
-.barcode-gen-btn:hover {
+.barcode-scan-btn:hover, .barcode-gen-btn:hover {
     background: var(--tech-blue);
     color: white;
     border-color: var(--tech-blue);
@@ -1327,9 +1091,7 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 4px 12px rgba(29, 91, 142, 0.3);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🔍 Barcode Scanner
-   ═══════════════════════════════════════════════════════════════ */
+/* Scanner */
 .scanner-container {
     position: relative;
     width: 100%;
@@ -1339,16 +1101,8 @@ img { max-width: 100%; height: auto; display: block; }
     overflow: hidden;
 }
 
-#barcodeReader {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-#barcodeReader video {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover;
-}
+#barcodeReader { width: 100% !important; height: 100% !important; }
+#barcodeReader video { width: 100% !important; height: 100% !important; object-fit: cover; }
 
 .scanner-overlay {
     position: absolute;
@@ -1368,8 +1122,7 @@ img { max-width: 100%; height: auto; display: block; }
     position: relative;
 }
 
-.scanner-frame::before,
-.scanner-frame::after {
+.scanner-frame::before, .scanner-frame::after {
     content: '';
     position: absolute;
     width: 24px;
@@ -1377,21 +1130,10 @@ img { max-width: 100%; height: auto; display: block; }
     border: 4px solid var(--success);
 }
 
-.scanner-frame::before {
-    top: -4px;
-    right: -4px;
-    border-left: none;
-    border-bottom: none;
-}
+.scanner-frame::before { top: -4px; right: -4px; border-left: none; border-bottom: none; }
+.scanner-frame::after { bottom: -4px; left: -4px; border-right: none; border-top: none; }
 
-.scanner-frame::after {
-    bottom: -4px;
-    left: -4px;
-    border-right: none;
-    border-top: none;
-}
-
-/* Barcode Print List */
+/* Barcode List Item */
 .barcode-list-item {
     display: flex;
     align-items: center;
@@ -1402,10 +1144,7 @@ img { max-width: 100%; height: auto; display: block; }
     transition: all var(--transition-fast);
 }
 
-.barcode-list-item:hover {
-    background: var(--bg-hover);
-}
-
+.barcode-list-item:hover { background: var(--bg-hover); }
 .barcode-list-item:last-child { border-bottom: none; }
 
 .barcode-list-item input[type="checkbox"] {
@@ -1416,30 +1155,11 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.barcode-list-info {
-    flex: 1;
-    min-width: 0;
-}
+.barcode-list-info { flex: 1; min-width: 0; }
+.barcode-list-info strong { display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.15rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.barcode-list-info span { font-size: 0.72rem; color: var(--text-muted); font-family: 'Courier New', monospace; }
 
-.barcode-list-info strong {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 700;
-    margin-bottom: 0.15rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.barcode-list-info span {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    font-family: 'Courier New', monospace;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   🍞 Toast
-   ═══════════════════════════════════════════════════════════════ */
+/* Toast */
 .toast-container {
     position: fixed;
     top: calc(var(--navbar-height) + 1rem);
@@ -1474,13 +1194,11 @@ img { max-width: 100%; height: auto; display: block; }
 .toast.success { border-right-color: var(--success); }
 .toast.error { border-right-color: var(--danger); }
 .toast.warning { border-right-color: var(--warning); }
-
 .toast i { font-size: 1.2rem; flex-shrink: 0; }
 .toast.success i { color: var(--success); }
 .toast.error i { color: var(--danger); }
 .toast.warning i { color: var(--warning); }
 .toast.info i { color: var(--info); }
-
 .toast.hide { animation: toastOut 0.3s ease forwards; }
 
 @keyframes toastIn {
@@ -1488,13 +1206,9 @@ img { max-width: 100%; height: auto; display: block; }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-@keyframes toastOut {
-    to { opacity: 0; transform: translateY(-20px) scale(0.95); }
-}
+@keyframes toastOut { to { opacity: 0; transform: translateY(-20px) scale(0.95); } }
 
-/* ═══════════════════════════════════════════════════════════════
-   🦴 Skeleton
-   ═══════════════════════════════════════════════════════════════ */
+/* Skeleton */
 .skeleton {
     background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
     background-size: 200% 100%;
@@ -1509,9 +1223,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .skeleton-card { height: 320px; }
 
-/* ═══════════════════════════════════════════════════════════════
-   📭 Empty State
-   ═══════════════════════════════════════════════════════════════ */
+/* Empty */
 .empty-state {
     padding: 4rem 1rem;
     text-align: center;
@@ -1522,29 +1234,11 @@ img { max-width: 100%; height: auto; display: block; }
     border-radius: var(--radius-lg);
 }
 
-.empty-state i {
-    font-size: 4rem;
-    opacity: 0.25;
-    margin-bottom: 1rem;
-    display: block;
-    color: var(--tech-blue);
-}
+.empty-state i { font-size: 4rem; opacity: 0.25; margin-bottom: 1rem; display: block; color: var(--tech-blue); }
+.empty-state h3 { font-size: 1.1rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.35rem; }
+.empty-state p { font-size: 0.85rem; margin-bottom: 1rem; }
 
-.empty-state h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-secondary);
-    margin-bottom: 0.35rem;
-}
-
-.empty-state p {
-    font-size: 0.85rem;
-    margin-bottom: 1rem;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   📄 Pagination
-   ═══════════════════════════════════════════════════════════════ */
+/* Pagination */
 .pagination {
     display: flex;
     align-items: center;
@@ -1570,26 +1264,16 @@ img { max-width: 100%; height: auto; display: block; }
     transition: all var(--transition);
 }
 
-.pagination-btn:hover:not(:disabled):not(.active) {
-    border-color: var(--tech-blue);
-    color: var(--tech-blue);
-}
-
+.pagination-btn:hover:not(:disabled):not(.active) { border-color: var(--tech-blue); color: var(--tech-blue); }
 .pagination-btn.active {
     background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
     color: white;
     border-color: var(--tech-blue);
     box-shadow: 0 4px 12px rgba(29, 91, 142, 0.3);
 }
+.pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-.pagination-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   ⬆️ Scroll to Top
-   ═══════════════════════════════════════════════════════════════ */
+/* Scroll Top */
 .scroll-top {
     position: fixed;
     bottom: calc(1rem + var(--safe-bottom));
@@ -1611,22 +1295,11 @@ img { max-width: 100%; height: auto; display: block; }
     z-index: 1400;
 }
 
-.scroll-top.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
+.scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+.scroll-top:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(29, 91, 142, 0.5); }
 
-.scroll-top:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(29, 91, 142, 0.5);
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   🔔 Notifications + User Dropdown
-   ═══════════════════════════════════════════════════════════════ */
-.notifications-panel,
-.user-dropdown {
+/* Notifications + User Dropdown */
+.notifications-panel, .user-dropdown {
     position: fixed;
     top: calc(var(--navbar-height) + 0.5rem);
     left: 1rem;
@@ -1646,8 +1319,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .user-dropdown { width: 240px; }
 
-.notifications-panel.show,
-.user-dropdown.show {
+.notifications-panel.show, .user-dropdown.show {
     opacity: 1;
     visibility: visible;
     transform: translateY(0) scale(1);
@@ -1661,14 +1333,7 @@ img { max-width: 100%; height: auto; display: block; }
     justify-content: space-between;
 }
 
-.notifications-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
+.notifications-title { font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
 .notifications-title i { color: var(--tech-blue); }
 
 .notifications-mark-read {
@@ -1682,10 +1347,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .notifications-mark-read:hover { background: rgba(29, 91, 142, 0.1); }
 
-.notifications-list {
-    max-height: 400px;
-    overflow-y: auto;
-}
+.notifications-list { max-height: 400px; overflow-y: auto; }
 
 .notification-item {
     display: flex;
@@ -1728,13 +1390,7 @@ img { max-width: 100%; height: auto; display: block; }
 .notification-item-icon.success { background: rgba(16, 185, 129, 0.12); color: var(--success); }
 
 .notification-item-content { flex: 1; min-width: 0; }
-
-.notification-item-title {
-    font-size: 0.85rem;
-    font-weight: 700;
-    margin-bottom: 0.15rem;
-}
-
+.notification-item-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.15rem; }
 .notification-item-message {
     font-size: 0.75rem;
     color: var(--text-secondary);
@@ -1744,27 +1400,10 @@ img { max-width: 100%; height: auto; display: block; }
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+.notification-item-time { font-size: 0.65rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.25rem; }
 
-.notification-item-time {
-    font-size: 0.65rem;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.notifications-empty {
-    padding: 2.5rem 1rem;
-    text-align: center;
-    color: var(--text-muted);
-}
-
-.notifications-empty i {
-    font-size: 2.5rem;
-    opacity: 0.3;
-    margin-bottom: 0.75rem;
-    display: block;
-}
+.notifications-empty { padding: 2.5rem 1rem; text-align: center; color: var(--text-muted); }
+.notifications-empty i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
 
 .user-dropdown-header {
     padding: 1rem;
@@ -1788,17 +1427,8 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 
-.user-dropdown-info strong {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-
-.user-dropdown-info span {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-}
-
+.user-dropdown-info strong { display: block; font-size: 0.9rem; font-weight: 700; }
+.user-dropdown-info span { font-size: 0.75rem; color: var(--text-muted); }
 .user-dropdown-menu { padding: 0.5rem; }
 
 .user-dropdown-item {
@@ -1815,25 +1445,10 @@ img { max-width: 100%; height: auto; display: block; }
     text-align: right;
 }
 
-.user-dropdown-item:hover {
-    background: var(--bg-hover);
-    color: var(--tech-blue);
-}
+.user-dropdown-item:hover { background: var(--bg-hover); color: var(--tech-blue); }
+.user-dropdown-item.danger:hover { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+.user-dropdown-divider { height: 1px; background: var(--border-color); margin: 0.35rem 0.5rem; }
 
-.user-dropdown-item.danger:hover {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--danger);
-}
-
-.user-dropdown-divider {
-    height: 1px;
-    background: var(--border-color);
-    margin: 0.35rem 0.5rem;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   ⚡ Animations
-   ═══════════════════════════════════════════════════════════════ */
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -1850,9 +1465,7 @@ img { max-width: 100%; height: auto; display: block; }
     animation: spin 0.8s linear infinite;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   📱 Responsive
-   ═══════════════════════════════════════════════════════════════ */
+/* Responsive */
 @media (max-width: 968px) {
     .sidebar { transform: translateX(100%); box-shadow: var(--shadow-xl); }
     .sidebar.show { transform: translateX(0); }
@@ -1867,9 +1480,7 @@ img { max-width: 100%; height: auto; display: block; }
         gap: 0.65rem;
     }
     .products-list-item > *:nth-child(4),
-    .products-list-item > *:nth-child(5) {
-        display: none;
-    }
+    .products-list-item > *:nth-child(5) { display: none; }
 }
 
 @media (max-width: 640px) {
@@ -1902,9 +1513,7 @@ img { max-width: 100%; height: auto; display: block; }
     .products-list-image { width: 50px; height: 50px; }
     .products-list-item > *:nth-child(4),
     .products-list-item > *:nth-child(5),
-    .products-list-item > *:nth-child(6) {
-        display: none;
-    }
+    .products-list-item > *:nth-child(6) { display: none; }
     
     .modal-body { padding: 1rem; max-height: calc(92vh - 160px); }
     .modal-header { padding: 1rem 1.25rem; }
@@ -1930,9 +1539,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 <div class="reading-progress" id="readingProgress"></div>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     🧭 Navbar
-     ═══════════════════════════════════════════════════════════════ -->
 <nav class="navbar">
     <button class="navbar-menu-btn" id="menuBtn" aria-label="القائمة">
         <i class="fas fa-bars"></i>
@@ -1977,9 +1583,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </nav>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     📂 Sidebar
-     ═══════════════════════════════════════════════════════════════ -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <aside class="sidebar" id="sidebar">
@@ -2064,31 +1667,22 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </aside>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     📄 Main Content
-     ═══════════════════════════════════════════════════════════════ -->
 <main class="main-content">
     
     <div class="page-header">
         <div class="page-header-text">
-            <h1>
-                <i class="fas fa-boxes-stacked"></i>
-                المخزون
-            </h1>
+            <h1><i class="fas fa-boxes-stacked"></i> المخزون</h1>
             <p id="pageSubtitle">إدارة الأصناف والمخزون</p>
         </div>
         <div class="page-header-actions">
-            <button class="btn btn-secondary" id="printBarcodesBtn" title="طباعة ملصقات">
-                <i class="fas fa-barcode"></i>
-                ملصقات
+            <button class="btn btn-secondary" id="printBarcodesBtn">
+                <i class="fas fa-barcode"></i> ملصقات
             </button>
             <button class="btn btn-secondary" id="exportExcelBtn">
-                <i class="fas fa-file-excel"></i>
-                Excel
+                <i class="fas fa-file-excel"></i> Excel
             </button>
             <button class="btn btn-primary" id="addProductBtn">
-                <i class="fas fa-plus"></i>
-                إضافة صنف
+                <i class="fas fa-plus"></i> إضافة صنف
             </button>
         </div>
     </div>
@@ -2126,24 +1720,16 @@ img { max-width: 100%; height: auto; display: block; }
         <div class="toolbar-row">
             <div class="filter-chips">
                 <button class="filter-chip active" data-filter="all">
-                    <i class="fas fa-boxes-stacked"></i>
-                    الكل
-                    <span class="count" id="countAll">0</span>
+                    <i class="fas fa-boxes-stacked"></i> الكل <span class="count" id="countAll">0</span>
                 </button>
                 <button class="filter-chip" data-filter="favorites">
-                    <i class="fas fa-star"></i>
-                    المفضلة
-                    <span class="count" id="countFav">0</span>
+                    <i class="fas fa-star"></i> المفضلة <span class="count" id="countFav">0</span>
                 </button>
                 <button class="filter-chip" data-filter="low">
-                    <i class="fas fa-triangle-exclamation"></i>
-                    منخفض
-                    <span class="count" id="countLow">0</span>
+                    <i class="fas fa-triangle-exclamation"></i> منخفض <span class="count" id="countLow">0</span>
                 </button>
                 <button class="filter-chip" data-filter="out">
-                    <i class="fas fa-circle-xmark"></i>
-                    نفذ
-                    <span class="count" id="countOut">0</span>
+                    <i class="fas fa-circle-xmark"></i> نفذ <span class="count" id="countOut">0</span>
                 </button>
             </div>
         </div>
@@ -2164,9 +1750,7 @@ img { max-width: 100%; height: auto; display: block; }
     
 </main>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     🪟 Product Modal (Add/Edit) - with Scroll
-     ═══════════════════════════════════════════════════════════════ -->
+<!-- Product Modal -->
 <div class="modal-overlay" id="productModal">
     <div class="modal modal-lg">
         <div class="modal-header">
@@ -2180,18 +1764,14 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
         
         <form id="productForm" autocomplete="off">
-            <!-- Scrollable Body -->
             <div class="modal-body">
                 <div class="form-grid">
                     
                     <div class="form-group full">
-                        <label class="form-label">
-                            <i class="fas fa-image"></i>
-                            صورة الصنف
-                        </label>
+                        <label class="form-label"><i class="fas fa-image"></i> صورة الصنف</label>
                         <div class="image-upload" id="imageUploadWrapper">
                             <img id="imagePreview" class="image-upload-preview" style="display: none;" alt="معاينة">
-                            <button type="button" class="image-remove-btn" id="removeImageBtn" style="display: none;" title="إزالة الصورة">
+                            <button type="button" class="image-remove-btn" id="removeImageBtn" style="display: none;" title="إزالة">
                                 <i class="fas fa-times"></i>
                             </button>
                             <div id="imageUploadPlaceholder">
@@ -2209,8 +1789,7 @@ img { max-width: 100%; height: auto; display: block; }
                     
                     <div class="form-group full">
                         <label class="form-label" for="productName">
-                            <i class="fas fa-tag"></i>
-                            اسم الصنف <span class="required">*</span>
+                            <i class="fas fa-tag"></i> اسم الصنف <span class="required">*</span>
                         </label>
                         <input type="text" class="form-input" id="productName" placeholder="مثال: شاشة Samsung A50" required maxlength="200">
                         <div class="form-error" id="nameError">
@@ -2220,20 +1799,14 @@ img { max-width: 100%; height: auto; display: block; }
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label" for="productCategory">
-                            <i class="fas fa-tags"></i>
-                            الفئة
-                        </label>
+                        <label class="form-label" for="productCategory"><i class="fas fa-tags"></i> الفئة</label>
                         <select class="form-select" id="productCategory">
                             <option value="">-- اختر الفئة --</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label class="form-label" for="productBarcode">
-                            <i class="fas fa-barcode"></i>
-                            الباركود
-                        </label>
+                        <label class="form-label" for="productBarcode"><i class="fas fa-barcode"></i> الباركود</label>
                         <div class="barcode-input-group">
                             <input type="text" class="form-input" id="productBarcode" placeholder="اتركه فارغًا للتوليد" maxlength="50">
                             <button type="button" class="barcode-gen-btn" id="genBarcodeBtn" title="توليد تلقائي">
@@ -2245,38 +1818,34 @@ img { max-width: 100%; height: auto; display: block; }
                         </div>
                         <div class="form-hint">
                             <i class="fas fa-info-circle"></i>
-                            سيتم توليد ELK-XXXXXX تلقائيًا لو تركته فارغًا
+                            سيتم توليد ELK-XXXXXX تلقائيًا
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label" for="productCostPrice">
-                            <i class="fas fa-money-bill-wave"></i>
-                            سعر الشراء <span class="required">*</span>
+                            <i class="fas fa-money-bill-wave"></i> سعر الشراء <span class="required">*</span>
                         </label>
                         <input type="number" class="form-input" id="productCostPrice" placeholder="0" min="0" step="0.01" required>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label" for="productSellPrice">
-                            <i class="fas fa-dollar-sign"></i>
-                            سعر البيع <span class="required">*</span>
+                            <i class="fas fa-dollar-sign"></i> سعر البيع <span class="required">*</span>
                         </label>
                         <input type="number" class="form-input" id="productSellPrice" placeholder="0" min="0" step="0.01" required>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label" for="productQuantity">
-                            <i class="fas fa-cubes"></i>
-                            الكمية <span class="required">*</span>
+                            <i class="fas fa-cubes"></i> الكمية <span class="required">*</span>
                         </label>
                         <input type="number" class="form-input" id="productQuantity" placeholder="0" min="0" step="1" value="0" required>
                     </div>
                     
                     <div class="form-group">
                         <label class="form-label" for="productMinQty">
-                            <i class="fas fa-bell"></i>
-                            حد التنبيه الأدنى
+                            <i class="fas fa-bell"></i> حد التنبيه الأدنى
                         </label>
                         <input type="number" class="form-input" id="productMinQty" placeholder="5" min="0" step="1" value="5">
                         <div class="form-hint">
@@ -2287,8 +1856,7 @@ img { max-width: 100%; height: auto; display: block; }
                     
                     <div class="form-group full">
                         <label class="form-label" for="productDescription">
-                            <i class="fas fa-align-right"></i>
-                            الوصف
+                            <i class="fas fa-align-right"></i> الوصف
                         </label>
                         <textarea class="form-textarea" id="productDescription" placeholder="وصف تفصيلي للصنف (اختياري)" maxlength="1000"></textarea>
                     </div>
@@ -2298,8 +1866,7 @@ img { max-width: 100%; height: auto; display: block; }
             
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="cancelProductBtn">
-                    <i class="fas fa-times"></i>
-                    إلغاء
+                    <i class="fas fa-times"></i> إلغاء
                 </button>
                 <button type="submit" class="btn btn-primary" id="saveProductBtn">
                     <span class="spinner" style="display: none;"></span>
@@ -2315,13 +1882,8 @@ img { max-width: 100%; height: auto; display: block; }
 <div class="modal-overlay" id="scannerModal">
     <div class="modal">
         <div class="modal-header">
-            <h3 class="modal-title">
-                <i class="fas fa-camera"></i>
-                مسح الباركود
-            </h3>
-            <button class="modal-close" id="closeScannerModal">
-                <i class="fas fa-times"></i>
-            </button>
+            <h3 class="modal-title"><i class="fas fa-camera"></i> مسح الباركود</h3>
+            <button class="modal-close" id="closeScannerModal"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body">
             <div class="scanner-container">
@@ -2331,14 +1893,12 @@ img { max-width: 100%; height: auto; display: block; }
                 </div>
             </div>
             <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
-                <i class="fas fa-info-circle"></i>
-                وجّه الكاميرا نحو الباركود
+                <i class="fas fa-info-circle"></i> وجّه الكاميرا نحو الباركود
             </p>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" id="cancelScanBtn">
-                <i class="fas fa-times"></i>
-                إلغاء
+                <i class="fas fa-times"></i> إلغاء
             </button>
         </div>
     </div>
@@ -2352,9 +1912,7 @@ img { max-width: 100%; height: auto; display: block; }
                 <i class="fas fa-triangle-exclamation" style="color: var(--danger);"></i>
                 تأكيد الحذف
             </h3>
-            <button class="modal-close" id="closeDeleteModal">
-                <i class="fas fa-times"></i>
-            </button>
+            <button class="modal-close" id="closeDeleteModal"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body">
             <p style="font-size: 0.95rem; line-height: 1.7;">
@@ -2362,17 +1920,13 @@ img { max-width: 100%; height: auto; display: block; }
                 <strong id="deleteProductName" style="color: var(--danger);"></strong>؟
             </p>
             <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.75rem;">
-                <i class="fas fa-info-circle"></i>
-                لا يمكن التراجع عن هذه العملية
+                <i class="fas fa-info-circle"></i> لا يمكن التراجع
             </p>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="cancelDeleteBtn">
-                إلغاء
-            </button>
+            <button type="button" class="btn btn-secondary" id="cancelDeleteBtn">إلغاء</button>
             <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
-                <i class="fas fa-trash"></i>
-                حذف نهائي
+                <i class="fas fa-trash"></i> حذف نهائي
             </button>
         </div>
     </div>
@@ -2382,33 +1936,20 @@ img { max-width: 100%; height: auto; display: block; }
 <div class="modal-overlay" id="barcodePrintModal">
     <div class="modal modal-lg">
         <div class="modal-header">
-            <h3 class="modal-title">
-                <i class="fas fa-barcode"></i>
-                طباعة ملصقات الباركود
-            </h3>
-            <button class="modal-close" id="closeBarcodeModal">
-                <i class="fas fa-times"></i>
-            </button>
+            <h3 class="modal-title"><i class="fas fa-barcode"></i> طباعة ملصقات الباركود</h3>
+            <button class="modal-close" id="closeBarcodeModal"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body">
             <div class="form-group" style="margin-bottom: 1rem;">
-                <label class="form-label">
-                    <i class="fas fa-search"></i>
-                    ابحث عن الصنف
-                </label>
+                <label class="form-label"><i class="fas fa-search"></i> ابحث عن الصنف</label>
                 <input type="text" class="form-input" id="barcodeSearch" placeholder="اكتب اسم الصنف أو الباركود...">
             </div>
-            <div id="barcodeProductsList" style="max-height: 320px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary);">
-                <!-- سيتم تعبئتها -->
-            </div>
+            <div id="barcodeProductsList" style="max-height: 320px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary);"></div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="cancelBarcodeBtn">
-                إلغاء
-            </button>
+            <button type="button" class="btn btn-secondary" id="cancelBarcodeBtn">إلغاء</button>
             <button type="button" class="btn btn-primary" id="doPrintBarcodes">
-                <i class="fas fa-print"></i>
-                طباعة
+                <i class="fas fa-print"></i> طباعة
             </button>
         </div>
     </div>
@@ -2417,10 +1958,7 @@ img { max-width: 100%; height: auto; display: block; }
 <!-- Notifications Panel -->
 <div class="notifications-panel" id="notificationsPanel">
     <div class="notifications-header">
-        <h3 class="notifications-title">
-            <i class="fas fa-bell"></i>
-            الإشعارات
-        </h3>
+        <h3 class="notifications-title"><i class="fas fa-bell"></i> الإشعارات</h3>
         <button class="notifications-mark-read" id="markAllReadBtn">تعيين الكل كمقروء</button>
     </div>
     <div class="notifications-list" id="notificationsList"></div>
@@ -2437,38 +1975,35 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
     <div class="user-dropdown-menu">
         <a href="favorites.html" class="user-dropdown-item">
-            <i class="fas fa-star"></i>
-            <span>المفضلة</span>
+            <i class="fas fa-star"></i> <span>المفضلة</span>
         </a>
         <a href="admin.html" class="user-dropdown-item" id="dropdownAdminLink" style="display: none;">
-            <i class="fas fa-shield-halved"></i>
-            <span>لوحة الأدمن</span>
+            <i class="fas fa-shield-halved"></i> <span>لوحة الأدمن</span>
         </a>
         <div class="user-dropdown-divider"></div>
         <button class="user-dropdown-item danger" id="logoutBtn">
-            <i class="fas fa-right-from-bracket"></i>
-            <span>تسجيل الخروج</span>
+            <i class="fas fa-right-from-bracket"></i> <span>تسجيل الخروج</span>
         </button>
     </div>
 </div>
 
-<!-- Toast Container -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- Scroll to Top -->
 <button class="scroll-top" id="scrollTop" aria-label="العودة للأعلى">
     <i class="fas fa-arrow-up"></i>
 </button>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     📜 JavaScript
-     ═══════════════════════════════════════════════════════════════ -->
 <script type="module">
 
+// ═══════════════════════════════════════════════════════════════
+// Config
+// ═══════════════════════════════════════════════════════════════
 const SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
 const BUCKET_NAME = 'product-images';
 const PAGE_SIZE = 24;
+const DB_NAME = 'electronic_db';
+const DB_VERSION = 3; // ✅ تم رفع الإصدار لضمان تحديث الـ stores
 
 // ═══════════════════════════════════════════════════════════════
 // Helpers
@@ -2494,7 +2029,9 @@ function formatNumber(num) {
 
 function formatDate(date) {
     if (!date) return '';
-    return new Date(date).toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
+    try {
+        return new Date(date).toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
+    } catch { return ''; }
 }
 
 function formatTimeAgo(date) {
@@ -2507,9 +2044,43 @@ function formatTimeAgo(date) {
     return formatDate(date);
 }
 
+// ✅ توليد باركود محلي (بدون await)
 function generateBarcode() {
-    const num = Math.floor(Math.random() * 1000000);
-    return 'ELK-' + String(num).padStart(6, '0');
+    const num = Math.floor(100000 + Math.random() * 900000);
+    return 'ELK-' + num;
+}
+
+// ✅ توليد باركود فريد (يتحقق من السيرفر والذاكرة)
+async function generateUniqueBarcode(maxAttempts = 15) {
+    const sb = await getSupabase();
+    const localBarcodes = new Set(state.products.map(p => p.barcode).filter(Boolean));
+    
+    for (let i = 0; i < maxAttempts; i++) {
+        const num = Math.floor(100000 + Math.random() * 900000);
+        const barcode = 'ELK-' + num;
+        
+        // تحقق محلي
+        if (localBarcodes.has(barcode)) continue;
+        
+        // تحقق من السيرفر
+        if (sb && navigator.onLine) {
+            try {
+                const { data } = await sb
+                    .from('products')
+                    .select('id')
+                    .eq('barcode', barcode)
+                    .maybeSingle();
+                if (data) continue;
+            } catch (err) {
+                console.warn('خطأ في التحقق من الباركود:', err);
+            }
+        }
+        
+        return barcode;
+    }
+    
+    // Fallback
+    return 'ELK-' + Date.now().toString().slice(-6);
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -2614,71 +2185,137 @@ function startInactivityMonitor() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// IndexedDB
+// IndexedDB - نسخة محسّنة وآمنة
 // ═══════════════════════════════════════════════════════════════
-const DB_NAME = 'electronic_db';
-const DB_VERSION = 1;
 let dbInstance = null;
+let dbPromise = null;
 
 function openDB() {
-    return new Promise((resolve, reject) => {
-        if (dbInstance) return resolve(dbInstance);
+    if (dbInstance) return Promise.resolve(dbInstance);
+    if (dbPromise) return dbPromise;
+    
+    dbPromise = new Promise((resolve, reject) => {
         const req = indexedDB.open(DB_NAME, DB_VERSION);
+        
         req.onupgradeneeded = (e) => {
             const db = e.target.result;
-            if (!db.objectStoreNames.contains('accounts')) db.createObjectStore('accounts', { keyPath: 'id' });
+            console.log('📦 ترقية IndexedDB إلى الإصدار', DB_VERSION);
+            
+            const ensureStore = (name, options = {}) => {
+                if (!db.objectStoreNames.contains(name)) {
+                    db.createObjectStore(name, options);
+                    console.log('  ✅ تم إنشاء store:', name);
+                }
+            };
+            
+            ensureStore('accounts', { keyPath: 'id' });
+            
             if (!db.objectStoreNames.contains('outbox')) {
                 const s = db.createObjectStore('outbox', { keyPath: 'id', autoIncrement: true });
                 s.createIndex('status', 'status');
             }
-            if (!db.objectStoreNames.contains('cache')) db.createObjectStore('cache', { keyPath: 'key' });
-            if (!db.objectStoreNames.contains('settings')) db.createObjectStore('settings', { keyPath: 'key' });
-            if (!db.objectStoreNames.contains('products')) db.createObjectStore('products', { keyPath: 'id' });
-            if (!db.objectStoreNames.contains('categories')) db.createObjectStore('categories', { keyPath: 'id' });
+            
+            ensureStore('cache', { keyPath: 'key' });
+            ensureStore('settings', { keyPath: 'key' });
+            ensureStore('products', { keyPath: 'id' });
+            ensureStore('categories', { keyPath: 'id' });
+            ensureStore('customers', { keyPath: 'id' });
+            ensureStore('invoices', { keyPath: 'id' });
+            ensureStore('repairs', { keyPath: 'id' });
+            ensureStore('favorites', { keyPath: 'id' });
         };
-        req.onsuccess = () => { dbInstance = req.result; resolve(dbInstance); };
-        req.onerror = () => reject(req.error);
+        
+        req.onsuccess = () => {
+            dbInstance = req.result;
+            dbInstance.onversionchange = () => {
+                dbInstance.close();
+                dbInstance = null;
+                dbPromise = null;
+            };
+            console.log('✅ IndexedDB متصل');
+            resolve(dbInstance);
+        };
+        
+        req.onerror = () => {
+            console.error('❌ IndexedDB error:', req.error);
+            dbPromise = null;
+            reject(req.error);
+        };
+        
+        req.onblocked = () => {
+            console.warn('⚠️ IndexedDB blocked - اقفل التابات التانية');
+            dbPromise = null;
+            reject(new Error('Database blocked'));
+        };
     });
+    
+    return dbPromise;
 }
 
 async function dbPut(store, data) {
-    const db = await openDB();
-    return new Promise((res, rej) => {
-        const tx = db.transaction(store, 'readwrite');
-        const r = tx.objectStore(store).put(data);
-        r.onsuccess = () => res(r.result);
-        r.onerror = () => rej(r.error);
-    });
+    try {
+        const db = await openDB();
+        if (!db.objectStoreNames.contains(store)) {
+            console.warn('Store not found:', store);
+            return null;
+        }
+        return new Promise((res, rej) => {
+            const tx = db.transaction(store, 'readwrite');
+            const r = tx.objectStore(store).put(data);
+            r.onsuccess = () => res(r.result);
+            r.onerror = () => rej(r.error);
+        });
+    } catch (err) {
+        console.warn('dbPut failed:', err);
+        return null;
+    }
 }
 
 async function dbGetAll(store) {
-    const db = await openDB();
-    return new Promise((res, rej) => {
-        const tx = db.transaction(store, 'readonly');
-        const r = tx.objectStore(store).getAll();
-        r.onsuccess = () => res(r.result || []);
-        r.onerror = () => rej(r.error);
-    });
+    try {
+        const db = await openDB();
+        if (!db.objectStoreNames.contains(store)) {
+            return [];
+        }
+        return new Promise((res, rej) => {
+            const tx = db.transaction(store, 'readonly');
+            const r = tx.objectStore(store).getAll();
+            r.onsuccess = () => res(r.result || []);
+            r.onerror = () => rej(r.error);
+        });
+    } catch (err) {
+        console.warn('dbGetAll failed:', err);
+        return [];
+    }
 }
 
 async function dbDelete(store, key) {
-    const db = await openDB();
-    return new Promise((res, rej) => {
-        const tx = db.transaction(store, 'readwrite');
-        const r = tx.objectStore(store).delete(key);
-        r.onsuccess = () => res();
-        r.onerror = () => rej(r.error);
-    });
+    try {
+        const db = await openDB();
+        if (!db.objectStoreNames.contains(store)) return;
+        return new Promise((res, rej) => {
+            const tx = db.transaction(store, 'readwrite');
+            const r = tx.objectStore(store).delete(key);
+            r.onsuccess = () => res();
+            r.onerror = () => rej(r.error);
+        });
+    } catch (err) {
+        console.warn('dbDelete failed:', err);
+    }
 }
 
 async function addToOutbox(action) {
-    const db = await openDB();
-    return new Promise((res, rej) => {
-        const tx = db.transaction('outbox', 'readwrite');
-        const r = tx.objectStore('outbox').add({ ...action, status: 'pending', created_at: Date.now() });
-        r.onsuccess = () => res(r.result);
-        r.onerror = () => rej(r.error);
-    });
+    try {
+        const db = await openDB();
+        return new Promise((res, rej) => {
+            const tx = db.transaction('outbox', 'readwrite');
+            const r = tx.objectStore('outbox').add({ ...action, status: 'pending', created_at: Date.now() });
+            r.onsuccess = () => res(r.result);
+            r.onerror = () => rej(r.error);
+        });
+    } catch (err) {
+        console.warn('addToOutbox failed:', err);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -2725,7 +2362,8 @@ async function loadCategories() {
     try {
         const sb = await getSupabase();
         if (sb && navigator.onLine) {
-            const { data } = await sb.from('categories').select('*').order('name');
+            const { data, error } = await sb.from('categories').select('*').order('name');
+            if (error) throw error;
             if (data) {
                 state.categories = data;
                 for (const c of data) await dbPut('categories', c);
@@ -2733,7 +2371,8 @@ async function loadCategories() {
         } else {
             state.categories = await dbGetAll('categories');
         }
-    } catch {
+    } catch (err) {
+        console.warn('خطأ في تحميل الفئات:', err);
         state.categories = await dbGetAll('categories');
     }
     
@@ -2755,10 +2394,12 @@ async function loadProducts() {
     try {
         const sb = await getSupabase();
         if (sb && navigator.onLine) {
-            const { data } = await sb
+            const { data, error } = await sb
                 .from('products')
                 .select(`*, category:categories(id, name, icon)`)
                 .order('created_at', { ascending: false });
+            
+            if (error) throw error;
             
             if (data) {
                 state.products = data;
@@ -2780,24 +2421,29 @@ async function loadFavorites() {
     const session = getSession();
     if (!session) return;
     
+    // تحميل من localStorage الأول
+    try {
+        const localFav = JSON.parse(localStorage.getItem('favorites_' + session.user.id) || '[]');
+        state.favorites = new Set(localFav);
+    } catch {}
+    
+    // ثم من السيرفر
     try {
         const sb = await getSupabase();
         if (sb && navigator.onLine) {
-            const { data } = await sb
+            const { data, error } = await sb
                 .from('favorites')
                 .select('product_id')
                 .eq('user_id', session.user.id);
             
-            if (data) {
+            if (!error && data) {
                 state.favorites = new Set(data.map(f => f.product_id));
+                localStorage.setItem('favorites_' + session.user.id, JSON.stringify([...state.favorites]));
             }
         }
     } catch (err) {
         console.warn('خطأ في تحميل المفضلة:', err);
     }
-    
-    const localFav = JSON.parse(localStorage.getItem('favorites_' + session.user.id) || '[]');
-    localFav.forEach(id => state.favorites.add(id));
 }
 
 function saveFavoritesLocal() {
@@ -2865,10 +2511,15 @@ function updateCounts() {
     const low = state.products.filter(p => p.quantity > 0 && p.quantity <= (p.min_quantity || 5)).length;
     const out = state.products.filter(p => p.quantity <= 0).length;
     
-    document.getElementById('countAll').textContent = all;
-    document.getElementById('countFav').textContent = fav;
-    document.getElementById('countLow').textContent = low;
-    document.getElementById('countOut').textContent = out;
+    const set = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+    };
+    
+    set('countAll', all);
+    set('countFav', fav);
+    set('countLow', low);
+    set('countOut', out);
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -2943,8 +2594,7 @@ function getEmptyState() {
             <h3>لا توجد أصناف بعد</h3>
             <p>ابدأ بإضافة أول صنف للمخزون</p>
             <button class="btn btn-primary" onclick="document.getElementById('addProductBtn').click()">
-                <i class="fas fa-plus"></i>
-                إضافة صنف
+                <i class="fas fa-plus"></i> إضافة صنف
             </button>
         </div>
     `;
@@ -2963,7 +2613,7 @@ function renderProductCard(p) {
     }
     
     const imageHtml = p.image_url 
-        ? `<img src="${escapeHtml(p.image_url)}" alt="${escapeHtml(p.name)}" class="product-image" loading="lazy">`
+        ? `<img src="${escapeHtml(p.image_url)}" alt="${escapeHtml(p.name)}" class="product-image" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"><i class="fas fa-image product-image-placeholder" style="display:none;"></i>`
         : `<i class="fas fa-image product-image-placeholder"></i>`;
     
     return `
@@ -2979,8 +2629,7 @@ function renderProductCard(p) {
                 ${categoryName ? `<div class="product-category"><i class="fas ${escapeHtml(p.category?.icon || 'fa-tag')}"></i>${escapeHtml(categoryName)}</div>` : ''}
                 <h3 class="product-title">${escapeHtml(p.name)}</h3>
                 <div class="product-barcode">
-                    <i class="fas fa-barcode"></i>
-                    ${escapeHtml(p.barcode || p.sku || '—')}
+                    <i class="fas fa-barcode"></i> ${escapeHtml(p.barcode || p.sku || '—')}
                 </div>
                 <div class="product-footer">
                     <div class="product-price">
@@ -3148,10 +2797,16 @@ function openAddModal() {
     document.getElementById('productForm').reset();
     document.getElementById('productQuantity').value = '0';
     document.getElementById('productMinQty').value = '5';
-    document.getElementById('productBarcode').value = generateBarcode();
+    document.getElementById('productBarcode').value = '';
     
     resetImageUpload();
     clearFormErrors();
+    
+    // توليد باركود فريد تلقائيًا (بدون انتظار)
+    generateUniqueBarcode().then(code => {
+        const input = document.getElementById('productBarcode');
+        if (input && !input.value) input.value = code;
+    });
     
     document.getElementById('productModal').classList.add('show');
     setTimeout(() => document.getElementById('productName')?.focus(), 300);
@@ -3198,11 +2853,17 @@ function closeProductModal() {
 }
 
 function resetImageUpload() {
-    document.getElementById('imagePreview').style.display = 'none';
-    document.getElementById('imagePreview').src = '';
-    document.getElementById('imageUploadPlaceholder').style.display = 'block';
-    document.getElementById('removeImageBtn').style.display = 'none';
-    document.getElementById('productImage').value = '';
+    const preview = document.getElementById('imagePreview');
+    if (preview) {
+        preview.style.display = 'none';
+        preview.src = '';
+    }
+    const placeholder = document.getElementById('imageUploadPlaceholder');
+    if (placeholder) placeholder.style.display = 'block';
+    const removeBtn = document.getElementById('removeImageBtn');
+    if (removeBtn) removeBtn.style.display = 'none';
+    const input = document.getElementById('productImage');
+    if (input) input.value = '';
 }
 
 function clearFormErrors() {
@@ -3210,7 +2871,7 @@ function clearFormErrors() {
     document.querySelectorAll('.form-input.error, .form-select.error, .form-textarea.error').forEach(el => el.classList.remove('error'));
 }
 
-// Image upload handler
+// Image upload
 document.addEventListener('change', (e) => {
     if (e.target.id === 'productImage') {
         const file = e.target.files[0];
@@ -3242,7 +2903,7 @@ document.addEventListener('change', (e) => {
 });
 
 // ═══════════════════════════════════════════════════════════════
-// Save Product
+// Save Product - نسخة محسّنة
 // ═══════════════════════════════════════════════════════════════
 async function saveProduct(e) {
     e.preventDefault();
@@ -3250,7 +2911,7 @@ async function saveProduct(e) {
     
     const name = document.getElementById('productName').value.trim();
     const categoryId = document.getElementById('productCategory').value || null;
-    const barcode = document.getElementById('productBarcode').value.trim() || null;
+    let barcode = document.getElementById('productBarcode').value.trim() || null;
     const costPrice = parseFloat(document.getElementById('productCostPrice').value) || 0;
     const sellPrice = parseFloat(document.getElementById('productSellPrice').value) || 0;
     const quantity = parseInt(document.getElementById('productQuantity').value) || 0;
@@ -3296,7 +2957,7 @@ async function saveProduct(e) {
                 imageUrl = urlData.publicUrl;
             } catch (imgErr) {
                 console.warn('فشل رفع الصورة:', imgErr);
-                showToast('فشل رفع الصورة، الحفظ بدونها', 'warning');
+                showToast('فشل رفع الصورة، سيتم الحفظ بدونها', 'warning');
             }
         }
         
@@ -3306,15 +2967,41 @@ async function saveProduct(e) {
             quantity, min_quantity: minQty, description, image_url: imageUrl
         };
         
+        // ✅ لو إضافة جديدة و barcode فاضي → ولّد فريد
+        if (!state.editingProduct && !barcode) {
+            barcode = await generateUniqueBarcode();
+            productData.barcode = barcode;
+            productData.sku = barcode;
+        }
+        
         if (state.editingProduct) {
+            // ===== تحديث =====
             if (sb && navigator.onLine) {
-                const { error } = await sb.from('products').update(productData).eq('id', state.editingProduct.id);
-                if (error) throw error;
+                let { error } = await sb
+                    .from('products')
+                    .update(productData)
+                    .eq('id', state.editingProduct.id);
+                
+                // لو الباركود مكرر، ولّد جديد
+                if (error && error.code === '23505' && error.details?.includes('barcode')) {
+                    const newBarcode = await generateUniqueBarcode();
+                    productData.barcode = newBarcode;
+                    productData.sku = newBarcode;
+                    
+                    const { error: retryError } = await sb
+                        .from('products')
+                        .update(productData)
+                        .eq('id', state.editingProduct.id);
+                    
+                    if (retryError) throw retryError;
+                } else if (error) {
+                    throw error;
+                }
                 
                 await sb.from('audit_log').insert({
                     user_id: session?.user?.id, action: 'UPDATE', table_name: 'products',
                     record_id: state.editingProduct.id, old_data: state.editingProduct, new_data: productData
-                });
+                }).catch(() => {});
             } else {
                 await addToOutbox({ type: 'update', table: 'products', id: state.editingProduct.id, data: productData });
             }
@@ -3329,7 +3016,9 @@ async function saveProduct(e) {
             }
             
             showToast('✅ تم تحديث الصنف بنجاح', 'success');
+            
         } else {
+            // ===== إضافة جديدة =====
             const newProduct = {
                 id: 'temp_' + Date.now(),
                 ...productData,
@@ -3338,22 +3027,43 @@ async function saveProduct(e) {
             };
             
             if (sb && navigator.onLine) {
-                const { data, error } = await sb
+                let { data, error } = await sb
                     .from('products')
                     .insert(productData)
                     .select(`*, category:categories(id, name, icon)`)
                     .single();
+                
+                // لو الباركود مكرر → ولّد جديد وأعد المحاولة
+                if (error && error.code === '23505' && error.details?.includes('barcode')) {
+                    console.warn('⚠️ باركود مكرر، جاري توليد جديد...');
+                    showToast('الباركود مستخدم، جاري توليد جديد...', 'warning', 2500);
+                    
+                    const newBarcode = await generateUniqueBarcode();
+                    productData.barcode = newBarcode;
+                    productData.sku = newBarcode;
+                    
+                    const retry = await sb
+                        .from('products')
+                        .insert(productData)
+                        .select(`*, category:categories(id, name, icon)`)
+                        .single();
+                    
+                    data = retry.data;
+                    error = retry.error;
+                }
                 
                 if (error) throw error;
                 
                 newProduct.id = data.id;
                 newProduct.created_at = data.created_at;
                 newProduct.category = data.category;
+                newProduct.barcode = data.barcode;
+                newProduct.sku = data.sku;
                 
                 await sb.from('audit_log').insert({
                     user_id: session?.user?.id, action: 'INSERT', table_name: 'products',
                     record_id: data.id, new_data: data
-                });
+                }).catch(() => {});
             } else {
                 await addToOutbox({ type: 'insert', table: 'products', tempId: newProduct.id, data: productData });
             }
@@ -3370,7 +3080,7 @@ async function saveProduct(e) {
         
     } catch (err) {
         console.error(err);
-        showToast(err.message || 'حدث خطأ أثناء الحفظ', 'error');
+        showToast(err.message || 'حدث خطأ أثناء الحفظ', 'error', 4000);
     } finally {
         btn.disabled = false;
         spinner.style.display = 'none';
@@ -3410,7 +3120,7 @@ async function confirmDelete() {
             await sb.from('audit_log').insert({
                 user_id: session?.user?.id, action: 'DELETE', table_name: 'products',
                 record_id: p.id, old_data: p
-            });
+            }).catch(() => {});
         } else if (!navigator.onLine) {
             await addToOutbox({ type: 'delete', table: 'products', id: p.id });
         }
@@ -3685,8 +3395,7 @@ function renderNotifications(notifications) {
                     <div class="notification-item-title">${escapeHtml(n.title)}</div>
                     <div class="notification-item-message">${escapeHtml(n.message || '')}</div>
                     <div class="notification-item-time">
-                        <i class="fas fa-clock"></i>
-                        ${formatTimeAgo(n.created_at)}
+                        <i class="fas fa-clock"></i> ${formatTimeAgo(n.created_at)}
                     </div>
                 </div>
             </div>
@@ -3712,6 +3421,79 @@ async function markAllRead() {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// Sync Outbox
+// ═══════════════════════════════════════════════════════════════
+async function syncOutbox() {
+    try {
+        const items = await dbGetAll('outbox');
+        if (!items.length) return;
+        
+        const sb = await getSupabase();
+        if (!sb || !navigator.onLine) return;
+        
+        let synced = 0;
+        for (const item of items.filter(i => i.status === 'pending')) {
+            try {
+                if (item.type === 'insert') {
+                    await sb.from(item.table).insert(item.data);
+                } else if (item.type === 'update') {
+                    await sb.from(item.table).update(item.data).eq('id', item.id);
+                } else if (item.type === 'delete') {
+                    await sb.from(item.table).delete().eq('id', item.id);
+                }
+                await dbDelete('outbox', item.id);
+                synced++;
+            } catch (err) {
+                console.warn('فشل مزامنة عنصر:', err);
+            }
+        }
+        
+        if (synced > 0) showToast(`تم مزامنة ${synced} عملية`, 'success');
+    } catch (err) {
+        console.warn(err);
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UI Helpers
+// ═══════════════════════════════════════════════════════════════
+function updateUserUI(user) {
+    const initial = (user.full_name || user.username || 'م').charAt(0).toUpperCase();
+    const roleText = user.role === 'admin' ? 'مدير' : 'موظف';
+    
+    ['userAvatar', 'dropdownAvatar'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = initial;
+    });
+    
+    ['userName', 'dropdownName'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = user.full_name || user.username;
+    });
+    
+    ['userRole', 'dropdownRole'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = roleText;
+    });
+}
+
+function applyPermissions(user) {
+    const perms = user.permissions || {};
+    const isAdmin = user.role === 'admin';
+    
+    document.querySelectorAll('.sidebar-link[data-perm]').forEach(link => {
+        if (!isAdmin && !perms[link.dataset.perm]) link.style.display = 'none';
+    });
+    
+    if (isAdmin) {
+        const al = document.getElementById('adminLink');
+        const dal = document.getElementById('dropdownAdminLink');
+        if (al) al.style.display = 'flex';
+        if (dal) dal.style.display = 'flex';
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
 // Init
 // ═══════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', async () => {
@@ -3727,6 +3509,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.addEventListener('online', () => {
         updateOnlineStatus();
         showToast('تم استعادة الاتصال', 'success');
+        syncOutbox();
     });
     window.addEventListener('offline', () => {
         updateOnlineStatus();
@@ -3840,10 +3623,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         resetImageUpload();
     });
     
-    // Barcode generate
-    document.getElementById('genBarcodeBtn')?.addEventListener('click', () => {
-        document.getElementById('productBarcode').value = generateBarcode();
-        showToast('تم توليد باركود جديد', 'info', 2000);
+    // Barcode generate - يستخدم الدالة الفريدة
+    document.getElementById('genBarcodeBtn')?.addEventListener('click', async () => {
+        const btn = document.getElementById('genBarcodeBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+        
+        try {
+            const code = await generateUniqueBarcode();
+            document.getElementById('productBarcode').value = code;
+            showToast('تم توليد باركود جديد', 'info', 2000);
+        } catch (err) {
+            showToast('فشل توليد الباركود', 'error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-wand-magic-sparkles"></i>';
+        }
     });
     
     // Barcode scan
@@ -3888,7 +3683,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
     
-    // Esc
+    // Esc + Shortcuts
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
@@ -3920,56 +3715,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Permissions
     if (session.user.role !== 'admin' && !session.user.permissions?.can_edit_products) {
-        document.getElementById('addProductBtn').style.display = 'none';
+        const addBtn = document.getElementById('addProductBtn');
+        if (addBtn) addBtn.style.display = 'none';
     }
     
     // Load data
-    await loadCategories();
-    await loadFavorites();
-    await loadProducts();
-    await loadNotifications();
-    setInterval(loadNotifications, 60000);
+    try {
+        await openDB(); // ← فتح DB أولًا
+        await loadCategories();
+        await loadFavorites();
+        await loadProducts();
+        await loadNotifications();
+        setInterval(loadNotifications, 60000);
+    } catch (err) {
+        console.error('خطأ في تحميل البيانات:', err);
+        showToast('حدث خطأ في تحميل البيانات', 'error');
+    }
     
-    document.getElementById('pageSubtitle').textContent = `${state.products.length} صنف في المخزون`;
+    const subtitle = document.getElementById('pageSubtitle');
+    if (subtitle) subtitle.textContent = `${state.products.length} صنف في المخزون`;
     
     startInactivityMonitor();
     
     console.log('%c📦 صفحة المخزون جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
 });
-
-function updateUserUI(user) {
-    const initial = (user.full_name || user.username || 'م').charAt(0).toUpperCase();
-    const roleText = user.role === 'admin' ? 'مدير' : 'موظف';
-    
-    ['userAvatar', 'dropdownAvatar'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = initial;
-    });
-    
-    ['userName', 'dropdownName'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = user.full_name || user.username;
-    });
-    
-    ['userRole', 'dropdownRole'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = roleText;
-    });
-}
-
-function applyPermissions(user) {
-    const perms = user.permissions || {};
-    const isAdmin = user.role === 'admin';
-    
-    document.querySelectorAll('.sidebar-link[data-perm]').forEach(link => {
-        if (!isAdmin && !perms[link.dataset.perm]) link.style.display = 'none';
-    });
-    
-    if (isAdmin) {
-        document.getElementById('adminLink').style.display = 'flex';
-        document.getElementById('dropdownAdminLink').style.display = 'flex';
-    }
-}
 
 window.ProductsApp = { showToast, logout, getSession, formatCurrency };
 
