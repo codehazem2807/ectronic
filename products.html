@@ -15,18 +15,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
 
-<!-- ═══════════════════════════════════════════════════════════
-     🔑 Supabase UMD (قبل كل حاجة)
-     ═══════════════════════════════════════════════════════════ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
 
 <style>
-/* نفس الـ CSS اللي عندك — مفيش تغيير */
 :root {
     --tech-blue: #1d5b8e;
     --tech-blue-dark: #154668;
     --tech-blue-light: #2d7ab8;
-    --tech-black: #0a1f33;
     --success: #10b981;
     --danger: #ef4444;
     --warning: #f59e0b;
@@ -114,7 +109,7 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 0 10px rgba(29, 91, 142, 0.6);
 }
 
-/* ═══ Navbar ═══ */
+/* Navbar */
 .navbar {
     position: fixed;
     top: 0;
@@ -259,7 +254,7 @@ img { max-width: 100%; height: auto; display: block; }
 .navbar-user-info strong { font-size: 0.8rem; font-weight: 700; }
 .navbar-user-info span { font-size: 0.65rem; color: var(--text-muted); }
 
-/* ═══ Sidebar ═══ */
+/* Sidebar */
 .sidebar {
     position: fixed;
     top: var(--navbar-height);
@@ -343,7 +338,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .sidebar-overlay.show { opacity: 1; visibility: visible; }
 
-/* ═══ Main ═══ */
+/* Main */
 .main-content {
     margin-top: var(--navbar-height);
     margin-right: var(--sidebar-width);
@@ -373,7 +368,6 @@ img { max-width: 100%; height: auto; display: block; }
 .page-header-text p { font-size: 0.9rem; color: var(--text-secondary); }
 .page-header-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
-/* ═══ Buttons ═══ */
 .btn {
     padding: 0.65rem 1.15rem;
     border-radius: var(--radius-md);
@@ -413,7 +407,7 @@ img { max-width: 100%; height: auto; display: block; }
 .btn-sm { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
-/* ═══ Toolbar ═══ */
+/* Toolbar */
 .toolbar {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -540,7 +534,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .filter-chip:not(.active) .count { background: var(--bg-card); color: var(--text-muted); }
 
-/* ═══ Products Grid ═══ */
+/* Products Grid */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -695,7 +689,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .product-actions .btn { flex: 1; padding: 0.45rem; font-size: 0.75rem; }
 
-/* ═══ List View ═══ */
+/* List View */
 .products-list {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -733,7 +727,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .products-list-actions { display: flex; gap: 0.35rem; justify-content: flex-end; }
 
-/* ═══ Badges ═══ */
+/* Badges */
 .badge {
     display: inline-flex;
     align-items: center;
@@ -751,7 +745,7 @@ img { max-width: 100%; height: auto; display: block; }
 .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
 .badge-info { background: rgba(59, 130, 246, 0.15); color: var(--info); }
 
-/* ═══ Modal ═══ */
+/* Modal */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -835,7 +829,6 @@ img { max-width: 100%; height: auto; display: block; }
 .modal-body::-webkit-scrollbar { width: 8px; }
 .modal-body::-webkit-scrollbar-track { background: transparent; }
 .modal-body::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
-.modal-body::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
 .modal-footer {
     padding: 1rem 1.5rem;
@@ -854,7 +847,7 @@ img { max-width: 100%; height: auto; display: block; }
     .modal-footer .btn { flex: initial; min-width: auto; }
 }
 
-/* ═══ Forms ═══ */
+/* Forms */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .form-group { margin-bottom: 0; }
 .form-group.full { grid-column: 1 / -1; }
@@ -940,7 +933,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .form-error.show { display: flex; }
 
-/* ═══ Image Upload ═══ */
+/* Image Upload */
 .image-upload {
     display: flex;
     flex-direction: column;
@@ -1043,7 +1036,7 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 4px 12px rgba(29, 91, 142, 0.3);
 }
 
-/* ═══ Scanner ═══ */
+/* Scanner */
 .scanner-container {
     position: relative;
     width: 100%;
@@ -1085,7 +1078,7 @@ img { max-width: 100%; height: auto; display: block; }
 .scanner-frame::before { top: -4px; right: -4px; border-left: none; border-bottom: none; }
 .scanner-frame::after { bottom: -4px; left: -4px; border-right: none; border-top: none; }
 
-/* ═══ Barcode List ═══ */
+/* Barcode List Item */
 .barcode-list-item {
     display: flex;
     align-items: center;
@@ -1111,7 +1104,7 @@ img { max-width: 100%; height: auto; display: block; }
 .barcode-list-info strong { display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.15rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .barcode-list-info span { font-size: 0.72rem; color: var(--text-muted); font-family: 'Courier New', monospace; }
 
-/* ═══ Toast ═══ */
+/* Toast */
 .toast-container {
     position: fixed;
     top: calc(var(--navbar-height) + 1rem);
@@ -1160,7 +1153,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 @keyframes toastOut { to { opacity: 0; transform: translateY(-20px) scale(0.95); } }
 
-/* ═══ Skeleton ═══ */
+/* Skeleton */
 .skeleton {
     background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
     background-size: 200% 100%;
@@ -1175,7 +1168,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .skeleton-card { height: 320px; }
 
-/* ═══ Empty ═══ */
+/* Empty */
 .empty-state {
     padding: 4rem 1rem;
     text-align: center;
@@ -1190,7 +1183,7 @@ img { max-width: 100%; height: auto; display: block; }
 .empty-state h3 { font-size: 1.1rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.35rem; }
 .empty-state p { font-size: 0.85rem; margin-bottom: 1rem; }
 
-/* ═══ Pagination ═══ */
+/* Pagination */
 .pagination {
     display: flex;
     align-items: center;
@@ -1225,7 +1218,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* ═══ Scroll Top ═══ */
+/* Scroll Top */
 .scroll-top {
     position: fixed;
     bottom: calc(1rem + var(--safe-bottom));
@@ -1250,7 +1243,7 @@ img { max-width: 100%; height: auto; display: block; }
 .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
 .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(29, 91, 142, 0.5); }
 
-/* ═══ Notifications + User Dropdown ═══ */
+/* Notifications + User Dropdown */
 .notifications-panel, .user-dropdown {
     position: fixed;
     top: calc(var(--navbar-height) + 0.5rem);
@@ -1417,12 +1410,11 @@ img { max-width: 100%; height: auto; display: block; }
     animation: spin 0.8s linear infinite;
 }
 
-/* ═══ Responsive ═══ */
+/* Responsive */
 @media (max-width: 968px) {
     .sidebar { transform: translateX(100%); box-shadow: var(--shadow-xl); }
     .sidebar.show { transform: translateX(0); }
     .main-content { margin-right: 0; padding: 1rem; }
-    .navbar-search { display: none; }
     .navbar-brand-text { display: none; }
     .navbar-user-info { display: none; }
     .navbar-user { padding: 0.35rem; }
@@ -1939,9 +1931,6 @@ img { max-width: 100%; height: auto; display: block; }
     <i class="fas fa-arrow-up"></i>
 </button>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     📜 JavaScript - type="text/javascript" (مش module)
-     ═══════════════════════════════════════════════════════════════ -->
 <script>
 (function() {
 'use strict';
@@ -1954,17 +1943,16 @@ var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 var BUCKET_NAME = 'product-images';
 var PAGE_SIZE = 24;
 var DB_NAME = 'electronic_db';
-var DB_VERSION = 1; // ← بدأنا من 1 لتفادي blocked
+var DB_VERSION = 4; // ← رفعناها لتفادي VersionError
 
 // ═══════════════════════════════════════════════════════════════
-// Supabase Client (UMD - sync)
+// Supabase Client
 // ═══════════════════════════════════════════════════════════════
 var supabaseClient = null;
 
 function getSupabaseClient() {
     if (supabaseClient) return supabaseClient;
     if (typeof window.supabase === 'undefined' || !window.supabase.createClient) {
-        console.warn('⚠️ Supabase library not loaded');
         return null;
     }
     try {
@@ -1973,7 +1961,7 @@ function getSupabaseClient() {
         });
         return supabaseClient;
     } catch (e) {
-        console.error('❌ Failed to create Supabase client:', e);
+        console.error('Supabase init failed:', e);
         return null;
     }
 }
@@ -2023,11 +2011,10 @@ function formatTimeAgo(date) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// Barcode generation
+// Barcode
 // ═══════════════════════════════════════════════════════════════
 function generateBarcodeSync() {
-    var num = Math.floor(100000 + Math.random() * 900000);
-    return 'ELK-' + num;
+    return 'ELK-' + Math.floor(100000 + Math.random() * 900000);
 }
 
 function generateUniqueBarcode() {
@@ -2043,7 +2030,6 @@ function generateUniqueBarcode() {
         
         function tryGenerate() {
             if (attempts >= maxAttempts) {
-                // Fallback: timestamp-based
                 resolve('ELK-' + String(Date.now()).slice(-6));
                 return;
             }
@@ -2051,25 +2037,18 @@ function generateUniqueBarcode() {
             
             var barcode = generateBarcodeSync();
             
-            // تحقق محلي
             if (localBarcodes[barcode]) {
                 tryGenerate();
                 return;
             }
             
-            // تحقق من السيرفر
             if (sb && navigator.onLine) {
                 sb.from('products').select('id').eq('barcode', barcode).maybeSingle()
                     .then(function(result) {
-                        if (result.data) {
-                            tryGenerate();
-                        } else {
-                            resolve(barcode);
-                        }
+                        if (result.data) tryGenerate();
+                        else resolve(barcode);
                     })
-                    .catch(function() {
-                        resolve(barcode);
-                    });
+                    .catch(function() { resolve(barcode); });
             } else {
                 resolve(barcode);
             }
@@ -2186,7 +2165,7 @@ function startInactivityMonitor() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// IndexedDB - Safe wrapper
+// IndexedDB
 // ═══════════════════════════════════════════════════════════════
 var dbInstance = null;
 var dbPromise = null;
@@ -2226,20 +2205,22 @@ function openDB() {
             };
             
             req.onerror = function() {
-                console.warn('⚠️ IndexedDB error:', req.error);
+                console.warn('IndexedDB error:', req.error);
                 dbFailed = true;
                 dbPromise = null;
                 resolve(null);
             };
             
             req.onblocked = function() {
-                console.warn('⚠️ IndexedDB blocked');
-                dbFailed = true;
-                dbPromise = null;
-                resolve(null);
+                console.warn('IndexedDB blocked - اقفل التابات التانية');
+                setTimeout(function() {
+                    dbFailed = true;
+                    dbPromise = null;
+                    resolve(null);
+                }, 500);
             };
         } catch (e) {
-            console.warn('⚠️ IndexedDB not available:', e);
+            console.warn('IndexedDB not available:', e);
             dbFailed = true;
             resolve(null);
         }
@@ -2326,6 +2307,39 @@ var state = {
 };
 
 // ═══════════════════════════════════════════════════════════════
+// Image Upload - النسخة المصححة
+// ═══════════════════════════════════════════════════════════════
+function uploadImage(sb, file) {
+    return new Promise(function(resolve, reject) {
+        var fileExt = file.name.split('.').pop().toLowerCase();
+        var fileName = Date.now() + '-' + Math.random().toString(36).substring(7) + '.' + fileExt;
+        
+        // جرب الأول مع contentType
+        sb.storage
+            .from(BUCKET_NAME)
+            .upload(fileName, file, {
+                cacheControl: '3600',
+                upsert: false,
+                contentType: file.type || 'image/jpeg'
+            })
+            .then(function(result) {
+                if (result.error) {
+                    console.error('Upload error details:', result.error);
+                    reject(result.error);
+                    return;
+                }
+                
+                var urlResult = sb.storage.from(BUCKET_NAME).getPublicUrl(fileName);
+                resolve(urlResult.data.publicUrl);
+            })
+            .catch(function(err) {
+                console.error('Upload exception:', err);
+                reject(err);
+            });
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
 // Load Data
 // ═══════════════════════════════════════════════════════════════
 function loadCategories() {
@@ -2387,7 +2401,7 @@ function loadProducts() {
                 }
             })
             .catch(function(err) {
-                console.warn('⚠️ خطأ في تحميل المنتجات:', err);
+                console.warn('Failed to load products:', err);
                 return dbGetAll('products').then(function(cached) {
                     state.products = cached || [];
                 });
@@ -2408,7 +2422,6 @@ function loadFavorites() {
     var session = getSession();
     if (!session) return Promise.resolve();
     
-    // من localStorage أولًا
     try {
         var raw = localStorage.getItem('favorites_' + session.user.id);
         if (raw) {
@@ -2418,7 +2431,6 @@ function loadFavorites() {
         }
     } catch (e) {}
     
-    // ثم من السيرفر
     var sb = getSupabaseClient();
     if (sb && navigator.onLine) {
         return sb.from('favorites')
@@ -2777,9 +2789,9 @@ function toggleFavorite(productId) {
     var sb = getSupabaseClient();
     if (sb && navigator.onLine) {
         if (isFav) {
-            sb.from('favorites').delete().eq('user_id', session.user.id).eq('product_id', productId).then(function(){});
+            sb.from('favorites').delete().eq('user_id', session.user.id).eq('product_id', productId).then(function(){}, function(){});
         } else {
-            sb.from('favorites').insert({ user_id: session.user.id, product_id: productId }).then(function(){});
+            sb.from('favorites').insert({ user_id: session.user.id, product_id: productId }).then(function(){}, function(){});
         }
     }
 }
@@ -2802,7 +2814,6 @@ function openAddModal() {
     resetImageUpload();
     clearFormErrors();
     
-    // توليد باركود
     generateUniqueBarcode().then(function(code) {
         var input = document.getElementById('productBarcode');
         if (input && !input.value) input.value = code;
@@ -2916,7 +2927,6 @@ function saveProduct(e) {
     var sb = getSupabaseClient();
     var isEditing = !!state.editingProduct;
     
-    // لو إضافة جديدة وباركود فاضي → ولّد فريد
     var barcodePromise = (!isEditing && !barcode) 
         ? generateUniqueBarcode() 
         : Promise.resolve(barcode);
@@ -2938,24 +2948,17 @@ function saveProduct(e) {
         
         var imagePromise = Promise.resolve(null);
         
-        // رفع الصورة
         if (state.imageFile && sb && navigator.onLine) {
-            var fileExt = state.imageFile.name.split('.').pop().toLowerCase();
-            var fileName = Date.now() + '-' + Math.random().toString(36).substring(7) + '.' + fileExt;
-            
-            imagePromise = sb.storage.from(BUCKET_NAME)
-                .upload(fileName, state.imageFile, { cacheControl: '3600', upsert: false })
-                .then(function(result) {
-                    if (result.error) throw result.error;
-                    var urlResult = sb.storage.from(BUCKET_NAME).getPublicUrl(fileName);
-                    return urlResult.data.publicUrl;
+            imagePromise = uploadImage(sb, state.imageFile)
+                .then(function(url) {
+                    return url;
                 })
                 .catch(function(err) {
-                    console.warn('⚠️ فشل رفع الصورة:', err);
-                    showToast('فشل رفع الصورة، سيتم الحفظ بدونها', 'warning');
-                    return state.editingProduct ? state.editingProduct.image_url : null;
+                    console.warn('Image upload failed:', err);
+                    showToast('فشل رفع الصورة، سيتم الحفظ بدونها', 'warning', 3000);
+                    return isEditing && state.editingProduct ? state.editingProduct.image_url : null;
                 });
-        } else if (state.editingProduct && state.editingProduct.image_url) {
+        } else if (isEditing && state.editingProduct && state.editingProduct.image_url) {
             imagePromise = Promise.resolve(state.editingProduct.image_url);
         }
         
@@ -2969,7 +2972,7 @@ function saveProduct(e) {
             }
         });
     }).catch(function(err) {
-        console.error(err);
+        console.error('Save error:', err);
         showToast((err && err.message) || 'حدث خطأ أثناء الحفظ', 'error', 4000);
     }).then(function() {
         btn.disabled = false;
@@ -2988,7 +2991,6 @@ function updateProduct(productData, session, sb) {
     if (sb && navigator.onLine) {
         savePromise = sb.from('products').update(productData).eq('id', editing.id).then(function(result) {
             if (result.error) {
-                // لو الباركود مكرر، حاول مرة تانية
                 if (result.error.code === '23505') {
                     return generateUniqueBarcode().then(function(newBarcode) {
                         productData.barcode = newBarcode;
@@ -3006,7 +3008,6 @@ function updateProduct(productData, session, sb) {
     }
     
     return savePromise.then(function() {
-        // تحديث محلي
         for (var i = 0; i < state.products.length; i++) {
             if (state.products[i].id === editing.id) {
                 var updated = Object.assign({}, state.products[i], productData);
@@ -3051,7 +3052,6 @@ function insertProduct(productData, session, sb) {
             .single()
             .then(function(result) {
                 if (result.error) {
-                    // لو الباركود مكرر
                     if (result.error.code === '23505') {
                         showToast('الباركود مستخدم، جاري توليد جديد...', 'warning', 2500);
                         return generateUniqueBarcode().then(function(newBarcode) {
@@ -3079,7 +3079,6 @@ function insertProduct(productData, session, sb) {
                     newProduct.barcode = data.barcode;
                     newProduct.sku = data.sku;
                     
-                    // audit log (بدون await)
                     sb.from('audit_log').insert({
                         user_id: session && session.user && session.user.id,
                         action: 'INSERT',
@@ -3583,7 +3582,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (confirm('هل أنت متأكد من تسجيل الخروج؟')) logout();
     });
     
-    // Notifications
     if (notifBtn) notifBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         if (notifPanel) notifPanel.classList.toggle('show');
@@ -3614,21 +3612,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 250);
     });
     
-    // Category filter
     var catFilter = document.getElementById('categoryFilter');
     if (catFilter) catFilter.addEventListener('change', function(e) {
         state.categoryFilter = e.target.value;
         applyFilters();
     });
     
-    // Sort
     var sortFilter = document.getElementById('sortFilter');
     if (sortFilter) sortFilter.addEventListener('change', function(e) {
         state.sortFilter = e.target.value;
         applyFilters();
     });
     
-    // Filter chips
     document.querySelectorAll('.filter-chip').forEach(function(chip) {
         chip.addEventListener('click', function() {
             document.querySelectorAll('.filter-chip').forEach(function(c) { c.classList.remove('active'); });
@@ -3638,7 +3633,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // View toggle
     document.querySelectorAll('.view-toggle-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
             document.querySelectorAll('.view-toggle-btn').forEach(function(b) { b.classList.remove('active'); });
@@ -3659,11 +3653,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     } catch (e) {}
     
-    // Add product
     var addBtn = document.getElementById('addProductBtn');
     if (addBtn) addBtn.addEventListener('click', openAddModal);
     
-    // Product modal
     var closeP = document.getElementById('closeProductModal');
     var cancelP = document.getElementById('cancelProductBtn');
     var form = document.getElementById('productForm');
@@ -3672,7 +3664,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (cancelP) cancelP.addEventListener('click', closeProductModal);
     if (form) form.addEventListener('submit', saveProduct);
     
-    // Remove image
     var removeImgBtn = document.getElementById('removeImageBtn');
     if (removeImgBtn) removeImgBtn.addEventListener('click', function(e) {
         e.preventDefault();
@@ -3681,7 +3672,6 @@ document.addEventListener('DOMContentLoaded', function() {
         resetImageUpload();
     });
     
-    // Image upload change
     var productImg = document.getElementById('productImage');
     if (productImg) productImg.addEventListener('change', function(e) {
         var file = e.target.files[0];
@@ -3711,7 +3701,6 @@ document.addEventListener('DOMContentLoaded', function() {
         reader.readAsDataURL(file);
     });
     
-    // Barcode generate
     var genBtn = document.getElementById('genBarcodeBtn');
     if (genBtn) genBtn.addEventListener('click', function() {
         genBtn.disabled = true;
@@ -3729,7 +3718,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Barcode scan
     var scanBtn = document.getElementById('scanBarcodeBtn');
     var closeScan = document.getElementById('closeScannerModal');
     var cancelScan = document.getElementById('cancelScanBtn');
@@ -3738,7 +3726,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closeScan) closeScan.addEventListener('click', closeScanner);
     if (cancelScan) cancelScan.addEventListener('click', closeScanner);
     
-    // Delete
     var closeDel = document.getElementById('closeDeleteModal');
     var cancelDel = document.getElementById('cancelDeleteBtn');
     var confirmDel = document.getElementById('confirmDeleteBtn');
@@ -3753,7 +3740,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     if (confirmDel) confirmDel.addEventListener('click', confirmDelete);
     
-    // Barcode print
     var printBtn = document.getElementById('printBarcodesBtn');
     var closeBc = document.getElementById('closeBarcodeModal');
     var cancelBc = document.getElementById('cancelBarcodeBtn');
@@ -3772,11 +3758,9 @@ document.addEventListener('DOMContentLoaded', function() {
         renderBarcodeList(e.target.value);
     });
     
-    // Export
     var expBtn = document.getElementById('exportExcelBtn');
     if (expBtn) expBtn.addEventListener('click', exportExcel);
     
-    // Close modals on overlay click
     document.querySelectorAll('.modal-overlay').forEach(function(ov) {
         ov.addEventListener('click', function(e) {
             if (e.target === ov) {
@@ -3786,7 +3770,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Keyboard shortcuts
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             document.querySelectorAll('.modal-overlay.show').forEach(function(m) { m.classList.remove('show'); });
@@ -3798,7 +3781,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Scroll
     var progressBar = document.getElementById('readingProgress');
     var scrollTopBtn = document.getElementById('scrollTop');
     
@@ -3818,13 +3800,11 @@ document.addEventListener('DOMContentLoaded', function() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     
-    // Permissions
     if (session.user.role !== 'admin' && (!session.user.permissions || !session.user.permissions.can_edit_products)) {
         var addBtn2 = document.getElementById('addProductBtn');
         if (addBtn2) addBtn2.style.display = 'none';
     }
     
-    // Load data
     openDB().then(function() {
         return loadCategories();
     }).then(function() {
@@ -3838,7 +3818,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var subtitle = document.getElementById('pageSubtitle');
         if (subtitle) subtitle.textContent = state.products.length + ' صنف في المخزون';
     }).catch(function(err) {
-        console.error('خطأ في تحميل البيانات:', err);
+        console.error('Load data error:', err);
         showToast('حدث خطأ في تحميل البيانات', 'error');
     });
     
@@ -3847,7 +3827,6 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('%c📦 صفحة المخزون جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
 });
 
-// Expose للاستخدام العام
 window.ProductsApp = {
     showToast: showToast,
     logout: logout,
