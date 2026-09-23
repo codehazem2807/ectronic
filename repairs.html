@@ -218,32 +218,15 @@ img { max-width: 100%; height: auto; display: block; }
     border: 1px solid var(--border-color);
 }
 .btn-secondary:hover { background: var(--bg-hover); border-color: var(--tech-blue); color: var(--tech-blue); }
-.btn-danger {
-    background: linear-gradient(135deg, var(--danger), #dc2626);
-    color: white;
-}
+.btn-danger { background: linear-gradient(135deg, var(--danger), #dc2626); color: white; }
 .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(239,68,68,0.4); }
-.btn-success {
-    background: linear-gradient(135deg, var(--success), #059669);
-    color: white;
-}
+.btn-success { background: linear-gradient(135deg, var(--success), #059669); color: white; }
 .btn-success:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16,185,129,0.4); }
-.btn-warning {
-    background: linear-gradient(135deg, var(--warning), #d97706);
-    color: white;
-}
+.btn-warning { background: linear-gradient(135deg, var(--warning), #d97706); color: white; }
 .btn-warning:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,0.4); }
-.btn-info {
-    background: linear-gradient(135deg, var(--info), #2563eb);
-    color: white;
-}
+.btn-info { background: linear-gradient(135deg, var(--info), #2563eb); color: white; }
 .btn-info:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.4); }
 .btn-sm { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
-.btn-icon {
-    width: 38px; height: 38px; padding: 0;
-    border-radius: var(--radius-md);
-    display: inline-flex; align-items: center; justify-content: center;
-}
 .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
 .stats-bar {
@@ -255,13 +238,7 @@ img { max-width: 100%; height: auto; display: block; }
     border-radius: var(--radius-lg); padding: 1.15rem;
     display: flex; align-items: center; gap: 0.85rem;
     transition: all var(--transition);
-    animation: fadeInUp 0.4s ease backwards;
 }
-.stat-item:nth-child(1) { animation-delay: 0.05s; }
-.stat-item:nth-child(2) { animation-delay: 0.1s; }
-.stat-item:nth-child(3) { animation-delay: 0.15s; }
-.stat-item:nth-child(4) { animation-delay: 0.2s; }
-.stat-item:nth-child(5) { animation-delay: 0.25s; }
 .stat-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--tech-blue); }
 .stat-item-icon {
     width: 46px; height: 46px; border-radius: var(--radius-md);
@@ -274,20 +251,16 @@ img { max-width: 100%; height: auto; display: block; }
 .stat-item-icon.warning { background: linear-gradient(135deg, var(--warning), #d97706); box-shadow: 0 4px 12px rgba(245,158,11,0.3); }
 .stat-item-icon.info { background: linear-gradient(135deg, var(--info), #2563eb); box-shadow: 0 4px 12px rgba(59,130,246,0.3); }
 .stat-item-icon.purple { background: linear-gradient(135deg, var(--purple), #7c3aed); box-shadow: 0 4px 12px rgba(139,92,246,0.3); }
-.stat-item-icon.danger { background: linear-gradient(135deg, var(--danger), #dc2626); box-shadow: 0 4px 12px rgba(239,68,68,0.3); }
 .stat-item-content { flex: 1; min-width: 0; }
 .stat-item-value { font-size: 1.35rem; font-weight: 800; color: var(--text-primary); line-height: 1.2; }
-.stat-item-value small { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
 .stat-item-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; }
 
-/* Tabs for status */
 .status-tabs {
     display: flex; gap: 0.35rem;
     background: var(--bg-card); padding: 0.35rem;
     border-radius: var(--radius-lg); margin-bottom: 1.25rem;
     border: 1px solid var(--border-color);
-    overflow-x: auto;
-    scrollbar-width: none;
+    overflow-x: auto; scrollbar-width: none;
 }
 .status-tabs::-webkit-scrollbar { display: none; }
 .status-tab {
@@ -299,7 +272,6 @@ img { max-width: 100%; height: auto; display: block; }
     transition: all var(--transition);
     display: flex; align-items: center; justify-content: center; gap: 0.4rem;
     white-space: nowrap;
-    position: relative;
 }
 .status-tab:hover:not(.active) { background: var(--bg-hover); color: var(--tech-blue); }
 .status-tab.active {
@@ -353,7 +325,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .toolbar-select:focus { border-color: var(--tech-blue); box-shadow: 0 0 0 4px rgba(29,91,142,0.12); }
 
-/* Repairs Grid */
 .repairs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -365,7 +336,6 @@ img { max-width: 100%; height: auto; display: block; }
     border-radius: var(--radius-lg);
     padding: 1.15rem;
     transition: all var(--transition);
-    animation: fadeInUp 0.4s ease backwards;
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -398,7 +368,6 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.75rem; font-weight: 800;
     font-family: 'Courier New', monospace;
     letter-spacing: 0.5px;
-    box-shadow: 0 4px 12px var(--status-shadow, rgba(29,91,142,0.3));
 }
 .repair-card-menu {
     display: flex; gap: 0.25rem;
@@ -429,7 +398,6 @@ img { max-width: 100%; height: auto; display: block; }
     background: linear-gradient(135deg, var(--status-color, var(--tech-blue)), var(--status-color-dark, var(--tech-blue-dark)));
     color: white; display: flex; align-items: center; justify-content: center;
     font-size: 1.25rem; flex-shrink: 0;
-    box-shadow: 0 4px 12px var(--status-shadow, rgba(29,91,142,0.3));
 }
 .repair-device-info { flex: 1; min-width: 0; }
 .repair-device-name {
@@ -484,58 +452,36 @@ img { max-width: 100%; height: auto; display: block; }
     padding: 0.4rem 0.75rem;
     border-radius: var(--radius-full);
     font-size: 0.75rem; font-weight: 800;
-    background: rgba(255,255,255,0.15);
     color: white;
     position: relative; z-index: 1;
     border: 1.5px solid rgba(255,255,255,0.3);
 }
-.repair-status-badge i { font-size: 0.7rem; }
 
-.repair-actions {
-    display: flex; gap: 0.35rem;
-    margin-top: 0.85rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--border-color);
-    position: relative; z-index: 1;
-}
-.repair-actions .btn {
-    flex: 1; padding: 0.4rem 0.5rem; font-size: 0.72rem;
-    border-radius: var(--radius-sm);
-}
+.status-received { --status-color: #3b82f6; --status-color-dark: #2563eb; }
+.status-repairing { --status-color: #f59e0b; --status-color-dark: #d97706; }
+.status-ready { --status-color: #10b981; --status-color-dark: #059669; }
+.status-delivered { --status-color: #64748b; --status-color-dark: #475569; }
+.status-cancelled { --status-color: #ef4444; --status-color-dark: #dc2626; }
 
-/* Status colors */
-.status-received { --status-color: #3b82f6; --status-color-dark: #2563eb; --status-shadow: rgba(59,130,246,0.3); }
-.status-repairing { --status-color: #f59e0b; --status-color-dark: #d97706; --status-shadow: rgba(245,158,11,0.3); }
-.status-ready { --status-color: #10b981; --status-color-dark: #059669; --status-shadow: rgba(16,185,129,0.3); }
-.status-delivered { --status-color: #64748b; --status-color-dark: #475569; --status-shadow: rgba(100,116,139,0.3); }
-.status-cancelled { --status-color: #ef4444; --status-color-dark: #dc2626; --status-shadow: rgba(239,68,68,0.3); }
-
-/* Modal */
 .modal-overlay {
     position: fixed; inset: 0; background: rgba(10,31,51,0.7);
     backdrop-filter: blur(8px); display: none;
     align-items: center; justify-content: center;
     z-index: 2000; padding: 1rem;
-    animation: fadeIn 0.3s ease; overflow-y: auto;
+    overflow-y: auto;
 }
 .modal-overlay.show { display: flex; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .modal {
     background: var(--bg-card); border-radius: var(--radius-xl);
     box-shadow: var(--shadow-xl);
     max-width: 640px; width: 100%; max-height: 92vh;
     overflow: hidden;
-    animation: modalIn 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
     display: flex; flex-direction: column; margin: auto;
     border: 1px solid var(--border-color);
 }
 .modal-sm { max-width: 480px; }
 .modal-lg { max-width: 900px; }
 .modal-xl { max-width: 1100px; }
-@keyframes modalIn {
-    from { opacity: 0; transform: scale(0.9) translateY(20px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-}
 .modal-header {
     padding: 1.25rem 1.5rem;
     border-bottom: 1px solid var(--border-color);
@@ -552,13 +498,9 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .modal-close:hover { background: rgba(239,68,68,0.1); color: var(--danger); transform: rotate(90deg); }
 .modal-body {
-    padding: 1.5rem; overflow-y: auto; overflow-x: hidden;
+    padding: 1.5rem; overflow-y: auto;
     flex: 1; min-height: 0; max-height: calc(92vh - 180px);
-    scrollbar-width: thin; scrollbar-color: var(--border-color) transparent;
 }
-.modal-body::-webkit-scrollbar { width: 8px; }
-.modal-body::-webkit-scrollbar-track { background: transparent; }
-.modal-body::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
 .modal-footer {
     padding: 1rem 1.5rem;
     border-top: 1px solid var(--border-color);
@@ -615,7 +557,35 @@ img { max-width: 100%; height: auto; display: block; }
     display: flex; align-items: center; gap: 0.35rem; line-height: 1.5;
 }
 
-/* Customer Picker */
+/* Device Type Suggestions */
+.device-input-wrapper { position: relative; }
+
+.device-suggestions {
+    display: flex; gap: 0.35rem; flex-wrap: wrap;
+    margin-top: 0.65rem;
+}
+.device-suggestion-chip {
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    border: 1.5px solid var(--border-color);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.device-suggestion-chip:hover {
+    background: var(--tech-blue);
+    color: white;
+    border-color: var(--tech-blue);
+    transform: translateY(-1px);
+}
+.device-suggestion-chip i { font-size: 0.7rem; }
+
 .picker { position: relative; }
 .picker-input {
     width: 100%; padding: 0.75rem 0.95rem;
@@ -644,7 +614,6 @@ img { max-width: 100%; height: auto; display: block; }
     padding: 0.65rem 0.75rem;
     border-bottom: 1px solid var(--border-color);
     position: sticky; top: 0; background: var(--bg-card); z-index: 2;
-    position: relative;
 }
 .picker-dropdown-search input {
     width: 100%; padding: 0.5rem 0.75rem; padding-right: 2rem;
@@ -713,11 +682,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .selected-chip-remove:hover { background: rgba(239,68,68,0.1); color: var(--danger); }
 
-/* Timeline */
-.timeline {
-    position: relative;
-    padding-right: 2rem;
-}
+.timeline { position: relative; padding-right: 2rem; }
 .timeline::before {
     content: ''; position: absolute;
     top: 0; bottom: 0; right: 10px;
@@ -741,12 +706,6 @@ img { max-width: 100%; height: auto; display: block; }
 .timeline-item.current::before {
     background: var(--success);
     box-shadow: 0 0 0 2px var(--success), 0 0 0 6px rgba(16,185,129,0.2);
-    animation: pulse-timeline 2s infinite;
-}
-@keyframes pulse-timeline {
-    0% { box-shadow: 0 0 0 2px var(--success), 0 0 0 0 rgba(16,185,129,0.4); }
-    70% { box-shadow: 0 0 0 2px var(--success), 0 0 0 10px rgba(16,185,129,0); }
-    100% { box-shadow: 0 0 0 2px var(--success), 0 0 0 0 rgba(16,185,129,0); }
 }
 .timeline-status {
     font-size: 0.85rem; font-weight: 800;
@@ -763,7 +722,6 @@ img { max-width: 100%; height: auto; display: block; }
     display: flex; align-items: center; gap: 0.25rem;
 }
 
-/* Details */
 .repair-details-header {
     display: flex; align-items: center; gap: 1rem;
     padding: 1.25rem;
@@ -773,19 +731,12 @@ img { max-width: 100%; height: auto; display: block; }
     position: relative; overflow: hidden;
     flex-wrap: wrap;
 }
-.repair-details-header::before {
-    content: ''; position: absolute; top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
-    pointer-events: none;
-}
 .repair-details-icon {
     width: 64px; height: 64px; border-radius: var(--radius-lg);
     background: rgba(255,255,255,0.2);
     display: flex; align-items: center; justify-content: center;
     font-size: 1.75rem; flex-shrink: 0;
     position: relative; z-index: 1;
-    backdrop-filter: blur(8px);
 }
 .repair-details-info { flex: 1; min-width: 0; position: relative; z-index: 1; }
 .repair-details-info h2 {
@@ -807,7 +758,6 @@ img { max-width: 100%; height: auto; display: block; }
     font-weight: 800; font-size: 0.9rem;
     letter-spacing: 1px;
     position: relative; z-index: 1;
-    backdrop-filter: blur(8px);
 }
 
 .tabs-nav {
@@ -832,53 +782,8 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .tab-btn:hover:not(.active) { color: var(--tech-blue); }
 .tab-content { display: none; }
-.tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+.tab-content.active { display: block; }
 
-/* Parts items */
-.part-row {
-    display: flex; align-items: center; gap: 0.75rem;
-    padding: 0.75rem 0.85rem;
-    background: var(--bg-primary); border-radius: var(--radius-md);
-    margin-bottom: 0.5rem;
-}
-.part-row-icon {
-    width: 40px; height: 40px; border-radius: var(--radius-md);
-    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
-    color: white; display: flex; align-items: center; justify-content: center;
-    font-size: 1rem; flex-shrink: 0;
-}
-.part-row-info { flex: 1; min-width: 0; }
-.part-row-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.1rem; }
-.part-row-meta { font-size: 0.72rem; color: var(--text-muted); }
-.part-row-value {
-    font-size: 0.9rem; font-weight: 800;
-    color: var(--tech-blue); text-align: left; flex-shrink: 0;
-}
-
-/* Summary box */
-.summary-box {
-    background: linear-gradient(135deg, rgba(29,91,142,0.06), rgba(45,122,184,0.03));
-    border: 1.5px solid var(--tech-blue);
-    border-radius: var(--radius-lg); padding: 1.15rem; margin-top: 1rem;
-}
-.summary-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0.5rem 0; font-size: 0.9rem;
-}
-.summary-row:not(:last-child) { border-bottom: 1px dashed var(--border-color); }
-.summary-row-label {
-    color: var(--text-secondary); font-weight: 600;
-    display: flex; align-items: center; gap: 0.4rem;
-}
-.summary-row-value { font-weight: 800; color: var(--text-primary); font-size: 1rem; }
-.summary-row.total {
-    padding-top: 0.85rem; margin-top: 0.35rem;
-    border-top: 2px solid var(--tech-blue);
-}
-.summary-row.total .summary-row-label { font-size: 1rem; font-weight: 800; color: var(--text-primary); }
-.summary-row.total .summary-row-value { font-size: 1.35rem; color: var(--tech-blue); }
-
-/* Toast */
 .toast-container {
     position: fixed; top: calc(var(--navbar-height) + 1rem);
     left: 50%; transform: translateX(-50%);
@@ -892,7 +797,6 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: var(--shadow-xl); border: 1px solid var(--border-color);
     display: flex; align-items: center; gap: 0.75rem;
     font-size: 0.9rem; font-weight: 500; pointer-events: auto;
-    animation: toastIn 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
     border-right: 4px solid var(--info);
 }
 .toast.success { border-right-color: var(--success); }
@@ -903,14 +807,7 @@ img { max-width: 100%; height: auto; display: block; }
 .toast.error i { color: var(--danger); }
 .toast.warning i { color: var(--warning); }
 .toast.info i { color: var(--info); }
-.toast.hide { animation: toastOut 0.3s ease forwards; }
-@keyframes toastIn {
-    from { opacity: 0; transform: translateY(-20px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-@keyframes toastOut { to { opacity: 0; transform: translateY(-20px) scale(0.95); } }
 
-/* Skeleton / Empty */
 .skeleton {
     background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
     background-size: 200% 100%;
@@ -955,11 +852,9 @@ img { max-width: 100%; height: auto; display: block; }
 .pagination-btn.active {
     background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
     color: white; border-color: var(--tech-blue);
-    box-shadow: 0 4px 12px rgba(29,91,142,0.3);
 }
 .pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* Scroll Top */
 .scroll-top {
     position: fixed; bottom: calc(1rem + var(--safe-bottom));
     left: calc(1rem + var(--safe-left));
@@ -971,9 +866,7 @@ img { max-width: 100%; height: auto; display: block; }
     transition: all var(--transition); z-index: 1400;
 }
 .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
-.scroll-top:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(29,91,142,0.5); }
 
-/* Notifications + User */
 .notifications-panel, .user-dropdown {
     position: fixed; top: calc(var(--navbar-height) + 0.5rem);
     left: 1rem; width: 360px; max-width: calc(100vw - 2rem);
@@ -996,22 +889,16 @@ img { max-width: 100%; height: auto; display: block; }
 .notifications-mark-read {
     font-size: 0.75rem; font-weight: 600; color: var(--tech-blue);
     padding: 0.35rem 0.65rem; border-radius: var(--radius-sm);
-    transition: all var(--transition);
 }
 .notifications-mark-read:hover { background: rgba(29,91,142,0.1); }
 .notifications-list { max-height: 400px; overflow-y: auto; }
 .notification-item {
     display: flex; gap: 0.75rem; padding: 0.85rem 1.15rem;
     border-bottom: 1px solid var(--border-color);
-    transition: all var(--transition-fast); cursor: pointer; position: relative;
+    cursor: pointer; position: relative;
 }
 .notification-item:hover { background: var(--bg-hover); }
 .notification-item.unread { background: rgba(29,91,142,0.04); }
-.notification-item.unread::before {
-    content: ''; position: absolute; right: 0; top: 50%;
-    transform: translateY(-50%); width: 3px; height: 60%;
-    background: var(--tech-blue); border-radius: 3px;
-}
 .notification-item-icon {
     width: 36px; height: 36px; border-radius: var(--radius-md);
     display: flex; align-items: center; justify-content: center;
@@ -1027,7 +914,7 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.notification-item-time { font-size: 0.65rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.25rem; }
+.notification-item-time { font-size: 0.65rem; color: var(--text-muted); }
 .notifications-empty { padding: 2.5rem 1rem; text-align: center; color: var(--text-muted); }
 .notifications-empty i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
 .user-dropdown-header {
@@ -1047,26 +934,23 @@ img { max-width: 100%; height: auto; display: block; }
     display: flex; align-items: center; gap: 0.65rem;
     padding: 0.65rem 0.75rem; border-radius: var(--radius-sm);
     font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);
-    transition: all var(--transition-fast); width: 100%; text-align: right;
+    width: 100%; text-align: right;
 }
 .user-dropdown-item:hover { background: var(--bg-hover); color: var(--tech-blue); }
 .user-dropdown-item.danger:hover { background: rgba(239,68,68,0.1); color: var(--danger); }
 .user-dropdown-divider { height: 1px; background: var(--border-color); margin: 0.35rem 0.5rem; }
 
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
 @keyframes spin { to { transform: rotate(360deg); } }
 .spinner {
     width: 20px; height: 20px;
     border: 2px solid rgba(255,255,255,0.3);
     border-top-color: white; border-radius: 50%;
     animation: spin 0.8s linear infinite;
+    display: inline-block;
 }
 
 @media (max-width: 968px) {
-    .sidebar { transform: translateX(100%); box-shadow: var(--shadow-xl); }
+    .sidebar { transform: translateX(100%); }
     .sidebar.show { transform: translateX(0); }
     .main-content { margin-right: 0; padding: 1rem; }
     .navbar-brand-text { display: none; }
@@ -1098,12 +982,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 @media (max-width: 400px) {
     .stats-bar { grid-template-columns: 1fr; }
-}
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-    }
 }
 </style>
 </head>
@@ -1236,7 +1114,6 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
     </div>
     
-    <!-- Status Tabs -->
     <div class="status-tabs">
         <button class="status-tab active" data-status="all">
             <i class="fas fa-list"></i> الكل
@@ -1308,7 +1185,7 @@ img { max-width: 100%; height: auto; display: block; }
                             <i class="fas fa-user"></i> العميل <span class="required">*</span>
                         </label>
                         <div class="picker" id="customerPicker">
-                            <input type="text" class="picker-input" id="customerSearch" placeholder="اضغط لاختيار عميل أو اكتب اسم جديد..." readonly>
+                            <input type="text" class="picker-input" id="customerSearch" placeholder="اضغط لاختيار عميل..." readonly>
                             <i class="fas fa-user picker-icon"></i>
                             <div class="picker-dropdown" id="customerDropdown">
                                 <div class="picker-dropdown-search">
@@ -1327,28 +1204,24 @@ img { max-width: 100%; height: auto; display: block; }
                         <div class="form-error" id="customerError"><i class="fas fa-circle-exclamation"></i><span>الرجاء اختيار عميل</span></div>
                     </div>
                     
-                    <!-- Device Type -->
+                    <!-- Device Type (يدوي) -->
                     <div class="form-group">
                         <label class="form-label" for="deviceType">
                             <i class="fas fa-mobile-screen"></i> نوع الجهاز <span class="required">*</span>
                         </label>
-                        <select class="form-select" id="deviceType" required>
-                            <option value="">-- اختر النوع --</option>
-                            <option value="موبايل">موبايل</option>
-                            <option value="تابلت">تابلت</option>
-                            <option value="لابتوب">لابتوب</option>
-                            <option value="شاشة">شاشة</option>
-                            <option value="كمبيوتر">كمبيوتر</option>
-                            <option value="طابعة">طابعة</option>
-                            <option value="سماعات">سماعات</option>
-                            <option value="شاحن">شاحن</option>
-                            <option value="باور بانك">باور بانك</option>
-                            <option value="ماوس">ماوس</option>
-                            <option value="كيبورد">كيبورد</option>
-                            <option value="راوتر">راوتر</option>
-                            <option value="أخرى">أخرى</option>
-                        </select>
-                        <div class="form-error" id="deviceTypeError"><i class="fas fa-circle-exclamation"></i><span>الرجاء اختيار نوع الجهاز</span></div>
+                        <div class="device-input-wrapper">
+                            <input type="text" class="form-input" id="deviceType"
+                                placeholder="اكتب نوع الجهاز (مثال: موبايل، ريسيفر، ساعة ذكية...)"
+                                maxlength="100" required autocomplete="off">
+                        </div>
+                        <div class="device-suggestions" id="deviceSuggestions"></div>
+                        <div class="form-hint">
+                            <i class="fas fa-info-circle"></i>
+                            اكتب أي نوع جهاز يدويًا، واقتراحات الأجهزة السابقة ستظهر هنا
+                        </div>
+                        <div class="form-error" id="deviceTypeError">
+                            <i class="fas fa-circle-exclamation"></i><span>الرجاء إدخال نوع الجهاز</span>
+                        </div>
                     </div>
                     
                     <!-- Device Model -->
@@ -1382,10 +1255,6 @@ img { max-width: 100%; height: auto; display: block; }
                             <i class="fas fa-money-bill-wave"></i> تكلفة المصنعية المتوقعة (ج.م)
                         </label>
                         <input type="number" class="form-input" id="laborCost" placeholder="0.00" min="0" step="0.01" value="0">
-                        <div class="form-hint">
-                            <i class="fas fa-info-circle"></i>
-                            التكلفة النهائية تُحدد عند إصدار الفاتورة
-                        </div>
                     </div>
                     
                     <!-- Status -->
@@ -1598,9 +1467,6 @@ img { max-width: 100%; height: auto; display: block; }
 (function() {
 'use strict';
 
-// ═══════════════════════════════════════════════════════════════
-// 🔑 Config
-// ═══════════════════════════════════════════════════════════════
 var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
 var DB_NAME = 'electronic_db';
@@ -1621,7 +1487,6 @@ function getSupabaseClient() {
         });
         return supabaseClient;
     } catch (e) {
-        console.error('Supabase init failed:', e);
         return null;
     }
 }
@@ -1646,12 +1511,6 @@ function sanitizePhone(phone) {
     return String(phone).replace(/[^\d+]/g, '');
 }
 
-function formatCurrency(amount) {
-    var num = parseFloat(amount) || 0;
-    try { return num.toLocaleString('ar-EG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ج.م'; }
-    catch (e) { return num.toFixed(2) + ' ج.م'; }
-}
-
 function formatCurrencyShort(amount) {
     var num = parseFloat(amount) || 0;
     try { return num.toLocaleString('ar-EG', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' ج.م'; }
@@ -1666,8 +1525,8 @@ function formatNumber(num) {
 function formatDate(date) {
     if (!date) return '—';
     try {
-        return new Date(date).toLocaleDateString('ar-EG', { 
-            year: 'numeric', month: 'short', day: 'numeric' 
+        return new Date(date).toLocaleDateString('ar-EG', {
+            year: 'numeric', month: 'short', day: 'numeric'
         });
     } catch (e) { return '—'; }
 }
@@ -1675,7 +1534,7 @@ function formatDate(date) {
 function formatDateTime(date) {
     if (!date) return '—';
     try {
-        return new Date(date).toLocaleDateString('ar-EG', { 
+        return new Date(date).toLocaleDateString('ar-EG', {
             year: 'numeric', month: 'short', day: 'numeric',
             hour: '2-digit', minute: '2-digit'
         });
@@ -1717,22 +1576,59 @@ function getStatusInfo(status) {
     return map[status] || { text: status || '—', icon: 'fa-circle', cls: 'received', color: '#64748b' };
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🔧 Device Icon — يدعم أنواع مخصصة
+// ═══════════════════════════════════════════════════════════════
 function getDeviceIcon(deviceType) {
-    var map = {
-        'موبايل': 'fa-mobile-screen',
-        'تابلت': 'fa-tablet-screen-button',
-        'لابتوب': 'fa-laptop',
-        'شاشة': 'fa-tv',
-        'كمبيوتر': 'fa-desktop',
-        'طابعة': 'fa-print',
-        'سماعات': 'fa-headphones',
-        'شاحن': 'fa-plug',
-        'باور بانك': 'fa-battery-full',
-        'ماوس': 'fa-mouse',
-        'كيبورد': 'fa-keyboard',
-        'راوتر': 'fa-wifi'
-    };
-    return map[deviceType] || 'fa-microchip';
+    if (!deviceType) return 'fa-microchip';
+    var t = String(deviceType).toLowerCase();
+
+    // قائمة الكلمات المفتاحية مع أيقوناتها
+    var keywords = [
+        { keys: ['موبايل', 'هاتف', 'phone', 'mobile', 'ايفون', 'سامسونج'], icon: 'fa-mobile-screen' },
+        { keys: ['تابلت', 'tablet', 'ايباد', 'ipad'], icon: 'fa-tablet-screen-button' },
+        { keys: ['لابتوب', 'laptop', 'نوت بوك', 'notebook', 'ماك بوك', 'macbook'], icon: 'fa-laptop' },
+        { keys: ['شاشة', 'monitor', 'screen', 'display', 'تلفزيون', 'tv'], icon: 'fa-tv' },
+        { keys: ['كمبيوتر', 'computer', 'pc', 'desktop', 'مكتب'], icon: 'fa-desktop' },
+        { keys: ['طابعة', 'printer'], icon: 'fa-print' },
+        { keys: ['سماعة', 'سماعات', 'headphone', 'headset', 'airpods'], icon: 'fa-headphones' },
+        { keys: ['شاحن', 'charger', 'adapter', 'محول'], icon: 'fa-plug' },
+        { keys: ['باور', 'power', 'bank', 'بطارية', 'battery'], icon: 'fa-battery-full' },
+        { keys: ['ماوس', 'mouse'], icon: 'fa-mouse' },
+        { keys: ['كيبورد', 'keyboard', 'لوحة مفاتيح'], icon: 'fa-keyboard' },
+        { keys: ['راوتر', 'router', 'واي فاي', 'wifi', 'مودم', 'modem'], icon: 'fa-wifi' },
+        { keys: ['كاميرا', 'camera', 'كاميرة'], icon: 'fa-camera' },
+        { keys: ['ريسيفر', 'receiver', 'رسيفر', 'دش', 'dish'], icon: 'fa-satellite-dish' },
+        { keys: ['ساعة', 'watch', 'smartwatch', 'smart watch'], icon: 'fa-clock' },
+        { keys: ['مروحة', 'fan'], icon: 'fa-fan' },
+        { keys: ['ثلاجة', 'refrigerator', 'fridge'], icon: 'fa-box' },
+        { keys: ['غسالة', 'washing', 'washer'], icon: 'fa-soap' },
+        { keys: ['مكيف', 'air conditioner', 'ac', 'تكييف'], icon: 'fa-snowflake' },
+        { keys: ['ميكروويف', 'microwave'], icon: 'fa-fire' },
+        { keys: ['مكواة', 'iron'], icon: 'fa-shirt' },
+        { keys: ['مكنسة', 'vacuum', 'hoover'], icon: 'fa-broom' },
+        { keys: ['ريسيفر', 'استقبال'], icon: 'fa-satellite-dish' },
+        { keys: ['بلوتوث', 'bluetooth', 'سبيكر', 'speaker'], icon: 'fa-volume-high' },
+        { keys: ['شاشة سيارة', 'car screen'], icon: 'fa-car' },
+        { keys: ['درون', 'drone'], icon: 'fa-plane' },
+        { keys: ['بلايستيشن', 'playstation', 'ps4', 'ps5', 'xbox'], icon: 'fa-gamepad' },
+        { keys: ['تابلت', 'قلم'], icon: 'fa-pen' },
+        { keys: ['فلاشة', 'usb', 'flash'], icon: 'fa-usb' },
+        { keys: ['hard', 'هارد', 'ssd', 'hdd', 'قرص'], icon: 'fa-hard-drive' },
+        { keys: ['sim', 'سيم', 'شريحة'], icon: 'fa-sim-card' },
+        { keys: ['sd', 'memory', 'ميموري', 'ذاكرة'], icon: 'fa-sd-card' },
+        { keys: ['بلايستيشن', 'نيتندو', 'switch'], icon: 'fa-gamepad' }
+    ];
+
+    for (var i = 0; i < keywords.length; i++) {
+        for (var j = 0; j < keywords[i].keys.length; j++) {
+            if (t.indexOf(keywords[i].keys[j]) !== -1) {
+                return keywords[i].icon;
+            }
+        }
+    }
+
+    return 'fa-microchip';
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1772,14 +1668,11 @@ function showToast(message, type, duration) {
     toast.innerHTML = '<i class="fas ' + (icons[type] || icons.info) + '"></i><span>' + escapeHtml(message) + '</span>';
     container.appendChild(toast);
     setTimeout(function() {
-        toast.classList.add('hide');
+        toast.style.opacity = '0';
         setTimeout(function() { toast.remove(); }, 300);
     }, duration);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🌐 Online
-// ═══════════════════════════════════════════════════════════════
 function updateOnlineStatus() {
     var dot = document.getElementById('onlineDot');
     if (!dot) return;
@@ -1844,7 +1737,7 @@ function openDB() {
     if (dbFailed) return Promise.resolve(null);
     if (dbInstance) return Promise.resolve(dbInstance);
     if (dbPromise) return dbPromise;
-    
+
     dbPromise = new Promise(function(resolve) {
         try {
             var req = indexedDB.open(DB_NAME, DB_VERSION);
@@ -1974,6 +1867,7 @@ var state = {
     repairs: [],
     customers: [],
     timeline: [],
+    deviceTypes: [],       // أنواع الأجهزة المستخدمة (للاقتراحات)
     filtered: [],
     searchQuery: '',
     statusFilter: 'all',
@@ -1992,11 +1886,16 @@ var state = {
 function loadData() {
     state.isLoading = true;
     var sb = getSupabaseClient();
-    
+
     if (!sb || !navigator.onLine) {
-        return loadFromCache();
+        return loadFromCache().then(function() {
+            state.isLoading = false;
+            buildDeviceTypesFromRepairs();
+            updateStats();
+            applyFilters();
+        });
     }
-    
+
     return Promise.all([
         sb.from('repair_orders').select('*, customer:customers(id, name, phone)').order('created_at', { ascending: false }).limit(500),
         sb.from('customers').select('id, name, phone').order('name'),
@@ -2005,7 +1904,7 @@ function loadData() {
         state.repairs = results[0].data || [];
         state.customers = results[1].data || [];
         state.timeline = results[2].data || [];
-        
+
         return Promise.all([
             dbBulkPut('repairs', state.repairs),
             dbBulkPut('customers', state.customers),
@@ -2013,23 +1912,16 @@ function loadData() {
         ]);
     }).catch(function(err) {
         console.warn('Load failed, using cache:', err);
-        return loadFromCacheInternal();
+        return loadFromCache();
     }).then(function() {
         state.isLoading = false;
+        buildDeviceTypesFromRepairs();
         updateStats();
         applyFilters();
     });
 }
 
 function loadFromCache() {
-    return loadFromCacheInternal().then(function() {
-        state.isLoading = false;
-        updateStats();
-        applyFilters();
-    });
-}
-
-function loadFromCacheInternal() {
     return Promise.all([
         dbGetAll('repairs'),
         dbGetAll('customers'),
@@ -2038,8 +1930,7 @@ function loadFromCacheInternal() {
         state.repairs = cached[0] || [];
         state.customers = cached[1] || [];
         state.timeline = cached[2] || [];
-        
-        // Enrich repairs with customer data
+
         var customerMap = {};
         state.customers.forEach(function(c) { customerMap[c.id] = c; });
         state.repairs = state.repairs.map(function(r) {
@@ -2052,34 +1943,58 @@ function loadFromCacheInternal() {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// 🔧 Build Device Types (للاقتراحات)
+// ═══════════════════════════════════════════════════════════════
+function buildDeviceTypesFromRepairs() {
+    var counts = {};
+
+    state.repairs.forEach(function(r) {
+        var t = (r.device_type || '').trim();
+        if (!t) return;
+        // خزّن بصيغة موحدة للبحث لكن احتفظ بالأصل
+        var key = t;
+        if (!counts[key]) {
+            counts[key] = { name: t, count: 0 };
+        }
+        counts[key].count += 1;
+    });
+
+    // رتّب حسب الأكثر استخداماً
+    var arr = Object.keys(counts).map(function(k) { return counts[k]; });
+    arr.sort(function(a, b) { return b.count - a.count; });
+
+    state.deviceTypes = arr.slice(0, 12); // أعلى 12 نوع
+}
+
+// ═══════════════════════════════════════════════════════════════
 // 📊 Stats
 // ═══════════════════════════════════════════════════════════════
 function updateStats() {
     var total = state.repairs.length;
     var counts = { received: 0, repairing: 0, ready: 0, delivered: 0, cancelled: 0 };
-    
+
     state.repairs.forEach(function(r) {
         if (counts[r.status] !== undefined) counts[r.status]++;
     });
-    
+
     var setEl = function(id, val) {
         var el = document.getElementById(id);
         if (el) el.textContent = formatNumber(val);
     };
-    
+
     setEl('totalRepairs', total);
     setEl('receivedCount', counts.received);
     setEl('repairingCount', counts.repairing);
     setEl('readyCount', counts.ready);
     setEl('deliveredCount', counts.delivered);
-    
+
     setEl('countAll', total);
     setEl('countReceived', counts.received);
     setEl('countRepairing', counts.repairing);
     setEl('countReady', counts.ready);
     setEl('countDelivered', counts.delivered);
     setEl('countCancelled', counts.cancelled);
-    
+
     var subtitle = document.getElementById('pageSubtitle');
     if (subtitle) subtitle.textContent = total + ' أمر صيانة';
 }
@@ -2090,7 +2005,7 @@ function updateStats() {
 function applyFilters() {
     var list = state.repairs.slice();
     var q = (state.searchQuery || '').trim().toLowerCase();
-    
+
     if (q) {
         list = list.filter(function(r) {
             var code = (r.tracking_code || '').toLowerCase();
@@ -2103,29 +2018,25 @@ function applyFilters() {
                    serial.indexOf(q) !== -1;
         });
     }
-    
+
     if (state.statusFilter !== 'all') {
         list = list.filter(function(r) { return r.status === state.statusFilter; });
     }
-    
-    switch (state.sortFilter) {
-        case 'oldest':
-            list.sort(function(a, b) { return new Date(a.created_at || 0) - new Date(b.created_at || 0); });
-            break;
-        case 'customer':
-            list.sort(function(a, b) {
-                var aName = (a.customer && a.customer.name || '').toLowerCase();
-                var bName = (b.customer && b.customer.name || '').toLowerCase();
-                return aName.localeCompare(bName, 'ar');
-            });
-            break;
-        case 'newest':
-        default:
-            list.sort(function(a, b) {
-                return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime();
-            });
+
+    if (state.sortFilter === 'oldest') {
+        list.sort(function(a, b) { return new Date(a.created_at || 0) - new Date(b.created_at || 0); });
+    } else if (state.sortFilter === 'customer') {
+        list.sort(function(a, b) {
+            var aName = (a.customer && a.customer.name || '').toLowerCase();
+            var bName = (b.customer && b.customer.name || '').toLowerCase();
+            return aName.localeCompare(bName, 'ar');
+        });
+    } else {
+        list.sort(function(a, b) {
+            return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime();
+        });
     }
-    
+
     state.filtered = list;
     state.currentPage = 1;
     render();
@@ -2138,30 +2049,35 @@ function render() {
     var container = document.getElementById('repairsContainer');
     var pagination = document.getElementById('pagination');
     if (!container) return;
-    
+
     if (state.isLoading) {
         container.innerHTML = '<div class="repairs-grid">' +
-            '<div class="skeleton skeleton-card"></div>'.repeat(3) +
+            '<div class="skeleton skeleton-card"></div>' +
+            '<div class="skeleton skeleton-card"></div>' +
+            '<div class="skeleton skeleton-card"></div>' +
         '</div>';
         if (pagination) pagination.style.display = 'none';
         return;
     }
-    
+
     if (!state.filtered.length) {
         container.innerHTML = getEmptyState();
         bindEmptyStateBtn();
         if (pagination) pagination.style.display = 'none';
         return;
     }
-    
+
     var totalPages = Math.ceil(state.filtered.length / PAGE_SIZE);
     var start = (state.currentPage - 1) * PAGE_SIZE;
     var pageItems = state.filtered.slice(start, start + PAGE_SIZE);
-    
-    container.innerHTML = '<div class="repairs-grid">' +
-        pageItems.map(renderRepairCard).join('') +
-    '</div>';
-    
+
+    var html = '<div class="repairs-grid">';
+    pageItems.forEach(function(r) {
+        html += renderRepairCard(r);
+    });
+    html += '</div>';
+    container.innerHTML = html;
+
     if (totalPages > 1 && pagination) {
         pagination.style.display = 'flex';
         pagination.innerHTML = renderPagination(totalPages);
@@ -2169,7 +2085,7 @@ function render() {
     } else if (pagination) {
         pagination.style.display = 'none';
     }
-    
+
     bindRepairEvents();
 }
 
@@ -2199,69 +2115,75 @@ function renderRepairCard(r) {
     var customer = r.customer || {};
     var deviceIcon = getDeviceIcon(r.device_type);
     var deviceName = (r.device_type || '') + (r.device_model ? ' - ' + r.device_model : '');
-    
-    return '<div class="repair-card status-' + statusInfo.cls + '" data-id="' + r.id + '">' +
-        '<div class="repair-card-header">' +
-            '<div class="repair-tracking">' +
-                '<i class="fas fa-barcode"></i> ' + escapeHtml(r.tracking_code || '—') +
-            '</div>' +
-            '<div class="repair-card-menu">' +
-                '<button class="repair-menu-btn" data-action="status" data-id="' + r.id + '" title="تحديث الحالة">' +
-                    '<i class="fas fa-circle-dot"></i>' +
-                '</button>' +
-                '<button class="repair-menu-btn" data-action="edit" data-id="' + r.id + '" title="تعديل">' +
-                    '<i class="fas fa-pen"></i>' +
-                '</button>' +
-                '<button class="repair-menu-btn danger" data-action="delete" data-id="' + r.id + '" title="حذف">' +
-                    '<i class="fas fa-trash"></i>' +
-                '</button>' +
-            '</div>' +
-        '</div>' +
-        
-        '<div class="repair-device">' +
-            '<div class="repair-device-icon">' +
-                '<i class="fas ' + deviceIcon + '"></i>' +
-            '</div>' +
-            '<div class="repair-device-info">' +
-                '<div class="repair-device-name">' + escapeHtml(deviceName || 'جهاز') + '</div>' +
-                (r.serial_number ? '<div class="repair-device-model">S/N: ' + escapeHtml(r.serial_number) + '</div>' : '') +
-            '</div>' +
-        '</div>' +
-        
-        '<div class="repair-meta">' +
-            (customer.name ? 
-                '<div class="repair-meta-row">' +
-                    '<span class="repair-meta-label"><i class="fas fa-user"></i> العميل</span>' +
-                    '<span class="repair-meta-value">' + escapeHtml(customer.name) + '</span>' +
-                '</div>'
-                : '') +
-            (customer.phone ? 
-                '<div class="repair-meta-row">' +
-                    '<span class="repair-meta-label"><i class="fas fa-phone"></i> الموبايل</span>' +
-                    '<span class="repair-meta-value" style="font-family: monospace; direction: ltr;">' + escapeHtml(customer.phone) + '</span>' +
-                '</div>'
-                : '') +
-            '<div class="repair-meta-row">' +
-                '<span class="repair-meta-label"><i class="fas fa-clock"></i> منذ</span>' +
-                '<span class="repair-meta-value">' + formatTimeAgo(r.created_at) + '</span>' +
-            '</div>' +
-        '</div>' +
-        
-        (r.problem ? 
-            '<div class="repair-problem">' +
-                '<i class="fas fa-exclamation-circle"></i> ' + escapeHtml(r.problem) +
-            '</div>'
-            : '') +
-        
-        '<div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">' +
-            '<span class="repair-status-badge" style="background: ' + statusInfo.color + ';">' +
-                '<i class="fas ' + statusInfo.icon + '"></i> ' + statusInfo.text +
-            '</span>' +
-            (parseFloat(r.labor_cost) > 0 ? 
-                '<span style="font-size: 0.85rem; font-weight: 800; color: var(--tech-blue);">' + formatCurrencyShort(r.labor_cost) + '</span>'
-                : '') +
-        '</div>' +
-    '</div>';
+    if (!deviceName) deviceName = 'جهاز';
+
+    var html = '<div class="repair-card status-' + statusInfo.cls + '" data-id="' + r.id + '">';
+
+    html += '<div class="repair-card-header">';
+    html += '<div class="repair-tracking">';
+    html += '<i class="fas fa-barcode"></i> ' + escapeHtml(r.tracking_code || '—');
+    html += '</div>';
+    html += '<div class="repair-card-menu">';
+    html += '<button class="repair-menu-btn" data-action="status" data-id="' + r.id + '" title="تحديث الحالة">';
+    html += '<i class="fas fa-circle-dot"></i>';
+    html += '</button>';
+    html += '<button class="repair-menu-btn" data-action="edit" data-id="' + r.id + '" title="تعديل">';
+    html += '<i class="fas fa-pen"></i>';
+    html += '</button>';
+    html += '<button class="repair-menu-btn danger" data-action="delete" data-id="' + r.id + '" title="حذف">';
+    html += '<i class="fas fa-trash"></i>';
+    html += '</button>';
+    html += '</div>';
+    html += '</div>';
+
+    html += '<div class="repair-device">';
+    html += '<div class="repair-device-icon">';
+    html += '<i class="fas ' + deviceIcon + '"></i>';
+    html += '</div>';
+    html += '<div class="repair-device-info">';
+    html += '<div class="repair-device-name">' + escapeHtml(deviceName) + '</div>';
+    if (r.serial_number) {
+        html += '<div class="repair-device-model">S/N: ' + escapeHtml(r.serial_number) + '</div>';
+    }
+    html += '</div>';
+    html += '</div>';
+
+    html += '<div class="repair-meta">';
+    if (customer.name) {
+        html += '<div class="repair-meta-row">';
+        html += '<span class="repair-meta-label"><i class="fas fa-user"></i> العميل</span>';
+        html += '<span class="repair-meta-value">' + escapeHtml(customer.name) + '</span>';
+        html += '</div>';
+    }
+    if (customer.phone) {
+        html += '<div class="repair-meta-row">';
+        html += '<span class="repair-meta-label"><i class="fas fa-phone"></i> الموبايل</span>';
+        html += '<span class="repair-meta-value" style="font-family: monospace; direction: ltr;">' + escapeHtml(customer.phone) + '</span>';
+        html += '</div>';
+    }
+    html += '<div class="repair-meta-row">';
+    html += '<span class="repair-meta-label"><i class="fas fa-clock"></i> منذ</span>';
+    html += '<span class="repair-meta-value">' + formatTimeAgo(r.created_at) + '</span>';
+    html += '</div>';
+    html += '</div>';
+
+    if (r.problem) {
+        html += '<div class="repair-problem">';
+        html += '<i class="fas fa-exclamation-circle"></i> ' + escapeHtml(r.problem);
+        html += '</div>';
+    }
+
+    html += '<div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">';
+    html += '<span class="repair-status-badge" style="background: ' + statusInfo.color + ';">';
+    html += '<i class="fas ' + statusInfo.icon + '"></i> ' + statusInfo.text;
+    html += '</span>';
+    if (parseFloat(r.labor_cost) > 0) {
+        html += '<span style="font-size: 0.85rem; font-weight: 800; color: var(--tech-blue);">' + formatCurrencyShort(r.labor_cost) + '</span>';
+    }
+    html += '</div>';
+
+    html += '</div>';
+    return html;
 }
 
 function renderPagination(totalPages) {
@@ -2329,19 +2251,24 @@ function bindRepairEvents() {
 function openAddModal() {
     state.editingRepair = null;
     state.selectedCustomer = null;
-    
+
     document.getElementById('repairModalTitle').textContent = 'استلام جهاز جديد';
     document.getElementById('repairModalIcon').className = 'fas fa-plus';
     document.getElementById('saveRepairText').textContent = 'حفظ';
-    
+
     document.getElementById('repairForm').reset();
     document.getElementById('laborCost').value = '0';
     document.getElementById('status').value = 'received';
     document.getElementById('customerSearch').value = '';
     document.getElementById('selectedCustomerContainer').innerHTML = '';
-    
+    document.getElementById('deviceType').value = '';
+
     clearFormErrors();
+    renderDeviceSuggestions();
     document.getElementById('repairModal').classList.add('show');
+    setTimeout(function() {
+        document.getElementById('customerSearch').focus();
+    }, 300);
 }
 
 function openEditModal(id) {
@@ -2350,9 +2277,9 @@ function openEditModal(id) {
         if (state.repairs[i].id === id) { r = state.repairs[i]; break; }
     }
     if (!r) return;
-    
+
     state.editingRepair = r;
-    
+
     var customer = null;
     if (r.customer_id) {
         for (var j = 0; j < state.customers.length; j++) {
@@ -2360,11 +2287,11 @@ function openEditModal(id) {
         }
     }
     state.selectedCustomer = customer;
-    
+
     document.getElementById('repairModalTitle').textContent = 'تعديل أمر الصيانة';
     document.getElementById('repairModalIcon').className = 'fas fa-pen';
     document.getElementById('saveRepairText').textContent = 'حفظ التعديلات';
-    
+
     document.getElementById('deviceType').value = r.device_type || '';
     document.getElementById('deviceModel').value = r.device_model || '';
     document.getElementById('serialNumber').value = r.serial_number || '';
@@ -2372,14 +2299,18 @@ function openEditModal(id) {
     document.getElementById('laborCost').value = r.labor_cost || 0;
     document.getElementById('status').value = r.status || 'received';
     document.getElementById('repairNotes').value = r.notes || '';
-    
+
     if (customer) {
         document.getElementById('customerSearch').value = customer.name + ' - ' + (customer.phone || '');
         renderSelectedCustomer(customer);
     }
-    
+
     clearFormErrors();
+    renderDeviceSuggestions();
     document.getElementById('repairModal').classList.add('show');
+    setTimeout(function() {
+        document.getElementById('deviceType').focus();
+    }, 300);
 }
 
 function closeRepairModal() {
@@ -2397,13 +2328,57 @@ function clearFormErrors() {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// 🔧 Device Suggestions
+// ═══════════════════════════════════════════════════════════════
+function renderDeviceSuggestions() {
+    var container = document.getElementById('deviceSuggestions');
+    if (!container) return;
+
+    // لو مفيش اقتراحات، اخفي القسم
+    if (!state.deviceTypes.length) {
+        container.innerHTML = '';
+        return;
+    }
+
+    var currentValue = (document.getElementById('deviceType').value || '').trim().toLowerCase();
+
+    // اقتراحات من أنواع الأجهزة المستخدمة سابقاً
+    var html = '';
+    state.deviceTypes.forEach(function(dt) {
+        // متعرضش النوع الحالي لو مكتوب في الحقل
+        if (dt.name.toLowerCase() === currentValue) return;
+        html += '<button type="button" class="device-suggestion-chip" data-device-type="' + escapeHtml(dt.name) + '">';
+        html += '<i class="fas ' + getDeviceIcon(dt.name) + '"></i> ';
+        html += escapeHtml(dt.name);
+        if (dt.count > 1) {
+            html += ' <span style="opacity: 0.6; font-size: 0.7em;">(' + dt.count + ')</span>';
+        }
+        html += '</button>';
+    });
+
+    container.innerHTML = html;
+
+    // Bind clicks
+    container.querySelectorAll('.device-suggestion-chip').forEach(function(chip) {
+        chip.addEventListener('click', function() {
+            var deviceType = chip.dataset.deviceType;
+            if (deviceType) {
+                document.getElementById('deviceType').value = deviceType;
+                document.getElementById('deviceType').focus();
+                renderDeviceSuggestions();
+            }
+        });
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
 // 🔍 Customer Picker
 // ═══════════════════════════════════════════════════════════════
 function initCustomerPicker() {
     var input = document.getElementById('customerSearch');
     var dropdown = document.getElementById('customerDropdown');
     var searchInput = document.getElementById('customerDropdownSearch');
-    
+
     if (input) {
         input.addEventListener('click', function() {
             dropdown.classList.add('show');
@@ -2413,20 +2388,20 @@ function initCustomerPicker() {
             }, 100);
         });
     }
-    
+
     if (searchInput) {
         searchInput.addEventListener('input', function(e) {
             renderCustomerOptions(e.target.value);
         });
     }
-    
+
     document.addEventListener('click', function(e) {
         if (!dropdown || !input) return;
         if (!dropdown.contains(e.target) && !input.contains(e.target)) {
             dropdown.classList.remove('show');
         }
     });
-    
+
     var newBtn = document.getElementById('newCustomerBtn');
     if (newBtn) {
         newBtn.addEventListener('click', function(e) {
@@ -2440,35 +2415,37 @@ function initCustomerPicker() {
 function renderCustomerOptions(search) {
     var list = document.getElementById('customerOptionsList');
     if (!list) return;
-    
+
     var q = (search || '').trim().toLowerCase();
     var customers = state.customers;
-    
+
     if (q) {
         customers = customers.filter(function(c) {
             return (c.name || '').toLowerCase().indexOf(q) !== -1 ||
                    (c.phone || '').toLowerCase().indexOf(q) !== -1;
         });
     }
-    
+
     if (!customers.length) {
         list.innerHTML = '<div class="picker-empty"><i class="fas fa-user-slash"></i><p>لا يوجد عملاء</p></div>';
         return;
     }
-    
-    list.innerHTML = customers.slice(0, 30).map(function(c) {
+
+    var html = '';
+    customers.slice(0, 30).forEach(function(c) {
         var initials = getInitials(c.name);
-        return '<div class="picker-option" data-customer-id="' + c.id + '">' +
-            '<div class="picker-option-avatar">' + escapeHtml(initials) + '</div>' +
-            '<div class="picker-option-info">' +
-                '<div class="picker-option-name">' + escapeHtml(c.name) + '</div>' +
-                '<div class="picker-option-meta">' +
-                    '<span><i class="fas fa-phone"></i> ' + escapeHtml(c.phone || '—') + '</span>' +
-                '</div>' +
-            '</div>' +
-        '</div>';
-    }).join('');
-    
+        html += '<div class="picker-option" data-customer-id="' + c.id + '">';
+        html += '<div class="picker-option-avatar">' + escapeHtml(initials) + '</div>';
+        html += '<div class="picker-option-info">';
+        html += '<div class="picker-option-name">' + escapeHtml(c.name) + '</div>';
+        html += '<div class="picker-option-meta">';
+        html += '<span><i class="fas fa-phone"></i> ' + escapeHtml(c.phone || '—') + '</span>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    });
+    list.innerHTML = html;
+
     list.querySelectorAll('.picker-option').forEach(function(el) {
         el.addEventListener('click', function() {
             selectCustomer(el.dataset.customerId);
@@ -2482,32 +2459,35 @@ function selectCustomer(id) {
         if (state.customers[i].id === id) { c = state.customers[i]; break; }
     }
     if (!c) return;
-    
+
     state.selectedCustomer = c;
     document.getElementById('customerDropdown').classList.remove('show');
     document.getElementById('customerSearch').value = c.name + ' - ' + (c.phone || '');
     renderSelectedCustomer(c);
+    document.getElementById('customerError').classList.remove('show');
 }
 
 function renderSelectedCustomer(c) {
     var container = document.getElementById('selectedCustomerContainer');
     if (!container) return;
-    
+
     var initials = getInitials(c.name);
-    
-    container.innerHTML = '<div class="selected-chip">' +
-        '<div class="selected-chip-icon">' + escapeHtml(initials) + '</div>' +
-        '<div class="selected-chip-info">' +
-            '<div class="selected-chip-name">' + escapeHtml(c.name) + '</div>' +
-            '<div class="selected-chip-meta">' +
-                '<i class="fas fa-phone"></i> ' + escapeHtml(c.phone || '—') +
-            '</div>' +
-        '</div>' +
-        '<button type="button" class="selected-chip-remove" id="removeSelectedCustomer">' +
-            '<i class="fas fa-times"></i>' +
-        '</button>' +
-    '</div>';
-    
+
+    var html = '<div class="selected-chip">';
+    html += '<div class="selected-chip-icon">' + escapeHtml(initials) + '</div>';
+    html += '<div class="selected-chip-info">';
+    html += '<div class="selected-chip-name">' + escapeHtml(c.name) + '</div>';
+    html += '<div class="selected-chip-meta">';
+    html += '<i class="fas fa-phone"></i> ' + escapeHtml(c.phone || '—');
+    html += '</div>';
+    html += '</div>';
+    html += '<button type="button" class="selected-chip-remove" id="removeSelectedCustomer">';
+    html += '<i class="fas fa-times"></i>';
+    html += '</button>';
+    html += '</div>';
+
+    container.innerHTML = html;
+
     var removeBtn = document.getElementById('removeSelectedCustomer');
     if (removeBtn) {
         removeBtn.addEventListener('click', function() {
@@ -2536,43 +2516,41 @@ function closeNewCustomerModal() {
 
 function saveNewCustomer(e) {
     e.preventDefault();
-    
+
     var name = document.getElementById('newCustomerName').value.trim();
     var phone = document.getElementById('newCustomerPhone').value.trim();
     var cleanPhone = sanitizePhone(phone);
-    
+
     if (!name) {
         document.getElementById('newCustomerName').classList.add('error');
         return;
     }
-    
+
     if (!cleanPhone || cleanPhone.length < 8) {
         document.getElementById('newCustomerPhone').classList.add('error');
         document.getElementById('newCustomerPhoneError').classList.add('show');
         return;
     }
-    
+
     var btn = document.getElementById('saveNewCustomerBtn');
     var spinner = btn.querySelector('.spinner');
     var icon = btn.querySelector('i');
     var text = document.getElementById('saveNewCustomerText');
-    
+
     btn.disabled = true;
-    spinner.style.display = 'block';
+    spinner.style.display = 'inline-block';
     icon.style.display = 'none';
     text.textContent = 'جاري الحفظ...';
-    
+
     var sb = getSupabaseClient();
-    var session = getSession();
-    
     var customerData = { name: name, phone: phone };
     var newCustomer = Object.assign({
         id: 'temp_' + Date.now(),
         created_at: new Date().toISOString()
     }, customerData);
-    
+
     var promise;
-    
+
     if (sb && navigator.onLine) {
         promise = sb.from('customers').insert(customerData).select().single()
             .then(function(result) {
@@ -2585,13 +2563,13 @@ function saveNewCustomer(e) {
             type: 'insert', table: 'customers', tempId: newCustomer.id, data: customerData
         });
     }
-    
+
     promise.then(function() {
         state.customers.push(newCustomer);
         dbPut('customers', newCustomer);
         closeNewCustomerModal();
         selectCustomer(newCustomer.id);
-        showToast('✅ تم إضافة العميل بنجاح', 'success');
+        showToast('تم إضافة العميل بنجاح', 'success');
     }).catch(function(err) {
         console.error('Save customer error:', err);
         showToast('حدث خطأ أثناء حفظ العميل', 'error');
@@ -2609,51 +2587,51 @@ function saveNewCustomer(e) {
 function saveRepair(e) {
     e.preventDefault();
     clearFormErrors();
-    
+
     var customerId = state.selectedCustomer && state.selectedCustomer.id;
-    var deviceType = document.getElementById('deviceType').value;
+    var deviceType = document.getElementById('deviceType').value.trim();
     var deviceModel = document.getElementById('deviceModel').value.trim() || null;
     var serialNumber = document.getElementById('serialNumber').value.trim() || null;
     var problem = document.getElementById('problem').value.trim();
     var laborCost = parseFloat(document.getElementById('laborCost').value) || 0;
     var status = document.getElementById('status').value;
     var notes = document.getElementById('repairNotes').value.trim() || null;
-    
+
     var hasError = false;
-    
+
     if (!customerId || !isValidUUID(customerId)) {
         document.getElementById('customerError').classList.add('show');
         hasError = true;
     }
-    
+
     if (!deviceType) {
         document.getElementById('deviceType').classList.add('error');
         document.getElementById('deviceTypeError').classList.add('show');
         hasError = true;
     }
-    
+
     if (!problem) {
         document.getElementById('problem').classList.add('error');
         document.getElementById('problemError').classList.add('show');
         hasError = true;
     }
-    
+
     if (hasError) return;
-    
+
     var btn = document.getElementById('saveRepairBtn');
     var spinner = btn.querySelector('.spinner');
     var icon = btn.querySelector('i');
     var text = document.getElementById('saveRepairText');
-    
+
     btn.disabled = true;
-    spinner.style.display = 'block';
+    spinner.style.display = 'inline-block';
     icon.style.display = 'none';
     text.textContent = 'جاري الحفظ...';
-    
+
     var session = getSession();
     var sb = getSupabaseClient();
     var isEditing = !!state.editingRepair;
-    
+
     var repairData = {
         customer_id: customerId,
         device_type: deviceType,
@@ -2665,20 +2643,19 @@ function saveRepair(e) {
         notes: notes,
         created_by: session && session.user ? session.user.id : null
     };
-    
+
     var tempId = 'temp_' + Date.now();
     var savePromise;
-    
+
     if (isEditing) {
         var editingId = state.editingRepair.id;
         var oldStatus = state.editingRepair.status;
-        
+
         if (sb && navigator.onLine && isValidUUID(editingId)) {
             savePromise = sb.from('repair_orders').update(repairData).eq('id', editingId)
                 .then(function(result) {
                     if (result.error) throw result.error;
-                    
-                    // Add timeline if status changed
+
                     if (oldStatus !== status) {
                         return sb.from('repair_timeline').insert({
                             repair_order_id: editingId,
@@ -2693,7 +2670,7 @@ function saveRepair(e) {
                 type: 'update', table: 'repair_orders', id: editingId, data: repairData
             });
         }
-        
+
         savePromise = savePromise.then(function() {
             for (var i = 0; i < state.repairs.length; i++) {
                 if (state.repairs[i].id === editingId) {
@@ -2703,9 +2680,9 @@ function saveRepair(e) {
                     break;
                 }
             }
-            showToast('✅ تم تحديث أمر الصيانة', 'success');
+            showToast('تم تحديث أمر الصيانة', 'success');
         });
-        
+
     } else {
         var newRepair = Object.assign({
             id: tempId,
@@ -2713,7 +2690,7 @@ function saveRepair(e) {
             created_at: new Date().toISOString(),
             customer: state.selectedCustomer
         }, repairData);
-        
+
         if (sb && navigator.onLine) {
             savePromise = sb.from('repair_orders').insert(repairData).select('*, customer:customers(id, name, phone)').single()
                 .then(function(result) {
@@ -2722,8 +2699,7 @@ function saveRepair(e) {
                     newRepair.tracking_code = result.data.tracking_code;
                     newRepair.created_at = result.data.created_at;
                     newRepair.customer = result.data.customer;
-                    
-                    // Add initial timeline
+
                     return sb.from('repair_timeline').insert({
                         repair_order_id: result.data.id,
                         status: 'received',
@@ -2736,16 +2712,17 @@ function saveRepair(e) {
                 type: 'insert', table: 'repair_orders', tempId: tempId, data: repairData
             });
         }
-        
+
         savePromise = savePromise.then(function() {
             state.repairs.unshift(newRepair);
             dbPut('repairs', newRepair);
-            showToast('✅ تم استلام الجهاز بنجاح', 'success');
+            showToast('تم استلام الجهاز بنجاح', 'success');
         });
     }
-    
+
     savePromise.then(function() {
         closeRepairModal();
+        buildDeviceTypesFromRepairs();
         updateStats();
         applyFilters();
     }).catch(function(err) {
@@ -2777,126 +2754,131 @@ function openDetailsModal(id) {
         if (state.repairs[i].id === id) { r = state.repairs[i]; break; }
     }
     if (!r) return;
-    
+
     state.viewingRepair = r;
     var statusInfo = getStatusInfo(r.status);
     var customer = r.customer || {};
     var deviceIcon = getDeviceIcon(r.device_type);
     var deviceName = (r.device_type || '') + (r.device_model ? ' - ' + r.device_model : '');
-    
-    // Get timeline
+    if (!deviceName) deviceName = 'جهاز';
+
     var repairTimeline = state.timeline.filter(function(t) {
         return t.repair_order_id === r.id;
     }).sort(function(a, b) {
         return new Date(a.created_at) - new Date(b.created_at);
     });
-    
+
     var timelineHtml = '';
     if (repairTimeline.length) {
-        timelineHtml = '<div class="timeline">' + repairTimeline.map(function(t, idx) {
+        timelineHtml = '<div class="timeline">';
+        repairTimeline.forEach(function(t, idx) {
             var isLast = idx === repairTimeline.length - 1;
             var tStatus = getStatusInfo(t.status);
-            return '<div class="timeline-item ' + (isLast ? 'current' : '') + '">' +
-                '<div class="timeline-status">' +
-                    '<i class="fas ' + tStatus.icon + '" style="color: ' + tStatus.color + ';"></i> ' +
-                    tStatus.text +
-                '</div>' +
-                (t.note ? '<div class="timeline-note">' + escapeHtml(t.note) + '</div>' : '') +
-                '<div class="timeline-time"><i class="fas fa-clock"></i> ' + formatDateTime(t.created_at) + '</div>' +
-            '</div>';
-        }).join('') + '</div>';
+            timelineHtml += '<div class="timeline-item ' + (isLast ? 'current' : '') + '">';
+            timelineHtml += '<div class="timeline-status">';
+            timelineHtml += '<i class="fas ' + tStatus.icon + '" style="color: ' + tStatus.color + ';"></i> ';
+            timelineHtml += tStatus.text;
+            timelineHtml += '</div>';
+            if (t.note) {
+                timelineHtml += '<div class="timeline-note">' + escapeHtml(t.note) + '</div>';
+            }
+            timelineHtml += '<div class="timeline-time"><i class="fas fa-clock"></i> ' + formatDateTime(t.created_at) + '</div>';
+            timelineHtml += '</div>';
+        });
+        timelineHtml += '</div>';
     } else {
         timelineHtml = '<div style="padding: 2rem; text-align: center; color: var(--text-muted); background: var(--bg-primary); border-radius: var(--radius-md); border: 2px dashed var(--border-color);">' +
             '<i class="fas fa-clock" style="font-size: 2rem; opacity: 0.3; display: block; margin-bottom: 0.5rem;"></i>' +
             '<p style="font-size: 0.85rem;">لا يوجد سجل بعد</p>' +
         '</div>';
     }
-    
-    // Track URL
+
     var baseUrl = window.location.origin + window.location.pathname.replace('repairs.html', 'track.html');
     var trackUrl = baseUrl + '?code=' + encodeURIComponent(r.tracking_code || '');
-    
-    document.getElementById('detailsContent').innerHTML =
-        '<div class="repair-details-header">' +
-            '<div class="repair-details-icon"><i class="fas ' + deviceIcon + '"></i></div>' +
-            '<div class="repair-details-info">' +
-                '<h2>' + escapeHtml(deviceName || 'جهاز') + '</h2>' +
-                '<div class="meta">' +
-                    (customer.name ? '<span><i class="fas fa-user"></i> ' + escapeHtml(customer.name) + '</span>' : '') +
-                    (customer.phone ? '<span><i class="fas fa-phone"></i> ' + escapeHtml(customer.phone) + '</span>' : '') +
-                    '<span><i class="fas fa-calendar"></i> ' + formatDate(r.created_at) + '</span>' +
-                '</div>' +
-            '</div>' +
-            '<div class="repair-details-tracking">' +
-                '<i class="fas fa-barcode"></i> ' + escapeHtml(r.tracking_code || '—') +
-            '</div>' +
-        '</div>' +
-        
-        '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">' +
-            '<div style="padding: 0.85rem; background: ' + statusInfo.color + '15; border-radius: var(--radius-md); text-align: center; border: 1px solid ' + statusInfo.color + '40;">' +
-                '<div style="font-size: 1.5rem; color: ' + statusInfo.color + '; margin-bottom: 0.35rem;"><i class="fas ' + statusInfo.icon + '"></i></div>' +
-                '<div style="font-size: 0.9rem; font-weight: 800; color: ' + statusInfo.color + ';">' + statusInfo.text + '</div>' +
-                '<div style="font-size: 0.7rem; color: var(--text-secondary); font-weight: 600;">الحالة الحالية</div>' +
-            '</div>' +
-            '<div style="padding: 0.85rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">' +
-                '<div style="font-size: 0.95rem; font-weight: 800; color: var(--tech-blue); margin-bottom: 0.35rem;">' + formatCurrencyShort(r.labor_cost) + '</div>' +
-                '<div style="font-size: 0.7rem; color: var(--text-secondary); font-weight: 600;">تكلفة المصنعية</div>' +
-            '</div>' +
-            '<div style="padding: 0.85rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">' +
-                '<div style="font-size: 0.95rem; font-weight: 800; color: var(--warning); margin-bottom: 0.35rem;">' + formatTimeAgo(r.created_at) + '</div>' +
-                '<div style="font-size: 0.7rem; color: var(--text-secondary); font-weight: 600;">منذ الاستلام</div>' +
-            '</div>' +
-        '</div>' +
-        
-        '<div class="tabs-nav">' +
-            '<button class="tab-btn active" data-tab="info"><i class="fas fa-info-circle"></i> التفاصيل</button>' +
-            '<button class="tab-btn" data-tab="timeline"><i class="fas fa-clock-rotate-left"></i> Timeline (' + repairTimeline.length + ')</button>' +
-            '<button class="tab-btn" data-tab="share"><i class="fas fa-share-nodes"></i> مشاركة</button>' +
-        '</div>' +
-        
-        '<div class="tab-content active" data-tab-content="info">' +
-            '<div style="display: flex; flex-direction: column; gap: 0.65rem;">' +
-                '<div style="padding: 0.85rem; background: var(--bg-primary); border-radius: var(--radius-md);">' +
-                    '<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem;">وصف العطل</div>' +
-                    '<div style="font-size: 0.9rem; line-height: 1.7;">' + escapeHtml(r.problem || 'لا يوجد') + '</div>' +
-                '</div>' +
-                (r.serial_number ? 
-                    '<div style="padding: 0.85rem; background: var(--bg-primary); border-radius: var(--radius-md);">' +
-                        '<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem;">الرقم التسلسلي</div>' +
-                        '<div style="font-size: 0.9rem; font-weight: 700; font-family: monospace;">' + escapeHtml(r.serial_number) + '</div>' +
-                    '</div>'
-                    : '') +
-                (r.notes ? 
-                    '<div style="padding: 0.85rem; background: var(--bg-primary); border-radius: var(--radius-md);">' +
-                        '<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem;">ملاحظات</div>' +
-                        '<div style="font-size: 0.9rem; line-height: 1.7;">' + escapeHtml(r.notes) + '</div>' +
-                    '</div>'
-                    : '') +
-            '</div>' +
-        '</div>' +
-        
-        '<div class="tab-content" data-tab-content="timeline">' + timelineHtml + '</div>' +
-        
-        '<div class="tab-content" data-tab-content="share">' +
-            '<div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center;">' +
-                '<div id="qrRepairBox" style="width: 200px; height: 200px; margin: 0 auto 1rem; background: white; padding: 0.5rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;"></div>' +
-                '<h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.5rem;">لينك تتبع الجهاز</h4>' +
-                '<p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.75rem;">شارك الكود مع العميل لمتابعة حالة جهازه</p>' +
-                '<div style="display: flex; gap: 0.35rem; margin-bottom: 1rem; max-width: 400px; margin-right: auto; margin-left: auto;">' +
-                    '<input type="text" id="trackUrlInput" value="' + escapeHtml(trackUrl) + '" readonly style="flex: 1; padding: 0.6rem 0.75rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.8rem; font-family: monospace; direction: ltr; text-align: left;">' +
-                    '<button type="button" class="btn btn-primary btn-sm" id="copyTrackUrlBtn"><i class="fas fa-copy"></i></button>' +
-                '</div>' +
-                '<div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">' +
-                    '<a href="https://wa.me/' + escapeHtml(sanitizePhone(customer.phone || '').replace(/^0/, '20')) + '?text=' + encodeURIComponent('مرحباً ' + (customer.name || '') + '،\nجهازك ' + deviceName + ' برقم تتبع: ' + (r.tracking_code || '') + '\nيمكنك متابعة حالة الجهاز من هنا: ' + trackUrl) + '" target="_blank" class="btn btn-success btn-sm"><i class="fab fa-whatsapp"></i> واتساب</a>' +
-                    '<a href="sms:' + escapeHtml(sanitizePhone(customer.phone || '')) + '?body=' + encodeURIComponent('جهازك برقم ' + (r.tracking_code || '') + ' - تابع من: ' + trackUrl) + '" class="btn btn-info btn-sm"><i class="fas fa-comment-sms"></i> SMS</a>' +
-                '</div>' +
-            '</div>' +
-        '</div>';
-    
+
+    var html = '';
+    html += '<div class="repair-details-header">';
+    html += '<div class="repair-details-icon"><i class="fas ' + deviceIcon + '"></i></div>';
+    html += '<div class="repair-details-info">';
+    html += '<h2>' + escapeHtml(deviceName) + '</h2>';
+    html += '<div class="meta">';
+    if (customer.name) html += '<span><i class="fas fa-user"></i> ' + escapeHtml(customer.name) + '</span>';
+    if (customer.phone) html += '<span><i class="fas fa-phone"></i> ' + escapeHtml(customer.phone) + '</span>';
+    html += '<span><i class="fas fa-calendar"></i> ' + formatDate(r.created_at) + '</span>';
+    html += '</div>';
+    html += '</div>';
+    html += '<div class="repair-details-tracking">';
+    html += '<i class="fas fa-barcode"></i> ' + escapeHtml(r.tracking_code || '—');
+    html += '</div>';
+    html += '</div>';
+
+    html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">';
+    html += '<div style="padding: 0.85rem; background: ' + statusInfo.color + '15; border-radius: var(--radius-md); text-align: center; border: 1px solid ' + statusInfo.color + '40;">';
+    html += '<div style="font-size: 1.5rem; color: ' + statusInfo.color + '; margin-bottom: 0.35rem;"><i class="fas ' + statusInfo.icon + '"></i></div>';
+    html += '<div style="font-size: 0.9rem; font-weight: 800; color: ' + statusInfo.color + ';">' + statusInfo.text + '</div>';
+    html += '<div style="font-size: 0.7rem; color: var(--text-secondary); font-weight: 600;">الحالة الحالية</div>';
+    html += '</div>';
+    html += '<div style="padding: 0.85rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">';
+    html += '<div style="font-size: 0.95rem; font-weight: 800; color: var(--tech-blue); margin-bottom: 0.35rem;">' + formatCurrencyShort(r.labor_cost) + '</div>';
+    html += '<div style="font-size: 0.7rem; color: var(--text-secondary); font-weight: 600;">تكلفة المصنعية</div>';
+    html += '</div>';
+    html += '<div style="padding: 0.85rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">';
+    html += '<div style="font-size: 0.95rem; font-weight: 800; color: var(--warning); margin-bottom: 0.35rem;">' + formatTimeAgo(r.created_at) + '</div>';
+    html += '<div style="font-size: 0.7rem; color: var(--text-secondary); font-weight: 600;">منذ الاستلام</div>';
+    html += '</div>';
+    html += '</div>';
+
+    html += '<div class="tabs-nav">';
+    html += '<button class="tab-btn active" data-tab="info"><i class="fas fa-info-circle"></i> التفاصيل</button>';
+    html += '<button class="tab-btn" data-tab="timeline"><i class="fas fa-clock-rotate-left"></i> Timeline (' + repairTimeline.length + ')</button>';
+    html += '<button class="tab-btn" data-tab="share"><i class="fas fa-share-nodes"></i> مشاركة</button>';
+    html += '</div>';
+
+    html += '<div class="tab-content active" data-tab-content="info">';
+    html += '<div style="display: flex; flex-direction: column; gap: 0.65rem;">';
+    html += '<div style="padding: 0.85rem; background: var(--bg-primary); border-radius: var(--radius-md);">';
+    html += '<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem;">وصف العطل</div>';
+    html += '<div style="font-size: 0.9rem; line-height: 1.7;">' + escapeHtml(r.problem || 'لا يوجد') + '</div>';
+    html += '</div>';
+    if (r.serial_number) {
+        html += '<div style="padding: 0.85rem; background: var(--bg-primary); border-radius: var(--radius-md);">';
+        html += '<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem;">الرقم التسلسلي</div>';
+        html += '<div style="font-size: 0.9rem; font-weight: 700; font-family: monospace;">' + escapeHtml(r.serial_number) + '</div>';
+        html += '</div>';
+    }
+    if (r.notes) {
+        html += '<div style="padding: 0.85rem; background: var(--bg-primary); border-radius: var(--radius-md);">';
+        html += '<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem;">ملاحظات</div>';
+        html += '<div style="font-size: 0.9rem; line-height: 1.7;">' + escapeHtml(r.notes) + '</div>';
+        html += '</div>';
+    }
+    html += '</div>';
+    html += '</div>';
+
+    html += '<div class="tab-content" data-tab-content="timeline">' + timelineHtml + '</div>';
+
+    html += '<div class="tab-content" data-tab-content="share">';
+    html += '<div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center;">';
+    html += '<div id="qrRepairBox" style="width: 200px; height: 200px; margin: 0 auto 1rem; background: white; padding: 0.5rem; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;"></div>';
+    html += '<h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.5rem;">لينك تتبع الجهاز</h4>';
+    html += '<p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.75rem;">شارك الكود مع العميل لمتابعة حالة جهازه</p>';
+    html += '<div style="display: flex; gap: 0.35rem; margin-bottom: 1rem; max-width: 400px; margin-right: auto; margin-left: auto;">';
+    html += '<input type="text" id="trackUrlInput" value="' + escapeHtml(trackUrl) + '" readonly style="flex: 1; padding: 0.6rem 0.75rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.8rem; font-family: monospace; direction: ltr; text-align: left;">';
+    html += '<button type="button" class="btn btn-primary btn-sm" id="copyTrackUrlBtn"><i class="fas fa-copy"></i></button>';
+    html += '</div>';
+    html += '<div style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">';
+    var waPhone = sanitizePhone(customer.phone || '').replace(/^0/, '20');
+    var waMsg = 'مرحباً ' + (customer.name || '') + '،\nجهازك ' + deviceName + ' برقم تتبع: ' + (r.tracking_code || '') + '\nيمكنك متابعة حالة الجهاز من هنا: ' + trackUrl;
+    html += '<a href="https://wa.me/' + escapeHtml(waPhone) + '?text=' + encodeURIComponent(waMsg) + '" target="_blank" class="btn btn-success btn-sm"><i class="fab fa-whatsapp"></i> واتساب</a>';
+    html += '<a href="sms:' + escapeHtml(sanitizePhone(customer.phone || '')) + '?body=' + encodeURIComponent('جهازك برقم ' + (r.tracking_code || '') + ' - تابع من: ' + trackUrl) + '" class="btn btn-info btn-sm"><i class="fas fa-comment-sms"></i> SMS</a>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+
+    document.getElementById('detailsContent').innerHTML = html;
     document.getElementById('detailsModal').classList.add('show');
     bindDetailsTabEvents();
-    
-    // Generate QR
+
     setTimeout(function() { generateRepairQR(trackUrl); }, 100);
 }
 
@@ -2912,7 +2894,7 @@ function bindDetailsTabEvents() {
             });
         });
     });
-    
+
     var copyBtn = document.getElementById('copyTrackUrlBtn');
     if (copyBtn) {
         copyBtn.addEventListener('click', function() {
@@ -2936,7 +2918,7 @@ function bindDetailsTabEvents() {
 function generateRepairQR(text) {
     var qrBox = document.getElementById('qrRepairBox');
     if (!qrBox) return;
-    
+
     if (typeof QRCode === 'undefined') {
         var script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js';
@@ -2947,7 +2929,7 @@ function generateRepairQR(text) {
         document.head.appendChild(script);
         return;
     }
-    
+
     QRCode.toCanvas(text, { width: 200, margin: 1, color: { dark: '#1d5b8e', light: '#ffffff' } }, function(err, canvas) {
         if (err) {
             qrBox.innerHTML = '<i class="fas fa-qrcode" style="font-size: 2rem; color: var(--text-muted);"></i>';
@@ -2969,7 +2951,7 @@ function openStatusModal(id) {
         if (state.repairs[i].id === id) { r = state.repairs[i]; break; }
     }
     if (!r) return;
-    
+
     state.editingRepair = r;
     document.getElementById('newStatus').value = r.status || 'received';
     document.getElementById('statusNote').value = '';
@@ -2983,38 +2965,38 @@ function closeStatusModal() {
 
 function saveStatus(e) {
     e.preventDefault();
-    
+
     var r = state.editingRepair;
     if (!r) return;
-    
+
     var newStatus = document.getElementById('newStatus').value;
     var note = document.getElementById('statusNote').value.trim() || null;
-    
+
     if (newStatus === r.status && !note) {
         showToast('لم يتم تغيير الحالة', 'warning');
         return;
     }
-    
+
     var btn = document.getElementById('saveStatusBtn');
     var spinner = btn.querySelector('.spinner');
     var icon = btn.querySelector('i');
     var text = document.getElementById('saveStatusText');
-    
+
     btn.disabled = true;
-    spinner.style.display = 'block';
+    spinner.style.display = 'inline-block';
     icon.style.display = 'none';
     text.textContent = 'جاري التحديث...';
-    
+
     var session = getSession();
     var sb = getSupabaseClient();
     var oldStatus = r.status;
     var isStatusChanged = newStatus !== oldStatus;
-    
+
     var promise;
-    
+
     if (sb && navigator.onLine && isValidUUID(r.id)) {
         promise = Promise.resolve();
-        
+
         if (isStatusChanged) {
             promise = promise.then(function() {
                 var updateData = { status: newStatus };
@@ -3024,7 +3006,7 @@ function saveStatus(e) {
                 return sb.from('repair_orders').update(updateData).eq('id', r.id);
             });
         }
-        
+
         promise = promise.then(function() {
             return sb.from('repair_timeline').insert({
                 repair_order_id: r.id,
@@ -3051,9 +3033,8 @@ function saveStatus(e) {
             });
         });
     }
-    
+
     promise.then(function() {
-        // Update local
         for (var i = 0; i < state.repairs.length; i++) {
             if (state.repairs[i].id === r.id) {
                 state.repairs[i].status = newStatus;
@@ -3064,8 +3045,7 @@ function saveStatus(e) {
                 break;
             }
         }
-        
-        // Add timeline locally
+
         var newTimeline = {
             id: 'temp_' + Date.now(),
             repair_order_id: r.id,
@@ -3075,8 +3055,8 @@ function saveStatus(e) {
         };
         state.timeline.push(newTimeline);
         dbPut('repair_timeline', newTimeline);
-        
-        showToast('✅ تم تحديث الحالة بنجاح', 'success');
+
+        showToast('تم تحديث الحالة بنجاح', 'success');
         closeStatusModal();
         updateStats();
         applyFilters();
@@ -3100,7 +3080,7 @@ function openDeleteModal(id) {
         if (state.repairs[i].id === id) { r = state.repairs[i]; break; }
     }
     if (!r) return;
-    
+
     state.deletingRepair = r;
     document.getElementById('deleteRepairCode').textContent = r.tracking_code || '';
     document.getElementById('deleteModal').classList.add('show');
@@ -3109,15 +3089,15 @@ function openDeleteModal(id) {
 function confirmDelete() {
     var r = state.deletingRepair;
     if (!r) return;
-    
+
     var btn = document.getElementById('confirmDeleteBtn');
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner" style="display:block;width:16px;height:16px;"></span>';
-    
+
     var session = getSession();
     var sb = getSupabaseClient();
     var promise;
-    
+
     if (sb && navigator.onLine && isValidUUID(r.id)) {
         promise = sb.from('repair_orders').delete().eq('id', r.id)
             .then(function(result) {
@@ -3133,14 +3113,15 @@ function confirmDelete() {
     } else {
         promise = addToOutbox({ type: 'delete', table: 'repair_orders', id: r.id });
     }
-    
+
     promise.then(function() {
         state.repairs = state.repairs.filter(function(x) { return x.id !== r.id; });
         state.timeline = state.timeline.filter(function(t) { return t.repair_order_id !== r.id; });
         dbDelete('repairs', r.id);
-        showToast('✅ تم حذف أمر الصيانة', 'success');
+        showToast('تم حذف أمر الصيانة', 'success');
         document.getElementById('deleteModal').classList.remove('show');
         state.deletingRepair = null;
+        buildDeviceTypesFromRepairs();
         updateStats();
         applyFilters();
     }).catch(function(err) {
@@ -3158,10 +3139,10 @@ function confirmDelete() {
 function printRepair() {
     var r = state.viewingRepair;
     if (!r) return;
-    
+
     var customer = r.customer || {};
     var statusInfo = getStatusInfo(r.status);
-    
+
     var html = '<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>أمر صيانة ' + escapeHtml(r.tracking_code) + '</title>' +
         '<style>' +
         '@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap");' +
@@ -3185,7 +3166,6 @@ function printRepair() {
         '.problem-box h3 { font-size: 11pt; font-weight: 800; margin-bottom: 2mm; }' +
         '.problem-box p { font-size: 12pt; line-height: 1.6; }' +
         '.footer { text-align: center; font-size: 9pt; color: #64748b; padding-top: 5mm; border-top: 1px solid #e1e8f0; margin-top: 8mm; }' +
-        '.contact { display: flex; justify-content: center; gap: 8mm; margin-top: 3mm; font-weight: 700; }' +
         '</style></head><body>' +
         '<div class="header">' +
             '<div class="brand">' +
@@ -3211,16 +3191,15 @@ function printRepair() {
             '</div>' +
         '</div>' +
         '<div class="problem-box">' +
-            '<h3>⚠️ وصف العطل</h3>' +
+            '<h3>وصف العطل</h3>' +
             '<p>' + escapeHtml(r.problem || '—') + '</p>' +
         '</div>' +
         '<div class="footer">' +
             '<p>شكراً لتعاملكم معنا</p>' +
-            '<div class="contact"><span>📞 للاستفسار: 01XXXXXXXXX</span></div>' +
         '</div>' +
         '<script>window.onload = function() { setTimeout(function() { window.print(); }, 300); };<\/script>' +
         '</body></html>';
-    
+
     var win = window.open('', '_blank');
     if (!win) {
         showToast('يرجى السماح بالنوافذ المنبثقة', 'error');
@@ -3231,14 +3210,7 @@ function printRepair() {
     win.document.close();
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🔗 Share
-// ═══════════════════════════════════════════════════════════════
 function shareRepair() {
-    var r = state.viewingRepair;
-    if (!r) return;
-    
-    // Switch to share tab
     var tabs = document.querySelectorAll('#detailsModal .tab-btn');
     var contents = document.querySelectorAll('#detailsModal .tab-content');
     tabs.forEach(function(t) { t.classList.toggle('active', t.dataset.tab === 'share'); });
@@ -3247,14 +3219,9 @@ function shareRepair() {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🧾 Create Invoice from Repair
-// ═══════════════════════════════════════════════════════════════
 function createInvoiceFromRepair() {
     var r = state.viewingRepair;
     if (!r) return;
-    
-    // Redirect to invoices page with repair_id
     window.location.href = 'invoices.html?action=add&repair_id=' + r.id;
 }
 
@@ -3272,7 +3239,7 @@ function exportExcel() {
             document.head.appendChild(script);
         });
     }
-    
+
     loadLib.then(function() {
         var data = state.filtered.map(function(r) {
             var customer = r.customer || {};
@@ -3291,7 +3258,7 @@ function exportExcel() {
                 'تاريخ التسليم': r.delivered_at ? formatDate(r.delivered_at) : ''
             };
         });
-        
+
         var ws = XLSX.utils.json_to_sheet(data);
         var wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'أوامر الصيانة');
@@ -3311,7 +3278,7 @@ function loadNotifications() {
     if (!session) return;
     var sb = getSupabaseClient();
     if (!sb || !navigator.onLine) return;
-    
+
     sb.from('notifications')
         .select('*')
         .eq('user_id', session.user.id)
@@ -3327,24 +3294,24 @@ function renderNotifications(notifications) {
     var list = document.getElementById('notificationsList');
     var badge = document.getElementById('notifBadge');
     if (!list || !badge) return;
-    
+
     var unread = 0;
     for (var i = 0; i < notifications.length; i++) {
         if (!notifications[i].read) unread++;
     }
-    
+
     if (unread > 0) {
         badge.textContent = unread > 99 ? '99+' : unread;
         badge.style.display = 'flex';
     } else {
         badge.style.display = 'none';
     }
-    
+
     if (!notifications.length) {
         list.innerHTML = '<div class="notifications-empty"><i class="fas fa-bell-slash"></i><p>لا توجد إشعارات</p></div>';
         return;
     }
-    
+
     var typeMap = {
         'new_repair': { icon: 'fa-screwdriver-wrench', cls: 'info' },
         'ready_repair': { icon: 'fa-circle-check', cls: 'success' },
@@ -3352,18 +3319,20 @@ function renderNotifications(notifications) {
         'low_stock': { icon: 'fa-triangle-exclamation', cls: 'warning' },
         'info': { icon: 'fa-circle-info', cls: 'info' }
     };
-    
-    list.innerHTML = notifications.map(function(n) {
+
+    var html = '';
+    notifications.forEach(function(n) {
         var t = typeMap[n.type] || typeMap.info;
-        return '<div class="notification-item ' + (n.read ? '' : 'unread') + '">' +
-            '<div class="notification-item-icon ' + t.cls + '"><i class="fas ' + t.icon + '"></i></div>' +
-            '<div class="notification-item-content">' +
-                '<div class="notification-item-title">' + escapeHtml(n.title) + '</div>' +
-                '<div class="notification-item-message">' + escapeHtml(n.message || '') + '</div>' +
-                '<div class="notification-item-time"><i class="fas fa-clock"></i> ' + formatTimeAgo(n.created_at) + '</div>' +
-            '</div>' +
-        '</div>';
-    }).join('');
+        html += '<div class="notification-item ' + (n.read ? '' : 'unread') + '">';
+        html += '<div class="notification-item-icon ' + t.cls + '"><i class="fas ' + t.icon + '"></i></div>';
+        html += '<div class="notification-item-content">';
+        html += '<div class="notification-item-title">' + escapeHtml(n.title) + '</div>';
+        html += '<div class="notification-item-message">' + escapeHtml(n.message || '') + '</div>';
+        html += '<div class="notification-item-time"><i class="fas fa-clock"></i> ' + formatTimeAgo(n.created_at) + '</div>';
+        html += '</div>';
+        html += '</div>';
+    });
+    list.innerHTML = html;
 }
 
 function markAllRead() {
@@ -3385,7 +3354,7 @@ function markAllRead() {
 function updateUserUI(user) {
     var initial = ((user.full_name || user.username || 'م') + '').charAt(0).toUpperCase();
     var roleText = user.role === 'admin' ? 'مدير' : 'موظف';
-    
+
     ['userAvatar', 'dropdownAvatar'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el) el.textContent = initial;
@@ -3403,11 +3372,11 @@ function updateUserUI(user) {
 function applyPermissions(user) {
     var perms = user.permissions || {};
     var isAdmin = user.role === 'admin';
-    
+
     document.querySelectorAll('.sidebar-link[data-perm]').forEach(function(link) {
         if (!isAdmin && !perms[link.dataset.perm]) link.style.display = 'none';
     });
-    
+
     if (isAdmin) {
         var al = document.getElementById('adminLink');
         var dal = document.getElementById('dropdownAdminLink');
@@ -3424,7 +3393,7 @@ function handleUrlParams() {
     var id = getUrlParam('id');
     var tracking = getUrlParam('tracking');
     var customerId = getUrlParam('customer_id');
-    
+
     if (action === 'add') {
         setTimeout(function() {
             openAddModal();
@@ -3433,21 +3402,21 @@ function handleUrlParams() {
             }
         }, 500);
     }
-    
+
     if (id) {
         setTimeout(function() {
             var exists = state.repairs.some(function(r) { return r.id === id; });
             if (exists) openDetailsModal(id);
         }, 700);
     }
-    
+
     if (tracking) {
         setTimeout(function() {
             var repair = state.repairs.find(function(r) { return r.tracking_code === tracking; });
             if (repair) openDetailsModal(repair.id);
         }, 700);
     }
-    
+
     if (action || id) {
         try {
             window.history.replaceState({}, '', window.location.pathname);
@@ -3459,15 +3428,15 @@ function handleUrlParams() {
 // 🎬 Init
 // ═══════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', function() {
-    
+
     var session = getSession();
     if (!session) { window.location.href = 'index.html'; return; }
     if (session.user.must_change_password) { window.location.href = 'index.html'; return; }
-    
+
     initTheme();
     var themeToggle = document.getElementById('themeToggle');
     if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
-    
+
     updateOnlineStatus();
     window.addEventListener('online', function() {
         updateOnlineStatus();
@@ -3478,10 +3447,10 @@ document.addEventListener('DOMContentLoaded', function() {
         updateOnlineStatus();
         showToast('وضع Offline', 'warning');
     });
-    
+
     updateUserUI(session.user);
     applyPermissions(session.user);
-    
+
     // Sidebar
     var menuBtn = document.getElementById('menuBtn');
     var sidebar = document.getElementById('sidebar');
@@ -3494,33 +3463,33 @@ document.addEventListener('DOMContentLoaded', function() {
         if (sidebar) sidebar.classList.remove('show');
         if (overlay) overlay.classList.remove('show');
     });
-    
+
     // User dropdown
     var userBtn = document.getElementById('userBtn');
     var userDropdown = document.getElementById('userDropdown');
     var notifBtn = document.getElementById('notificationsBtn');
     var notifPanel = document.getElementById('notificationsPanel');
-    
+
     if (userBtn) userBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         if (userDropdown) userDropdown.classList.toggle('show');
         if (notifPanel) notifPanel.classList.remove('show');
     });
-    
+
     var logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) logoutBtn.addEventListener('click', function() {
         if (confirm('هل أنت متأكد من تسجيل الخروج؟')) logout();
     });
-    
+
     if (notifBtn) notifBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         if (notifPanel) notifPanel.classList.toggle('show');
         if (userDropdown) userDropdown.classList.remove('show');
     });
-    
+
     var markAllBtn = document.getElementById('markAllReadBtn');
     if (markAllBtn) markAllBtn.addEventListener('click', markAllRead);
-    
+
     document.addEventListener('click', function(e) {
         if (userDropdown && !userDropdown.contains(e.target) && userBtn && !userBtn.contains(e.target)) {
             userDropdown.classList.remove('show');
@@ -3529,7 +3498,7 @@ document.addEventListener('DOMContentLoaded', function() {
             notifPanel.classList.remove('show');
         }
     });
-    
+
     // Search
     var searchTimeout;
     var searchInput = document.getElementById('searchInput');
@@ -3541,7 +3510,7 @@ document.addEventListener('DOMContentLoaded', function() {
             applyFilters();
         }, 250);
     });
-    
+
     // Status tabs
     document.querySelectorAll('.status-tab').forEach(function(tab) {
         tab.addEventListener('click', function() {
@@ -3551,18 +3520,18 @@ document.addEventListener('DOMContentLoaded', function() {
             applyFilters();
         });
     });
-    
+
     // Sort
     var sortFilter = document.getElementById('sortFilter');
     if (sortFilter) sortFilter.addEventListener('change', function(e) {
         state.sortFilter = e.target.value;
         applyFilters();
     });
-    
+
     // Add
     var addBtn = document.getElementById('addRepairBtn');
     if (addBtn) addBtn.addEventListener('click', openAddModal);
-    
+
     // Repair modal
     var closeP = document.getElementById('closeRepairModal');
     var cancelP = document.getElementById('cancelRepairBtn');
@@ -3570,10 +3539,28 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closeP) closeP.addEventListener('click', closeRepairModal);
     if (cancelP) cancelP.addEventListener('click', closeRepairModal);
     if (form) form.addEventListener('submit', saveRepair);
-    
+
+    // Device type input → إعادة رسم الاقتراحات
+    var deviceTypeInput = document.getElementById('deviceType');
+    if (deviceTypeInput) {
+        deviceTypeInput.addEventListener('input', function() {
+            renderDeviceSuggestions();
+            // إخفاء خطأ الحقل لو المستخدم بدأ يكتب
+            if (deviceTypeInput.value.trim()) {
+                deviceTypeInput.classList.remove('error');
+                var errEl = document.getElementById('deviceTypeError');
+                if (errEl) errEl.classList.remove('show');
+            }
+        });
+        deviceTypeInput.addEventListener('blur', function() {
+            // أعِد بناء الاقتراحات بدون النوع الحالي
+            renderDeviceSuggestions();
+        });
+    }
+
     // Customer picker
     initCustomerPicker();
-    
+
     // New customer modal
     var closeNC = document.getElementById('closeNewCustomerModal');
     var cancelNC = document.getElementById('cancelNewCustomerBtn');
@@ -3581,7 +3568,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closeNC) closeNC.addEventListener('click', closeNewCustomerModal);
     if (cancelNC) cancelNC.addEventListener('click', closeNewCustomerModal);
     if (ncForm) ncForm.addEventListener('submit', saveNewCustomer);
-    
+
     // Details modal
     var closeDetails = document.getElementById('closeDetailsModal');
     var closeDetailsBtn = document.getElementById('closeDetailsBtn');
@@ -3593,7 +3580,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('detailsModal').classList.remove('show');
         state.viewingRepair = null;
     });
-    
+
     // Print / Share / Invoice
     var printBtn = document.getElementById('printRepairBtn');
     var shareBtn = document.getElementById('shareRepairBtn');
@@ -3601,7 +3588,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (printBtn) printBtn.addEventListener('click', printRepair);
     if (shareBtn) shareBtn.addEventListener('click', shareRepair);
     if (invoiceBtn) invoiceBtn.addEventListener('click', createInvoiceFromRepair);
-    
+
     // Status modal
     var closeStatus = document.getElementById('closeStatusModal');
     var cancelStatus = document.getElementById('cancelStatusBtn');
@@ -3609,7 +3596,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closeStatus) closeStatus.addEventListener('click', closeStatusModal);
     if (cancelStatus) cancelStatus.addEventListener('click', closeStatusModal);
     if (statusForm) statusForm.addEventListener('submit', saveStatus);
-    
+
     // Delete modal
     var closeDel = document.getElementById('closeDeleteModal');
     var cancelDel = document.getElementById('cancelDeleteBtn');
@@ -3623,18 +3610,18 @@ document.addEventListener('DOMContentLoaded', function() {
         state.deletingRepair = null;
     });
     if (confirmDel) confirmDel.addEventListener('click', confirmDelete);
-    
+
     // Export
     var expBtn = document.getElementById('exportExcelBtn');
     if (expBtn) expBtn.addEventListener('click', exportExcel);
-    
+
     // Overlay close
     document.querySelectorAll('.modal-overlay').forEach(function(ov) {
         ov.addEventListener('click', function(e) {
             if (e.target === ov) ov.classList.remove('show');
         });
     });
-    
+
     // Keyboard
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
@@ -3652,7 +3639,7 @@ document.addEventListener('DOMContentLoaded', function() {
             toggleTheme();
         }
     });
-    
+
     // Scroll
     var progressBar = document.getElementById('readingProgress');
     var scrollTopBtn = document.getElementById('scrollTop');
@@ -3670,13 +3657,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (scrollTopBtn) scrollTopBtn.addEventListener('click', function() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-    
+
     // Permissions
     if (session.user.role !== 'admin' && (!session.user.permissions || !session.user.permissions.can_edit_repairs)) {
         var addBtn2 = document.getElementById('addRepairBtn');
         if (addBtn2) addBtn2.style.display = 'none';
     }
-    
+
     // Load
     openDB()
         .then(function() { return loadData(); })
@@ -3690,7 +3677,7 @@ document.addEventListener('DOMContentLoaded', function() {
             state.isLoading = false;
             showToast('حدث خطأ في تحميل البيانات', 'error');
         });
-    
+
     startInactivityMonitor();
     console.log('%c🔧 صفحة أوامر الصيانة جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
 });
