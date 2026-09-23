@@ -8,16 +8,11 @@
 <meta name="description" content="الموردين - إلكترونك لصيانة الأجهزة الإلكترونية">
 <meta name="format-detection" content="telephone=no">
 <meta name="color-scheme" content="light dark">
-
-<!-- ✅ PWA Meta Tags - المعيار الجديد -->
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="إلكترونك">
-
-<!-- ✅ Apple Meta Tags (للتوافق مع Safari القديم) -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="إلكترونك">
-
 <title>الموردين | إلكترونك - لصيانة الأجهزة الإلكترونية</title>
 
 <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
@@ -35,13 +30,36 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
 
+<!--
+═══════════════════════════════════════════════════════════════════════
+📦 SQL Schema (مرجعي - للتحقق)
+
+-- جدول stock_movements هو المصدر الحقيقي للوارد
+-- له supplier_id, cost_price, quantity, type='in'
+-- كل عملية وارد من صفحة stock-in.html بتتخزن هنا
+
+-- جدول supplier_orders (اختياري - قديم)
+-- لو مش موجود، بنستخدم stock_movements
+
+-- للتأكد، شغّل هذا الاستعلام:
+SELECT 
+  sm.supplier_id, 
+  s.name AS supplier_name,
+  COUNT(*) AS orders_count,
+  SUM(sm.quantity * sm.cost_price) AS total_purchased
+FROM stock_movements sm
+LEFT JOIN suppliers s ON s.id = sm.supplier_id
+WHERE sm.type = 'in' AND sm.supplier_id IS NOT NULL
+GROUP BY sm.supplier_id, s.name;
+═══════════════════════════════════════════════════════════════════════
+-->
+
 <style>
 :root {
     --tech-blue: #1d5b8e;
     --tech-blue-dark: #154668;
     --tech-blue-light: #2d7ab8;
     --tech-black: #0a1f33;
-    --tech-black-soft: #142f4a;
     --gray-light: #f6f8fb;
     --gray-mid: #e1e8f0;
     --gray-dark: #94a3b8;
@@ -78,7 +96,6 @@
     
     --transition-fast: 0.15s ease;
     --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     
     --safe-top: env(safe-area-inset-top, 0);
     --safe-bottom: env(safe-area-inset-bottom, 0);
@@ -130,7 +147,6 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 0 10px rgba(29, 91, 142, 0.6);
 }
 
-/* Navbar */
 .navbar {
     position: fixed; top: 0; left: 0; right: 0;
     height: var(--navbar-height);
@@ -142,7 +158,6 @@ img { max-width: 100%; height: auto; display: block; }
     padding-left: calc(1rem + var(--safe-left));
     padding-right: calc(1rem + var(--safe-right));
     gap: 1rem; box-shadow: var(--shadow-sm);
-    transition: all var(--transition);
 }
 .navbar-menu-btn {
     width: 40px; height: 40px; border-radius: var(--radius-md);
@@ -245,7 +260,6 @@ img { max-width: 100%; height: auto; display: block; }
 .navbar-user-info strong { font-size: 0.8rem; font-weight: 700; }
 .navbar-user-info span { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
 
-/* Sidebar */
 .sidebar {
     position: fixed; top: var(--navbar-height); right: 0; bottom: 0;
     width: var(--sidebar-width); background: var(--bg-card);
@@ -290,13 +304,11 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .sidebar-overlay.show { opacity: 1; visibility: visible; }
 
-/* Main */
 .main-content {
     margin-top: var(--navbar-height);
     margin-right: var(--sidebar-width);
     padding: 1.5rem;
     min-height: calc(100vh - var(--navbar-height));
-    transition: margin var(--transition);
 }
 
 .page-header {
@@ -371,7 +383,6 @@ img { max-width: 100%; height: auto; display: block; }
 .stat-value { font-size: 1.75rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.25rem; }
 .stat-label { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; }
 
-/* Toolbar */
 .toolbar {
     background: var(--bg-card); border: 1px solid var(--border-color);
     border-radius: var(--radius-lg); padding: 1rem;
@@ -404,7 +415,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .filter-select:focus { border-color: var(--tech-blue); }
 
-/* Suppliers Grid */
 .suppliers-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -522,7 +532,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .empty-state p { font-size: 0.85rem; margin-bottom: 1rem; }
 
-/* Modal */
 .modal-overlay {
     position: fixed; inset: 0; background: rgba(10, 31, 51, 0.6);
     backdrop-filter: blur(4px); z-index: 2000;
@@ -601,7 +610,6 @@ img { max-width: 100%; height: auto; display: block; }
 .rating-input label:hover ~ label,
 .rating-input input:checked ~ label { color: var(--gold); }
 
-/* Toast */
 .toast-container {
     position: fixed; top: calc(var(--navbar-height) + 1rem);
     left: 50%; transform: translateX(-50%);
@@ -644,7 +652,6 @@ img { max-width: 100%; height: auto; display: block; }
     100% { background-position: -200% 0; }
 }
 
-/* Notifications Panel */
 .notifications-panel {
     position: fixed; top: calc(var(--navbar-height) + 0.5rem);
     left: 1rem; width: 380px; max-width: calc(100vw - 2rem);
@@ -707,7 +714,7 @@ img { max-width: 100%; height: auto; display: block; }
 .notification-item-action {
     display: inline-flex; align-items: center; gap: 0.25rem;
     font-size: 0.7rem; font-weight: 700; color: var(--tech-blue);
-    margin-top: 0.25rem; transition: all var(--transition-fast);
+    margin-top: 0.25rem;
 }
 .notification-item-action:hover { text-decoration: underline; }
 .notifications-empty { padding: 2.5rem 1rem; text-align: center; color: var(--text-muted); }
@@ -723,7 +730,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .notifications-footer button:hover { text-decoration: underline; }
 
-/* User Dropdown */
 .user-dropdown {
     position: fixed; top: calc(var(--navbar-height) + 0.5rem);
     left: 1rem; width: 240px; background: var(--bg-card);
@@ -758,7 +764,6 @@ img { max-width: 100%; height: auto; display: block; }
 .user-dropdown-item i { width: 18px; text-align: center; }
 .user-dropdown-divider { height: 1px; background: var(--border-color); margin: 0.35rem 0.5rem; }
 
-/* Global Search Panel */
 .global-search-panel {
     position: fixed; top: calc(var(--navbar-height) + 0.5rem);
     left: 50%; transform: translateX(-50%) translateY(-10px) scale(0.98);
@@ -771,17 +776,22 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .global-search-panel.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0) scale(1); }
 .global-search-results { flex: 1; overflow-y: auto; padding: 0.5rem; }
-.search-section-title {
-    font-size: 0.7rem; font-weight: 700; color: var(--text-muted);
-    text-transform: uppercase; letter-spacing: 0.5px;
-    padding: 0.5rem 0.75rem 0.35rem;
+.search-loading { padding: 2rem 1rem; text-align: center; color: var(--text-muted); }
+.search-spinner {
+    width: 32px; height: 32px; border: 3px solid var(--border-color);
+    border-top-color: var(--tech-blue); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 0.75rem;
 }
+@keyframes spin { to { transform: rotate(360deg); } }
+.search-empty { padding: 2.5rem 1rem; text-align: center; color: var(--text-muted); }
+.search-empty i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
+.search-empty p { font-size: 0.85rem; font-weight: 600; }
 .search-result-item {
     display: flex; align-items: center; gap: 0.75rem;
     padding: 0.65rem 0.75rem; border-radius: var(--radius-sm);
     cursor: pointer; transition: all var(--transition-fast);
 }
-.search-result-item:hover, .search-result-item.active { background: var(--bg-hover); }
+.search-result-item:hover { background: var(--bg-hover); }
 .search-result-icon {
     width: 36px; height: 36px; border-radius: var(--radius-md);
     display: flex; align-items: center; justify-content: center;
@@ -793,25 +803,13 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.85rem; font-weight: 700; margin-bottom: 0.1rem;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.search-result-title mark { background: rgba(245, 158, 11, 0.3); color: inherit; padding: 0 2px; border-radius: 3px; }
 .search-result-subtitle { font-size: 0.72rem; color: var(--text-muted); }
 .search-result-type {
     font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem;
     border-radius: var(--radius-full); background: var(--bg-primary);
     color: var(--text-secondary); border: 1px solid var(--border-color); flex-shrink: 0;
 }
-.search-empty { padding: 2.5rem 1rem; text-align: center; color: var(--text-muted); }
-.search-empty i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
-.search-empty p { font-size: 0.85rem; font-weight: 600; }
-.search-loading { padding: 2rem 1rem; text-align: center; color: var(--text-muted); }
-.search-spinner {
-    width: 32px; height: 32px; border: 3px solid var(--border-color);
-    border-top-color: var(--tech-blue); border-radius: 50%;
-    animation: spin 0.8s linear infinite; margin: 0 auto 0.75rem;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
 
-/* Scroll Top */
 .scroll-top {
     position: fixed; bottom: calc(1rem + var(--safe-bottom));
     left: calc(1rem + var(--safe-left));
@@ -824,47 +822,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
 .scroll-top:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(29, 91, 142, 0.5); }
-
-/* PWA Install Banner */
-.install-banner {
-    position: fixed; bottom: calc(1rem + var(--safe-bottom));
-    left: 1rem; right: 1rem; background: var(--bg-card);
-    border-radius: var(--radius-lg); box-shadow: var(--shadow-xl);
-    padding: 1rem 1.25rem; display: none; align-items: center;
-    gap: 1rem; z-index: 1500; border: 1px solid var(--border-color);
-    animation: slideUp 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    max-width: 500px; margin: 0 auto;
-}
-.install-banner.show { display: flex; }
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(100px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.install-banner-icon {
-    width: 48px; height: 48px; border-radius: var(--radius-md);
-    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-size: 1.5rem; flex-shrink: 0; overflow: hidden;
-}
-.install-banner-icon img { width: 100%; height: 100%; object-fit: cover; }
-.install-banner-text { flex: 1; min-width: 0; }
-.install-banner-text strong { display: block; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.15rem; }
-.install-banner-text span { font-size: 0.8rem; color: var(--text-secondary); }
-.install-banner-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
-.install-btn {
-    padding: 0.6rem 1rem;
-    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
-    color: white; border-radius: var(--radius-md);
-    font-size: 0.85rem; font-weight: 700;
-    transition: all var(--transition); white-space: nowrap;
-}
-.install-btn:hover { transform: translateY(-2px); }
-.install-dismiss {
-    width: 32px; height: 32px; border-radius: var(--radius-sm);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--text-muted); transition: all var(--transition);
-}
-.install-dismiss:hover { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
 
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
@@ -1044,16 +1001,13 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
         <div class="page-header-actions">
             <button class="btn btn-secondary" id="exportExcelBtn">
-                <i class="fas fa-file-excel"></i>
-                Excel
+                <i class="fas fa-file-excel"></i> Excel
             </button>
             <button class="btn btn-secondary" id="exportPdfBtn">
-                <i class="fas fa-file-pdf"></i>
-                PDF
+                <i class="fas fa-file-pdf"></i> PDF
             </button>
             <button class="btn btn-primary" id="addSupplierBtn">
-                <i class="fas fa-plus"></i>
-                مورد جديد
+                <i class="fas fa-plus"></i> مورد جديد
             </button>
         </div>
     </div>
@@ -1101,8 +1055,7 @@ img { max-width: 100%; height: auto; display: block; }
             <option value="name">الاسم (أ-ي)</option>
         </select>
         <button class="btn btn-secondary btn-sm" id="refreshBtn">
-            <i class="fas fa-rotate"></i>
-            تحديث
+            <i class="fas fa-rotate"></i> تحديث
         </button>
     </div>
     
@@ -1212,17 +1165,14 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
     <div class="user-dropdown-menu">
         <a href="favorites.html" class="user-dropdown-item">
-            <i class="fas fa-star"></i>
-            <span>المفضلة</span>
+            <i class="fas fa-star"></i> <span>المفضلة</span>
         </a>
         <a href="admin.html" class="user-dropdown-item" id="dropdownAdminLink" style="display: none;">
-            <i class="fas fa-shield-halved"></i>
-            <span>لوحة الأدمن</span>
+            <i class="fas fa-shield-halved"></i> <span>لوحة الأدمن</span>
         </a>
         <div class="user-dropdown-divider"></div>
         <button class="user-dropdown-item danger" id="logoutBtn">
-            <i class="fas fa-right-from-bracket"></i>
-            <span>تسجيل الخروج</span>
+            <i class="fas fa-right-from-bracket"></i> <span>تسجيل الخروج</span>
         </button>
     </div>
 </div>
@@ -1397,7 +1347,8 @@ function startInactivityMonitor() {
 // 💾 State
 // ═══════════════════════════════════════════════════════════════
 var suppliers = [];
-var allOrders = [];
+var allOrders = [];          // مجمعة من أي مصدر
+var ordersBySource = {};     // لتتبع المصدر
 var filteredSuppliers = [];
 var searchTerm = '';
 var sortMode = 'recent';
@@ -1405,7 +1356,7 @@ var allNotifications = [];
 var notificationsTimer = null;
 
 var CACHE_SUPPLIERS = 'elk_suppliers_cache';
-var CACHE_ORDERS = 'elk_supplier_orders_cache';
+var CACHE_ORDERS = 'elk_supplier_orders_cache_v2';
 var CACHE_NOTIFS = 'elk_notifications_cache';
 var OUTBOX_KEY = 'elk_outbox';
 
@@ -1421,8 +1372,141 @@ function queueOutbox(op, table, id, payload) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📥 Load Data
+// 📊 تجميع البيانات من جميع المصادر
 // ═══════════════════════════════════════════════════════════════
+
+// مصدر 1: stock_movements (type='in') — المصدر الحقيقي للوارد
+function fetchStockMovements() {
+    var sb = getSupabaseClient();
+    if (!sb || !navigator.onLine) return Promise.resolve([]);
+
+    return sb.from('stock_movements')
+        .select('id, supplier_id, product_id, quantity, cost_price, created_at, type, po_number')
+        .eq('type', 'in')
+        .not('supplier_id', 'is', null)
+        .order('created_at', { ascending: false })
+        .then(function(result) {
+            if (result.error) {
+                console.warn('stock_movements fetch error:', result.error);
+                return [];
+            }
+            return (result.data || []).map(function(m) {
+                return {
+                    id: m.id,
+                    supplier_id: m.supplier_id,
+                    product_id: m.product_id,
+                    quantity: parseInt(m.quantity) || 0,
+                    cost_price: parseFloat(m.cost_price) || 0,
+                    created_at: m.created_at,
+                    po_number: m.po_number,
+                    source: 'stock_movements'
+                };
+            });
+        })
+        .catch(function(err) {
+            console.warn('stock_movements fetch failed:', err);
+            return [];
+        });
+}
+
+// مصدر 2: supplier_orders (إن وجد — جدول قديم)
+function fetchSupplierOrders() {
+    var sb = getSupabaseClient();
+    if (!sb || !navigator.onLine) return Promise.resolve([]);
+
+    return sb.from('supplier_orders')
+        .select('id, supplier_id, product_id, quantity, cost_price, created_at')
+        .order('created_at', { ascending: false })
+        .then(function(result) {
+            if (result.error) {
+                // الجدول مش موجود؟ طبيعي — نتجاهل
+                return [];
+            }
+            return (result.data || []).map(function(o) {
+                return {
+                    id: o.id,
+                    supplier_id: o.supplier_id,
+                    product_id: o.product_id,
+                    quantity: parseInt(o.quantity) || 0,
+                    cost_price: parseFloat(o.cost_price) || 0,
+                    created_at: o.created_at,
+                    source: 'supplier_orders'
+                };
+            });
+        })
+        .catch(function() {
+            return [];
+        });
+}
+
+// 🔑 الدالة الرئيسية: تحميل كل البيانات من كل المصادر
+function loadOrders() {
+    // Cache أولاً للعرض السريع
+    var cached = getCache(CACHE_ORDERS);
+    if (cached && Array.isArray(cached) && cached.length) {
+        allOrders = cached;
+        updateStats();
+        renderSuppliers();
+    }
+
+    if (!navigator.onLine) return Promise.resolve();
+
+    // 🔑 اجلب من المصدرين بالتوازي
+    return Promise.all([
+        fetchStockMovements(),
+        fetchSupplierOrders()
+    ]).then(function(results) {
+        var stockMovs = results[0] || [];
+        var supOrders = results[1] || [];
+
+        // ✅ الأولوية لـ stock_movements (المصدر الحقيقي)
+        // نستخدم supplier_orders فقط لو stock_movements فاضي تماماً
+        var merged = [];
+        var seenKeys = {};
+
+        // أضف كل stock_movements
+        stockMovs.forEach(function(m) {
+            var key = m.supplier_id + '|' + m.id;
+            if (!seenKeys[key]) {
+                seenKeys[key] = true;
+                merged.push(m);
+            }
+        });
+
+        // أضف supplier_orders فقط لو مش مكررة (نفس id)
+        supOrders.forEach(function(o) {
+            var key = o.supplier_id + '|' + o.id;
+            if (!seenKeys[key]) {
+                seenKeys[key] = true;
+                merged.push(o);
+            }
+        });
+
+        // رتّب بالأحدث
+        merged.sort(function(a, b) {
+            return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime();
+        });
+
+        allOrders = merged;
+        ordersBySource = {
+            stock_movements: stockMovs.length,
+            supplier_orders: supOrders.length,
+            total: merged.length
+        };
+
+        console.log('📊 Orders merged:', ordersBySource);
+
+        // خزّن في الكاش
+        setCache(CACHE_ORDERS, allOrders);
+
+        // حدّث الواجهة
+        updateStats();
+        renderSuppliers();
+    }).catch(function(err) {
+        console.warn('loadOrders failed:', err);
+    });
+}
+
 function loadSuppliers() {
     var cached = getCache(CACHE_SUPPLIERS);
     if (cached && Array.isArray(cached)) {
@@ -1431,11 +1515,11 @@ function loadSuppliers() {
         updateStats();
     }
 
-    if (!navigator.onLine) return;
+    if (!navigator.onLine) return Promise.resolve();
     var sb = getSupabaseClient();
-    if (!sb) return;
+    if (!sb) return Promise.resolve();
 
-    sb.from('suppliers')
+    return sb.from('suppliers')
         .select('*')
         .order('created_at', { ascending: false })
         .then(function(result) {
@@ -1449,28 +1533,34 @@ function loadSuppliers() {
         .catch(function(e) { console.warn('loadSuppliers:', e); });
 }
 
-function loadOrders() {
-    if (!navigator.onLine) {
-        var c = getCache(CACHE_ORDERS);
-        if (c) { allOrders = c; updateStats(); renderSuppliers(); }
-        return;
-    }
-    var sb = getSupabaseClient();
-    if (!sb) return;
-    sb.from('supplier_orders')
-        .select('*')
-        .then(function(result) {
-            if (result.data) {
-                allOrders = result.data;
-                setCache(CACHE_ORDERS, allOrders);
-                updateStats();
-                renderSuppliers();
-            }
-        })
-        .catch(function() {
-            var c = getCache(CACHE_ORDERS);
-            if (c) allOrders = c;
-        });
+// ═══════════════════════════════════════════════════════════════
+// 📊 حساب إحصائيات مورد
+// ═══════════════════════════════════════════════════════════════
+function getSupplierOrders(supplierId) {
+    if (!supplierId) return [];
+    return allOrders.filter(function(o) {
+        return o.supplier_id === supplierId;
+    });
+}
+
+function getSupplierStats(supplierId) {
+    var orders = getSupplierOrders(supplierId);
+    var total = 0;
+    var totalQty = 0;
+
+    orders.forEach(function(o) {
+        var qty = parseInt(o.quantity) || 0;
+        var price = parseFloat(o.cost_price) || 0;
+        total += qty * price;
+        totalQty += qty;
+    });
+
+    return {
+        ordersCount: orders.length,
+        totalPurchased: total,
+        totalQuantity: totalQty,
+        avgCost: totalQty > 0 ? total / totalQty : 0
+    };
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1487,12 +1577,13 @@ function renderSuppliers() {
             || (s.phone || '').indexOf(term) !== -1;
     });
 
+    // ترتيب
     if (sortMode === 'rating') {
         filteredSuppliers.sort(function(a, b) { return (b.quality_rating || 0) - (a.quality_rating || 0); });
     } else if (sortMode === 'purchased') {
         var totals = {};
         allOrders.forEach(function(o) {
-            totals[o.supplier_id] = (totals[o.supplier_id] || 0) + (o.quantity || 0) * (o.cost_price || 0);
+            totals[o.supplier_id] = (totals[o.supplier_id] || 0) + (parseInt(o.quantity) || 0) * (parseFloat(o.cost_price) || 0);
         });
         filteredSuppliers.sort(function(a, b) { return (totals[b.id] || 0) - (totals[a.id] || 0); });
     } else if (sortMode === 'name') {
@@ -1511,9 +1602,7 @@ function renderSuppliers() {
     }
 
     grid.innerHTML = filteredSuppliers.map(function(s) {
-        var orders = allOrders.filter(function(o) { return o.supplier_id === s.id; });
-        var totalPurchased = orders.reduce(function(sum, o) { return sum + (o.quantity || 0) * (o.cost_price || 0); }, 0);
-        var ordersCount = orders.length;
+        var stats = getSupplierStats(s.id);
         var initials = (s.name || '?').trim().charAt(0);
         var rating = s.quality_rating || 0;
         var stars = '';
@@ -1534,11 +1623,11 @@ function renderSuppliers() {
             '</div>' +
             '<div class="supplier-stats">' +
                 '<div class="mini-stat">' +
-                    '<div class="val">' + ordersCount + '</div>' +
+                    '<div class="val">' + formatNumber(stats.ordersCount) + '</div>' +
                     '<div class="lbl">عملية توريد</div>' +
                 '</div>' +
                 '<div class="mini-stat">' +
-                    '<div class="val">' + formatCurrency(totalPurchased) + '</div>' +
+                    '<div class="val">' + formatCurrency(stats.totalPurchased) + '</div>' +
                     '<div class="lbl">إجمالي المشتريات</div>' +
                 '</div>' +
             '</div>' +
@@ -1564,14 +1653,33 @@ function updateStats() {
     var totalOrdersEl = document.getElementById('totalOrders');
     if (!totalSuppliersEl) return;
 
+    // إجمالي الموردين
     totalSuppliersEl.textContent = formatNumber(suppliers.length);
-    var total = allOrders.reduce(function(s, o) { return s + (o.quantity || 0) * (o.cost_price || 0); }, 0);
-    totalPurchasedEl.textContent = formatNumber(total);
+
+    // إجمالي المشتريات (من كل الـ orders)
+    var totalPurchased = 0;
+    allOrders.forEach(function(o) {
+        var qty = parseInt(o.quantity) || 0;
+        var price = parseFloat(o.cost_price) || 0;
+        totalPurchased += qty * price;
+    });
+    totalPurchasedEl.textContent = formatNumber(Math.round(totalPurchased));
+
+    // متوسط التقييم
     var avg = suppliers.length
         ? (suppliers.reduce(function(s, x) { return s + (x.quality_rating || 0); }, 0) / suppliers.length).toFixed(1)
         : '0';
     avgRatingEl.textContent = avg;
+
+    // إجمالي عمليات التوريد
     totalOrdersEl.textContent = formatNumber(allOrders.length);
+
+    console.log('📊 Stats:', {
+        suppliers: suppliers.length,
+        orders: allOrders.length,
+        totalPurchased: totalPurchased,
+        avgRating: avg
+    });
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1658,7 +1766,6 @@ window.saveSupplier = function() {
         logAudit(id ? 'update' : 'insert', 'suppliers', id || (result.data && result.data.id), null, payload);
         doLocal();
         showToast('تم حفظ بيانات المورد بنجاح', 'success');
-        // إضافة إشعار محلي
         addLocalNotification(id ? 'تم تحديث مورد' : 'تم إضافة مورد جديد', name, 'info', 'suppliers.html');
     }).catch(function(e) {
         console.warn(e);
@@ -1676,6 +1783,7 @@ window.deleteSupplier = function(id) {
         suppliers = suppliers.filter(function(x) { return x.id !== id; });
         allOrders = allOrders.filter(function(o) { return o.supplier_id !== id; });
         setCache(CACHE_SUPPLIERS, suppliers);
+        setCache(CACHE_ORDERS, allOrders);
         renderSuppliers();
         updateStats();
         showToast('تم حذف المورد بنجاح', 'success');
@@ -1702,11 +1810,13 @@ window.deleteSupplier = function(id) {
 window.showDetails = function(id) {
     var s = suppliers.find(function(x) { return x.id === id; });
     if (!s) return;
-    var orders = allOrders.filter(function(o) { return o.supplier_id === id; });
-    var total = orders.reduce(function(sum, o) { return sum + (o.quantity || 0) * (o.cost_price || 0); }, 0);
-    var totalQty = orders.reduce(function(sum, o) { return sum + (o.quantity || 0); }, 0);
-    var avgCost = totalQty ? (total / totalQty) : 0;
-    var lastOrder = orders.slice().sort(function(a, b) { return new Date(b.created_at) - new Date(a.created_at); })[0];
+
+    var stats = getSupplierStats(id);
+    var orders = getSupplierOrders(id);
+    var lastOrder = orders.slice().sort(function(a, b) {
+        return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+    })[0];
+
     var rating = s.quality_rating || 0;
     var stars = '';
     for (var i = 1; i <= 5; i++) stars += i <= rating ? '★' : '☆';
@@ -1720,8 +1830,12 @@ window.showDetails = function(id) {
             '<div class="rating-stars" style="justify-content: center; margin-top: 0.5rem; font-size: 1.3rem;">' + stars + '</div>' +
         '</div>' +
         '<div class="supplier-stats" style="padding: 0.85rem 0;">' +
-            '<div class="mini-stat"><div class="val" style="font-size: 1.3rem;">' + orders.length + '</div><div class="lbl">عملية توريد</div></div>' +
-            '<div class="mini-stat"><div class="val" style="font-size: 1.3rem;">' + formatCurrency(total) + '</div><div class="lbl">إجمالي المشتريات</div></div>' +
+            '<div class="mini-stat"><div class="val" style="font-size: 1.3rem;">' + formatNumber(stats.ordersCount) + '</div><div class="lbl">عملية توريد</div></div>' +
+            '<div class="mini-stat"><div class="val" style="font-size: 1.3rem;">' + formatCurrency(stats.totalPurchased) + '</div><div class="lbl">إجمالي المشتريات</div></div>' +
+        '</div>' +
+        '<div class="supplier-stats" style="padding: 0.85rem 0; grid-template-columns: 1fr 1fr;">' +
+            '<div class="mini-stat"><div class="val" style="font-size: 1.3rem;">' + formatNumber(stats.totalQuantity) + '</div><div class="lbl">إجمالي الكميات</div></div>' +
+            '<div class="mini-stat"><div class="val" style="font-size: 1.3rem;">' + formatCurrency(stats.avgCost) + '</div><div class="lbl">متوسط سعر الشراء</div></div>' +
         '</div>' +
         '<div style="background: var(--bg-primary); padding: 0.85rem 1rem; border-radius: var(--radius-md); margin-bottom: 1rem;">' +
             '<div style="display: grid; gap: 0.6rem; font-size: 0.85rem;">' +
@@ -1729,7 +1843,6 @@ window.showDetails = function(id) {
                 '<div><i class="fas fa-location-dot" style="color: var(--tech-blue); width: 20px;"></i> ' + escapeHtml(s.address || '—') + '</div>' +
                 '<div><i class="fas fa-calendar" style="color: var(--tech-blue); width: 20px;"></i> مسجل من ' + formatDate(s.created_at) + '</div>' +
                 (lastOrder ? '<div><i class="fas fa-clock" style="color: var(--tech-blue); width: 20px;"></i> آخر توريد: ' + formatDate(lastOrder.created_at) + '</div>' : '') +
-                '<div><i class="fas fa-calculator" style="color: var(--tech-blue); width: 20px;"></i> متوسط سعر الشراء: ' + formatCurrency(avgCost) + '</div>' +
             '</div>' +
         '</div>' +
         (s.notes ? '<div style="background: rgba(29, 91, 142, 0.05); padding: 0.85rem 1rem; border-radius: var(--radius-md); font-size: 0.8rem; border-right: 3px solid var(--tech-blue);">' + escapeHtml(s.notes) + '</div>' : '');
@@ -1765,15 +1878,16 @@ window.contactSMS = function(phone) {
 function exportExcel() {
     if (typeof XLSX === 'undefined') { showToast('مكتبة Excel غير محملة', 'error'); return; }
     var data = filteredSuppliers.map(function(s) {
-        var orders = allOrders.filter(function(o) { return o.supplier_id === s.id; });
-        var total = orders.reduce(function(sum, o) { return sum + (o.quantity || 0) * (o.cost_price || 0); }, 0);
+        var stats = getSupplierStats(s.id);
         return {
             'الاسم': s.name || '',
             'الموبايل': s.phone || '',
             'العنوان': s.address || '',
             'التقييم': s.quality_rating || 0,
-            'عدد التوريدات': orders.length,
-            'إجمالي المشتريات': total,
+            'عدد التوريدات': stats.ordersCount,
+            'إجمالي المشتريات': stats.totalPurchased,
+            'إجمالي الكميات': stats.totalQuantity,
+            'متوسط السعر': stats.avgCost.toFixed(2),
             'ملاحظات': s.notes || ''
         };
     });
@@ -1794,9 +1908,8 @@ function exportPDF() {
     doc.text('Electronk - Electronics Repair Center', 105, 22, { align: 'center' });
 
     var rows = filteredSuppliers.map(function(s) {
-        var orders = allOrders.filter(function(o) { return o.supplier_id === s.id; });
-        var total = orders.reduce(function(sum, o) { return sum + (o.quantity || 0) * (o.cost_price || 0); }, 0);
-        return [s.name || '', s.phone || '', s.quality_rating || 0, orders.length, total.toFixed(2)];
+        var stats = getSupplierStats(s.id);
+        return [s.name || '', s.phone || '', s.quality_rating || 0, stats.ordersCount, stats.totalPurchased.toFixed(2)];
     });
 
     doc.autoTable({
@@ -1860,14 +1973,13 @@ function autoSync() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🔔 Notifications - نظام كامل
+// 🔔 Notifications
 // ═══════════════════════════════════════════════════════════════
 function loadNotifications() {
     var session = getSession();
     if (!session) return Promise.resolve();
     var sb = getSupabaseClient();
 
-    // Cache أول
     var cached = getCache(CACHE_NOTIFS);
     if (cached && Array.isArray(cached)) {
         allNotifications = cached;
@@ -1920,7 +2032,6 @@ function renderNotifications() {
         'new_repair': { icon: 'fa-screwdriver-wrench', cls: 'info', defaultAction: 'repairs.html' },
         'ready_repair': { icon: 'fa-circle-check', cls: 'success', defaultAction: 'repairs.html' },
         'new_supplier': { icon: 'fa-handshake', cls: 'info', defaultAction: 'suppliers.html' },
-        'new_product': { icon: 'fa-box', cls: 'info', defaultAction: 'products.html' },
         'info': { icon: 'fa-circle-info', cls: 'info', defaultAction: null }
     };
 
@@ -1943,7 +2054,6 @@ function renderNotifications() {
         '</div>';
     }).join('');
 
-    // Click على إشعار
     list.querySelectorAll('.notification-item').forEach(function(el) {
         el.addEventListener('click', function(e) {
             if (e.target.tagName === 'A' || e.target.closest('a')) return;
@@ -2087,47 +2197,6 @@ function performGlobalSearch(query) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📱 PWA Install
-// ═══════════════════════════════════════════════════════════════
-var deferredPrompt = null;
-function initPWAInstall() {
-    var banner = document.getElementById('installBanner');
-    var installBtn = document.getElementById('installBannerBtn');
-    var dismissBtn = document.getElementById('installDismissBtn');
-    if (localStorage.getItem('pwa_install_dismissed') === 'true') return;
-
-    window.addEventListener('beforeinstallprompt', function(e) {
-        e.preventDefault();
-        deferredPrompt = e;
-        if (banner) banner.classList.add('show');
-    });
-    if (installBtn) {
-        installBtn.addEventListener('click', function() {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then(function(choice) {
-                if (choice.outcome === 'accepted') {
-                    showToast('تم تثبيت التطبيق بنجاح 🎉', 'success');
-                }
-                deferredPrompt = null;
-                if (banner) banner.classList.remove('show');
-            });
-        });
-    }
-    if (dismissBtn) {
-        dismissBtn.addEventListener('click', function() {
-            localStorage.setItem('pwa_install_dismissed', 'true');
-            if (banner) banner.classList.remove('show');
-        });
-    }
-    window.addEventListener('appinstalled', function() {
-        showToast('تم تثبيت التطبيق بنجاح 🎉', 'success');
-        if (banner) banner.classList.remove('show');
-        deferredPrompt = null;
-    });
-}
-
-// ═══════════════════════════════════════════════════════════════
 // 🎬 Init
 // ═══════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', function() {
@@ -2216,9 +2285,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var refreshBtn = document.getElementById('refreshBtn');
     if (refreshBtn) refreshBtn.addEventListener('click', function() {
         showToast('جاري التحديث...', 'info');
-        loadSuppliers();
-        loadOrders();
-        setTimeout(function() { showToast('تم تحديث البيانات', 'success'); }, 600);
+        Promise.all([loadSuppliers(), loadOrders()]).then(function() {
+            showToast('تم تحديث البيانات', 'success');
+        });
     });
     var expBtn = document.getElementById('exportExcelBtn');
     if (expBtn) expBtn.addEventListener('click', exportExcel);
@@ -2285,22 +2354,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // Global search
     initGlobalSearch();
 
-    // Data
-    loadSuppliers();
-    loadOrders();
-    loadNotifications();
+    // 🔑 تحميل البيانات — suppliers أولاً ثم orders (لأن orders تحتاج supplier IDs)
+    loadSuppliers().then(function() {
+        return loadOrders();
+    }).then(function() {
+        loadNotifications();
+    });
 
-    // Auto sync + notifications refresh
+    // Auto refresh orders كل 60 ثانية (لضمان تحديث الإحصائيات)
+    setInterval(function() {
+        if (navigator.onLine) {
+            console.log('🔄 Auto-refreshing orders...');
+            loadOrders();
+        }
+    }, 60000);
+
+    // Auto sync
     setInterval(autoSync, 5 * 60 * 1000);
+
+    // Notifications refresh
     notificationsTimer = setInterval(function() {
         if (navigator.onLine) loadNotifications();
     }, 60000);
 
     // Inactivity
     startInactivityMonitor();
-
-    // PWA
-    initPWAInstall();
 
     console.log('%c⚡ إلكترونك - الموردين جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
 });
@@ -2342,7 +2420,7 @@ window.SuppliersApp = {
     showToast: showToast, logout: logout, getSession: getSession,
     formatCurrency: formatCurrency, formatDate: formatDate,
     escapeHtml: escapeHtml, getSupabaseClient: getSupabaseClient,
-    loadNotifications: loadNotifications
+    loadNotifications: loadNotifications, loadOrders: loadOrders
 };
 </script>
 
