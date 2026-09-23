@@ -1,0 +1,3357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#1d5b8e">
+<meta name="description" content="الفئات - إلكترونك لصيانة الأجهزة الإلكترونية">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>الفئات | إلكترونك - لصيانة الأجهزة الإلكترونية</title>
+
+<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+<link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+<link rel="manifest" href="manifest.json">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   🎨 Design System
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+    --tech-blue: #1d5b8e;
+    --tech-blue-dark: #154668;
+    --tech-blue-light: #2d7ab8;
+    --tech-black: #0a1f33;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+    --purple: #8b5cf6;
+    --pink: #ec4899;
+    
+    --bg-primary: #f6f8fb;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-hover: #f1f5f9;
+    --text-primary: #0a1f33;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --border-color: #e1e8f0;
+    
+    --shadow-sm: 0 1px 3px rgba(10, 31, 51, 0.06);
+    --shadow-md: 0 4px 12px rgba(10, 31, 51, 0.08);
+    --shadow-lg: 0 12px 32px rgba(10, 31, 51, 0.12);
+    --shadow-xl: 0 24px 48px rgba(10, 31, 51, 0.16);
+    
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+    
+    --navbar-height: 64px;
+    --sidebar-width: 260px;
+    
+    --transition-fast: 0.15s ease;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    --safe-top: env(safe-area-inset-top, 0);
+    --safe-bottom: env(safe-area-inset-bottom, 0);
+    --safe-left: env(safe-area-inset-left, 0);
+    --safe-right: env(safe-area-inset-right, 0);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #0a1628;
+    --bg-secondary: #0f2035;
+    --bg-card: #142f4a;
+    --bg-hover: #1a3a5c;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #64748b;
+    --border-color: #1e3a5f;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.6);
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Cairo', system-ui, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: background var(--transition), color var(--transition);
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+button { cursor: pointer; border: none; background: none; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* ═══════════════════════════════════════════════════════════════
+   📊 Reading Progress
+   ═══════════════════════════════════════════════════════════════ */
+.reading-progress {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--tech-blue), var(--tech-blue-light), var(--success));
+    width: 0%;
+    z-index: 10000;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(29, 91, 142, 0.6);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🧭 Navbar
+   ═══════════════════════════════════════════════════════════════ */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navbar-height);
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    padding-top: var(--safe-top);
+    padding-left: calc(1rem + var(--safe-left));
+    padding-right: calc(1rem + var(--safe-right));
+    gap: 1rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.navbar-menu-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    transition: all var(--transition);
+    flex-shrink: 0;
+}
+
+.navbar-menu-btn:hover {
+    background: var(--bg-hover);
+    color: var(--tech-blue);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+.navbar-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    padding: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.navbar-brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.navbar-brand-text strong {
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.navbar-brand-text span {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.navbar-search {
+    flex: 1;
+    max-width: 480px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.navbar-search-input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    padding-right: 2.75rem;
+    padding-left: 3rem;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-full);
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    outline: none;
+    transition: all var(--transition);
+}
+
+.navbar-search-input:focus {
+    border-color: var(--tech-blue);
+    background: var(--bg-card);
+    box-shadow: 0 0 0 4px rgba(29, 91, 142, 0.12);
+}
+
+.navbar-search-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.navbar-search-shortcut {
+    position: absolute;
+    left: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.2rem 0.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: auto;
+}
+
+.navbar-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all var(--transition);
+    position: relative;
+    flex-shrink: 0;
+}
+
+.navbar-btn:hover {
+    background: var(--bg-hover);
+    color: var(--tech-blue);
+}
+
+.navbar-badge {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background: var(--danger);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg-card);
+}
+
+.online-dot {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--success);
+    border: 2px solid var(--bg-card);
+    animation: pulse-online 2s infinite;
+}
+
+.online-dot.offline {
+    background: var(--danger);
+    animation: none;
+}
+
+@keyframes pulse-online {
+    0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+    70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.35rem 0.85rem 0.35rem 0.5rem;
+    background: var(--bg-primary);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.navbar-user:hover {
+    background: var(--bg-hover);
+    border-color: var(--tech-blue);
+}
+
+.navbar-user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.navbar-user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.navbar-user-info strong { font-size: 0.8rem; font-weight: 700; }
+.navbar-user-info span { font-size: 0.65rem; color: var(--text-muted); }
+
+/* ═══════════════════════════════════════════════════════════════
+   📂 Sidebar
+   ═══════════════════════════════════════════════════════════════ */
+.sidebar {
+    position: fixed;
+    top: var(--navbar-height);
+    right: 0;
+    bottom: 0;
+    width: var(--sidebar-width);
+    background: var(--bg-card);
+    border-left: 1px solid var(--border-color);
+    z-index: 900;
+    overflow-y: auto;
+    padding: 1rem 0.75rem calc(1rem + var(--safe-bottom));
+    transition: transform var(--transition);
+}
+
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+
+.sidebar-section { margin-bottom: 1.25rem; }
+
+.sidebar-section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all var(--transition-fast);
+    margin-bottom: 0.15rem;
+    position: relative;
+}
+
+.sidebar-link:hover {
+    background: var(--bg-hover);
+    color: var(--tech-blue);
+    transform: translateX(-3px);
+}
+
+.sidebar-link.active {
+    background: linear-gradient(135deg, rgba(29, 91, 142, 0.12), rgba(45, 122, 184, 0.08));
+    color: var(--tech-blue);
+    font-weight: 700;
+}
+
+.sidebar-link.active::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 60%;
+    background: var(--tech-blue);
+    border-radius: 4px;
+}
+
+.sidebar-link i:first-child { width: 20px; text-align: center; font-size: 0.95rem; flex-shrink: 0; }
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 31, 51, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 899;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition);
+    top: var(--navbar-height);
+}
+
+.sidebar-overlay.show { opacity: 1; visibility: visible; }
+
+/* ═══════════════════════════════════════════════════════════════
+   📄 Main Content
+   ═══════════════════════════════════════════════════════════════ */
+.main-content {
+    margin-top: var(--navbar-height);
+    margin-right: var(--sidebar-width);
+    padding: 1.5rem;
+    min-height: calc(100vh - var(--navbar-height));
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.page-header-text h1 {
+    font-size: 1.65rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.page-header-text h1 i { color: var(--tech-blue); }
+.page-header-text p { font-size: 0.9rem; color: var(--text-secondary); }
+
+.page-header-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🔘 Buttons
+   ═══════════════════════════════════════════════════════════════ */
+.btn {
+    padding: 0.65rem 1.15rem;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    box-shadow: 0 4px 12px rgba(29, 91, 142, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(29, 91, 142, 0.4);
+}
+
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--tech-blue);
+    color: var(--tech-blue);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--danger), #dc2626);
+    color: white;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+.btn-icon {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.btn-icon.btn-sm {
+    width: 34px;
+    height: 34px;
+    font-size: 0.85rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎛️ Toolbar
+   ═══════════════════════════════════════════════════════════════ */
+.toolbar {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.toolbar-search {
+    flex: 1;
+    min-width: 240px;
+    position: relative;
+}
+
+.toolbar-search-input {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    padding-right: 2.75rem;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    outline: none;
+    transition: all var(--transition);
+}
+
+.toolbar-search-input:focus {
+    border-color: var(--tech-blue);
+    background: var(--bg-card);
+    box-shadow: 0 0 0 4px rgba(29, 91, 142, 0.12);
+}
+
+.toolbar-search-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.toolbar-select {
+    padding: 0.65rem 2.25rem 0.65rem 1rem;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    outline: none;
+    cursor: pointer;
+    transition: all var(--transition);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: left 0.75rem center;
+    min-width: 140px;
+}
+
+.toolbar-select:focus {
+    border-color: var(--tech-blue);
+    box-shadow: 0 0 0 4px rgba(29, 91, 142, 0.12);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📊 Stats Bar
+   ═══════════════════════════════════════════════════════════════ */
+.stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.stat-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    transition: all var(--transition);
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--tech-blue);
+}
+
+.stat-item-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    color: white;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    box-shadow: 0 4px 12px rgba(29, 91, 142, 0.3);
+}
+
+.stat-item-icon.success {
+    background: linear-gradient(135deg, var(--success), #059669);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.stat-item-icon.warning {
+    background: linear-gradient(135deg, var(--warning), #d97706);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.stat-item-icon.purple {
+    background: linear-gradient(135deg, var(--purple), #7c3aed);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.stat-item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.stat-item-value {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.stat-item-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📦 Categories Grid
+   ═══════════════════════════════════════════════════════════════ */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+}
+
+.category-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    transition: all var(--transition);
+    animation: fadeInUp 0.4s ease backwards;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, var(--cat-color, var(--tech-blue)) 0%, transparent 40%);
+    opacity: 0.05;
+    pointer-events: none;
+    transition: opacity var(--transition);
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--cat-color, var(--tech-blue));
+}
+
+.category-card:hover::before {
+    opacity: 0.12;
+}
+
+.category-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.category-icon-box {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    background: linear-gradient(135deg, var(--cat-color, var(--tech-blue)), var(--cat-color-dark, var(--tech-blue-dark)));
+    box-shadow: 0 6px 16px var(--cat-shadow, rgba(29, 91, 142, 0.3));
+    flex-shrink: 0;
+    transition: all var(--transition);
+}
+
+.category-card:hover .category-icon-box {
+    transform: scale(1.08) rotate(-5deg);
+}
+
+.category-card-menu {
+    display: flex;
+    gap: 0.25rem;
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.category-card:hover .category-card-menu,
+.category-card:focus-within .category-card-menu {
+    opacity: 1;
+}
+
+.category-menu-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    transition: all var(--transition-fast);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+}
+
+.category-menu-btn:hover {
+    background: var(--tech-blue);
+    color: white;
+    border-color: var(--tech-blue);
+    transform: scale(1.05);
+}
+
+.category-menu-btn.danger:hover {
+    background: var(--danger);
+    border-color: var(--danger);
+}
+
+.category-card-body {
+    position: relative;
+    z-index: 1;
+}
+
+.category-name {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    word-break: break-word;
+}
+
+.category-description {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.4em;
+    line-height: 1.5;
+}
+
+.category-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border-color);
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.category-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    padding: 0.25rem 0.6rem;
+    background: var(--bg-primary);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-color);
+}
+
+.category-stat i {
+    color: var(--cat-color, var(--tech-blue));
+    font-size: 0.75rem;
+}
+
+.category-stat.warning {
+    color: var(--warning);
+}
+
+.category-stat.warning i { color: var(--warning); }
+
+.category-stat.danger {
+    color: var(--danger);
+}
+
+.category-stat.danger i { color: var(--danger); }
+
+.category-empty-inline {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🪟 Modal
+   ═══════════════════════════════════════════════════════════════ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 31, 51, 0.7);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 1rem;
+    animation: fadeIn 0.3s ease;
+    overflow-y: auto;
+}
+
+.modal-overlay.show { display: flex; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    max-width: 540px;
+    width: 100%;
+    max-height: 92vh;
+    overflow: hidden;
+    animation: modalIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    border: 1px solid var(--border-color);
+}
+
+.modal-sm { max-width: 440px; }
+.modal-lg { max-width: 720px; }
+
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-shrink: 0;
+    background: var(--bg-card);
+}
+
+.modal-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.modal-title i { color: var(--tech-blue); }
+
+.modal-close {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    flex-shrink: 0;
+}
+
+.modal-close:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    transform: rotate(90deg);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📜 Modal Body with Scroll
+   ═══════════════════════════════════════════════════════════════ */
+.modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+    min-height: 0;
+    max-height: calc(92vh - 180px);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+    transition: background var(--transition);
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+.modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    flex-shrink: 0;
+    background: var(--bg-primary);
+    flex-wrap: wrap;
+}
+
+.modal-footer .btn {
+    flex: 1;
+    min-width: 120px;
+}
+
+@media (min-width: 480px) {
+    .modal-footer .btn {
+        flex: initial;
+        min-width: auto;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📝 Forms
+   ═══════════════════════════════════════════════════════════════ */
+.form-group {
+    margin-bottom: 1.15rem;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.form-label .required { color: var(--danger); }
+.form-label i { color: var(--tech-blue); margin-left: 0.35rem; font-size: 0.8rem; }
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: 0.75rem 0.95rem;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    outline: none;
+    transition: all var(--transition);
+    font-family: inherit;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    border-color: var(--tech-blue);
+    background: var(--bg-card);
+    box-shadow: 0 0 0 4px rgba(29, 91, 142, 0.12);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 90px;
+    max-height: 200px;
+    line-height: 1.6;
+}
+
+.form-input.error,
+.form-textarea.error {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+    animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+.form-error {
+    font-size: 0.75rem;
+    color: var(--danger);
+    margin-top: 0.4rem;
+    display: none;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 600;
+}
+
+.form-error.show { display: flex; }
+
+.form-hint {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎨 Icon Picker
+   ═══════════════════════════════════════════════════════════════ */
+.icon-picker {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    max-height: 220px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.icon-picker::-webkit-scrollbar { width: 6px; }
+.icon-picker::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+
+.icon-option {
+    aspect-ratio: 1;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-color);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.icon-option:hover {
+    transform: scale(1.08);
+    border-color: var(--tech-blue);
+    color: var(--tech-blue);
+}
+
+.icon-option.selected {
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    border-color: var(--tech-blue);
+    box-shadow: 0 4px 12px rgba(29, 91, 142, 0.4);
+    transform: scale(1.05);
+}
+
+.icon-option.selected::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 0.55rem;
+    background: white;
+    color: var(--tech-blue);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎨 Color Picker
+   ═══════════════════════════════════════════════════════════════ */
+.color-picker {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding: 0.75rem;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+}
+
+.color-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all var(--transition);
+    border: 3px solid transparent;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+}
+
+.color-option.selected {
+    border-color: var(--bg-card);
+    box-shadow: 0 0 0 3px var(--color-value, var(--tech-blue)), 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
+}
+
+.color-option.selected::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: white;
+    font-size: 0.8rem;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🍞 Toast
+   ═══════════════════════════════════════════════════════════════ */
+.toast-container {
+    position: fixed;
+    top: calc(var(--navbar-height) + 1rem);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    pointer-events: none;
+    max-width: 90vw;
+    width: 400px;
+}
+
+.toast {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-xl);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    pointer-events: auto;
+    animation: toastIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-right: 4px solid var(--info);
+}
+
+.toast.success { border-right-color: var(--success); }
+.toast.error { border-right-color: var(--danger); }
+.toast.warning { border-right-color: var(--warning); }
+
+.toast i { font-size: 1.2rem; flex-shrink: 0; }
+.toast.success i { color: var(--success); }
+.toast.error i { color: var(--danger); }
+.toast.warning i { color: var(--warning); }
+.toast.info i { color: var(--info); }
+
+.toast.hide { animation: toastOut 0.3s ease forwards; }
+
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toastOut {
+    to { opacity: 0; transform: translateY(-20px) scale(0.95); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🦴 Skeleton
+   ═══════════════════════════════════════════════════════════════ */
+.skeleton {
+    background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: var(--radius-lg);
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton-card {
+    height: 200px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📭 Empty State
+   ═══════════════════════════════════════════════════════════════ */
+.empty-state {
+    padding: 4rem 1rem;
+    text-align: center;
+    color: var(--text-muted);
+    grid-column: 1 / -1;
+    background: var(--bg-card);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-lg);
+}
+
+.empty-state i {
+    font-size: 4rem;
+    opacity: 0.25;
+    margin-bottom: 1rem;
+    display: block;
+    color: var(--tech-blue);
+}
+
+.empty-state h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+}
+
+.empty-state p {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ⬆️ Scroll to Top
+   ═══════════════════════════════════════════════════════════════ */
+.scroll-top {
+    position: fixed;
+    bottom: calc(1rem + var(--safe-bottom));
+    left: calc(1rem + var(--safe-left));
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all var(--transition);
+    z-index: 1400;
+}
+
+.scroll-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-top:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(29, 91, 142, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🔔 Notifications + User Dropdown
+   ═══════════════════════════════════════════════════════════════ */
+.notifications-panel,
+.user-dropdown {
+    position: fixed;
+    top: calc(var(--navbar-height) + 0.5rem);
+    left: 1rem;
+    width: 360px;
+    max-width: calc(100vw - 2rem);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    z-index: 1200;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px) scale(0.98);
+    transition: all var(--transition);
+    overflow: hidden;
+}
+
+.user-dropdown { width: 240px; }
+
+.notifications-panel.show,
+.user-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.notifications-header {
+    padding: 1rem 1.15rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.notifications-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.notifications-title i { color: var(--tech-blue); }
+
+.notifications-mark-read {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--tech-blue);
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition);
+}
+
+.notifications-mark-read:hover { background: rgba(29, 91, 142, 0.1); }
+
+.notifications-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.85rem 1.15rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    position: relative;
+}
+
+.notification-item:hover { background: var(--bg-hover); }
+.notification-item.unread { background: rgba(29, 91, 142, 0.04); }
+.notification-item.unread::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 60%;
+    background: var(--tech-blue);
+    border-radius: 3px;
+}
+
+.notification-item-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.notification-item-icon.info { background: rgba(59, 130, 246, 0.12); color: var(--info); }
+.notification-item-icon.warning { background: rgba(245, 158, 11, 0.12); color: var(--warning); }
+.notification-item-icon.danger { background: rgba(239, 68, 68, 0.12); color: var(--danger); }
+.notification-item-icon.success { background: rgba(16, 185, 129, 0.12); color: var(--success); }
+
+.notification-item-content { flex: 1; min-width: 0; }
+
+.notification-item-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+}
+
+.notification-item-message {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.notification-item-time {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.notifications-empty {
+    padding: 2.5rem 1rem;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.notifications-empty i {
+    font-size: 2.5rem;
+    opacity: 0.3;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.user-dropdown-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-dropdown-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.user-dropdown-info strong {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.user-dropdown-info span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.user-dropdown-menu { padding: 0.5rem; }
+
+.user-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.65rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+    width: 100%;
+    text-align: right;
+}
+
+.user-dropdown-item:hover {
+    background: var(--bg-hover);
+    color: var(--tech-blue);
+}
+
+.user-dropdown-item.danger:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+.user-dropdown-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 0.35rem 0.5rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ⚡ Animations
+   ═══════════════════════════════════════════════════════════════ */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📱 Responsive
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 968px) {
+    .sidebar { transform: translateX(100%); box-shadow: var(--shadow-xl); }
+    .sidebar.show { transform: translateX(0); }
+    .main-content { margin-right: 0; padding: 1rem; }
+    .navbar-search { display: none; }
+    .navbar-brand-text { display: none; }
+    .navbar-user-info { display: none; }
+    .navbar-user { padding: 0.35rem; }
+}
+
+@media (max-width: 640px) {
+    .page-header { flex-direction: column; align-items: flex-start; }
+    .page-header-actions { width: 100%; }
+    .page-header-actions .btn { flex: 1; }
+    .categories-grid { grid-template-columns: repeat(2, 1fr); gap: 0.65rem; }
+    .category-card { padding: 1rem; }
+    .category-icon-box { width: 44px; height: 44px; font-size: 1.15rem; border-radius: var(--radius-md); }
+    .category-name { font-size: 0.95rem; }
+    .category-description { font-size: 0.72rem; -webkit-line-clamp: 2; min-height: 2.2em; }
+    .category-stats { padding-top: 0.6rem; gap: 0.35rem; }
+    .category-stat { font-size: 0.65rem; padding: 0.2rem 0.5rem; }
+    .category-card-menu { opacity: 1; }
+    .category-menu-btn { width: 28px; height: 28px; font-size: 0.7rem; }
+    .notifications-panel, .user-dropdown { left: 0.5rem; right: 0.5rem; width: auto; }
+    .toolbar { padding: 0.85rem; gap: 0.5rem; }
+    .toolbar-search { min-width: 0; flex: 1 1 100%; }
+    .toolbar-select { flex: 1; min-width: 0; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+    .stat-item { padding: 0.75rem; gap: 0.6rem; }
+    .stat-item-icon { width: 38px; height: 38px; font-size: 1rem; }
+    .stat-item-value { font-size: 1.1rem; }
+    .stat-item-label { font-size: 0.68rem; }
+    .icon-picker { grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); }
+    .icon-option { font-size: 1rem; }
+    .color-option { width: 36px; height: 36px; }
+}
+
+@media (max-width: 400px) {
+    .categories-grid { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="reading-progress" id="readingProgress"></div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     🧭 Navbar
+     ═══════════════════════════════════════════════════════════════ -->
+<nav class="navbar">
+    <button class="navbar-menu-btn" id="menuBtn" aria-label="القائمة">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <a href="dashboard.html" class="navbar-brand">
+        <img src="logo.png" alt="إلكترونك" class="navbar-logo" onerror="this.style.display='none'">
+        <div class="navbar-brand-text">
+            <strong>إلكترونك</strong>
+            <span>لصيانة الأجهزة الإلكترونية</span>
+        </div>
+    </a>
+    
+    <div class="navbar-search">
+        <input 
+            type="text" 
+            class="navbar-search-input" 
+            id="globalSearchInput" 
+            placeholder="ابحث..."
+            autocomplete="off"
+        >
+        <i class="fas fa-magnifying-glass navbar-search-icon"></i>
+        <span class="navbar-search-shortcut">Ctrl+K</span>
+    </div>
+    
+    <div class="navbar-actions">
+        <button class="navbar-btn" id="onlineBtn" title="حالة الاتصال">
+            <i class="fas fa-wifi"></i>
+            <span class="online-dot" id="onlineDot"></span>
+        </button>
+        
+        <button class="navbar-btn" id="themeToggle" title="تبديل الوضع">
+            <i class="fas fa-moon"></i>
+        </button>
+        
+        <button class="navbar-btn" id="notificationsBtn" title="الإشعارات">
+            <i class="fas fa-bell"></i>
+            <span class="navbar-badge" id="notifBadge" style="display: none;">0</span>
+        </button>
+        
+        <button class="navbar-user" id="userBtn">
+            <div class="navbar-user-avatar" id="userAvatar">م</div>
+            <div class="navbar-user-info">
+                <strong id="userName">المستخدم</strong>
+                <span id="userRole">موظف</span>
+            </div>
+        </button>
+    </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     📂 Sidebar
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">الرئيسية</div>
+        <a href="dashboard.html" class="sidebar-link">
+            <i class="fas fa-house"></i>
+            <span>لوحة التحكم</span>
+        </a>
+    </div>
+    
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">المخزون</div>
+        <a href="products.html" class="sidebar-link" data-perm="can_view_products">
+            <i class="fas fa-boxes-stacked"></i>
+            <span>الأصناف</span>
+        </a>
+        <a href="categories.html" class="sidebar-link active" data-perm="can_view_categories">
+            <i class="fas fa-tags"></i>
+            <span>الفئات</span>
+        </a>
+        <a href="stock-in.html" class="sidebar-link" data-perm="can_view_warehouse_in">
+            <i class="fas fa-truck-ramp-box"></i>
+            <span>الوارد</span>
+        </a>
+        <a href="suppliers.html" class="sidebar-link" data-perm="can_view_suppliers">
+            <i class="fas fa-handshake"></i>
+            <span>الموردين</span>
+        </a>
+    </div>
+    
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">المبيعات</div>
+        <a href="invoices.html" class="sidebar-link" data-perm="can_view_invoices">
+            <i class="fas fa-file-invoice-dollar"></i>
+            <span>الفواتير</span>
+        </a>
+        <a href="customers.html" class="sidebar-link" data-perm="can_view_customers">
+            <i class="fas fa-users"></i>
+            <span>العملاء</span>
+        </a>
+        <a href="debts.html" class="sidebar-link" data-perm="can_view_debts">
+            <i class="fas fa-hand-holding-dollar"></i>
+            <span>المديونيات</span>
+        </a>
+    </div>
+    
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">الصيانة</div>
+        <a href="repairs.html" class="sidebar-link" data-perm="can_view_repairs">
+            <i class="fas fa-screwdriver-wrench"></i>
+            <span>أوامر الصيانة</span>
+        </a>
+    </div>
+    
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">التقارير</div>
+        <a href="reports.html" class="sidebar-link" data-perm="can_view_reports">
+            <i class="fas fa-chart-pie"></i>
+            <span>التقارير</span>
+        </a>
+        <a href="shifts.html" class="sidebar-link" data-perm="can_manage_shifts">
+            <i class="fas fa-clock"></i>
+            <span>الورديات</span>
+        </a>
+        <a href="audit-log.html" class="sidebar-link" data-perm="can_view_audit_log">
+            <i class="fas fa-clipboard-list"></i>
+            <span>سجل الحركات</span>
+        </a>
+    </div>
+    
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">أدوات</div>
+        <a href="favorites.html" class="sidebar-link">
+            <i class="fas fa-star"></i>
+            <span>المفضلة</span>
+        </a>
+        <a href="admin.html" class="sidebar-link" id="adminLink" style="display: none;">
+            <i class="fas fa-shield-halved"></i>
+            <span>لوحة الأدمن</span>
+        </a>
+    </div>
+</aside>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     📄 Main Content
+     ═══════════════════════════════════════════════════════════════ -->
+<main class="main-content">
+    
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-text">
+            <h1>
+                <i class="fas fa-tags"></i>
+                الفئات
+            </h1>
+            <p id="pageSubtitle">تنظيم الأصناف حسب الفئات</p>
+        </div>
+        <div class="page-header-actions">
+            <button class="btn btn-secondary" id="exportExcelBtn">
+                <i class="fas fa-file-excel"></i>
+                تصدير
+            </button>
+            <button class="btn btn-primary" id="addCategoryBtn">
+                <i class="fas fa-plus"></i>
+                إضافة فئة
+            </button>
+        </div>
+    </div>
+    
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-item-icon">
+                <i class="fas fa-tags"></i>
+            </div>
+            <div class="stat-item-content">
+                <div class="stat-item-value" id="totalCategories">0</div>
+                <div class="stat-item-label">إجمالي الفئات</div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-item-icon success">
+                <i class="fas fa-boxes-stacked"></i>
+            </div>
+            <div class="stat-item-content">
+                <div class="stat-item-value" id="totalProducts">0</div>
+                <div class="stat-item-label">إجمالي الأصناف</div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-item-icon purple">
+                <i class="fas fa-chart-simple"></i>
+            </div>
+            <div class="stat-item-content">
+                <div class="stat-item-value" id="avgProducts">0</div>
+                <div class="stat-item-label">متوسط أصناف/فئة</div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-item-icon warning">
+                <i class="fas fa-circle-exclamation"></i>
+            </div>
+            <div class="stat-item-content">
+                <div class="stat-item-value" id="emptyCategories">0</div>
+                <div class="stat-item-label">فئات فاضية</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-search">
+            <input 
+                type="text" 
+                class="toolbar-search-input" 
+                id="searchInput" 
+                placeholder="ابحث عن فئة..."
+                autocomplete="off"
+            >
+            <i class="fas fa-magnifying-glass toolbar-search-icon"></i>
+        </div>
+        
+        <select class="toolbar-select" id="sortFilter">
+            <option value="newest">الأحدث</option>
+            <option value="name">الاسم (أ-ي)</option>
+            <option value="products_high">الأكثر أصنافًا</option>
+            <option value="products_low">الأقل أصنافًا</option>
+        </select>
+    </div>
+    
+    <!-- Categories Container -->
+    <div id="categoriesContainer">
+        <div class="categories-grid" id="categoriesGrid">
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+            <div class="skeleton skeleton-card"></div>
+        </div>
+    </div>
+    
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     🪟 Category Modal (Add/Edit) - with Scrollable Body
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="categoryModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                <i class="fas fa-tag" id="categoryModalIcon"></i>
+                <span id="categoryModalTitle">إضافة فئة جديدة</span>
+            </h3>
+            <button class="modal-close" id="closeCategoryModal" aria-label="إغلاق">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form id="categoryForm" autocomplete="off">
+            <!-- Modal Body with Scroll -->
+            <div class="modal-body">
+                
+                <div class="form-group">
+                    <label class="form-label" for="categoryName">
+                        <i class="fas fa-tag"></i>
+                        اسم الفئة <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="categoryName" 
+                        class="form-input" 
+                        placeholder="مثال: شاشات، موبايلات، لابتوبات..."
+                        maxlength="100"
+                        required
+                    >
+                    <div class="form-error" id="nameError">
+                        <i class="fas fa-circle-exclamation"></i>
+                        <span>الرجاء إدخال اسم الفئة</span>
+                    </div>
+                    <div class="form-hint">
+                        <i class="fas fa-info-circle"></i>
+                        الاسم يجب أن يكون فريدًا وغير مكرر
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="categoryDescription">
+                        <i class="fas fa-align-right"></i>
+                        الوصف (اختياري)
+                    </label>
+                    <textarea 
+                        id="categoryDescription" 
+                        class="form-textarea" 
+                        placeholder="وصف مختصر للفئة..."
+                        maxlength="300"
+                    ></textarea>
+                    <div class="form-hint">
+                        <i class="fas fa-info-circle"></i>
+                        <span id="descCounter">0 / 300</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-palette"></i>
+                        اللون
+                    </label>
+                    <div class="color-picker" id="colorPicker">
+                        <!-- سيتم تعبئتها بالـ JS -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-icons"></i>
+                        الأيقونة
+                    </label>
+                    <div class="icon-picker" id="iconPicker">
+                        <!-- سيتم تعبئتها بالـ JS -->
+                    </div>
+                    <div class="form-hint">
+                        <i class="fas fa-hand-pointer"></i>
+                        اضغط لاختيار الأيقونة المناسبة
+                    </div>
+                </div>
+                
+                <!-- Preview -->
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-eye"></i>
+                        معاينة
+                    </label>
+                    <div style="padding: 1rem; background: var(--bg-primary); border: 1.5px dashed var(--border-color); border-radius: var(--radius-md);">
+                        <div class="category-card" id="categoryPreview" style="cursor: default; padding: 0;">
+                            <div class="category-card-header">
+                                <div class="category-icon-box" id="previewIconBox">
+                                    <i class="fas fa-tag" id="previewIcon"></i>
+                                </div>
+                            </div>
+                            <div class="category-card-body">
+                                <div class="category-name" id="previewName">اسم الفئة</div>
+                                <div class="category-description" id="previewDesc">وصف الفئة سيظهر هنا...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <!-- End Modal Body -->
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelCategoryBtn">
+                    <i class="fas fa-times"></i>
+                    إلغاء
+                </button>
+                <button type="submit" class="btn btn-primary" id="saveCategoryBtn">
+                    <span class="spinner" style="display: none;"></span>
+                    <i class="fas fa-check"></i>
+                    <span id="saveCategoryText">حفظ</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     🗑️ Delete Confirmation Modal
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal modal-sm">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                <i class="fas fa-triangle-exclamation" style="color: var(--danger);"></i>
+                تأكيد الحذف
+            </h3>
+            <button class="modal-close" id="closeDeleteModal" aria-label="إغلاق">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p style="font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.75rem;">
+                هل أنت متأكد من حذف فئة 
+                <strong id="deleteCategoryName" style="color: var(--danger);"></strong>؟
+            </p>
+            <div id="deleteWarning" style="display: none; padding: 0.75rem 1rem; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: var(--radius-md); color: var(--warning); font-size: 0.85rem; font-weight: 600;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="deleteWarningText"></span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="cancelDeleteBtn">
+                إلغاء
+            </button>
+            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                <i class="fas fa-trash"></i>
+                حذف نهائي
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     📋 Category Details Modal
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="detailsModal">
+    <div class="modal modal-lg">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                <i class="fas fa-circle-info"></i>
+                تفاصيل الفئة
+            </h3>
+            <button class="modal-close" id="closeDetailsModal" aria-label="إغلاق">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body" id="detailsContent">
+            <!-- سيتم تعبئتها -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="closeDetailsBtn">
+                إغلاق
+            </button>
+            <button type="button" class="btn btn-primary" id="editFromDetailsBtn">
+                <i class="fas fa-pen"></i>
+                تعديل
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Notifications Panel -->
+<div class="notifications-panel" id="notificationsPanel">
+    <div class="notifications-header">
+        <h3 class="notifications-title">
+            <i class="fas fa-bell"></i>
+            الإشعارات
+        </h3>
+        <button class="notifications-mark-read" id="markAllReadBtn">تعيين الكل كمقروء</button>
+    </div>
+    <div class="notifications-list" id="notificationsList"></div>
+</div>
+
+<!-- User Dropdown -->
+<div class="user-dropdown" id="userDropdown">
+    <div class="user-dropdown-header">
+        <div class="user-dropdown-avatar" id="dropdownAvatar">م</div>
+        <div class="user-dropdown-info">
+            <strong id="dropdownName">المستخدم</strong>
+            <span id="dropdownRole">موظف</span>
+        </div>
+    </div>
+    <div class="user-dropdown-menu">
+        <a href="favorites.html" class="user-dropdown-item">
+            <i class="fas fa-star"></i>
+            <span>المفضلة</span>
+        </a>
+        <a href="admin.html" class="user-dropdown-item" id="dropdownAdminLink" style="display: none;">
+            <i class="fas fa-shield-halved"></i>
+            <span>لوحة الأدمن</span>
+        </a>
+        <div class="user-dropdown-divider"></div>
+        <button class="user-dropdown-item danger" id="logoutBtn">
+            <i class="fas fa-right-from-bracket"></i>
+            <span>تسجيل الخروج</span>
+        </button>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Scroll to Top -->
+<button class="scroll-top" id="scrollTop" aria-label="العودة للأعلى">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     📜 JavaScript
+     ═══════════════════════════════════════════════════════════════ -->
+<script type="module">
+
+// ═══════════════════════════════════════════════════════════════
+// 🔑 Config
+// ═══════════════════════════════════════════════════════════════
+const SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
+
+// ═══════════════════════════════════════════════════════════════
+// 🎨 Colors & Icons Presets
+// ═══════════════════════════════════════════════════════════════
+const COLOR_PRESETS = [
+    { name: 'أزرق تقني', value: '#1d5b8e', dark: '#154668', shadow: 'rgba(29, 91, 142, 0.3)' },
+    { name: 'أخضر', value: '#10b981', dark: '#059669', shadow: 'rgba(16, 185, 129, 0.3)' },
+    { name: 'برتقالي', value: '#f59e0b', dark: '#d97706', shadow: 'rgba(245, 158, 11, 0.3)' },
+    { name: 'أحمر', value: '#ef4444', dark: '#dc2626', shadow: 'rgba(239, 68, 68, 0.3)' },
+    { name: 'بنفسجي', value: '#8b5cf6', dark: '#7c3aed', shadow: 'rgba(139, 92, 246, 0.3)' },
+    { name: 'وردي', value: '#ec4899', dark: '#db2777', shadow: 'rgba(236, 72, 153, 0.3)' },
+    { name: 'سماوي', value: '#06b6d4', dark: '#0891b2', shadow: 'rgba(6, 182, 212, 0.3)' },
+    { name: 'أصفر', value: '#eab308', dark: '#ca8a04', shadow: 'rgba(234, 179, 8, 0.3)' },
+    { name: 'برونزي', value: '#a16207', dark: '#854d0e', shadow: 'rgba(161, 98, 7, 0.3)' },
+    { name: 'نيلي', value: '#4f46e5', dark: '#4338ca', shadow: 'rgba(79, 70, 229, 0.3)' },
+    { name: 'زمردي', value: '#059669', dark: '#047857', shadow: 'rgba(5, 150, 105, 0.3)' },
+    { name: 'رمادي', value: '#64748b', dark: '#475569', shadow: 'rgba(100, 116, 139, 0.3)' }
+];
+
+const ICON_PRESETS = [
+    'fa-tv', 'fa-mobile-screen', 'fa-laptop', 'fa-tablet-screen-button',
+    'fa-headphones', 'fa-plug', 'fa-battery-full', 'fa-gears',
+    'fa-box', 'fa-tag', 'fa-microchip', 'fa-keyboard',
+    'fa-mouse', 'fa-print', 'fa-camera', 'fa-headset',
+    'fa-cable-car', 'fa-bolt', 'fa-tools', 'fa-screwdriver-wrench',
+    'fa-hard-drive', 'fa-memory', 'fa-sim-card', 'fa-sd-card',
+    'fa-compact-disc', 'fa-usb', 'fa-shield-halved', 'fa-satellite-dish',
+    'fa-radio', 'fa-video', 'fa-gamepad', 'fa-tv',
+    'fa-water', 'fa-fan', 'fa-snowflake', 'fa-fire',
+    'fa-lightbulb', 'fa-wifi', 'fa-bluetooth', 'fa-signal',
+    'fa-calculator', 'fa-clock', 'fa-watch', 'fa-stopwatch',
+    'fa-tachometer-alt', 'fa-weight-scale', 'fa-ruler', 'fa-microscope'
+];
+
+// ═══════════════════════════════════════════════════════════════
+// 🧰 Helpers
+// ═══════════════════════════════════════════════════════════════
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+function formatNumber(num) {
+    return (parseInt(num) || 0).toLocaleString('ar-EG');
+}
+
+function formatDate(date) {
+    if (!date) return '';
+    return new Date(date).toLocaleDateString('ar-EG', { 
+        year: 'numeric', month: 'short', day: 'numeric' 
+    });
+}
+
+function formatTimeAgo(date) {
+    if (!date) return '';
+    const seconds = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
+    if (seconds < 60) return 'الآن';
+    if (seconds < 3600) return `منذ ${Math.floor(seconds / 60)} دقيقة`;
+    if (seconds < 86400) return `منذ ${Math.floor(seconds / 3600)} ساعة`;
+    if (seconds < 604800) return `منذ ${Math.floor(seconds / 86400)} يوم`;
+    return formatDate(date);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎨 Theme
+// ═══════════════════════════════════════════════════════════════
+function initTheme() {
+    const saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    updateThemeIcon(saved);
+}
+
+function updateThemeIcon(theme) {
+    const icon = document.querySelector('#themeToggle i');
+    if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateThemeIcon(next);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🍞 Toast
+// ═══════════════════════════════════════════════════════════════
+function showToast(message, type = 'info', duration = 3500) {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+    
+    const icons = {
+        success: 'fa-circle-check',
+        error: 'fa-circle-xmark',
+        warning: 'fa-triangle-exclamation',
+        info: 'fa-circle-info'
+    };
+    
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i><span>${escapeHtml(message)}</span>`;
+    
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.classList.add('hide');
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🌐 Online
+// ═══════════════════════════════════════════════════════════════
+function updateOnlineStatus() {
+    const dot = document.getElementById('onlineDot');
+    if (!dot) return;
+    dot.classList.toggle('offline', !navigator.onLine);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔐 Session
+// ═══════════════════════════════════════════════════════════════
+function getSession() {
+    try {
+        const raw = localStorage.getItem('session');
+        if (!raw) return null;
+        const s = JSON.parse(raw);
+        if (!s?.user) return null;
+        if (s.expiresAt && Date.now() > s.expiresAt) {
+            localStorage.removeItem('session');
+            return null;
+        }
+        return s;
+    } catch { return null; }
+}
+
+function logout(message) {
+    localStorage.removeItem('session');
+    if (message) {
+        showToast(message, 'info');
+        setTimeout(() => window.location.href = 'index.html', 1000);
+    } else {
+        window.location.href = 'index.html';
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ⏱️ Inactivity
+// ═══════════════════════════════════════════════════════════════
+const INACTIVITY_TIMEOUT = 30 * 60 * 1000;
+let inactivityTimer = null;
+
+function resetInactivity() {
+    if (inactivityTimer) clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => logout('تم تسجيل خروجك بسبب عدم النشاط'), INACTIVITY_TIMEOUT);
+}
+
+function startInactivityMonitor() {
+    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evt => {
+        document.addEventListener(evt, resetInactivity, { passive: true });
+    });
+    resetInactivity();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📦 IndexedDB
+// ═══════════════════════════════════════════════════════════════
+const DB_NAME = 'electronic_db';
+const DB_VERSION = 1;
+let dbInstance = null;
+
+function openDB() {
+    return new Promise((resolve, reject) => {
+        if (dbInstance) return resolve(dbInstance);
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('accounts')) db.createObjectStore('accounts', { keyPath: 'id' });
+            if (!db.objectStoreNames.contains('outbox')) {
+                const s = db.createObjectStore('outbox', { keyPath: 'id', autoIncrement: true });
+                s.createIndex('status', 'status');
+            }
+            if (!db.objectStoreNames.contains('cache')) db.createObjectStore('cache', { keyPath: 'key' });
+            if (!db.objectStoreNames.contains('settings')) db.createObjectStore('settings', { keyPath: 'key' });
+            if (!db.objectStoreNames.contains('products')) db.createObjectStore('products', { keyPath: 'id' });
+            if (!db.objectStoreNames.contains('categories')) db.createObjectStore('categories', { keyPath: 'id' });
+        };
+        req.onsuccess = () => { dbInstance = req.result; resolve(dbInstance); };
+        req.onerror = () => reject(req.error);
+    });
+}
+
+async function dbPut(store, data) {
+    const db = await openDB();
+    return new Promise((res, rej) => {
+        const tx = db.transaction(store, 'readwrite');
+        const r = tx.objectStore(store).put(data);
+        r.onsuccess = () => res(r.result);
+        r.onerror = () => rej(r.error);
+    });
+}
+
+async function dbGetAll(store) {
+    const db = await openDB();
+    return new Promise((res, rej) => {
+        const tx = db.transaction(store, 'readonly');
+        const r = tx.objectStore(store).getAll();
+        r.onsuccess = () => res(r.result || []);
+        r.onerror = () => rej(r.error);
+    });
+}
+
+async function dbDelete(store, key) {
+    const db = await openDB();
+    return new Promise((res, rej) => {
+        const tx = db.transaction(store, 'readwrite');
+        const r = tx.objectStore(store).delete(key);
+        r.onsuccess = () => res();
+        r.onerror = () => rej(r.error);
+    });
+}
+
+async function addToOutbox(action) {
+    const db = await openDB();
+    return new Promise((res, rej) => {
+        const tx = db.transaction('outbox', 'readwrite');
+        const r = tx.objectStore('outbox').add({
+            ...action,
+            status: 'pending',
+            created_at: Date.now()
+        });
+        r.onsuccess = () => res(r.result);
+        r.onerror = () => rej(r.error);
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🗄️ Supabase
+// ═══════════════════════════════════════════════════════════════
+let supabaseClient = null;
+
+async function getSupabase() {
+    if (supabaseClient) return supabaseClient;
+    try {
+        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+        supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { persistSession: false }
+        });
+        return supabaseClient;
+    } catch (err) {
+        console.warn('فشل تحميل Supabase:', err);
+        return null;
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📊 State
+// ═══════════════════════════════════════════════════════════════
+const state = {
+    categories: [],
+    products: [],
+    filtered: [],
+    searchQuery: '',
+    sortFilter: 'newest',
+    editingCategory: null,
+    deletingCategory: null,
+    viewingCategory: null,
+    selectedColor: COLOR_PRESETS[0],
+    selectedIcon: 'fa-tag'
+};
+
+// ═══════════════════════════════════════════════════════════════
+// 📥 Load Data
+// ═══════════════════════════════════════════════════════════════
+async function loadData() {
+    try {
+        const sb = await getSupabase();
+        if (sb && navigator.onLine) {
+            const [catRes, prodRes] = await Promise.all([
+                sb.from('categories').select('*').order('created_at', { ascending: false }),
+                sb.from('products').select('id, category_id')
+            ]);
+            
+            if (catRes.data) {
+                state.categories = catRes.data;
+                for (const c of catRes.data) await dbPut('categories', c);
+            }
+            
+            if (prodRes.data) {
+                state.products = prodRes.data;
+            }
+        } else {
+            state.categories = await dbGetAll('categories');
+            state.products = await dbGetAll('products');
+        }
+    } catch (err) {
+        console.warn('خطأ في التحميل:', err);
+        state.categories = await dbGetAll('categories');
+        state.products = await dbGetAll('products');
+    }
+    
+    updateStats();
+    applyFilters();
+}
+
+function updateStats() {
+    const totalCategories = state.categories.length;
+    const totalProducts = state.products.length;
+    const avgProducts = totalCategories > 0 ? Math.round(totalProducts / totalCategories) : 0;
+    const emptyCategories = state.categories.filter(c => 
+        !state.products.some(p => p.category_id === c.id)
+    ).length;
+    
+    document.getElementById('totalCategories').textContent = formatNumber(totalCategories);
+    document.getElementById('totalProducts').textContent = formatNumber(totalProducts);
+    document.getElementById('avgProducts').textContent = formatNumber(avgProducts);
+    document.getElementById('emptyCategories').textContent = formatNumber(emptyCategories);
+    
+    document.getElementById('pageSubtitle').textContent = 
+        `${totalCategories} فئة • ${totalProducts} صنف`;
+}
+
+function getProductCountForCategory(categoryId) {
+    return state.products.filter(p => p.category_id === categoryId).length;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎯 Filters
+// ═══════════════════════════════════════════════════════════════
+function applyFilters() {
+    let list = [...state.categories];
+    const q = state.searchQuery.trim().toLowerCase();
+    
+    if (q) {
+        list = list.filter(c => 
+            (c.name || '').toLowerCase().includes(q) ||
+            (c.description || '').toLowerCase().includes(q)
+        );
+    }
+    
+    switch (state.sortFilter) {
+        case 'name':
+            list.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+            break;
+        case 'products_high':
+            list.sort((a, b) => getProductCountForCategory(b.id) - getProductCountForCategory(a.id));
+            break;
+        case 'products_low':
+            list.sort((a, b) => getProductCountForCategory(a.id) - getProductCountForCategory(b.id));
+            break;
+        case 'newest':
+        default:
+            list.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+    }
+    
+    state.filtered = list;
+    render();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎨 Render
+// ═══════════════════════════════════════════════════════════════
+function render() {
+    const container = document.getElementById('categoriesContainer');
+    if (!container) return;
+    
+    if (!state.filtered.length) {
+        container.innerHTML = getEmptyState();
+        return;
+    }
+    
+    container.innerHTML = `<div class="categories-grid">${state.filtered.map(c => renderCategoryCard(c)).join('')}</div>`;
+    bindCategoryEvents();
+}
+
+function getEmptyState() {
+    if (state.searchQuery) {
+        return `
+            <div class="empty-state">
+                <i class="fas fa-magnifying-glass"></i>
+                <h3>لا توجد نتائج</h3>
+                <p>لم نجد فئات تطابق "${escapeHtml(state.searchQuery)}"</p>
+            </div>
+        `;
+    }
+    
+    return `
+        <div class="empty-state">
+            <i class="fas fa-tags"></i>
+            <h3>لا توجد فئات بعد</h3>
+            <p>ابدأ بإضافة أول فئة لتنظيم الأصناف</p>
+            <button class="btn btn-primary" onclick="document.getElementById('addCategoryBtn').click()">
+                <i class="fas fa-plus"></i>
+                إضافة فئة
+            </button>
+        </div>
+    `;
+}
+
+function renderCategoryCard(c) {
+    const color = c.color || COLOR_PRESETS[0].value;
+    const colorDark = c.color_dark || COLOR_PRESETS[0].dark;
+    const shadow = COLOR_PRESETS.find(p => p.value === color)?.shadow || 'rgba(29, 91, 142, 0.3)';
+    const icon = c.icon || 'fa-tag';
+    const productCount = getProductCountForCategory(c.id);
+    
+    return `
+        <div class="category-card" 
+             data-id="${c.id}" 
+             style="--cat-color: ${escapeHtml(color)}; --cat-color-dark: ${escapeHtml(colorDark)}; --cat-shadow: ${shadow};"
+             data-action="view">
+            
+            <div class="category-card-header">
+                <div class="category-icon-box">
+                    <i class="fas ${escapeHtml(icon)}"></i>
+                </div>
+                <div class="category-card-menu">
+                    <button class="category-menu-btn" data-action="edit" data-id="${c.id}" title="تعديل">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                    <button class="category-menu-btn danger" data-action="delete" data-id="${c.id}" title="حذف">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="category-card-body">
+                <h3 class="category-name">${escapeHtml(c.name)}</h3>
+                <p class="category-description">
+                    ${c.description ? escapeHtml(c.description) : '<span class="category-empty-inline">لا يوجد وصف</span>'}
+                </p>
+                
+                <div class="category-stats">
+                    <span class="category-stat ${productCount === 0 ? 'warning' : ''}">
+                        <i class="fas fa-boxes-stacked"></i>
+                        ${productCount} صنف
+                    </span>
+                    <span class="category-stat">
+                        <i class="fas fa-calendar"></i>
+                        ${formatDate(c.created_at)}
+                    </span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function bindCategoryEvents() {
+    document.querySelectorAll('.category-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            const actionEl = e.target.closest('[data-action]');
+            if (actionEl && actionEl !== card) {
+                e.stopPropagation();
+                const action = actionEl.dataset.action;
+                const id = actionEl.dataset.id;
+                
+                if (action === 'edit') openEditModal(id);
+                else if (action === 'delete') openDeleteModal(id);
+                return;
+            }
+            
+            const id = card.dataset.id;
+            if (id) openDetailsModal(id);
+        });
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎨 Icon & Color Pickers
+// ═══════════════════════════════════════════════════════════════
+function renderColorPicker() {
+    const container = document.getElementById('colorPicker');
+    if (!container) return;
+    
+    container.innerHTML = COLOR_PRESETS.map((c, i) => `
+        <div class="color-option ${state.selectedColor.value === c.value ? 'selected' : ''}"
+             data-color-index="${i}"
+             title="${escapeHtml(c.name)}"
+             style="background: linear-gradient(135deg, ${c.value}, ${c.dark}); --color-value: ${c.value};">
+        </div>
+    `).join('');
+    
+    container.querySelectorAll('.color-option').forEach(el => {
+        el.addEventListener('click', () => {
+            const idx = parseInt(el.dataset.colorIndex);
+            state.selectedColor = COLOR_PRESETS[idx];
+            renderColorPicker();
+            updatePreview();
+        });
+    });
+}
+
+function renderIconPicker() {
+    const container = document.getElementById('iconPicker');
+    if (!container) return;
+    
+    container.innerHTML = ICON_PRESETS.map(icon => `
+        <div class="icon-option ${state.selectedIcon === icon ? 'selected' : ''}"
+             data-icon="${icon}"
+             title="${icon}">
+            <i class="fas ${icon}"></i>
+        </div>
+    `).join('');
+    
+    container.querySelectorAll('.icon-option').forEach(el => {
+        el.addEventListener('click', () => {
+            state.selectedIcon = el.dataset.icon;
+            renderIconPicker();
+            updatePreview();
+        });
+    });
+}
+
+function updatePreview() {
+    const nameInput = document.getElementById('categoryName');
+    const descInput = document.getElementById('categoryDescription');
+    const previewName = document.getElementById('previewName');
+    const previewDesc = document.getElementById('previewDesc');
+    const previewIcon = document.getElementById('previewIcon');
+    const previewIconBox = document.getElementById('previewIconBox');
+    const previewCard = document.getElementById('categoryPreview');
+    
+    if (previewName) previewName.textContent = nameInput?.value || 'اسم الفئة';
+    if (previewDesc) previewDesc.textContent = descInput?.value || 'وصف الفئة سيظهر هنا...';
+    if (previewIcon) previewIcon.className = `fas ${state.selectedIcon}`;
+    
+    if (previewIconBox) {
+        previewIconBox.style.background = `linear-gradient(135deg, ${state.selectedColor.value}, ${state.selectedColor.dark})`;
+        previewIconBox.style.boxShadow = `0 6px 16px ${state.selectedColor.shadow}`;
+    }
+    
+    if (previewCard) {
+        previewCard.style.setProperty('--cat-color', state.selectedColor.value);
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🪟 Category Modal
+// ═══════════════════════════════════════════════════════════════
+function openAddModal() {
+    state.editingCategory = null;
+    state.selectedColor = COLOR_PRESETS[0];
+    state.selectedIcon = 'fa-tag';
+    
+    document.getElementById('categoryModalTitle').textContent = 'إضافة فئة جديدة';
+    document.getElementById('categoryModalIcon').className = 'fas fa-plus';
+    document.getElementById('saveCategoryText').textContent = 'حفظ';
+    
+    document.getElementById('categoryForm').reset();
+    document.getElementById('categoryName').value = '';
+    document.getElementById('categoryDescription').value = '';
+    document.getElementById('descCounter').textContent = '0 / 300';
+    
+    clearFormErrors();
+    renderColorPicker();
+    renderIconPicker();
+    updatePreview();
+    
+    document.getElementById('categoryModal').classList.add('show');
+    setTimeout(() => document.getElementById('categoryName')?.focus(), 300);
+}
+
+function openEditModal(id) {
+    const c = state.categories.find(x => x.id === id);
+    if (!c) return;
+    
+    state.editingCategory = c;
+    
+    // Set color
+    const colorPreset = COLOR_PRESETS.find(p => p.value === c.color) || COLOR_PRESETS[0];
+    state.selectedColor = colorPreset;
+    state.selectedIcon = c.icon || 'fa-tag';
+    
+    document.getElementById('categoryModalTitle').textContent = 'تعديل الفئة';
+    document.getElementById('categoryModalIcon').className = 'fas fa-pen';
+    document.getElementById('saveCategoryText').textContent = 'حفظ التعديلات';
+    
+    document.getElementById('categoryName').value = c.name || '';
+    document.getElementById('categoryDescription').value = c.description || '';
+    document.getElementById('descCounter').textContent = `${(c.description || '').length} / 300`;
+    
+    clearFormErrors();
+    renderColorPicker();
+    renderIconPicker();
+    updatePreview();
+    
+    document.getElementById('categoryModal').classList.add('show');
+    setTimeout(() => document.getElementById('categoryName')?.focus(), 300);
+}
+
+function closeCategoryModal() {
+    document.getElementById('categoryModal').classList.remove('show');
+    state.editingCategory = null;
+}
+
+function clearFormErrors() {
+    document.querySelectorAll('.form-error').forEach(el => el.classList.remove('show'));
+    document.querySelectorAll('.form-input.error, .form-textarea.error').forEach(el => el.classList.remove('error'));
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 💾 Save Category
+// ═══════════════════════════════════════════════════════════════
+async function saveCategory(e) {
+    e.preventDefault();
+    clearFormErrors();
+    
+    const name = document.getElementById('categoryName').value.trim();
+    const description = document.getElementById('categoryDescription').value.trim() || null;
+    
+    if (!name) {
+        document.getElementById('categoryName').classList.add('error');
+        document.getElementById('nameError').classList.add('show');
+        document.getElementById('categoryName').focus();
+        return;
+    }
+    
+    // Check duplicate name
+    const duplicate = state.categories.find(c => 
+        c.name.toLowerCase() === name.toLowerCase() &&
+        (!state.editingCategory || c.id !== state.editingCategory.id)
+    );
+    
+    if (duplicate) {
+        document.getElementById('categoryName').classList.add('error');
+        const errEl = document.getElementById('nameError');
+        errEl.querySelector('span').textContent = 'هذه الفئة موجودة بالفعل';
+        errEl.classList.add('show');
+        return;
+    }
+    
+    const btn = document.getElementById('saveCategoryBtn');
+    const spinner = btn.querySelector('.spinner');
+    const icon = btn.querySelector('i');
+    const text = document.getElementById('saveCategoryText');
+    
+    btn.disabled = true;
+    spinner.style.display = 'block';
+    icon.style.display = 'none';
+    text.textContent = 'جاري الحفظ...';
+    
+    try {
+        const session = getSession();
+        const sb = await getSupabase();
+        
+        const categoryData = {
+            name,
+            description,
+            color: state.selectedColor.value,
+            color_dark: state.selectedColor.dark,
+            icon: state.selectedIcon
+        };
+        
+        if (state.editingCategory) {
+            // Update
+            if (sb && navigator.onLine) {
+                const { error } = await sb
+                    .from('categories')
+                    .update(categoryData)
+                    .eq('id', state.editingCategory.id);
+                
+                if (error) throw error;
+                
+                await sb.from('audit_log').insert({
+                    user_id: session?.user?.id,
+                    action: 'UPDATE',
+                    table_name: 'categories',
+                    record_id: state.editingCategory.id,
+                    old_data: state.editingCategory,
+                    new_data: categoryData
+                });
+            } else {
+                await addToOutbox({
+                    type: 'update',
+                    table: 'categories',
+                    id: state.editingCategory.id,
+                    data: categoryData
+                });
+            }
+            
+            // Update local
+            const idx = state.categories.findIndex(x => x.id === state.editingCategory.id);
+            if (idx >= 0) {
+                state.categories[idx] = { ...state.categories[idx], ...categoryData };
+                await dbPut('categories', state.categories[idx]);
+            }
+            
+            showToast('✅ تم تحديث الفئة بنجاح', 'success');
+        } else {
+            // Insert
+            const newCategory = {
+                id: 'temp_' + Date.now(),
+                ...categoryData,
+                created_at: new Date().toISOString()
+            };
+            
+            if (sb && navigator.onLine) {
+                const { data, error } = await sb
+                    .from('categories')
+                    .insert(categoryData)
+                    .select()
+                    .single();
+                
+                if (error) throw error;
+                
+                newCategory.id = data.id;
+                newCategory.created_at = data.created_at;
+                
+                await sb.from('audit_log').insert({
+                    user_id: session?.user?.id,
+                    action: 'INSERT',
+                    table_name: 'categories',
+                    record_id: data.id,
+                    new_data: data
+                });
+            } else {
+                await addToOutbox({
+                    type: 'insert',
+                    table: 'categories',
+                    tempId: newCategory.id,
+                    data: categoryData
+                });
+            }
+            
+            state.categories.unshift(newCategory);
+            await dbPut('categories', newCategory);
+            
+            showToast('✅ تم إضافة الفئة بنجاح', 'success');
+        }
+        
+        closeCategoryModal();
+        updateStats();
+        applyFilters();
+        
+    } catch (err) {
+        console.error(err);
+        showToast(err.message || 'حدث خطأ أثناء الحفظ', 'error');
+    } finally {
+        btn.disabled = false;
+        spinner.style.display = 'none';
+        icon.style.display = '';
+        text.textContent = state.editingCategory ? 'حفظ التعديلات' : 'حفظ';
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🗑️ Delete
+// ═══════════════════════════════════════════════════════════════
+function openDeleteModal(id) {
+    const c = state.categories.find(x => x.id === id);
+    if (!c) return;
+    
+    state.deletingCategory = c;
+    document.getElementById('deleteCategoryName').textContent = c.name;
+    
+    const productCount = getProductCountForCategory(c.id);
+    const warningEl = document.getElementById('deleteWarning');
+    const warningText = document.getElementById('deleteWarningText');
+    
+    if (productCount > 0) {
+        warningEl.style.display = 'block';
+        warningText.textContent = `تنبيه: هذه الفئة تحتوي على ${productCount} صنف. سيتم إلغاء ربطها بالفئة لكن الأصناف لن تُحذف.`;
+    } else {
+        warningEl.style.display = 'none';
+    }
+    
+    document.getElementById('deleteModal').classList.add('show');
+}
+
+async function confirmDelete() {
+    const c = state.deletingCategory;
+    if (!c) return;
+    
+    const btn = document.getElementById('confirmDeleteBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner" style="display:block;width:16px;height:16px;"></span>';
+    
+    try {
+        const session = getSession();
+        const sb = await getSupabase();
+        
+        if (sb && navigator.onLine && !c.id.startsWith('temp_')) {
+            // Set products category_id to null first
+            await sb.from('products').update({ category_id: null }).eq('category_id', c.id);
+            
+            const { error } = await sb.from('categories').delete().eq('id', c.id);
+            if (error) throw error;
+            
+            await sb.from('audit_log').insert({
+                user_id: session?.user?.id,
+                action: 'DELETE',
+                table_name: 'categories',
+                record_id: c.id,
+                old_data: c
+            });
+        } else if (!navigator.onLine) {
+            await addToOutbox({
+                type: 'delete',
+                table: 'categories',
+                id: c.id
+            });
+        }
+        
+        state.categories = state.categories.filter(x => x.id !== c.id);
+        state.products.forEach(p => {
+            if (p.category_id === c.id) p.category_id = null;
+        });
+        await dbDelete('categories', c.id);
+        
+        showToast('✅ تم حذف الفئة بنجاح', 'success');
+        document.getElementById('deleteModal').classList.remove('show');
+        state.deletingCategory = null;
+        
+        updateStats();
+        applyFilters();
+        
+    } catch (err) {
+        console.error(err);
+        showToast('حدث خطأ أثناء الحذف', 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-trash"></i> حذف نهائي';
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📋 Details Modal
+// ═══════════════════════════════════════════════════════════════
+function openDetailsModal(id) {
+    const c = state.categories.find(x => x.id === id);
+    if (!c) return;
+    
+    state.viewingCategory = c;
+    
+    const color = c.color || COLOR_PRESETS[0].value;
+    const colorDark = c.color_dark || COLOR_PRESETS[0].dark;
+    const icon = c.icon || 'fa-tag';
+    const productCount = getProductCountForCategory(c.id);
+    const productsInCategory = state.products.filter(p => p.category_id === c.id);
+    
+    document.getElementById('detailsContent').innerHTML = `
+        <div style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: var(--bg-primary); border-radius: var(--radius-lg); margin-bottom: 1.25rem;">
+            <div style="width: 72px; height: 72px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; background: linear-gradient(135deg, ${escapeHtml(color)}, ${escapeHtml(colorDark)}); box-shadow: 0 6px 16px ${color}40; flex-shrink: 0;">
+                <i class="fas ${escapeHtml(icon)}"></i>
+            </div>
+            <div style="flex: 1; min-width: 0;">
+                <h2 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 0.35rem;">${escapeHtml(c.name)}</h2>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">${escapeHtml(c.description || 'لا يوجد وصف')}</p>
+            </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">
+            <div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--tech-blue); margin-bottom: 0.25rem;">${productCount}</div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600;">عدد الأصناف</div>
+            </div>
+            <div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">
+                <div style="font-size: 0.9rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem;">${formatDate(c.created_at)}</div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600;">تاريخ الإنشاء</div>
+            </div>
+        </div>
+        
+        ${productCount > 0 ? `
+            <div style="margin-top: 1.25rem;">
+                <h3 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-boxes-stacked" style="color: var(--tech-blue);"></i>
+                    الأصناف في هذه الفئة (${productCount})
+                </h3>
+                <div style="max-height: 240px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+                    ${productsInCategory.slice(0, 20).map(p => `
+                        <div style="padding: 0.65rem 0.85rem; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;">
+                            <div style="min-width: 0;">
+                                <div style="font-size: 0.85rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(p.name || '')}</div>
+                                <div style="font-size: 0.7rem; color: var(--text-muted); font-family: monospace;">${escapeHtml(p.barcode || '')}</div>
+                            </div>
+                            <span class="badge ${p.quantity > 0 ? 'badge-success' : 'badge-danger'}">${p.quantity || 0}</span>
+                        </div>
+                    `).join('')}
+                    ${productCount > 20 ? `<div style="padding: 0.65rem; text-align: center; font-size: 0.75rem; color: var(--text-muted);">و ${productCount - 20} صنف آخر...</div>` : ''}
+                </div>
+            </div>
+        ` : `
+            <div style="padding: 2rem 1rem; text-align: center; background: var(--bg-primary); border-radius: var(--radius-md); border: 2px dashed var(--border-color);">
+                <i class="fas fa-box-open" style="font-size: 2rem; color: var(--text-muted); opacity: 0.4; margin-bottom: 0.5rem; display: block;"></i>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">لا توجد أصناف في هذه الفئة بعد</p>
+            </div>
+        `}
+    `;
+    
+    document.getElementById('detailsModal').classList.add('show');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📤 Export Excel
+// ═══════════════════════════════════════════════════════════════
+async function exportExcel() {
+    try {
+        if (typeof XLSX === 'undefined') {
+            await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+        
+        const data = state.filtered.map(c => ({
+            'الاسم': c.name,
+            'الوصف': c.description || '',
+            'عدد الأصناف': getProductCountForCategory(c.id),
+            'اللون': c.color || '',
+            'الأيقونة': c.icon || '',
+            'تاريخ الإنشاء': formatDate(c.created_at)
+        }));
+        
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'الفئات');
+        
+        XLSX.writeFile(wb, `categories_${new Date().toISOString().split('T')[0]}.xlsx`);
+        showToast('تم التصدير بنجاح', 'success');
+    } catch (err) {
+        console.error(err);
+        showToast('فشل التصدير', 'error');
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔔 Notifications
+// ═══════════════════════════════════════════════════════════════
+async function loadNotifications() {
+    const session = getSession();
+    if (!session) return;
+    
+    try {
+        const sb = await getSupabase();
+        if (sb && navigator.onLine) {
+            const { data } = await sb
+                .from('notifications')
+                .select('*')
+                .eq('user_id', session.user.id)
+                .order('created_at', { ascending: false })
+                .limit(20);
+            
+            renderNotifications(data || []);
+        }
+    } catch {}
+}
+
+function renderNotifications(notifications) {
+    const list = document.getElementById('notificationsList');
+    const badge = document.getElementById('notifBadge');
+    if (!list || !badge) return;
+    
+    const unread = notifications.filter(n => !n.read).length;
+    if (unread > 0) {
+        badge.textContent = unread > 99 ? '99+' : unread;
+        badge.style.display = 'flex';
+    } else {
+        badge.style.display = 'none';
+    }
+    
+    if (!notifications.length) {
+        list.innerHTML = '<div class="notifications-empty"><i class="fas fa-bell-slash"></i><p>لا توجد إشعارات</p></div>';
+        return;
+    }
+    
+    const typeMap = {
+        'out_of_stock': { icon: 'fa-circle-xmark', class: 'danger' },
+        'low_stock': { icon: 'fa-triangle-exclamation', class: 'warning' },
+        'info': { icon: 'fa-circle-info', class: 'info' }
+    };
+    
+    list.innerHTML = notifications.map(n => {
+        const t = typeMap[n.type] || typeMap.info;
+        return `
+            <div class="notification-item ${n.read ? '' : 'unread'}">
+                <div class="notification-item-icon ${t.class}">
+                    <i class="fas ${t.icon}"></i>
+                </div>
+                <div class="notification-item-content">
+                    <div class="notification-item-title">${escapeHtml(n.title)}</div>
+                    <div class="notification-item-message">${escapeHtml(n.message || '')}</div>
+                    <div class="notification-item-time">
+                        <i class="fas fa-clock"></i>
+                        ${formatTimeAgo(n.created_at)}
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+async function markAllRead() {
+    const session = getSession();
+    if (!session) return;
+    
+    try {
+        const sb = await getSupabase();
+        if (sb && navigator.onLine) {
+            await sb.from('notifications')
+                .update({ read: true })
+                .eq('user_id', session.user.id)
+                .eq('read', false);
+        }
+        await loadNotifications();
+        showToast('تم تعيين الكل كمقروء', 'success');
+    } catch {}
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎬 Init
+// ═══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', async () => {
+    
+    const session = getSession();
+    if (!session) { window.location.href = 'index.html'; return; }
+    if (session.user.must_change_password) { window.location.href = 'index.html'; return; }
+    
+    initTheme();
+    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+    
+    updateOnlineStatus();
+    window.addEventListener('online', () => {
+        updateOnlineStatus();
+        showToast('تم استعادة الاتصال', 'success');
+    });
+    window.addEventListener('offline', () => {
+        updateOnlineStatus();
+        showToast('وضع Offline', 'warning');
+    });
+    
+    updateUserUI(session.user);
+    applyPermissions(session.user);
+    
+    // Sidebar
+    document.getElementById('menuBtn')?.addEventListener('click', () => {
+        document.getElementById('sidebar')?.classList.toggle('show');
+        document.getElementById('sidebarOverlay')?.classList.toggle('show');
+    });
+    document.getElementById('sidebarOverlay')?.addEventListener('click', () => {
+        document.getElementById('sidebar')?.classList.remove('show');
+        document.getElementById('sidebarOverlay')?.classList.remove('show');
+    });
+    
+    // User dropdown
+    const userBtn = document.getElementById('userBtn');
+    const userDropdown = document.getElementById('userDropdown');
+    userBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userDropdown?.classList.toggle('show');
+        document.getElementById('notificationsPanel')?.classList.remove('show');
+    });
+    document.getElementById('logoutBtn')?.addEventListener('click', () => {
+        if (confirm('هل أنت متأكد من تسجيل الخروج؟')) logout();
+    });
+    
+    // Notifications
+    const notifBtn = document.getElementById('notificationsBtn');
+    const notifPanel = document.getElementById('notificationsPanel');
+    notifBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        notifPanel?.classList.toggle('show');
+        userDropdown?.classList.remove('show');
+    });
+    document.getElementById('markAllReadBtn')?.addEventListener('click', markAllRead);
+    
+    document.addEventListener('click', (e) => {
+        if (!userDropdown?.contains(e.target) && !userBtn?.contains(e.target)) userDropdown?.classList.remove('show');
+        if (!notifPanel?.contains(e.target) && !notifBtn?.contains(e.target)) notifPanel?.classList.remove('show');
+    });
+    
+    // Search
+    let searchTimeout;
+    document.getElementById('searchInput')?.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            state.searchQuery = e.target.value;
+            applyFilters();
+        }, 250);
+    });
+    
+    // Sort
+    document.getElementById('sortFilter')?.addEventListener('change', (e) => {
+        state.sortFilter = e.target.value;
+        applyFilters();
+    });
+    
+    // Add category
+    document.getElementById('addCategoryBtn')?.addEventListener('click', openAddModal);
+    
+    // Category modal
+    document.getElementById('closeCategoryModal')?.addEventListener('click', closeCategoryModal);
+    document.getElementById('cancelCategoryBtn')?.addEventListener('click', closeCategoryModal);
+    document.getElementById('categoryForm')?.addEventListener('submit', saveCategory);
+    
+    // Live preview
+    document.getElementById('categoryName')?.addEventListener('input', updatePreview);
+    document.getElementById('categoryDescription')?.addEventListener('input', (e) => {
+        document.getElementById('descCounter').textContent = `${e.target.value.length} / 300`;
+        updatePreview();
+    });
+    
+    // Delete modal
+    document.getElementById('closeDeleteModal')?.addEventListener('click', () => {
+        document.getElementById('deleteModal').classList.remove('show');
+        state.deletingCategory = null;
+    });
+    document.getElementById('cancelDeleteBtn')?.addEventListener('click', () => {
+        document.getElementById('deleteModal').classList.remove('show');
+        state.deletingCategory = null;
+    });
+    document.getElementById('confirmDeleteBtn')?.addEventListener('click', confirmDelete);
+    
+    // Details modal
+    document.getElementById('closeDetailsModal')?.addEventListener('click', () => {
+        document.getElementById('detailsModal').classList.remove('show');
+        state.viewingCategory = null;
+    });
+    document.getElementById('closeDetailsBtn')?.addEventListener('click', () => {
+        document.getElementById('detailsModal').classList.remove('show');
+        state.viewingCategory = null;
+    });
+    document.getElementById('editFromDetailsBtn')?.addEventListener('click', () => {
+        const id = state.viewingCategory?.id;
+        document.getElementById('detailsModal').classList.remove('show');
+        if (id) setTimeout(() => openEditModal(id), 200);
+    });
+    
+    // Export
+    document.getElementById('exportExcelBtn')?.addEventListener('click', exportExcel);
+    
+    // Close modals on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.classList.remove('show');
+        });
+    });
+    
+    // Esc
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('searchInput')?.focus();
+        }
+    });
+    
+    // Scroll
+    const progressBar = document.getElementById('readingProgress');
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+        if (progressBar) progressBar.style.width = scrolled + '%';
+        if (winScroll > 300) scrollTopBtn?.classList.add('show');
+        else scrollTopBtn?.classList.remove('show');
+    }, { passive: true });
+    
+    scrollTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    
+    // Permissions
+    if (session.user.role !== 'admin' && !session.user.permissions?.can_edit_categories) {
+        document.getElementById('addCategoryBtn').style.display = 'none';
+    }
+    
+    // Load data
+    await loadData();
+    await loadNotifications();
+    setInterval(loadNotifications, 60000);
+    
+    startInactivityMonitor();
+    
+    console.log('%c🏷️ صفحة الفئات جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+});
+
+function updateUserUI(user) {
+    const initial = (user.full_name || user.username || 'م').charAt(0).toUpperCase();
+    const roleText = user.role === 'admin' ? 'مدير' : 'موظف';
+    
+    ['userAvatar', 'dropdownAvatar'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = initial;
+    });
+    
+    ['userName', 'dropdownName'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = user.full_name || user.username;
+    });
+    
+    ['userRole', 'dropdownRole'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = roleText;
+    });
+}
+
+function applyPermissions(user) {
+    const perms = user.permissions || {};
+    const isAdmin = user.role === 'admin';
+    
+    document.querySelectorAll('.sidebar-link[data-perm]').forEach(link => {
+        if (!isAdmin && !perms[link.dataset.perm]) link.style.display = 'none';
+    });
+    
+    if (isAdmin) {
+        document.getElementById('adminLink').style.display = 'flex';
+        document.getElementById('dropdownAdminLink').style.display = 'flex';
+    }
+}
+
+window.CategoriesApp = { showToast, logout, getSession };
+
+</script>
+
+</body>
+</html>
