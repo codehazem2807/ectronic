@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1d5b8e">
+<title>الموردين - إلكترونك لصيانة الأجهزة الإلكترونية</title>
+
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="manifest" href="manifest.json">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!--
+═══════════════════════════════════════════════════════
+📦 SQL الكامل لقاعدة البيانات (بدون RLS نهائيًا)
+═══════════════════════════════════════════════════════
+
+-- ملاحظة: هذا الكود مرجعي، يُنفّذ مرة واحدة عند إعداد المشروع
+
+CREATE TABLE IF NOT EXISTS suppliers (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  phone TEXT,
+  address TEXT,
+  notes TEXT,
+  quality_rating INT DEFAULT 3 CHECK (quality_rating BETWEEN 1 AND 5),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS supplier_orders (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  supplier_id UUID REFERENCES suppliers(id) ON DELETE CASCADE,
+  product_id UUID,
+  quantity INT NOT NULL DEFAULT 0,
+  cost_price NUMERIC(12,2) DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS products (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  barcode TEXT UNIQUE,
+  sku TEXT,
+  category_id UUID,
+  cost_price NUMERIC(12,2) DEFAULT 0,
+  sell_price NUMERIC(12,2) DEFAULT 0,
+  quantity INT DEFAULT 0,
+  min_quantity INT DEFAULT 5,
+  image_url TEXT,
+  description TEXT,
+  is_featured BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS stock_movements (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  product_id UUID REFERENCES products(id) ON DELETE CASCADE,
+  type TEXT NOT NULL,
+  quantity INT NOT NULL DEFAULT 0,
+  reason TEXT,
+  reference_id UUID,
+  created_by UUID,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS audit_log (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID,
+  action TEXT,
+  table_name TEXT,
+  record_id UUID,
+  old_data JSONB,
+  new_data JSONB,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Views
+CREATE OR REPLACE VIEW v_best_suppliers AS
+SELECT 
+  s.id, s.name, s.phone, s.address,
+  s.quality_rating,
+  COALESCE(SUM(so.quantity * so.cost_price), 0) AS total_purchased,
+  COUNT(so.id) AS orders_count,
+  COALESCE(AVG(so.cost_price), 0) AS avg_price
+FROM suppliers s
+LEFT JOIN supplier_orders so ON so.supplier_id = s.id
+GROUP BY s.id, s.name, s.phone, s.address, s.quality_rating;
+
+CREATE OR REPLACE VIEW v_supplier_products AS
+SELECT 
+  so.supplier_id,
+  so.product_id,
+  p.name AS product_name,
+  AVG(so.cost_price) AS avg_cost,
+  SUM(so.quantity) AS total_qty,
+  MAX(so.created_at) AS last_order
+FROM supplier_orders so
+LEFT JOIN products p ON p.id = so.product_id
+GROUP BY so.supplier_id, so.product_id, p.name;
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS idx_suppliers_name ON suppliers(name);
+CREATE INDEX IF NOT EXISTS idx_suppliers_phone ON suppliers(phone);
+CREATE INDEX IF NOT EXISTS idx_supplier_orders_supplier ON supplier_orders(supplier_id);
+CREATE INDEX IF NOT EXISTS idx_supplier_orders_product ON supplier_orders(product_id);
+
+-- ملاحظة: ⚠️ لا يوجد RLS ولا Policies نهائيًا
+═══════════════════════════════════════════════════════
+-->
+
+<style>
+:root {
+  --primary: #1d5b8e;
+  --primary-light: #2b7ab8;
+  --primary-dark: #154668;
+  --dark: #0a1f33;
+  --gray-light: #f6f8fb;
+  --gray: #e2e8f0;
+  --gray-mid: #94a3b8;
+  --text: #0a1f33;
+  --text-light: #64748b;
+  --bg: #f6f8fb;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+  --gold: #fbbf24;
+  --shadow: 0 1px 3px rgba(10,31,51,.08), 0 1px 2px rgba(10,31,51,.04);
+  --shadow-md: 0 4px 12px rgba(10,31,51,.08);
+  --shadow-lg: 0 10px 30px rgba(10,31,51,.12);
+  --radius: 14px;
+  --radius-sm: 10px;
+  --navbar-h: 64px;
+  --sidebar-w: 260px;
+  --transition: all .25s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"] {
+  --bg: #071a2b;
+  --card: #0f2a42;
+  --text: #e8eef5;
+  --text-light: #94a3b8;
+  --gray-light: #0f2a42;
+  --border: #1e3a54;
+  --shadow: 0 1px 3px rgba(0,0,0,.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.4);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,.5);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Cairo',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  padding-top: calc(var(--navbar-h) + env(safe-area-inset-top));
+  transition: background .3s, color .3s;
+  overflow-x:hidden;
+}
+img { max-width:100%; display:block; }
+button { font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+input, select, textarea { font-family:inherit; }
+
+/* Reading Progress */
+.reading-progress {
+  position:fixed; top:0; left:0; right:0; height:3px;
+  background:transparent; z-index:9999;
+}
+.reading-progress-bar {
+  height:100%; width:0%;
+  background:linear-gradient(90deg,var(--primary),var(--primary-light));
+  transition:width .1s linear;
+}
+
+/* Navbar */
+.navbar {
+  position:fixed; top:0; left:0; right:0; height:var(--navbar-h);
+  background:var(--card);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 16px; z-index:1000;
+  padding-top:env(safe-area-inset-top);
+  box-shadow:var(--shadow);
+}
+.nav-right { display:flex; align-items:center; gap:12px; }
+.nav-left { display:flex; align-items:center; gap:8px; }
+.menu-btn {
+  width:42px; height:42px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; color:var(--text); transition:var(--transition);
+}
+.menu-btn:hover { background:var(--gray-light); color:var(--primary); }
+.logo-wrap { display:flex; align-items:center; gap:10px; }
+.logo-wrap img { width:38px; height:38px; object-fit:contain; }
+.logo-text { font-weight:800; font-size:15px; color:var(--primary); line-height:1.1; }
+.logo-text small { display:block; font-size:10px; color:var(--text-light); font-weight:400; }
+@media(max-width:640px){ .logo-text small { display:none; } .logo-text{font-size:14px;} }
+
+.status-badge {
+  display:flex; align-items:center; gap:6px;
+  padding:6px 12px; border-radius:20px; font-size:12px; font-weight:600;
+  background:rgba(16,185,129,.12); color:var(--success);
+  border:1px solid rgba(16,185,129,.25);
+}
+.status-badge.offline { background:rgba(239,68,68,.12); color:var(--danger); border-color:rgba(239,68,68,.25); }
+.status-dot { width:8px; height:8px; border-radius:50%; background:currentColor; animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+
+.icon-btn {
+  width:42px; height:42px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; color:var(--text); transition:var(--transition);
+  position:relative;
+}
+.icon-btn:hover { background:var(--gray-light); color:var(--primary); }
+.badge-count {
+  position:absolute; top:6px; left:6px;
+  min-width:18px; height:18px; padding:0 5px;
+  background:var(--danger); color:#fff;
+  border-radius:9px; font-size:10px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* Sidebar */
+.sidebar {
+  position:fixed; top:var(--navbar-h); right:0; bottom:0;
+  width:var(--sidebar-w); background:var(--card);
+  border-left:1px solid var(--border);
+  padding:16px 12px; overflow-y:auto;
+  z-index:900; transition:transform .3s;
+  padding-bottom:calc(16px + env(safe-area-inset-bottom));
+}
+.sidebar::-webkit-scrollbar { width:6px; }
+.sidebar::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+.sidebar-title {
+  font-size:11px; font-weight:700; color:var(--text-light);
+  text-transform:uppercase; letter-spacing:.5px;
+  padding:12px 12px 6px; margin-top:8px;
+}
+.nav-item {
+  display:flex; align-items:center; gap:12px;
+  padding:11px 12px; border-radius:10px;
+  color:var(--text); text-decoration:none;
+  font-size:14px; font-weight:500;
+  margin-bottom:2px; transition:var(--transition);
+}
+.nav-item i { width:20px; text-align:center; font-size:15px; color:var(--text-light); }
+.nav-item:hover { background:var(--gray-light); color:var(--primary); }
+.nav-item:hover i { color:var(--primary); }
+.nav-item.active {
+  background:linear-gradient(90deg,var(--primary),var(--primary-light));
+  color:#fff; box-shadow:var(--shadow-md);
+}
+.nav-item.active i { color:#fff; }
+
+.overlay {
+  position:fixed; inset:0; background:rgba(10,31,51,.5);
+  backdrop-filter:blur(3px); z-index:850;
+  opacity:0; visibility:hidden; transition:var(--transition);
+}
+.overlay.show { opacity:1; visibility:visible; }
+
+/* Main */
+.main {
+  margin-right:var(--sidebar-w);
+  padding:24px;
+  min-height:calc(100vh - var(--navbar-h));
+  transition:margin .3s;
+}
+@media(max-width:1024px){
+  .sidebar { transform:translateX(100%); }
+  .sidebar.open { transform:translateX(0); }
+  .main { margin-right:0; padding:16px; }
+}
+
+/* Page Header */
+.page-header {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; margin-bottom:20px; flex-wrap:wrap;
+}
+.page-title { display:flex; align-items:center; gap:14px; }
+.page-title-icon {
+  width:52px; height:52px; border-radius:14px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:22px; box-shadow:var(--shadow-md);
+}
+.page-title h1 { font-size:22px; font-weight:800; }
+.page-title p { font-size:13px; color:var(--text-light); margin-top:2px; }
+
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:11px 20px; border-radius:10px;
+  font-size:14px; font-weight:600; transition:var(--transition);
+  white-space:nowrap;
+}
+.btn-primary {
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  color:#fff; box-shadow:var(--shadow-md);
+}
+.btn-primary:hover { transform:translateY(-2px); box-shadow:var(--shadow-lg); }
+.btn-ghost { background:var(--gray-light); color:var(--text); border:1px solid var(--border); }
+.btn-ghost:hover { background:var(--border); }
+.btn-danger { background:var(--danger); color:#fff; }
+.btn-danger:hover { background:#dc2626; }
+.btn-success { background:var(--success); color:#fff; }
+.btn-icon-sm { width:36px; height:36px; padding:0; border-radius:8px; font-size:13px; }
+
+/* Stats */
+.stats-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px; margin-bottom:24px;
+}
+.stat-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:18px;
+  display:flex; align-items:center; gap:14px;
+  box-shadow:var(--shadow); transition:var(--transition);
+}
+.stat-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-md); }
+.stat-icon {
+  width:52px; height:52px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; flex-shrink:0;
+}
+.stat-icon.blue { background:rgba(29,91,142,.12); color:var(--primary); }
+.stat-icon.green { background:rgba(16,185,129,.12); color:var(--success); }
+.stat-icon.gold { background:rgba(251,191,36,.15); color:var(--gold); }
+.stat-icon.purple { background:rgba(139,92,246,.12); color:#8b5cf6; }
+.stat-info h3 { font-size:22px; font-weight:800; line-height:1.2; }
+.stat-info p { font-size:12px; color:var(--text-light); margin-top:2px; }
+
+/* Toolbar */
+.toolbar {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:14px;
+  display:flex; gap:12px; margin-bottom:20px;
+  flex-wrap:wrap; align-items:center;
+  box-shadow:var(--shadow);
+}
+.search-box {
+  flex:1; min-width:220px; position:relative;
+}
+.search-box i {
+  position:absolute; right:14px; top:50%; transform:translateY(-50%);
+  color:var(--text-light); font-size:14px;
+}
+.search-box input {
+  width:100%; padding:11px 40px 11px 14px;
+  border:1px solid var(--border); border-radius:10px;
+  background:var(--bg); color:var(--text); font-size:14px;
+  transition:var(--transition);
+}
+.search-box input:focus {
+  outline:none; border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(29,91,142,.1);
+}
+.filter-select {
+  padding:11px 14px; border:1px solid var(--border);
+  border-radius:10px; background:var(--bg); color:var(--text);
+  font-size:14px; cursor:pointer;
+}
+
+/* Suppliers Grid */
+.suppliers-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:16px;
+}
+.supplier-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:var(--radius); padding:18px;
+  box-shadow:var(--shadow); transition:var(--transition);
+  position:relative; overflow:hidden;
+}
+.supplier-card::before {
+  content:''; position:absolute; top:0; right:0;
+  width:4px; height:100%;
+  background:linear-gradient(180deg,var(--primary),var(--primary-light));
+}
+.supplier-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+
+.supplier-head {
+  display:flex; align-items:flex-start; justify-content:space-between;
+  gap:12px; margin-bottom:14px;
+}
+.supplier-avatar {
+  width:52px; height:52px; border-radius:14px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  color:#fff; display:flex; align-items:center; justify-content:center;
+  font-size:20px; font-weight:800; flex-shrink:0;
+  box-shadow:var(--shadow-md);
+}
+.supplier-meta { flex:1; min-width:0; }
+.supplier-meta h3 {
+  font-size:16px; font-weight:700; margin-bottom:4px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.supplier-meta .phone {
+  font-size:13px; color:var(--text-light);
+  display:flex; align-items:center; gap:6px;
+}
+.supplier-actions { display:flex; gap:4px; }
+
+.rating-stars { display:flex; gap:2px; color:var(--gold); font-size:13px; }
+
+.supplier-stats {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:8px; padding:12px 0; margin:12px 0;
+  border-top:1px dashed var(--border);
+  border-bottom:1px dashed var(--border);
+}
+.mini-stat { text-align:center; }
+.mini-stat .val { font-size:15px; font-weight:800; color:var(--primary); }
+.mini-stat .lbl { font-size:11px; color:var(--text-light); margin-top:2px; }
+
+.supplier-footer {
+  display:flex; gap:8px; align-items:center; justify-content:space-between;
+}
+.supplier-notes {
+  font-size:12px; color:var(--text-light);
+  background:var(--gray-light); padding:8px 10px;
+  border-radius:8px; margin-bottom:10px;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.contact-btns { display:flex; gap:6px; }
+.contact-btn {
+  width:36px; height:36px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; transition:var(--transition);
+}
+.contact-btn.wa { background:rgba(37,211,102,.12); color:#25d366; }
+.contact-btn.wa:hover { background:#25d366; color:#fff; }
+.contact-btn.tel { background:rgba(59,130,246,.12); color:var(--info); }
+.contact-btn.tel:hover { background:var(--info); color:#fff; }
+.contact-btn.sms { background:rgba(139,92,246,.12); color:#8b5cf6; }
+.contact-btn.sms:hover { background:#8b5cf6; color:#fff; }
+
+/* Empty State */
+.empty-state {
+  grid-column:1/-1;
+  background:var(--card); border:2px dashed var(--border);
+  border-radius:var(--radius); padding:60px 20px;
+  text-align:center;
+}
+.empty-state i { font-size:56px; color:var(--gray-mid); margin-bottom:16px; }
+.empty-state h3 { font-size:18px; font-weight:700; margin-bottom:8px; }
+.empty-state p { color:var(--text-light); font-size:14px; margin-bottom:20px; }
+
+/* Modal */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(10,31,51,.6);
+  backdrop-filter:blur(4px); z-index:2000;
+  display:flex; align-items:center; justify-content:center;
+  padding:16px; opacity:0; visibility:hidden; transition:var(--transition);
+}
+.modal-overlay.show { opacity:1; visibility:visible; }
+.modal {
+  background:var(--card); border-radius:var(--radius);
+  width:100%; max-width:560px; max-height:90vh; overflow-y:auto;
+  box-shadow:var(--shadow-lg); transform:scale(.95); transition:var(--transition);
+}
+.modal-overlay.show .modal { transform:scale(1); }
+.modal-header {
+  padding:20px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; background:var(--card); z-index:1;
+}
+.modal-header h2 { font-size:18px; font-weight:700; display:flex; align-items:center; gap:10px; }
+.modal-close {
+  width:36px; height:36px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--text-light); transition:var(--transition);
+}
+.modal-close:hover { background:var(--danger); color:#fff; }
+.modal-body { padding:20px; }
+.modal-footer {
+  padding:16px 20px; border-top:1px solid var(--border);
+  display:flex; gap:10px; justify-content:flex-end;
+  position:sticky; bottom:0; background:var(--card);
+}
+
+.form-group { margin-bottom:16px; }
+.form-group label {
+  display:block; font-size:13px; font-weight:600;
+  margin-bottom:6px; color:var(--text);
+}
+.form-group label .req { color:var(--danger); }
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width:100%; padding:11px 14px;
+  border:1px solid var(--border); border-radius:10px;
+  background:var(--bg); color:var(--text); font-size:14px;
+  transition:var(--transition);
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline:none; border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(29,91,142,.1);
+}
+.form-group textarea { resize:vertical; min-height:80px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media(max-width:520px){ .form-row { grid-template-columns:1fr; } }
+
+.rating-input { display:flex; gap:8px; direction:ltr; justify-content:flex-end; }
+.rating-input input { display:none; }
+.rating-input label {
+  font-size:28px; color:var(--border); cursor:pointer;
+  transition:var(--transition);
+}
+.rating-input input:checked ~ label,
+.rating-input label:hover,
+.rating-input label:hover ~ label {
+  color:var(--gold);
+}
+.rating-input { flex-direction:row-reverse; justify-content:flex-start; }
+.rating-input label:hover,
+.rating-input label:hover ~ label,
+.rating-input input:checked ~ label { color:var(--gold); }
+
+/* Toast */
+.toast-container {
+  position:fixed; bottom:calc(20px + env(safe-area-inset-bottom));
+  left:20px; z-index:3000;
+  display:flex; flex-direction:column; gap:10px;
+  max-width:340px;
+}
+.toast {
+  background:var(--card); border:1px solid var(--border);
+  border-right:4px solid var(--primary);
+  border-radius:12px; padding:14px 16px;
+  box-shadow:var(--shadow-lg);
+  display:flex; align-items:flex-start; gap:12px;
+  animation:slideIn .3s ease;
+}
+@keyframes slideIn { from { transform:translateX(-100%); opacity:0; } to { transform:translateX(0); opacity:1; } }
+.toast.success { border-right-color:var(--success); }
+.toast.error { border-right-color:var(--danger); }
+.toast.warning { border-right-color:var(--warning); }
+.toast i { font-size:18px; margin-top:2px; }
+.toast.success i { color:var(--success); }
+.toast.error i { color:var(--danger); }
+.toast.warning i { color:var(--warning); }
+.toast.info i { color:var(--info); }
+.toast-content { flex:1; }
+.toast-content h4 { font-size:14px; font-weight:700; margin-bottom:2px; }
+.toast-content p { font-size:12px; color:var(--text-light); }
+
+/* Scroll top */
+.scroll-top {
+  position:fixed; bottom:calc(20px + env(safe-area-inset-bottom)); right:20px;
+  width:46px; height:46px; border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  color:#fff; font-size:16px; box-shadow:var(--shadow-lg);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; visibility:hidden; transition:var(--transition); z-index:800;
+}
+.scroll-top.show { opacity:1; visibility:visible; }
+.scroll-top:hover { transform:translateY(-3px); }
+
+/* Skeleton */
+.skeleton {
+  background:linear-gradient(90deg,var(--gray-light) 25%,var(--border) 50%,var(--gray-light) 75%);
+  background-size:200% 100%; animation:shimmer 1.5s infinite;
+  border-radius:8px;
+}
+@keyframes shimmer { 0%{background-position:200% 0;} 100%{background-position:-200% 0;} }
+
+.footer {
+  margin-top:40px; padding:20px;
+  text-align:center; color:var(--text-light); font-size:13px;
+  border-top:1px solid var(--border);
+}
+
+/* Notifications panel */
+.notif-panel {
+  position:fixed; top:calc(var(--navbar-h) + 8px); left:16px;
+  width:340px; max-width:calc(100vw - 32px);
+  background:var(--card); border:1px solid var(--border);
+  border-radius:var(--radius); box-shadow:var(--shadow-lg);
+  z-index:1500; max-height:460px; overflow-y:auto;
+  opacity:0; visibility:hidden; transform:translateY(-10px);
+  transition:var(--transition);
+}
+.notif-panel.show { opacity:1; visibility:visible; transform:translateY(0); }
+.notif-header {
+  padding:14px 16px; border-bottom:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center;
+  font-weight:700; font-size:14px;
+}
+.notif-item {
+  padding:12px 16px; border-bottom:1px solid var(--border);
+  display:flex; gap:10px; align-items:flex-start; font-size:13px;
+}
+.notif-item:last-child { border-bottom:none; }
+.notif-item i { color:var(--primary); margin-top:3px; }
+
+.export-menu {
+  display:flex; gap:6px;
+}
+@media(max-width:640px){
+  .page-header { flex-direction:column; align-items:stretch; }
+  .page-header .btn { width:100%; }
+  .toolbar { flex-direction:column; }
+  .search-box, .filter-select { width:100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="reading-progress"><div class="reading-progress-bar" id="readingBar"></div></div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="nav-right">
+    <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+    <a href="dashboard.html" class="logo-wrap" style="text-decoration:none;">
+      <img src="logo.png" alt="إلكترونك" onerror="this.style.display='none'">
+      <div class="logo-text">إلكترونك<small>لصيانة الأجهزة الإلكترونية</small></div>
+    </a>
+  </div>
+  <div class="nav-left">
+    <div class="status-badge" id="netStatus">
+      <span class="status-dot"></span>
+      <span id="netText">متصل</span>
+    </div>
+    <button class="icon-btn" id="notifBtn" title="الإشعارات">
+      <i class="fas fa-bell"></i>
+      <span class="badge-count" id="notifCount" style="display:none;">0</span>
+    </button>
+    <button class="icon-btn" id="themeBtn" title="الوضع الليلي"><i class="fas fa-moon"></i></button>
+    <button class="icon-btn" id="logoutBtn" title="تسجيل خروج"><i class="fas fa-sign-out-alt"></i></button>
+  </div>
+</nav>
+
+<!-- Notifications Panel -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-header">
+    <span><i class="fas fa-bell"></i> الإشعارات</span>
+    <button class="btn-icon-sm" onclick="clearNotifications()" style="font-size:11px;color:var(--text-light);">مسح الكل</button>
+  </div>
+  <div id="notifList"></div>
+</div>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-title">الرئيسية</div>
+  <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i> لوحة التحكم</a>
+  <a href="repairs.html" class="nav-item"><i class="fas fa-tools"></i> أوامر الصيانة</a>
+  <a href="invoices.html" class="nav-item"><i class="fas fa-file-invoice"></i> الفواتير</a>
+
+  <div class="sidebar-title">المخزون</div>
+  <a href="products.html" class="nav-item"><i class="fas fa-boxes-stacked"></i> الأصناف</a>
+  <a href="categories.html" class="nav-item"><i class="fas fa-tags"></i> الفئات</a>
+  <a href="stock-in.html" class="nav-item"><i class="fas fa-arrow-down-to-line"></i> الوارد</a>
+  <a href="suppliers.html" class="nav-item active"><i class="fas fa-truck"></i> الموردين</a>
+  <a href="favorites.html" class="nav-item"><i class="fas fa-star"></i> المفضلة</a>
+
+  <div class="sidebar-title">العملاء</div>
+  <a href="customers.html" class="nav-item"><i class="fas fa-users"></i> العملاء</a>
+  <a href="debts.html" class="nav-item"><i class="fas fa-hand-holding-dollar"></i> المديونيات</a>
+
+  <div class="sidebar-title">التقارير</div>
+  <a href="reports.html" class="nav-item"><i class="fas fa-chart-line"></i> التقارير</a>
+  <a href="shifts.html" class="nav-item"><i class="fas fa-clock"></i> الورديات</a>
+  <a href="audit-log.html" class="nav-item"><i class="fas fa-clipboard-list"></i> سجل الحركات</a>
+
+  <div class="sidebar-title">الإدارة</div>
+  <a href="admin.html" class="nav-item" id="adminLink"><i class="fas fa-user-shield"></i> لوحة الأدمن</a>
+</aside>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- Main -->
+<main class="main">
+
+  <div class="page-header">
+    <div class="page-title">
+      <div class="page-title-icon"><i class="fas fa-truck"></i></div>
+      <div>
+        <h1>الموردين</h1>
+        <p>إدارة الموردين ومتابعة التوريدات والتقييمات</p>
+      </div>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button class="btn btn-ghost" onclick="exportExcel()"><i class="fas fa-file-excel"></i> Excel</button>
+      <button class="btn btn-ghost" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> PDF</button>
+      <button class="btn btn-primary" onclick="openSupplierModal()"><i class="fas fa-plus"></i> مورد جديد</button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon blue"><i class="fas fa-truck"></i></div>
+      <div class="stat-info"><h3 id="totalSuppliers">0</h3><p>إجمالي الموردين</p></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green"><i class="fas fa-sack-dollar"></i></div>
+      <div class="stat-info"><h3 id="totalPurchased">0</h3><p>إجمالي المشتريات</p></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon gold"><i class="fas fa-star"></i></div>
+      <div class="stat-info"><h3 id="avgRating">0</h3><p>متوسط التقييم</p></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple"><i class="fas fa-boxes-packing"></i></div>
+      <div class="stat-info"><h3 id="totalOrders">0</h3><p>عمليات التوريد</p></div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="ابحث بالاسم أو رقم الموبايل... (Ctrl+K)">
+    </div>
+    <select class="filter-select" id="sortFilter">
+      <option value="recent">الأحدث</option>
+      <option value="rating">الأعلى تقييمًا</option>
+      <option value="purchased">الأكثر شراءً</option>
+      <option value="name">الاسم (أ-ي)</option>
+    </select>
+  </div>
+
+  <div class="suppliers-grid" id="suppliersGrid">
+    <!-- Skeleton loaders -->
+    <div class="supplier-card"><div class="skeleton" style="height:52px;width:52px;border-radius:14px;margin-bottom:12px;"></div><div class="skeleton" style="height:18px;width:60%;margin-bottom:8px;"></div><div class="skeleton" style="height:14px;width:40%;"></div></div>
+    <div class="supplier-card"><div class="skeleton" style="height:52px;width:52px;border-radius:14px;margin-bottom:12px;"></div><div class="skeleton" style="height:18px;width:60%;margin-bottom:8px;"></div><div class="skeleton" style="height:14px;width:40%;"></div></div>
+    <div class="supplier-card"><div class="skeleton" style="height:52px;width:52px;border-radius:14px;margin-bottom:12px;"></div><div class="skeleton" style="height:18px;width:60%;margin-bottom:8px;"></div><div class="skeleton" style="height:14px;width:40%;"></div></div>
+  </div>
+
+  <footer class="footer">
+    © <span id="year"></span> إلكترونك - لصيانة الأجهزة الإلكترونية | جميع الحقوق محفوظة
+  </footer>
+</main>
+
+<!-- Supplier Modal -->
+<div class="modal-overlay" id="supplierModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2><i class="fas fa-truck" style="color:var(--primary);"></i> <span id="modalTitle">مورد جديد</span></h2>
+      <button class="modal-close" onclick="closeSupplierModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="supplierId">
+      <div class="form-group">
+        <label>اسم المورد <span class="req">*</span></label>
+        <input type="text" id="supName" placeholder="مثال: شركة النور للإلكترونيات">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>رقم الموبايل <span class="req">*</span></label>
+          <input type="tel" id="supPhone" placeholder="01xxxxxxxxx">
+        </div>
+        <div class="form-group">
+          <label>تقييم الجودة (1-5)</label>
+          <div class="rating-input" id="ratingInput">
+            <input type="radio" name="rating" id="r5" value="5"><label for="r5">★</label>
+            <input type="radio" name="rating" id="r4" value="4"><label for="r4">★</label>
+            <input type="radio" name="rating" id="r3" value="3" checked><label for="r3">★</label>
+            <input type="radio" name="rating" id="r2" value="2"><label for="r2">★</label>
+            <input type="radio" name="rating" id="r1" value="1"><label for="r1">★</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>العنوان</label>
+        <input type="text" id="supAddress" placeholder="المدينة، الشارع...">
+      </div>
+      <div class="form-group">
+        <label>ملاحظات</label>
+        <textarea id="supNotes" placeholder="ملاحظات إضافية عن المورد..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeSupplierModal()">إلغاء</button>
+      <button class="btn btn-primary" id="saveBtn" onclick="saveSupplier()"><i class="fas fa-save"></i> حفظ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Supplier Details Modal -->
+<div class="modal-overlay" id="detailsModal">
+  <div class="modal" style="max-width:700px;">
+    <div class="modal-header">
+      <h2><i class="fas fa-info-circle" style="color:var(--primary);"></i> تفاصيل المورد</h2>
+      <button class="modal-close" onclick="closeDetailsModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="detailsBody"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<button class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+/* ═══════════════ Config ═══════════════ */
+const SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const CACHE_KEY = 'elk_suppliers_cache';
+const OUTBOX_KEY = 'elk_outbox';
+
+/* ═══════════════ State ═══════════════ */
+let currentUser = null;
+let suppliers = [];
+let allOrders = [];
+let filteredSuppliers = [];
+let searchTerm = '';
+let sortMode = 'recent';
+
+/* ═══════════════ Init ═══════════════ */
+document.addEventListener('DOMContentLoaded', async () => {
+  applyTheme();
+  setupNav();
+  checkNetwork();
+  window.addEventListener('online', onOnline);
+  window.addEventListener('offline', onOffline);
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  await loadSession();
+  if (!currentUser) return;
+
+  await loadSuppliers();
+  await loadOrders();
+  render();
+  updateStats();
+  loadNotifications();
+  autoSync();
+});
+
+/* ═══════════════ Auth ═══════════════ */
+async function loadSession() {
+  try {
+    const raw = localStorage.getItem('elk_session') || sessionStorage.getItem('elk_session');
+    if (!raw) { location.href = 'index.html'; return; }
+    const sess = JSON.parse(raw);
+    if (sess.expiresAt && Date.now() > sess.expiresAt) {
+      localStorage.removeItem('elk_session');
+      sessionStorage.removeItem('elk_session');
+      location.href = 'index.html';
+      return;
+    }
+    currentUser = sess.user;
+    document.getElementById('adminLink').style.display =
+      currentUser.role === 'admin' ? 'flex' : 'none';
+  } catch (e) {
+    location.href = 'index.html';
+  }
+}
+
+/* ═══════════════ Load Data ═══════════════ */
+async function loadSuppliers() {
+  // Cache أولاً
+  const cached = getCache(CACHE_KEY);
+  if (cached && Array.isArray(cached)) {
+    suppliers = cached;
+    render();
+    updateStats();
+  }
+
+  if (!navigator.onLine) return;
+
+  try {
+    const { data, error } = await supabase
+      .from('suppliers')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    suppliers = data || [];
+    setCache(CACHE_KEY, suppliers);
+    render();
+    updateStats();
+  } catch (e) {
+    console.warn('loadSuppliers:', e.message);
+  }
+}
+
+async function loadOrders() {
+  if (!navigator.onLine) {
+    const c = getCache('elk_supplier_orders_cache');
+    if (c) { allOrders = c; updateStats(); }
+    return;
+  }
+  try {
+    const { data, error } = await supabase
+      .from('supplier_orders')
+      .select('*');
+    if (error) throw error;
+    allOrders = data || [];
+    setCache('elk_supplier_orders_cache', allOrders);
+    updateStats();
+  } catch (e) {
+    const c = getCache('elk_supplier_orders_cache');
+    if (c) allOrders = c;
+  }
+}
+
+/* ═══════════════ Render ═══════════════ */
+function render() {
+  const grid = document.getElementById('suppliersGrid');
+  const term = searchTerm.trim().toLowerCase();
+
+  filteredSuppliers = suppliers.filter(s => {
+    if (!term) return true;
+    return (s.name || '').toLowerCase().includes(term)
+        || (s.phone || '').includes(term);
+  });
+
+  if (sortMode === 'rating') {
+    filteredSuppliers.sort((a,b) => (b.quality_rating||0) - (a.quality_rating||0));
+  } else if (sortMode === 'purchased') {
+    const totals = {};
+    allOrders.forEach(o => {
+      totals[o.supplier_id] = (totals[o.supplier_id]||0) + (o.quantity||0)*(o.cost_price||0);
+    });
+    filteredSuppliers.sort((a,b) => (totals[b.id]||0) - (totals[a.id]||0));
+  } else if (sortMode === 'name') {
+    filteredSuppliers.sort((a,b) => (a.name||'').localeCompare(b.name||'','ar'));
+  }
+
+  if (!filteredSuppliers.length) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <i class="fas fa-truck-ramp-box"></i>
+        <h3>${suppliers.length ? 'لا توجد نتائج مطابقة' : 'لا يوجد موردين بعد'}</h3>
+        <p>${suppliers.length ? 'جرّب كلمة بحث أخرى' : 'ابدأ بإضافة أول مورد لديك'}</p>
+        ${suppliers.length ? '' : '<button class="btn btn-primary" onclick="openSupplierModal()"><i class="fas fa-plus"></i> إضافة مورد</button>'}
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = filteredSuppliers.map(s => {
+    const orders = allOrders.filter(o => o.supplier_id === s.id);
+    const totalPurchased = orders.reduce((sum,o) => sum + (o.quantity||0)*(o.cost_price||0), 0);
+    const ordersCount = orders.length;
+    const avgCost = ordersCount ? (totalPurchased / orders.reduce((s,o)=>s+(o.quantity||0),0) || 0) : 0;
+    const initials = (s.name||'?').trim().charAt(0);
+    const stars = '★'.repeat(s.quality_rating||0) + '☆'.repeat(5-(s.quality_rating||0));
+
+    return `
+      <div class="supplier-card" data-id="${s.id}">
+        <div class="supplier-head">
+          <div class="supplier-avatar">${escapeHtml(initials)}</div>
+          <div class="supplier-meta">
+            <h3 title="${escapeHtml(s.name)}">${escapeHtml(s.name||'—')}</h3>
+            <div class="phone"><i class="fas fa-phone" style="font-size:11px;"></i> ${escapeHtml(s.phone||'—')}</div>
+            <div class="rating-stars" style="margin-top:4px;">${stars}</div>
+          </div>
+          <div class="supplier-actions">
+            <button class="btn-icon-sm" onclick="editSupplier('${s.id}')" title="تعديل"><i class="fas fa-pen"></i></button>
+            <button class="btn-icon-sm" onclick="deleteSupplier('${s.id}')" title="حذف"><i class="fas fa-trash" style="color:var(--danger);"></i></button>
+          </div>
+        </div>
+        <div class="supplier-stats">
+          <div class="mini-stat">
+            <div class="val">${ordersCount}</div>
+            <div class="lbl">عملية توريد</div>
+          </div>
+          <div class="mini-stat">
+            <div class="val">${totalPurchased.toLocaleString('ar-EG')} ج.م</div>
+            <div class="lbl">إجمالي المشتريات</div>
+          </div>
+        </div>
+        ${s.notes ? `<div class="supplier-notes">${escapeHtml(s.notes)}</div>` : ''}
+        <div class="supplier-footer">
+          <div class="contact-btns">
+            <button class="contact-btn wa" onclick="contactWA('${escapeHtml(s.phone||'')}')" title="واتساب"><i class="fab fa-whatsapp"></i></button>
+            <button class="contact-btn tel" onclick="contactTel('${escapeHtml(s.phone||'')}')" title="اتصال"><i class="fas fa-phone"></i></button>
+            <button class="contact-btn sms" onclick="contactSMS('${escapeHtml(s.phone||'')}')" title="رسالة"><i class="fas fa-comment-sms"></i></button>
+          </div>
+          <button class="btn btn-ghost" style="padding:7px 12px;font-size:12px;" onclick="showDetails('${s.id}')">
+            <i class="fas fa-chart-bar"></i> التفاصيل
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function updateStats() {
+  document.getElementById('totalSuppliers').textContent = suppliers.length;
+  const totals = allOrders.reduce((s,o) => s + (o.quantity||0)*(o.cost_price||0), 0);
+  document.getElementById('totalPurchased').textContent = totals.toLocaleString('ar-EG');
+  const avg = suppliers.length
+    ? (suppliers.reduce((s,x) => s + (x.quality_rating||0), 0) / suppliers.length).toFixed(1)
+    : '0';
+  document.getElementById('avgRating').textContent = avg;
+  document.getElementById('totalOrders').textContent = allOrders.length;
+}
+
+/* ═══════════════ CRUD ═══════════════ */
+window.openSupplierModal = () => {
+  document.getElementById('modalTitle').textContent = 'مورد جديد';
+  document.getElementById('supplierId').value = '';
+  document.getElementById('supName').value = '';
+  document.getElementById('supPhone').value = '';
+  document.getElementById('supAddress').value = '';
+  document.getElementById('supNotes').value = '';
+  document.getElementById('r3').checked = true;
+  document.getElementById('supplierModal').classList.add('show');
+};
+
+window.closeSupplierModal = () => {
+  document.getElementById('supplierModal').classList.remove('show');
+};
+
+window.editSupplier = (id) => {
+  const s = suppliers.find(x => x.id === id);
+  if (!s) return;
+  document.getElementById('modalTitle').textContent = 'تعديل مورد';
+  document.getElementById('supplierId').value = s.id;
+  document.getElementById('supName').value = s.name || '';
+  document.getElementById('supPhone').value = s.phone || '';
+  document.getElementById('supAddress').value = s.address || '';
+  document.getElementById('supNotes').value = s.notes || '';
+  const r = document.getElementById('r' + (s.quality_rating || 3));
+  if (r) r.checked = true;
+  document.getElementById('supplierModal').classList.add('show');
+};
+
+window.saveSupplier = async () => {
+  const id = document.getElementById('supplierId').value;
+  const name = document.getElementById('supName').value.trim();
+  const phone = sanitizePhone(document.getElementById('supPhone').value);
+  const address = document.getElementById('supAddress').value.trim();
+  const notes = document.getElementById('supNotes').value.trim();
+  const quality_rating = parseInt(document.querySelector('input[name="rating"]:checked').value);
+
+  if (!name) { toast('error','خطأ','اسم المورد مطلوب'); return; }
+  if (!phone || phone.length < 10) { toast('error','خطأ','رقم موبايل صحيح مطلوب'); return; }
+
+  const payload = { name, phone, address, notes, quality_rating };
+
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+
+  try {
+    if (navigator.onLine) {
+      if (id) {
+        const { error } = await supabase.from('suppliers').update(payload).eq('id', id);
+        if (error) throw error;
+        await logAudit('update','suppliers',id,null,payload);
+      } else {
+        const { data, error } = await supabase.from('suppliers').insert([payload]).select().single();
+        if (error) throw error;
+        await logAudit('insert','suppliers',data.id,null,payload);
+      }
+    } else {
+      queueOutbox(id ? 'update' : 'insert', 'suppliers', id, payload);
+    }
+
+    // Local update
+    if (id) {
+      const idx = suppliers.findIndex(s => s.id === id);
+      if (idx >= 0) suppliers[idx] = { ...suppliers[idx], ...payload };
+    } else {
+      const tmpId = 'tmp_' + Date.now();
+      suppliers.unshift({ id: tmpId, ...payload, created_at: new Date().toISOString() });
+    }
+    setCache(CACHE_KEY, suppliers);
+    render();
+    updateStats();
+    closeSupplierModal();
+    toast('success','تم','تم حفظ بيانات المورد بنجاح');
+  } catch (e) {
+    // fallback offline
+    queueOutbox(id ? 'update' : 'insert', 'suppliers', id, payload);
+    toast('warning','تنبيه','تم الحفظ محليًا وسيُزامن عند رجوع الاتصال');
+    closeSupplierModal();
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-save"></i> حفظ';
+  }
+};
+
+window.deleteSupplier = async (id) => {
+  if (!confirm('هل أنت متأكد من حذف هذا المورد؟')) return;
+  try {
+    if (navigator.onLine) {
+      const { error } = await supabase.from('suppliers').delete().eq('id', id);
+      if (error) throw error;
+      await logAudit('delete','suppliers',id,null,null);
+    } else {
+      queueOutbox('delete','suppliers',id,null);
+    }
+    suppliers = suppliers.filter(s => s.id !== id);
+    allOrders = allOrders.filter(o => o.supplier_id !== id);
+    setCache(CACHE_KEY, suppliers);
+    render();
+    updateStats();
+    toast('success','تم الحذف','تم حذف المورد بنجاح');
+  } catch (e) {
+    toast('error','خطأ',e.message);
+  }
+};
+
+/* ═══════════════ Details Modal ═══════════════ */
+window.showDetails = async (id) => {
+  const s = suppliers.find(x => x.id === id);
+  if (!s) return;
+  const orders = allOrders.filter(o => o.supplier_id === id);
+  const total = orders.reduce((sum,o) => sum + (o.quantity||0)*(o.cost_price||0),0);
+  const totalQty = orders.reduce((sum,o) => sum + (o.quantity||0),0);
+  const avgCost = totalQty ? (total/totalQty) : 0;
+  const lastOrder = orders.sort((a,b) => new Date(b.created_at)-new Date(a.created_at))[0];
+
+  document.getElementById('detailsBody').innerHTML = `
+    <div style="text-align:center;margin-bottom:20px;">
+      <div class="supplier-avatar" style="margin:0 auto 12px;width:70px;height:70px;font-size:26px;">${escapeHtml((s.name||'?').charAt(0))}</div>
+      <h2 style="font-size:20px;">${escapeHtml(s.name||'—')}</h2>
+      <div class="rating-stars" style="justify-content:center;margin-top:6px;font-size:18px;">
+        ${'★'.repeat(s.quality_rating||0)}${'☆'.repeat(5-(s.quality_rating||0))}
+      </div>
+    </div>
+    <div class="stats-grid" style="grid-template-columns:1fr 1fr;margin-bottom:20px;">
+      <div class="stat-card" style="padding:14px;">
+        <div class="stat-icon blue" style="width:44px;height:44px;font-size:18px;"><i class="fas fa-boxes-packing"></i></div>
+        <div class="stat-info"><h3 style="font-size:18px;">${orders.length}</h3><p>عملية توريد</p></div>
+      </div>
+      <div class="stat-card" style="padding:14px;">
+        <div class="stat-icon green" style="width:44px;height:44px;font-size:18px;"><i class="fas fa-sack-dollar"></i></div>
+        <div class="stat-info"><h3 style="font-size:18px;">${total.toLocaleString('ar-EG')}</h3><p>إجمالي (ج.م)</p></div>
+      </div>
+    </div>
+    <div style="background:var(--gray-light);padding:14px;border-radius:10px;margin-bottom:16px;">
+      <div style="display:grid;gap:10px;">
+        <div><i class="fas fa-phone" style="color:var(--primary);width:20px;"></i> ${escapeHtml(s.phone||'—')}</div>
+        <div><i class="fas fa-location-dot" style="color:var(--primary);width:20px;"></i> ${escapeHtml(s.address||'—')}</div>
+        <div><i class="fas fa-calendar" style="color:var(--primary);width:20px;"></i> مسجل من ${formatDate(s.created_at)}</div>
+        ${lastOrder ? `<div><i class="fas fa-clock" style="color:var(--primary);width:20px;"></i> آخر توريد: ${formatDate(lastOrder.created_at)}</div>` : ''}
+        <div><i class="fas fa-calculator" style="color:var(--primary);width:20px;"></i> متوسط سعر الشراء: ${avgCost.toFixed(2)} ج.م</div>
+      </div>
+    </div>
+    ${s.notes ? `<div style="background:rgba(29,91,142,.05);padding:12px;border-radius:10px;font-size:13px;border-right:3px solid var(--primary);">${escapeHtml(s.notes)}</div>` : ''}
+  `;
+  document.getElementById('detailsModal').classList.add('show');
+};
+
+window.closeDetailsModal = () => {
+  document.getElementById('detailsModal').classList.remove('show');
+};
+
+/* ═══════════════ Contact ═══════════════ */
+window.contactWA = (phone) => {
+  if (!phone) { toast('warning','تنبيه','لا يوجد رقم مسجل'); return; }
+  const msg = encodeURIComponent('السلام عليكم، تواصل من مركز إلكترونك لصيانة الأجهزة الإلكترونية.');
+  window.open(`https://wa.me/2${phone.replace(/^0/,'')}?text=${msg}`, '_blank');
+};
+window.contactTel = (phone) => {
+  if (!phone) { toast('warning','تنبيه','لا يوجد رقم مسجل'); return; }
+  window.location.href = 'tel:' + phone;
+};
+window.contactSMS = (phone) => {
+  if (!phone) { toast('warning','تنبيه','لا يوجد رقم مسجل'); return; }
+  const msg = encodeURIComponent('السلام عليكم، تواصل من مركز إلكترونك.');
+  window.location.href = `sms:${phone}?body=${msg}`;
+};
+
+/* ═══════════════ Export ═══════════════ */
+window.exportExcel = () => {
+  const data = filteredSuppliers.map(s => {
+    const orders = allOrders.filter(o => o.supplier_id === s.id);
+    const total = orders.reduce((sum,o) => sum + (o.quantity||0)*(o.cost_price||0),0);
+    return {
+      'الاسم': s.name||'',
+      'الموبايل': s.phone||'',
+      'العنوان': s.address||'',
+      'التقييم': s.quality_rating||0,
+      'عدد التوريدات': orders.length,
+      'إجمالي المشتريات': total,
+      'ملاحظات': s.notes||''
+    };
+  });
+  const ws = XLSX.utils.json_to_sheet(data);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'الموردين');
+  XLSX.writeFile(wb, `suppliers_${Date.now()}.xlsx`);
+  toast('success','تم','تم تصدير ملف Excel');
+};
+
+window.exportPDF = () => {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('p','mm','a4');
+  doc.setFont('helvetica');
+  doc.setFontSize(16);
+  doc.text('Suppliers Report', 105, 15, { align: 'center' });
+  doc.setFontSize(10);
+  doc.text('Electronk - Electronics Repair Center', 105, 22, { align: 'center' });
+
+  const rows = filteredSuppliers.map(s => {
+    const orders = allOrders.filter(o => o.supplier_id === s.id);
+    const total = orders.reduce((sum,o) => sum + (o.quantity||0)*(o.cost_price||0),0);
+    return [s.name||'', s.phone||'', s.quality_rating||0, orders.length, total.toFixed(2)];
+  });
+
+  doc.autoTable({
+    head: [['Name','Phone','Rating','Orders','Total (EGP)']],
+    body: rows,
+    startY: 30,
+    styles: { fontSize: 9 }
+  });
+  doc.save(`suppliers_${Date.now()}.pdf`);
+  toast('success','تم','تم تصدير ملف PDF');
+};
+
+/* ═══════════════ Cache & Outbox ═══════════════ */
+function getCache(k){ try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }
+function setCache(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+
+function queueOutbox(op, table, id, payload) {
+  try {
+    const q = JSON.parse(localStorage.getItem(OUTBOX_KEY) || '[]');
+    q.push({ op, table, id, payload, ts: Date.now(), user: currentUser?.id || null });
+    localStorage.setItem(OUTBOX_KEY, JSON.stringify(q));
+  } catch {}
+}
+
+async function autoSync() {
+  if (!navigator.onLine) return;
+  try {
+    const q = JSON.parse(localStorage.getItem(OUTBOX_KEY) || '[]');
+    if (!q.length) return;
+    let synced = 0;
+    const remaining = [];
+    for (const item of q) {
+      try {
+        if (item.op === 'insert') {
+          await supabase.from(item.table).insert([item.payload]);
+        } else if (item.op === 'update') {
+          await supabase.from(item.table).update(item.payload).eq('id', item.id);
+        } else if (item.op === 'delete') {
+          await supabase.from(item.table).delete().eq('id', item.id);
+        }
+        synced++;
+      } catch {
+        remaining.push(item);
+      }
+    }
+    localStorage.setItem(OUTBOX_KEY, JSON.stringify(remaining));
+    if (synced > 0) {
+      toast('success','مزامنة',`تم مزامنة ${synced} عملية`);
+      loadSuppliers();
+    }
+  } catch {}
+}
+window.autoSync = autoSync;
+setInterval(autoSync, 5*60*1000);
+
+/* ═══════════════ Audit ═══════════════ */
+async function logAudit(action, table, recordId, oldData, newData) {
+  try {
+    await supabase.from('audit_log').insert([{
+      user_id: currentUser?.id || null,
+      action, table_name: table, record_id: recordId,
+      old_data: oldData, new_data: newData
+    }]);
+  } catch {}
+}
+
+/* ═══════════════ Network ═══════════════ */
+function checkNetwork(){ updateNet(navigator.onLine); }
+function onOnline(){ updateNet(true); toast('success','متصل','تم استعادة الاتصال'); autoSync(); loadSuppliers(); loadOrders(); }
+function onOffline(){ updateNet(false); toast('warning','غير متصل','أنت تعمل بدون إنترنت - البيانات محفوظة محليًا'); }
+function updateNet(online){
+  const s = document.getElementById('netStatus');
+  const t = document.getElementById('netText');
+  if (online) { s.classList.remove('offline'); t.textContent='متصل'; }
+  else { s.classList.add('offline'); t.textContent='غير متصل'; }
+}
+
+/* ═══════════════ Notifications ═══════════════ */
+function loadNotifications(){
+  const list = getCache('elk_notifications') || [];
+  const badge = document.getElementById('notifCount');
+  const panel = document.getElementById('notifList');
+  if (!list.length){
+    panel.innerHTML = '<div style="padding:30px;text-align:center;color:var(--text-light);font-size:13px;"><i class="fas fa-bell-slash" style="font-size:30px;display:block;margin-bottom:10px;opacity:.4;"></i> لا توجد إشعارات</div>';
+    badge.style.display = 'none';
+    return;
+  }
+  badge.style.display = 'flex';
+  badge.textContent = list.length > 9 ? '9+' : list.length;
+  panel.innerHTML = list.slice(0,10).map(n => `
+    <div class="notif-item">
+      <i class="fas ${n.icon||'fa-bell'}"></i>
+      <div>
+        <div style="font-weight:600;">${escapeHtml(n.title||'')}</div>
+        <div style="font-size:12px;color:var(--text-light);margin-top:2px;">${escapeHtml(n.message||'')}</div>
+      </div>
+    </div>`).join('');
+}
+window.clearNotifications = () => { localStorage.removeItem('elk_notifications'); loadNotifications(); };
+
+/* ═══════════════ Nav & UI ═══════════════ */
+function setupNav(){
+  const menuBtn = document.getElementById('menuBtn');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  menuBtn?.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+  });
+  overlay?.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+  });
+
+  document.getElementById('logoutBtn')?.addEventListener('click', () => {
+    if (confirm('هل تريد تسجيل الخروج؟')) {
+      localStorage.removeItem('elk_session');
+      sessionStorage.removeItem('elk_session');
+      location.href = 'index.html';
+    }
+  });
+
+  document.getElementById('themeBtn')?.addEventListener('click', toggleTheme);
+
+  document.getElementById('notifBtn')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('notifPanel').classList.toggle('show');
+  });
+  document.addEventListener('click', (e) => {
+    const p = document.getElementById('notifPanel');
+    if (p && !p.contains(e.target) && e.target.id !== 'notifBtn') p.classList.remove('show');
+  });
+
+  document.getElementById('searchInput')?.addEventListener('input', debounce((e) => {
+    searchTerm = e.target.value;
+    render();
+  }, 200));
+
+  document.getElementById('sortFilter')?.addEventListener('change', (e) => {
+    sortMode = e.target.value;
+    render();
+  });
+
+  // Keyboard Ctrl+K
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      document.getElementById('searchInput')?.focus();
+    }
+    if (e.key === 'Escape') {
+      closeSupplierModal();
+      closeDetailsModal();
+      document.getElementById('notifPanel')?.classList.remove('show');
+    }
+  });
+
+  // Reading progress
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const p = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    const bar = document.getElementById('readingBar');
+    if (bar) bar.style.width = p + '%';
+    const st = document.getElementById('scrollTop');
+    if (st) st.classList.toggle('show', h.scrollTop > 300);
+  });
+  document.getElementById('scrollTop')?.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
+
+  // Close modal on overlay click
+  document.getElementById('supplierModal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'supplierModal') closeSupplierModal();
+  });
+  document.getElementById('detailsModal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'detailsModal') closeDetailsModal();
+  });
+}
+
+function toggleTheme(){
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('elk_theme', next);
+  const icon = document.querySelector('#themeBtn i');
+  if (icon) icon.className = next === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+}
+function applyTheme(){
+  const t = localStorage.getItem('elk_theme') || 'light';
+  document.documentElement.setAttribute('data-theme', t);
+  const icon = document.querySelector('#themeBtn i');
+  if (icon) icon.className = t === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+/* ═══════════════ Utils ═══════════════ */
+function toast(type, title, message){
+  const c = document.getElementById('toastContainer');
+  const icons = { success:'fa-check-circle', error:'fa-circle-exclamation', warning:'fa-triangle-exclamation', info:'fa-circle-info' };
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.innerHTML = `<i class="fas ${icons[type]||'fa-info-circle'}"></i><div class="toast-content"><h4>${escapeHtml(title)}</h4><p>${escapeHtml(message)}</p></div>`;
+  c.appendChild(el);
+  setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateX(-100%)'; setTimeout(()=>el.remove(),300); }, 3500);
+}
+
+function escapeHtml(s){
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function sanitizePhone(p){ return (p||'').replace(/[^\d+]/g,'').trim(); }
+function isValidUUID(u){ return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(u); }
+function debounce(fn, ms){ let t; return (...a) => { clearTimeout(t); t = setTimeout(()=>fn(...a), ms); }; }
+function formatDate(d){
+  if (!d) return '—';
+  try { return new Date(d).toLocaleDateString('ar-EG',{year:'numeric',month:'short',day:'numeric'}); }
+  catch { return d; }
+}
+</script>
+</body>
+</html>
