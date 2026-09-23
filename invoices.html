@@ -1,0 +1,3673 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#1d5b8e">
+<meta name="description" content="الفواتير - إلكترونك لصيانة الأجهزة الإلكترونية">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>الفواتير | إلكترونك</title>
+
+<link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+<link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
+<link rel="manifest" href="manifest.json">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+
+<style>
+:root {
+    --tech-blue: #1d5b8e; --tech-blue-dark: #154668; --tech-blue-light: #2d7ab8;
+    --success: #10b981; --danger: #ef4444; --warning: #f59e0b; --info: #3b82f6;
+    --purple: #8b5cf6; --pink: #ec4899;
+    --bg-primary: #f6f8fb; --bg-card: #ffffff; --bg-hover: #f1f5f9;
+    --text-primary: #0a1f33; --text-secondary: #475569; --text-muted: #94a3b8;
+    --border-color: #e1e8f0;
+    --shadow-sm: 0 1px 3px rgba(10,31,51,0.06);
+    --shadow-md: 0 4px 12px rgba(10,31,51,0.08);
+    --shadow-lg: 0 12px 32px rgba(10,31,51,0.12);
+    --shadow-xl: 0 24px 48px rgba(10,31,51,0.16);
+    --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px; --radius-full: 9999px;
+    --navbar-height: 64px; --sidebar-width: 260px;
+    --transition-fast: 0.15s ease; --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    --safe-top: env(safe-area-inset-top,0); --safe-bottom: env(safe-area-inset-bottom,0);
+    --safe-left: env(safe-area-inset-left,0); --safe-right: env(safe-area-inset-right,0);
+}
+[data-theme="dark"] {
+    --bg-primary: #0a1628; --bg-card: #142f4a; --bg-hover: #1a3a5c;
+    --text-primary: #f1f5f9; --text-secondary: #cbd5e1; --text-muted: #64748b;
+    --border-color: #1e3a5f;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+    --shadow-lg: 0 12px 32px rgba(0,0,0,0.5);
+    --shadow-xl: 0 24px 48px rgba(0,0,0,0.6);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Cairo', system-ui, sans-serif;
+    background: var(--bg-primary); color: var(--text-primary);
+    min-height: 100vh; line-height: 1.6; overflow-x: hidden;
+    transition: background var(--transition), color var(--transition);
+}
+button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+button { cursor: pointer; border: none; background: none; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+
+.reading-progress {
+    position: fixed; top: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--tech-blue), var(--tech-blue-light), var(--success));
+    width: 0%; z-index: 10000; transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(29,91,142,0.6);
+}
+
+.navbar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--navbar-height); background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000; display: flex; align-items: center;
+    padding: 0 1rem; padding-top: var(--safe-top);
+    padding-left: calc(1rem + var(--safe-left));
+    padding-right: calc(1rem + var(--safe-right));
+    gap: 1rem; box-shadow: var(--shadow-sm);
+}
+.navbar-menu-btn {
+    width: 40px; height: 40px; border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-primary); font-size: 1.1rem;
+    transition: all var(--transition); flex-shrink: 0;
+}
+.navbar-menu-btn:hover { background: var(--bg-hover); color: var(--tech-blue); }
+.navbar-brand { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+.navbar-logo {
+    width: 40px; height: 40px; object-fit: contain;
+    border-radius: var(--radius-md); background: var(--bg-primary);
+    padding: 4px; border: 1px solid var(--border-color);
+}
+.navbar-brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+.navbar-brand-text strong { font-size: 1rem; font-weight: 800; }
+.navbar-brand-text span { font-size: 0.7rem; color: var(--text-muted); font-weight: 500; }
+.navbar-actions { display: flex; align-items: center; gap: 0.5rem; margin-right: auto; }
+.navbar-btn {
+    width: 40px; height: 40px; border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-primary); font-size: 1rem;
+    transition: all var(--transition); position: relative; flex-shrink: 0;
+}
+.navbar-btn:hover { background: var(--bg-hover); color: var(--tech-blue); }
+.navbar-badge {
+    position: absolute; top: 4px; left: 4px;
+    min-width: 18px; height: 18px; padding: 0 5px;
+    border-radius: 9px; background: var(--danger); color: white;
+    font-size: 0.65rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--bg-card);
+}
+.online-dot {
+    position: absolute; top: 6px; left: 6px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--success); border: 2px solid var(--bg-card);
+    animation: pulse-online 2s infinite;
+}
+.online-dot.offline { background: var(--danger); animation: none; }
+@keyframes pulse-online {
+    0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.6); }
+    70% { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
+    100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+}
+.navbar-user {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.35rem 0.85rem 0.35rem 0.5rem;
+    background: var(--bg-primary); border-radius: var(--radius-full);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition); cursor: pointer; flex-shrink: 0;
+}
+.navbar-user:hover { background: var(--bg-hover); border-color: var(--tech-blue); }
+.navbar-user-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; font-weight: 800; flex-shrink: 0;
+}
+.navbar-user-info { display: flex; flex-direction: column; line-height: 1.15; }
+.navbar-user-info strong { font-size: 0.8rem; font-weight: 700; }
+.navbar-user-info span { font-size: 0.65rem; color: var(--text-muted); }
+
+.sidebar {
+    position: fixed; top: var(--navbar-height); right: 0; bottom: 0;
+    width: var(--sidebar-width); background: var(--bg-card);
+    border-left: 1px solid var(--border-color);
+    z-index: 900; overflow-y: auto;
+    padding: 1rem 0.75rem calc(1rem + var(--safe-bottom));
+    transition: transform var(--transition);
+}
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+.sidebar-section { margin-bottom: 1.25rem; }
+.sidebar-section-title {
+    font-size: 0.7rem; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 0 0.75rem; margin-bottom: 0.5rem;
+}
+.sidebar-link {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.65rem 0.85rem; border-radius: var(--radius-md);
+    color: var(--text-secondary); font-size: 0.9rem; font-weight: 600;
+    transition: all var(--transition-fast);
+    margin-bottom: 0.15rem; position: relative;
+}
+.sidebar-link:hover { background: var(--bg-hover); color: var(--tech-blue); transform: translateX(-3px); }
+.sidebar-link.active {
+    background: linear-gradient(135deg, rgba(29,91,142,0.12), rgba(45,122,184,0.08));
+    color: var(--tech-blue); font-weight: 700;
+}
+.sidebar-link.active::before {
+    content: ''; position: absolute; right: 0; top: 50%;
+    transform: translateY(-50%); width: 4px; height: 60%;
+    background: var(--tech-blue); border-radius: 4px;
+}
+.sidebar-link i:first-child { width: 20px; text-align: center; font-size: 0.95rem; flex-shrink: 0; }
+.sidebar-overlay {
+    position: fixed; inset: 0; background: rgba(10,31,51,0.5);
+    backdrop-filter: blur(4px); z-index: 899;
+    opacity: 0; visibility: hidden;
+    transition: all var(--transition); top: var(--navbar-height);
+}
+.sidebar-overlay.show { opacity: 1; visibility: visible; }
+
+.main-content {
+    margin-top: var(--navbar-height);
+    margin-right: var(--sidebar-width);
+    padding: 1.5rem; min-height: calc(100vh - var(--navbar-height));
+}
+.page-header {
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+}
+.page-header-text h1 {
+    font-size: 1.65rem; font-weight: 800; margin-bottom: 0.25rem;
+    display: flex; align-items: center; gap: 0.6rem;
+}
+.page-header-text h1 i { color: var(--tech-blue); }
+.page-header-text p { font-size: 0.9rem; color: var(--text-secondary); }
+.page-header-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+.btn {
+    padding: 0.65rem 1.15rem; border-radius: var(--radius-md);
+    font-size: 0.9rem; font-weight: 600;
+    transition: all var(--transition);
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    justify-content: center; white-space: nowrap;
+}
+.btn-primary {
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white; box-shadow: 0 4px 12px rgba(29,91,142,0.3);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(29,91,142,0.4); }
+.btn-secondary {
+    background: var(--bg-card); color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+.btn-secondary:hover { background: var(--bg-hover); border-color: var(--tech-blue); color: var(--tech-blue); }
+.btn-danger {
+    background: linear-gradient(135deg, var(--danger), #dc2626);
+    color: white;
+}
+.btn-danger:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(239,68,68,0.4); }
+.btn-success {
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: white;
+}
+.btn-success:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16,185,129,0.4); }
+.btn-warning {
+    background: linear-gradient(135deg, var(--warning), #d97706);
+    color: white;
+}
+.btn-warning:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,0.4); }
+.btn-sm { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+
+.stats-bar {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.85rem; margin-bottom: 1.25rem;
+}
+.stat-item {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg); padding: 1.15rem;
+    display: flex; align-items: center; gap: 0.85rem;
+    transition: all var(--transition);
+    animation: fadeInUp 0.4s ease backwards;
+}
+.stat-item:nth-child(1) { animation-delay: 0.05s; }
+.stat-item:nth-child(2) { animation-delay: 0.1s; }
+.stat-item:nth-child(3) { animation-delay: 0.15s; }
+.stat-item:nth-child(4) { animation-delay: 0.2s; }
+.stat-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--tech-blue); }
+.stat-item-icon {
+    width: 46px; height: 46px; border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; color: white; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    box-shadow: 0 4px 12px rgba(29,91,142,0.3);
+}
+.stat-item-icon.success { background: linear-gradient(135deg, var(--success), #059669); box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+.stat-item-icon.warning { background: linear-gradient(135deg, var(--warning), #d97706); box-shadow: 0 4px 12px rgba(245,158,11,0.3); }
+.stat-item-icon.danger { background: linear-gradient(135deg, var(--danger), #dc2626); box-shadow: 0 4px 12px rgba(239,68,68,0.3); }
+.stat-item-content { flex: 1; min-width: 0; }
+.stat-item-value { font-size: 1.35rem; font-weight: 800; color: var(--text-primary); line-height: 1.2; }
+.stat-item-value small { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
+.stat-item-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; }
+
+.toolbar {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg); padding: 1rem;
+    margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+}
+.toolbar-search { flex: 1; min-width: 240px; position: relative; }
+.toolbar-search-input {
+    width: 100%; padding: 0.65rem 1rem; padding-right: 2.75rem;
+    background: var(--bg-primary); border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md); font-size: 0.9rem;
+    outline: none; transition: all var(--transition);
+}
+.toolbar-search-input:focus {
+    border-color: var(--tech-blue); background: var(--bg-card);
+    box-shadow: 0 0 0 4px rgba(29,91,142,0.12);
+}
+.toolbar-search-icon {
+    position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+    color: var(--text-muted); pointer-events: none;
+}
+.toolbar-select {
+    padding: 0.65rem 2.25rem 0.65rem 1rem;
+    background: var(--bg-primary); border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 500;
+    color: var(--text-primary); outline: none; cursor: pointer;
+    transition: all var(--transition); appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: left 0.75rem center;
+    min-width: 150px;
+}
+.toolbar-select:focus { border-color: var(--tech-blue); box-shadow: 0 0 0 4px rgba(29,91,142,0.12); }
+
+/* Invoice List */
+.invoice-list {
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg); overflow: hidden;
+}
+.invoice-header {
+    display: grid;
+    grid-template-columns: 120px 1.5fr 1fr 1fr 1fr 130px 120px;
+    gap: 0.75rem; padding: 0.85rem 1rem;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.75rem; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.3px;
+}
+.invoice-item {
+    display: grid;
+    grid-template-columns: 120px 1.5fr 1fr 1fr 1fr 130px 120px;
+    gap: 0.75rem; padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: all var(--transition-fast);
+    align-items: center;
+    animation: fadeInUp 0.3s ease backwards;
+    cursor: pointer;
+}
+.invoice-item:last-child { border-bottom: none; }
+.invoice-item:hover { background: var(--bg-hover); }
+
+.invoice-number {
+    font-size: 0.85rem; font-weight: 800; color: var(--tech-blue);
+    font-family: 'Courier New', monospace;
+    display: flex; align-items: center; gap: 0.3rem;
+}
+.invoice-customer {
+    display: flex; align-items: center; gap: 0.6rem;
+    min-width: 0;
+}
+.invoice-customer-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 800; flex-shrink: 0;
+}
+.invoice-customer-info { min-width: 0; flex: 1; }
+.invoice-customer-name {
+    font-size: 0.85rem; font-weight: 700;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    margin-bottom: 0.1rem;
+}
+.invoice-customer-phone {
+    font-size: 0.7rem; color: var(--text-muted);
+    font-family: 'Courier New', monospace;
+    direction: ltr;
+}
+.invoice-cell {
+    font-size: 0.85rem; font-weight: 700;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.invoice-cell small {
+    display: block; font-size: 0.68rem; color: var(--text-muted);
+    font-weight: 500; margin-top: 0.1rem;
+}
+.invoice-total {
+    font-size: 0.95rem; font-weight: 800; color: var(--tech-blue);
+}
+.invoice-total small {
+    display: block; font-size: 0.68rem; color: var(--text-muted);
+    font-weight: 500; margin-top: 0.1rem;
+}
+.invoice-actions {
+    display: flex; gap: 0.35rem; justify-content: flex-end;
+}
+
+.badge {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    padding: 0.25rem 0.6rem; border-radius: var(--radius-full);
+    font-size: 0.7rem; font-weight: 700; white-space: nowrap;
+}
+.badge-success { background: rgba(16,185,129,0.15); color: var(--success); }
+.badge-danger { background: rgba(239,68,68,0.15); color: var(--danger); }
+.badge-warning { background: rgba(245,158,11,0.15); color: var(--warning); }
+.badge-info { background: rgba(59,130,246,0.15); color: var(--info); }
+.badge-gray { background: var(--bg-hover); color: var(--text-secondary); }
+.badge-purple { background: rgba(139,92,246,0.15); color: var(--purple); }
+
+/* Modal */
+.modal-overlay {
+    position: fixed; inset: 0; background: rgba(10,31,51,0.7);
+    backdrop-filter: blur(8px); display: none;
+    align-items: center; justify-content: center;
+    z-index: 2000; padding: 1rem;
+    animation: fadeIn 0.3s ease; overflow-y: auto;
+}
+.modal-overlay.show { display: flex; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal {
+    background: var(--bg-card); border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    max-width: 640px; width: 100%; max-height: 92vh;
+    overflow: hidden;
+    animation: modalIn 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
+    display: flex; flex-direction: column; margin: auto;
+    border: 1px solid var(--border-color);
+}
+.modal-sm { max-width: 480px; }
+.modal-lg { max-width: 900px; }
+.modal-xl { max-width: 1100px; }
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; flex-shrink: 0; background: var(--bg-card);
+}
+.modal-title { font-size: 1.15rem; font-weight: 700; display: flex; align-items: center; gap: 0.6rem; }
+.modal-title i { color: var(--tech-blue); }
+.modal-close {
+    width: 36px; height: 36px; border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted); transition: all var(--transition);
+    flex-shrink: 0;
+}
+.modal-close:hover { background: rgba(239,68,68,0.1); color: var(--danger); transform: rotate(90deg); }
+.modal-body {
+    padding: 1.5rem; overflow-y: auto; overflow-x: hidden;
+    flex: 1; min-height: 0; max-height: calc(92vh - 180px);
+    scrollbar-width: thin; scrollbar-color: var(--border-color) transparent;
+}
+.modal-body::-webkit-scrollbar { width: 8px; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
+.modal-body::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+.modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+    display: flex; gap: 0.75rem; justify-content: flex-end;
+    flex-shrink: 0; background: var(--bg-primary); flex-wrap: wrap;
+}
+.modal-footer .btn { flex: 1; min-width: 120px; }
+@media (min-width: 480px) { .modal-footer .btn { flex: initial; min-width: auto; } }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group { margin-bottom: 0; }
+.form-group.full { grid-column: 1 / -1; }
+.form-group.third { grid-column: span 1; }
+.form-label {
+    display: block; font-size: 0.85rem; font-weight: 700;
+    color: var(--text-primary); margin-bottom: 0.5rem;
+}
+.form-label .required { color: var(--danger); }
+.form-label i { color: var(--tech-blue); margin-left: 0.35rem; font-size: 0.8rem; }
+.form-input, .form-textarea, .form-select {
+    width: 100%; padding: 0.75rem 0.95rem;
+    background: var(--bg-primary); border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 500;
+    color: var(--text-primary); outline: none;
+    transition: all var(--transition); font-family: inherit;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+    border-color: var(--tech-blue); background: var(--bg-card);
+    box-shadow: 0 0 0 4px rgba(29,91,142,0.12);
+}
+.form-input[type="number"] {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+}
+.form-textarea { resize: vertical; min-height: 70px; max-height: 200px; line-height: 1.6; }
+.form-select {
+    cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: left 0.75rem center;
+    padding-left: 2.25rem;
+}
+.form-input.error, .form-textarea.error, .form-select.error {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 4px rgba(239,68,68,0.12);
+    animation: shake 0.4s ease;
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+.form-error {
+    font-size: 0.75rem; color: var(--danger); margin-top: 0.4rem;
+    display: none; align-items: center; gap: 0.35rem; font-weight: 600;
+}
+.form-error.show { display: flex; }
+.form-hint {
+    font-size: 0.72rem; color: var(--text-muted); margin-top: 0.4rem;
+    display: flex; align-items: center; gap: 0.35rem; line-height: 1.5;
+}
+
+/* Picker (Customer / Repair) */
+.picker { position: relative; }
+.picker-input {
+    width: 100%; padding: 0.75rem 0.95rem;
+    padding-left: 2.5rem;
+    background: var(--bg-primary); border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 500;
+    outline: none; transition: all var(--transition); cursor: pointer;
+}
+.picker-input:focus {
+    border-color: var(--tech-blue); background: var(--bg-card);
+    box-shadow: 0 0 0 4px rgba(29,91,142,0.12);
+}
+.picker-icon {
+    position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%);
+    color: var(--tech-blue); pointer-events: none; font-size: 0.9rem;
+}
+.picker-dropdown {
+    position: absolute; top: 100%; left: 0; right: 0;
+    margin-top: 0.35rem; background: var(--bg-card);
+    border: 1.5px solid var(--border-color); border-radius: var(--radius-md);
+    box-shadow: var(--shadow-xl); z-index: 100;
+    max-height: 320px; overflow-y: auto; display: none;
+}
+.picker-dropdown.show { display: block; }
+.picker-dropdown-search {
+    padding: 0.65rem 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky; top: 0; background: var(--bg-card); z-index: 2;
+    position: relative;
+}
+.picker-dropdown-search input {
+    width: 100%; padding: 0.5rem 0.75rem; padding-right: 2rem;
+    background: var(--bg-primary); border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm); font-size: 0.85rem; outline: none;
+}
+.picker-dropdown-search i {
+    position: absolute; right: 1.35rem; top: 50%;
+    transform: translateY(-50%); color: var(--text-muted);
+    font-size: 0.8rem; pointer-events: none;
+}
+.picker-option {
+    display: flex; align-items: center; gap: 0.65rem;
+    padding: 0.65rem 0.85rem; cursor: pointer;
+    transition: all var(--transition-fast);
+    border-bottom: 1px solid var(--border-color);
+}
+.picker-option:last-child { border-bottom: none; }
+.picker-option:hover { background: var(--bg-hover); }
+.picker-option-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 800; flex-shrink: 0;
+}
+.picker-option-info { flex: 1; min-width: 0; }
+.picker-option-name {
+    font-size: 0.85rem; font-weight: 700;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    margin-bottom: 0.1rem;
+}
+.picker-option-meta {
+    font-size: 0.7rem; color: var(--text-muted);
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
+}
+.picker-empty {
+    padding: 2rem 1rem; text-align: center;
+    color: var(--text-muted); font-size: 0.85rem;
+}
+.picker-empty i {
+    font-size: 1.5rem; opacity: 0.3;
+    margin-bottom: 0.5rem; display: block;
+}
+
+/* Selected chip */
+.selected-chip {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.75rem 0.85rem;
+    background: linear-gradient(135deg, rgba(29,91,142,0.06), rgba(45,122,184,0.03));
+    border: 1.5px solid var(--tech-blue);
+    border-radius: var(--radius-md); margin-top: 0.5rem;
+}
+.selected-chip-icon {
+    width: 42px; height: 42px; border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+}
+.selected-chip-info { flex: 1; min-width: 0; }
+.selected-chip-name { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.15rem; }
+.selected-chip-meta { font-size: 0.72rem; color: var(--text-secondary); }
+.selected-chip-remove {
+    width: 30px; height: 30px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted); transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+.selected-chip-remove:hover { background: rgba(239,68,68,0.1); color: var(--danger); }
+
+/* Invoice Summary */
+.invoice-summary {
+    background: linear-gradient(135deg, rgba(29,91,142,0.06), rgba(45,122,184,0.03));
+    border: 1.5px solid var(--tech-blue);
+    border-radius: var(--radius-lg); padding: 1.15rem; margin-top: 1rem;
+}
+.summary-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.5rem 0; font-size: 0.9rem;
+}
+.summary-row:not(:last-child) { border-bottom: 1px dashed var(--border-color); }
+.summary-row-label {
+    color: var(--text-secondary); font-weight: 600;
+    display: flex; align-items: center; gap: 0.4rem;
+}
+.summary-row-value { font-weight: 800; color: var(--text-primary); font-size: 1rem; }
+.summary-row.total {
+    padding-top: 0.85rem; margin-top: 0.35rem;
+    border-top: 2px solid var(--tech-blue);
+}
+.summary-row.total .summary-row-label { font-size: 1rem; font-weight: 800; color: var(--text-primary); }
+.summary-row.total .summary-row-value { font-size: 1.35rem; color: var(--tech-blue); }
+.summary-row.discount .summary-row-value { color: var(--danger); }
+
+/* Details Modal */
+.invoice-details-header {
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white; padding: 1.5rem;
+    border-radius: var(--radius-lg); margin-bottom: 1.25rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; flex-wrap: wrap;
+    position: relative; overflow: hidden;
+}
+.invoice-details-header::before {
+    content: ''; position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+.invoice-details-header-info { position: relative; z-index: 1; }
+.invoice-details-header-info h2 {
+    font-size: 1.5rem; font-weight: 800; margin-bottom: 0.25rem;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+}
+.invoice-details-header-info p { font-size: 0.85rem; opacity: 0.9; }
+.invoice-details-status {
+    padding: 0.5rem 1rem; border-radius: var(--radius-full);
+    font-size: 0.8rem; font-weight: 700;
+    background: rgba(255,255,255,0.2);
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    position: relative; z-index: 1;
+}
+.invoice-details-status.paid { background: rgba(16,185,129,0.3); color: #a7f3d0; }
+.invoice-details-status.unpaid { background: rgba(239,68,68,0.3); color: #fecaca; }
+.invoice-details-status.partial { background: rgba(245,158,11,0.3); color: #fde68a; }
+
+/* QR */
+.qr-container {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem; background: var(--bg-primary);
+    border-radius: var(--radius-md); margin-bottom: 1rem;
+}
+.qr-box {
+    width: 100px; height: 100px;
+    background: white; padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.qr-box canvas, .qr-box img { width: 100%; height: 100%; }
+.qr-info { flex: 1; min-width: 0; }
+.qr-info h4 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.35rem; }
+.qr-info p { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+.qr-info code {
+    font-size: 0.7rem; background: var(--bg-hover);
+    padding: 0.25rem 0.5rem; border-radius: 4px;
+    display: inline-block; font-family: monospace;
+    word-break: break-all; max-width: 100%;
+}
+
+/* Items table */
+.items-table {
+    width: 100%; border-collapse: collapse;
+    background: var(--bg-card); border-radius: var(--radius-md);
+    overflow: hidden; margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+}
+.items-table th {
+    background: var(--bg-primary); color: var(--text-muted);
+    font-size: 0.72rem; font-weight: 700;
+    padding: 0.65rem 0.75rem; text-align: right;
+    text-transform: uppercase; letter-spacing: 0.3px;
+    border-bottom: 1px solid var(--border-color);
+}
+.items-table td {
+    padding: 0.7rem 0.75rem; font-size: 0.85rem; font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+}
+.items-table tr:last-child td { border-bottom: none; }
+.items-table td.num { font-family: 'Courier New', monospace; font-weight: 700; }
+
+/* Payment Items */
+.payment-row {
+    display: flex; align-items: center; gap: 0.65rem;
+    padding: 0.7rem 0.85rem;
+    background: var(--bg-primary); border-radius: var(--radius-md);
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--border-color);
+}
+.payment-row-icon {
+    width: 36px; height: 36px; border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--success), #059669);
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; flex-shrink: 0;
+}
+.payment-row-info { flex: 1; min-width: 0; }
+.payment-row-title { font-size: 0.85rem; font-weight: 700; }
+.payment-row-meta { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.1rem; }
+.payment-row-value { font-size: 0.95rem; font-weight: 800; color: var(--success); }
+
+/* Tabs */
+.tabs-nav {
+    display: flex; gap: 0.25rem;
+    background: var(--bg-primary); padding: 0.25rem;
+    border-radius: var(--radius-md); margin-bottom: 1rem;
+    overflow-x: auto;
+}
+.tab-btn {
+    flex: 1; padding: 0.6rem 0.85rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem; font-weight: 700;
+    color: var(--text-secondary);
+    transition: all var(--transition);
+    display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+    white-space: nowrap;
+}
+.tab-btn.active {
+    background: var(--bg-card); color: var(--tech-blue);
+    box-shadow: var(--shadow-sm);
+}
+.tab-btn:hover:not(.active) { color: var(--tech-blue); }
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+/* Toast */
+.toast-container {
+    position: fixed; top: calc(var(--navbar-height) + 1rem);
+    left: 50%; transform: translateX(-50%);
+    z-index: 3000; display: flex; flex-direction: column;
+    gap: 0.75rem; pointer-events: none;
+    max-width: 90vw; width: 400px;
+}
+.toast {
+    background: var(--bg-card); color: var(--text-primary);
+    padding: 1rem 1.25rem; border-radius: var(--radius-md);
+    box-shadow: var(--shadow-xl); border: 1px solid var(--border-color);
+    display: flex; align-items: center; gap: 0.75rem;
+    font-size: 0.9rem; font-weight: 500; pointer-events: auto;
+    animation: toastIn 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
+    border-right: 4px solid var(--info);
+}
+.toast.success { border-right-color: var(--success); }
+.toast.error { border-right-color: var(--danger); }
+.toast.warning { border-right-color: var(--warning); }
+.toast i { font-size: 1.2rem; flex-shrink: 0; }
+.toast.success i { color: var(--success); }
+.toast.error i { color: var(--danger); }
+.toast.warning i { color: var(--warning); }
+.toast.info i { color: var(--info); }
+.toast.hide { animation: toastOut 0.3s ease forwards; }
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes toastOut { to { opacity: 0; transform: translateY(-20px) scale(0.95); } }
+
+/* Skeleton / Empty */
+.skeleton {
+    background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: var(--radius-sm);
+}
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+.skeleton-row { height: 60px; margin-bottom: 0.5rem; border-radius: var(--radius-md); }
+
+.empty-state {
+    padding: 4rem 1rem; text-align: center; color: var(--text-muted);
+    background: var(--bg-card);
+    border: 2px dashed var(--border-color); border-radius: var(--radius-lg);
+}
+.empty-state i {
+    font-size: 4rem; opacity: 0.25; margin-bottom: 1rem;
+    display: block; color: var(--tech-blue);
+}
+.empty-state h3 {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--text-secondary); margin-bottom: 0.35rem;
+}
+.empty-state p { font-size: 0.85rem; margin-bottom: 1rem; }
+
+.pagination {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0.35rem; margin-top: 1.5rem; flex-wrap: wrap;
+}
+.pagination-btn {
+    min-width: 40px; height: 40px; padding: 0 0.75rem;
+    border-radius: var(--radius-md);
+    background: var(--bg-card); border: 1.5px solid var(--border-color);
+    color: var(--text-secondary); font-size: 0.85rem; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    transition: all var(--transition);
+}
+.pagination-btn:hover:not(:disabled):not(.active) { border-color: var(--tech-blue); color: var(--tech-blue); }
+.pagination-btn.active {
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white; border-color: var(--tech-blue);
+    box-shadow: 0 4px 12px rgba(29,91,142,0.3);
+}
+.pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Scroll Top */
+.scroll-top {
+    position: fixed; bottom: calc(1rem + var(--safe-bottom));
+    left: calc(1rem + var(--safe-left));
+    width: 48px; height: 48px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; box-shadow: var(--shadow-lg);
+    opacity: 0; visibility: hidden; transform: translateY(20px);
+    transition: all var(--transition); z-index: 1400;
+}
+.scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+.scroll-top:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(29,91,142,0.5); }
+
+/* Notifications + User */
+.notifications-panel, .user-dropdown {
+    position: fixed; top: calc(var(--navbar-height) + 0.5rem);
+    left: 1rem; width: 360px; max-width: calc(100vw - 2rem);
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg); box-shadow: var(--shadow-xl);
+    z-index: 1200; opacity: 0; visibility: hidden;
+    transform: translateY(-10px) scale(0.98);
+    transition: all var(--transition); overflow: hidden;
+}
+.user-dropdown { width: 240px; }
+.notifications-panel.show, .user-dropdown.show {
+    opacity: 1; visibility: visible; transform: translateY(0) scale(1);
+}
+.notifications-header {
+    padding: 1rem 1.15rem; border-bottom: 1px solid var(--border-color);
+    display: flex; align-items: center; justify-content: space-between;
+}
+.notifications-title { font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+.notifications-title i { color: var(--tech-blue); }
+.notifications-mark-read {
+    font-size: 0.75rem; font-weight: 600; color: var(--tech-blue);
+    padding: 0.35rem 0.65rem; border-radius: var(--radius-sm);
+    transition: all var(--transition);
+}
+.notifications-mark-read:hover { background: rgba(29,91,142,0.1); }
+.notifications-list { max-height: 400px; overflow-y: auto; }
+.notification-item {
+    display: flex; gap: 0.75rem; padding: 0.85rem 1.15rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: all var(--transition-fast); cursor: pointer; position: relative;
+}
+.notification-item:hover { background: var(--bg-hover); }
+.notification-item.unread { background: rgba(29,91,142,0.04); }
+.notification-item.unread::before {
+    content: ''; position: absolute; right: 0; top: 50%;
+    transform: translateY(-50%); width: 3px; height: 60%;
+    background: var(--tech-blue); border-radius: 3px;
+}
+.notification-item-icon {
+    width: 36px; height: 36px; border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; flex-shrink: 0;
+}
+.notification-item-icon.info { background: rgba(59,130,246,0.12); color: var(--info); }
+.notification-item-icon.warning { background: rgba(245,158,11,0.12); color: var(--warning); }
+.notification-item-icon.danger { background: rgba(239,68,68,0.12); color: var(--danger); }
+.notification-item-icon.success { background: rgba(16,185,129,0.12); color: var(--success); }
+.notification-item-content { flex: 1; min-width: 0; }
+.notification-item-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.15rem; }
+.notification-item-message {
+    font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.notification-item-time { font-size: 0.65rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.25rem; }
+.notifications-empty { padding: 2.5rem 1rem; text-align: center; color: var(--text-muted); }
+.notifications-empty i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
+.user-dropdown-header {
+    padding: 1rem; border-bottom: 1px solid var(--border-color);
+    display: flex; align-items: center; gap: 0.75rem;
+}
+.user-dropdown-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 800; flex-shrink: 0;
+}
+.user-dropdown-info strong { display: block; font-size: 0.9rem; font-weight: 700; }
+.user-dropdown-info span { font-size: 0.75rem; color: var(--text-muted); }
+.user-dropdown-menu { padding: 0.5rem; }
+.user-dropdown-item {
+    display: flex; align-items: center; gap: 0.65rem;
+    padding: 0.65rem 0.75rem; border-radius: var(--radius-sm);
+    font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);
+    transition: all var(--transition-fast); width: 100%; text-align: right;
+}
+.user-dropdown-item:hover { background: var(--bg-hover); color: var(--tech-blue); }
+.user-dropdown-item.danger:hover { background: rgba(239,68,68,0.1); color: var(--danger); }
+.user-dropdown-divider { height: 1px; background: var(--border-color); margin: 0.35rem 0.5rem; }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+    width: 20px; height: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white; border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@media (max-width: 968px) {
+    .sidebar { transform: translateX(100%); box-shadow: var(--shadow-xl); }
+    .sidebar.show { transform: translateX(0); }
+    .main-content { margin-right: 0; padding: 1rem; }
+    .navbar-brand-text { display: none; }
+    .navbar-user-info { display: none; }
+    .navbar-user { padding: 0.35rem; }
+    .invoice-header { display: none; }
+    .invoice-item {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        padding: 0.85rem;
+        border-radius: var(--radius-md);
+        margin-bottom: 0.5rem;
+        border: 1px solid var(--border-color);
+    }
+    .invoice-item > *:nth-child(n+3)::before {
+        content: attr(data-label);
+        display: block; font-size: 0.65rem; color: var(--text-muted);
+        font-weight: 700; margin-bottom: 0.15rem; text-transform: uppercase;
+    }
+    .invoice-actions { justify-content: flex-start !important; }
+}
+@media (max-width: 640px) {
+    .page-header { flex-direction: column; align-items: flex-start; }
+    .page-header-actions { width: 100%; }
+    .page-header-actions .btn { flex: 1; }
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full, .form-group.third { grid-column: 1; }
+    .notifications-panel, .user-dropdown { left: 0.5rem; right: 0.5rem; width: auto; }
+    .toolbar { padding: 0.85rem; gap: 0.5rem; }
+    .toolbar-search { min-width: 0; flex: 1 1 100%; }
+    .toolbar-select { flex: 1; min-width: 0; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+    .stat-item { padding: 0.85rem; gap: 0.6rem; }
+    .stat-item-icon { width: 38px; height: 38px; font-size: 1rem; }
+    .stat-item-value { font-size: 1.05rem; }
+    .stat-item-label { font-size: 0.68rem; }
+    .modal-body { padding: 1rem; max-height: calc(92vh - 160px); }
+    .modal-header { padding: 1rem 1.25rem; }
+    .modal-footer { padding: 0.85rem 1.25rem; gap: 0.5rem; }
+    .invoice-details-header { padding: 1rem; flex-direction: column; align-items: flex-start; }
+    .invoice-details-header-info h2 { font-size: 1.15rem; }
+    .qr-container { flex-direction: column; text-align: center; }
+}
+@media (max-width: 400px) {
+    .stats-bar { grid-template-columns: 1fr; }
+}
+@media print {
+    body * { visibility: hidden; }
+    .print-area, .print-area * { visibility: visible; }
+    .print-area { position: absolute; left: 0; top: 0; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="reading-progress" id="readingProgress"></div>
+
+<nav class="navbar">
+    <button class="navbar-menu-btn" id="menuBtn" aria-label="القائمة">
+        <i class="fas fa-bars"></i>
+    </button>
+    <a href="dashboard.html" class="navbar-brand">
+        <img src="logo.png" alt="إلكترونك" class="navbar-logo" onerror="this.style.display='none'">
+        <div class="navbar-brand-text">
+            <strong>إلكترونك</strong>
+            <span>لصيانة الأجهزة الإلكترونية</span>
+        </div>
+    </a>
+    <div class="navbar-actions">
+        <button class="navbar-btn" id="onlineBtn" title="حالة الاتصال">
+            <i class="fas fa-wifi"></i>
+            <span class="online-dot" id="onlineDot"></span>
+        </button>
+        <button class="navbar-btn" id="themeToggle" title="تبديل الوضع">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="navbar-btn" id="notificationsBtn" title="الإشعارات">
+            <i class="fas fa-bell"></i>
+            <span class="navbar-badge" id="notifBadge" style="display: none;">0</span>
+        </button>
+        <button class="navbar-user" id="userBtn">
+            <div class="navbar-user-avatar" id="userAvatar">م</div>
+            <div class="navbar-user-info">
+                <strong id="userName">المستخدم</strong>
+                <span id="userRole">موظف</span>
+            </div>
+        </button>
+    </div>
+</nav>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">الرئيسية</div>
+        <a href="dashboard.html" class="sidebar-link"><i class="fas fa-house"></i><span>لوحة التحكم</span></a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">المخزون</div>
+        <a href="products.html" class="sidebar-link" data-perm="can_view_products"><i class="fas fa-boxes-stacked"></i><span>الأصناف</span></a>
+        <a href="categories.html" class="sidebar-link" data-perm="can_view_categories"><i class="fas fa-tags"></i><span>الفئات</span></a>
+        <a href="stock-in.html" class="sidebar-link" data-perm="can_view_warehouse_in"><i class="fas fa-truck-ramp-box"></i><span>الوارد</span></a>
+        <a href="suppliers.html" class="sidebar-link" data-perm="can_view_suppliers"><i class="fas fa-handshake"></i><span>الموردين</span></a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">المبيعات</div>
+        <a href="invoices.html" class="sidebar-link active" data-perm="can_view_invoices"><i class="fas fa-file-invoice-dollar"></i><span>الفواتير</span></a>
+        <a href="customers.html" class="sidebar-link" data-perm="can_view_customers"><i class="fas fa-users"></i><span>العملاء</span></a>
+        <a href="debts.html" class="sidebar-link" data-perm="can_view_debts"><i class="fas fa-hand-holding-dollar"></i><span>المديونيات</span></a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">الصيانة</div>
+        <a href="repairs.html" class="sidebar-link" data-perm="can_view_repairs"><i class="fas fa-screwdriver-wrench"></i><span>أوامر الصيانة</span></a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">التقارير</div>
+        <a href="reports.html" class="sidebar-link" data-perm="can_view_reports"><i class="fas fa-chart-pie"></i><span>التقارير</span></a>
+        <a href="shifts.html" class="sidebar-link" data-perm="can_manage_shifts"><i class="fas fa-clock"></i><span>الورديات</span></a>
+        <a href="audit-log.html" class="sidebar-link" data-perm="can_view_audit_log"><i class="fas fa-clipboard-list"></i><span>سجل الحركات</span></a>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">أدوات</div>
+        <a href="favorites.html" class="sidebar-link"><i class="fas fa-star"></i><span>المفضلة</span></a>
+        <a href="admin.html" class="sidebar-link" id="adminLink" style="display: none;"><i class="fas fa-shield-halved"></i><span>لوحة الأدمن</span></a>
+    </div>
+</aside>
+
+<main class="main-content">
+    
+    <div class="page-header">
+        <div class="page-header-text">
+            <h1><i class="fas fa-file-invoice-dollar"></i> الفواتير</h1>
+            <p id="pageSubtitle">إدارة فواتير المركز</p>
+        </div>
+        <div class="page-header-actions">
+            <button class="btn btn-secondary" id="exportExcelBtn">
+                <i class="fas fa-file-excel"></i> تصدير
+            </button>
+            <button class="btn btn-primary" id="addInvoiceBtn">
+                <i class="fas fa-plus"></i> فاتورة جديدة
+            </button>
+        </div>
+    </div>
+    
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-item-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+            <div class="stat-item-content">
+                <div class="stat-item-value" id="totalInvoices">0</div>
+                <div class="stat-item-label">إجمالي الفواتير</div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-item-icon success"><i class="fas fa-coins"></i></div>
+            <div class="stat-item-content">
+                <div class="stat-item-value" id="totalSales">0 <small>ج.م</small></div>
+                <div class="stat-item-label">إجمالي المبيعات</div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-item-icon warning"><i class="fas fa-clock"></i></div>
+            <div class="stat-item-content">
+                <div class="stat-item-value" id="totalUnpaid">0 <small>ج.م</small></div>
+                <div class="stat-item-label">غير مدفوع</div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-item-icon danger"><i class="fas fa-triangle-exclamation"></i></div>
+            <div class="stat-item-content">
+                <div class="stat-item-value" id="unpaidCount">0</div>
+                <div class="stat-item-label">فواتير متأخرة</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toolbar">
+        <div class="toolbar-search">
+            <input type="text" class="toolbar-search-input" id="searchInput" placeholder="ابحث برقم الفاتورة، العميل، الموبايل..." autocomplete="off">
+            <i class="fas fa-magnifying-glass toolbar-search-icon"></i>
+        </div>
+        <select class="toolbar-select" id="statusFilter">
+            <option value="">كل الحالات</option>
+            <option value="paid">مدفوع</option>
+            <option value="unpaid">غير مدفوع</option>
+            <option value="partial">مدفوع جزئيًا</option>
+        </select>
+        <select class="toolbar-select" id="sortFilter">
+            <option value="newest">الأحدث</option>
+            <option value="oldest">الأقدم</option>
+            <option value="total_high">الأعلى قيمة</option>
+            <option value="total_low">الأقل قيمة</option>
+        </select>
+    </div>
+    
+    <div id="invoicesContainer">
+        <div class="invoice-list">
+            <div class="skeleton skeleton-row"></div>
+            <div class="skeleton skeleton-row"></div>
+            <div class="skeleton skeleton-row"></div>
+            <div class="skeleton skeleton-row"></div>
+        </div>
+    </div>
+    
+    <div class="pagination" id="pagination" style="display: none;"></div>
+    
+</main>
+
+<!-- Add/Edit Invoice Modal -->
+<div class="modal-overlay" id="invoiceModal">
+    <div class="modal modal-lg">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                <i class="fas fa-file-invoice" id="invoiceModalIcon"></i>
+                <span id="invoiceModalTitle">فاتورة جديدة</span>
+            </h3>
+            <button class="modal-close" id="closeInvoiceModal"><i class="fas fa-times"></i></button>
+        </div>
+        <form id="invoiceForm" autocomplete="off">
+            <div class="modal-body">
+                
+                <!-- Repair Order Picker (إجباري) -->
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label class="form-label">
+                        <i class="fas fa-screwdriver-wrench"></i> أمر الصيانة <span class="required">*</span>
+                    </label>
+                    <div class="picker" id="repairPicker">
+                        <input type="text" class="picker-input" id="repairSearch" placeholder="اضغط لاختيار أمر صيانة..." readonly>
+                        <i class="fas fa-screwdriver-wrench picker-icon"></i>
+                        <div class="picker-dropdown" id="repairDropdown">
+                            <div class="picker-dropdown-search">
+                                <input type="text" id="repairDropdownSearch" placeholder="ابحث بالكود، اسم العميل..." autocomplete="off">
+                                <i class="fas fa-magnifying-glass"></i>
+                            </div>
+                            <div id="repairOptionsList"></div>
+                        </div>
+                    </div>
+                    <div id="selectedRepairContainer"></div>
+                    <div class="form-error" id="repairError"><i class="fas fa-circle-exclamation"></i><span>الرجاء اختيار أمر صيانة</span></div>
+                </div>
+                
+                <!-- Customer Info (Read Only) -->
+                <div id="customerInfoBox" style="display: none; padding: 0.85rem; background: var(--bg-primary); border-radius: var(--radius-md); margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div class="picker-option-avatar" id="customerAvatar">؟</div>
+                        <div style="flex: 1; min-width: 0;">
+                            <div style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.15rem;" id="customerName">—</div>
+                            <div style="font-size: 0.75rem; color: var(--text-secondary); font-family: monospace; direction: ltr;" id="customerPhone">—</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-grid">
+                    
+                    <!-- Parts Total -->
+                    <div class="form-group">
+                        <label class="form-label" for="partsTotal">
+                            <i class="fas fa-boxes-stacked"></i> تكلفة القطع (ج.م)
+                        </label>
+                        <input type="number" class="form-input" id="partsTotal" placeholder="0.00" min="0" step="0.01" value="0">
+                    </div>
+                    
+                    <!-- Labor Cost -->
+                    <div class="form-group">
+                        <label class="form-label" for="laborCost">
+                            <i class="fas fa-screwdriver-wrench"></i> تكلفة المصنعية (ج.م)
+                        </label>
+                        <input type="number" class="form-input" id="laborCost" placeholder="0.00" min="0" step="0.01" value="0">
+                    </div>
+                    
+                    <!-- Discount Type -->
+                    <div class="form-group">
+                        <label class="form-label" for="discountType">
+                            <i class="fas fa-percent"></i> نوع الخصم
+                        </label>
+                        <select class="form-select" id="discountType">
+                            <option value="fixed">مبلغ ثابت (ج.م)</option>
+                            <option value="percent">نسبة (%)</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Discount -->
+                    <div class="form-group">
+                        <label class="form-label" for="discountValue">
+                            <i class="fas fa-tags"></i> الخصم
+                        </label>
+                        <input type="number" class="form-input" id="discountValue" placeholder="0" min="0" step="0.01" value="0">
+                    </div>
+                    
+                    <!-- Payment Method -->
+                    <div class="form-group">
+                        <label class="form-label" for="paymentMethod">
+                            <i class="fas fa-credit-card"></i> طريقة الدفع
+                        </label>
+                        <select class="form-select" id="paymentMethod">
+                            <option value="cash">كاش</option>
+                            <option value="visa">فيزا</option>
+                            <option value="credit">آجل</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Paid Amount -->
+                    <div class="form-group">
+                        <label class="form-label" for="paidAmount">
+                            <i class="fas fa-money-bill-wave"></i> المبلغ المدفوع (ج.م)
+                        </label>
+                        <input type="number" class="form-input" id="paidAmount" placeholder="0.00" min="0" step="0.01" value="0">
+                    </div>
+                    
+                    <!-- Notes -->
+                    <div class="form-group full">
+                        <label class="form-label" for="invoiceNotes">
+                            <i class="fas fa-align-right"></i> ملاحظات
+                        </label>
+                        <textarea class="form-textarea" id="invoiceNotes" placeholder="أي ملاحظات على الفاتورة..." maxlength="500"></textarea>
+                    </div>
+                    
+                </div>
+                
+                <!-- Summary -->
+                <div class="invoice-summary">
+                    <div class="summary-row">
+                        <span class="summary-row-label"><i class="fas fa-boxes-stacked"></i> تكلفة القطع</span>
+                        <span class="summary-row-value" id="summaryParts">0.00 ج.م</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-row-label"><i class="fas fa-screwdriver-wrench"></i> تكلفة المصنعية</span>
+                        <span class="summary-row-value" id="summaryLabor">0.00 ج.م</span>
+                    </div>
+                    <div class="summary-row discount" id="summaryDiscountRow" style="display: none;">
+                        <span class="summary-row-label"><i class="fas fa-tags"></i> الخصم</span>
+                        <span class="summary-row-value" id="summaryDiscount">- 0.00 ج.م</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span class="summary-row-label"><i class="fas fa-calculator"></i> الإجمالي</span>
+                        <span class="summary-row-value" id="summaryTotal">0.00 ج.م</span>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelInvoiceBtn">
+                    <i class="fas fa-times"></i> إلغاء
+                </button>
+                <button type="submit" class="btn btn-primary" id="saveInvoiceBtn">
+                    <span class="spinner" style="display: none;"></span>
+                    <i class="fas fa-check"></i>
+                    <span id="saveInvoiceText">حفظ الفاتورة</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Invoice Details Modal -->
+<div class="modal-overlay" id="detailsModal">
+    <div class="modal modal-xl">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                <i class="fas fa-file-invoice"></i>
+                <span>تفاصيل الفاتورة</span>
+            </h3>
+            <button class="modal-close" id="closeDetailsModal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body" id="detailsContent"></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="closeDetailsBtn">إغلاق</button>
+            <button type="button" class="btn btn-warning" id="printThermalBtn">
+                <i class="fas fa-receipt"></i> طباعة POS
+            </button>
+            <button type="button" class="btn btn-success" id="printA4Btn">
+                <i class="fas fa-print"></i> طباعة A4
+            </button>
+            <button type="button" class="btn btn-primary" id="addPaymentBtn">
+                <i class="fas fa-plus-circle"></i> دفعة
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Add Payment Modal -->
+<div class="modal-overlay" id="paymentModal">
+    <div class="modal modal-sm">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>تسجيل دفعة</span>
+            </h3>
+            <button class="modal-close" id="closePaymentModal"><i class="fas fa-times"></i></button>
+        </div>
+        <form id="paymentForm" autocomplete="off">
+            <div class="modal-body">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label class="form-label" for="paymentAmountInput">
+                        <i class="fas fa-dollar-sign"></i> المبلغ <span class="required">*</span>
+                    </label>
+                    <input type="number" class="form-input" id="paymentAmountInput" placeholder="0.00" min="0.01" step="0.01" required>
+                    <div class="form-error" id="paymentAmountError">
+                        <i class="fas fa-circle-exclamation"></i>
+                        <span>الرجاء إدخال مبلغ صحيح</span>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label class="form-label" for="paymentMethodInput">
+                        <i class="fas fa-credit-card"></i> طريقة الدفع
+                    </label>
+                    <select class="form-select" id="paymentMethodInput">
+                        <option value="cash">كاش</option>
+                        <option value="visa">فيزا</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="paymentNotesInput">
+                        <i class="fas fa-align-right"></i> ملاحظات
+                    </label>
+                    <textarea class="form-textarea" id="paymentNotesInput" placeholder="ملاحظات على الدفعة..." maxlength="300"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelPaymentBtn">إلغاء</button>
+                <button type="submit" class="btn btn-success" id="savePaymentBtn">
+                    <span class="spinner" style="display: none;"></span>
+                    <i class="fas fa-check"></i>
+                    <span id="savePaymentText">تسجيل الدفعة</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal modal-sm">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                <i class="fas fa-triangle-exclamation" style="color: var(--danger);"></i>
+                تأكيد الحذف
+            </h3>
+            <button class="modal-close" id="closeDeleteModal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <p style="font-size: 0.95rem; line-height: 1.7; margin-bottom: 0.75rem;">
+                هل أنت متأكد من حذف الفاتورة 
+                <strong id="deleteInvoiceNumber" style="color: var(--danger); font-family: monospace;"></strong>؟
+            </p>
+            <div style="padding: 0.75rem 1rem; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: var(--radius-md); color: var(--warning); font-size: 0.85rem; font-weight: 600;">
+                <i class="fas fa-exclamation-triangle"></i>
+                تنبيه: سيتم حذف كل الدفعات المرتبطة أيضًا
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="cancelDeleteBtn">إلغاء</button>
+            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                <i class="fas fa-trash"></i> حذف نهائي
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Notifications -->
+<div class="notifications-panel" id="notificationsPanel">
+    <div class="notifications-header">
+        <h3 class="notifications-title"><i class="fas fa-bell"></i> الإشعارات</h3>
+        <button class="notifications-mark-read" id="markAllReadBtn">تعيين الكل كمقروء</button>
+    </div>
+    <div class="notifications-list" id="notificationsList"></div>
+</div>
+
+<!-- User Dropdown -->
+<div class="user-dropdown" id="userDropdown">
+    <div class="user-dropdown-header">
+        <div class="user-dropdown-avatar" id="dropdownAvatar">م</div>
+        <div class="user-dropdown-info">
+            <strong id="dropdownName">المستخدم</strong>
+            <span id="dropdownRole">موظف</span>
+        </div>
+    </div>
+    <div class="user-dropdown-menu">
+        <a href="favorites.html" class="user-dropdown-item"><i class="fas fa-star"></i><span>المفضلة</span></a>
+        <a href="admin.html" class="user-dropdown-item" id="dropdownAdminLink" style="display: none;"><i class="fas fa-shield-halved"></i><span>لوحة الأدمن</span></a>
+        <div class="user-dropdown-divider"></div>
+        <button class="user-dropdown-item danger" id="logoutBtn"><i class="fas fa-right-from-bracket"></i><span>تسجيل الخروج</span></button>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<button class="scroll-top" id="scrollTop" aria-label="العودة للأعلى"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+(function() {
+'use strict';
+
+// ═══════════════════════════════════════════════════════════════
+// 🔑 Config
+// ═══════════════════════════════════════════════════════════════
+var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
+var DB_NAME = 'electronic_db';
+var DB_VERSION = 5;
+var PAGE_SIZE = 20;
+
+// ═══════════════════════════════════════════════════════════════
+// 🗄️ Supabase Client
+// ═══════════════════════════════════════════════════════════════
+var supabaseClient = null;
+
+function getSupabaseClient() {
+    if (supabaseClient) return supabaseClient;
+    if (typeof window.supabase === 'undefined' || !window.supabase.createClient) return null;
+    try {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { persistSession: false, autoRefreshToken: false }
+        });
+        return supabaseClient;
+    } catch (e) {
+        console.error('Supabase init failed:', e);
+        return null;
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🧰 Helpers
+// ═══════════════════════════════════════════════════════════════
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
+function isValidUUID(uuid) {
+    if (!uuid || typeof uuid !== 'string') return false;
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uuid);
+}
+
+function sanitizePhone(phone) {
+    if (!phone) return '';
+    return String(phone).replace(/[^\d+]/g, '');
+}
+
+function formatCurrency(amount) {
+    var num = parseFloat(amount) || 0;
+    try { return num.toLocaleString('ar-EG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ج.م'; }
+    catch (e) { return num.toFixed(2) + ' ج.م'; }
+}
+
+function formatCurrencyShort(amount) {
+    var num = parseFloat(amount) || 0;
+    try { return num.toLocaleString('ar-EG', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' ج.م'; }
+    catch (e) { return num.toFixed(2) + ' ج.م'; }
+}
+
+function formatNumber(num) {
+    var n = parseInt(num) || 0;
+    try { return n.toLocaleString('ar-EG'); } catch (e) { return String(n); }
+}
+
+function formatDate(date) {
+    if (!date) return '—';
+    try {
+        return new Date(date).toLocaleDateString('ar-EG', { 
+            year: 'numeric', month: 'short', day: 'numeric' 
+        });
+    } catch (e) { return '—'; }
+}
+
+function formatDateTime(date) {
+    if (!date) return '—';
+    try {
+        return new Date(date).toLocaleDateString('ar-EG', { 
+            year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        });
+    } catch (e) { return '—'; }
+}
+
+function formatTimeAgo(date) {
+    if (!date) return '';
+    try {
+        var seconds = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
+        if (seconds < 60) return 'الآن';
+        if (seconds < 3600) return 'منذ ' + Math.floor(seconds / 60) + ' دقيقة';
+        if (seconds < 86400) return 'منذ ' + Math.floor(seconds / 3600) + ' ساعة';
+        if (seconds < 604800) return 'منذ ' + Math.floor(seconds / 86400) + ' يوم';
+        return formatDate(date);
+    } catch (e) { return ''; }
+}
+
+function getInitials(name) {
+    if (!name) return '؟';
+    var parts = String(name).trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+}
+
+function getUrlParam(name) {
+    try { return new URLSearchParams(window.location.search).get(name); }
+    catch (e) { return null; }
+}
+
+function getInvoiceStatus(inv) {
+    var total = parseFloat(inv.total) || 0;
+    var paid = parseFloat(inv.paid_amount) || 0;
+    if (total <= 0) return 'paid';
+    if (paid >= total) return 'paid';
+    if (paid > 0) return 'partial';
+    return 'unpaid';
+}
+
+function getStatusBadge(status) {
+    var map = {
+        'paid': { text: 'مدفوع', cls: 'badge-success', icon: 'fa-circle-check' },
+        'unpaid': { text: 'غير مدفوع', cls: 'badge-danger', icon: 'fa-circle-xmark' },
+        'partial': { text: 'مدفوع جزئيًا', cls: 'badge-warning', icon: 'fa-circle-half-stroke' }
+    };
+    var s = map[status] || map.unpaid;
+    return '<span class="badge ' + s.cls + '"><i class="fas ' + s.icon + '"></i>' + s.text + '</span>';
+}
+
+function getPaymentMethodText(method) {
+    var map = { 'cash': 'كاش', 'visa': 'فيزا', 'credit': 'آجل' };
+    return map[method] || method;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎨 Theme
+// ═══════════════════════════════════════════════════════════════
+function initTheme() {
+    var saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    updateThemeIcon(saved);
+}
+function updateThemeIcon(theme) {
+    var icon = document.querySelector('#themeToggle i');
+    if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+}
+function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') || 'light';
+    var next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateThemeIcon(next);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🍞 Toast
+// ═══════════════════════════════════════════════════════════════
+function showToast(message, type, duration) {
+    type = type || 'info';
+    duration = duration || 3500;
+    var container = document.getElementById('toastContainer');
+    if (!container) return;
+    var icons = {
+        success: 'fa-circle-check', error: 'fa-circle-xmark',
+        warning: 'fa-triangle-exclamation', info: 'fa-circle-info'
+    };
+    var toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    toast.innerHTML = '<i class="fas ' + (icons[type] || icons.info) + '"></i><span>' + escapeHtml(message) + '</span>';
+    container.appendChild(toast);
+    setTimeout(function() {
+        toast.classList.add('hide');
+        setTimeout(function() { toast.remove(); }, 300);
+    }, duration);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🌐 Online
+// ═══════════════════════════════════════════════════════════════
+function updateOnlineStatus() {
+    var dot = document.getElementById('onlineDot');
+    if (!dot) return;
+    dot.classList.toggle('offline', !navigator.onLine);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔐 Session
+// ═══════════════════════════════════════════════════════════════
+function getSession() {
+    try {
+        var raw = localStorage.getItem('session');
+        if (!raw) return null;
+        var s = JSON.parse(raw);
+        if (!s || !s.user) return null;
+        if (s.expiresAt && Date.now() > s.expiresAt) {
+            localStorage.removeItem('session');
+            return null;
+        }
+        return s;
+    } catch (e) { return null; }
+}
+
+function logout(message) {
+    localStorage.removeItem('session');
+    if (message) {
+        showToast(message, 'info');
+        setTimeout(function() { window.location.href = 'index.html'; }, 1000);
+    } else {
+        window.location.href = 'index.html';
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ⏱️ Inactivity
+// ═══════════════════════════════════════════════════════════════
+var INACTIVITY_TIMEOUT = 30 * 60 * 1000;
+var inactivityTimer = null;
+
+function resetInactivity() {
+    if (inactivityTimer) clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(function() {
+        logout('تم تسجيل خروجك بسبب عدم النشاط');
+    }, INACTIVITY_TIMEOUT);
+}
+
+function startInactivityMonitor() {
+    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(function(evt) {
+        document.addEventListener(evt, resetInactivity, { passive: true });
+    });
+    resetInactivity();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📦 IndexedDB
+// ═══════════════════════════════════════════════════════════════
+var dbInstance = null;
+var dbPromise = null;
+var dbFailed = false;
+
+function openDB() {
+    if (dbFailed) return Promise.resolve(null);
+    if (dbInstance) return Promise.resolve(dbInstance);
+    if (dbPromise) return dbPromise;
+    
+    dbPromise = new Promise(function(resolve) {
+        try {
+            var req = indexedDB.open(DB_NAME, DB_VERSION);
+            req.onupgradeneeded = function(e) {
+                var db = e.target.result;
+                var stores = ['accounts', 'cache', 'settings', 'products', 'categories',
+                              'customers', 'invoices', 'repairs', 'suppliers',
+                              'stock_movements', 'notifications', 'payments'];
+                stores.forEach(function(name) {
+                    if (!db.objectStoreNames.contains(name)) {
+                        db.createObjectStore(name, { keyPath: 'id' });
+                    }
+                });
+                if (!db.objectStoreNames.contains('outbox')) {
+                    var s = db.createObjectStore('outbox', { keyPath: 'id', autoIncrement: true });
+                    s.createIndex('status', 'status');
+                    s.createIndex('created_at', 'created_at');
+                }
+            };
+            req.onsuccess = function() {
+                dbInstance = req.result;
+                dbInstance.onversionchange = function() {
+                    try { dbInstance.close(); } catch(e) {}
+                    dbInstance = null;
+                    dbPromise = null;
+                };
+                resolve(dbInstance);
+            };
+            req.onerror = function() {
+                dbFailed = true;
+                dbPromise = null;
+                resolve(null);
+            };
+            req.onblocked = function() {
+                setTimeout(function() {
+                    dbFailed = true;
+                    dbPromise = null;
+                    resolve(null);
+                }, 500);
+            };
+        } catch (e) {
+            dbFailed = true;
+            resolve(null);
+        }
+    });
+    return dbPromise;
+}
+
+function dbPut(store, data) {
+    return openDB().then(function(db) {
+        if (!db || !db.objectStoreNames.contains(store)) return null;
+        return new Promise(function(resolve) {
+            try {
+                var tx = db.transaction(store, 'readwrite');
+                var r = tx.objectStore(store).put(data);
+                r.onsuccess = function() { resolve(r.result); };
+                r.onerror = function() { resolve(null); };
+            } catch (e) { resolve(null); }
+        });
+    });
+}
+
+function dbBulkPut(store, items) {
+    return openDB().then(function(db) {
+        if (!db || !db.objectStoreNames.contains(store)) return;
+        return new Promise(function(resolve) {
+            try {
+                var tx = db.transaction(store, 'readwrite');
+                var os = tx.objectStore(store);
+                items.forEach(function(item) {
+                    try { os.put(item); } catch(e) {}
+                });
+                tx.oncomplete = function() { resolve(); };
+                tx.onerror = function() { resolve(); };
+            } catch (e) { resolve(); }
+        });
+    });
+}
+
+function dbGetAll(store) {
+    return openDB().then(function(db) {
+        if (!db || !db.objectStoreNames.contains(store)) return [];
+        return new Promise(function(resolve) {
+            try {
+                var tx = db.transaction(store, 'readonly');
+                var r = tx.objectStore(store).getAll();
+                r.onsuccess = function() { resolve(r.result || []); };
+                r.onerror = function() { resolve([]); };
+            } catch (e) { resolve([]); }
+        });
+    });
+}
+
+function dbDelete(store, key) {
+    return openDB().then(function(db) {
+        if (!db || !db.objectStoreNames.contains(store)) return;
+        return new Promise(function(resolve) {
+            try {
+                var tx = db.transaction(store, 'readwrite');
+                var r = tx.objectStore(store).delete(key);
+                r.onsuccess = function() { resolve(); };
+                r.onerror = function() { resolve(); };
+            } catch (e) { resolve(); }
+        });
+    });
+}
+
+function addToOutbox(action) {
+    return openDB().then(function(db) {
+        if (!db) return null;
+        return new Promise(function(resolve) {
+            try {
+                var tx = db.transaction('outbox', 'readwrite');
+                var data = Object.assign({}, action, { status: 'pending', created_at: Date.now() });
+                var r = tx.objectStore('outbox').add(data);
+                r.onsuccess = function() { resolve(r.result); };
+                r.onerror = function() { resolve(null); };
+            } catch (e) { resolve(null); }
+        });
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📊 State
+// ═══════════════════════════════════════════════════════════════
+var state = {
+    invoices: [],
+    customers: [],
+    repairs: [],
+    payments: [],
+    filtered: [],
+    searchQuery: '',
+    statusFilter: '',
+    sortFilter: 'newest',
+    currentPage: 1,
+    editingInvoice: null,
+    deletingInvoice: null,
+    viewingInvoice: null,
+    selectedRepair: null,
+    isLoading: true
+};
+
+// ═══════════════════════════════════════════════════════════════
+// 📥 Load Data
+// ═══════════════════════════════════════════════════════════════
+function loadData() {
+    state.isLoading = true;
+    var sb = getSupabaseClient();
+    
+    if (!sb || !navigator.onLine) {
+        return loadFromCache();
+    }
+    
+    return Promise.all([
+        sb.from('invoices').select('*').order('created_at', { ascending: false }).limit(500),
+        sb.from('customers').select('id, name, phone').order('name'),
+        sb.from('repair_orders').select('id, tracking_code, device_type, device_model, customer_id, status, labor_cost, created_at, customer:customers(id, name, phone)').order('created_at', { ascending: false }).limit(500),
+        sb.from('payments').select('*').order('created_at', { ascending: false }).limit(1000)
+    ]).then(function(results) {
+        state.invoices = results[0].data || [];
+        state.customers = results[1].data || [];
+        state.repairs = results[2].data || [];
+        state.payments = results[3].data || [];
+        
+        return Promise.all([
+            dbBulkPut('invoices', state.invoices),
+            dbBulkPut('customers', state.customers),
+            dbBulkPut('repairs', state.repairs),
+            dbBulkPut('payments', state.payments)
+        ]);
+    }).catch(function(err) {
+        console.warn('Load failed, using cache:', err);
+        return loadFromCacheInternal();
+    }).then(function() {
+        state.isLoading = false;
+        updateStats();
+        applyFilters();
+    });
+}
+
+function loadFromCache() {
+    return loadFromCacheInternal().then(function() {
+        state.isLoading = false;
+        updateStats();
+        applyFilters();
+    });
+}
+
+function loadFromCacheInternal() {
+    return Promise.all([
+        dbGetAll('invoices'),
+        dbGetAll('customers'),
+        dbGetAll('repairs'),
+        dbGetAll('payments')
+    ]).then(function(cached) {
+        state.invoices = cached[0] || [];
+        state.customers = cached[1] || [];
+        state.repairs = cached[2] || [];
+        state.payments = cached[3] || [];
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📊 Stats
+// ═══════════════════════════════════════════════════════════════
+function updateStats() {
+    var totalInvoices = state.invoices.length;
+    var totalSales = 0;
+    var totalUnpaid = 0;
+    var unpaidCount = 0;
+    
+    state.invoices.forEach(function(inv) {
+        var total = parseFloat(inv.total) || 0;
+        var paid = parseFloat(inv.paid_amount) || 0;
+        totalSales += total;
+        
+        var status = getInvoiceStatus(inv);
+        if (status === 'unpaid' || status === 'partial') {
+            totalUnpaid += (total - paid);
+            unpaidCount++;
+        }
+    });
+    
+    var setEl = function(id, html) {
+        var el = document.getElementById(id);
+        if (el) el.innerHTML = html;
+    };
+    
+    setEl('totalInvoices', formatNumber(totalInvoices));
+    setEl('totalSales', formatCurrencyShort(totalSales) + ' <small>ج.م</small>');
+    setEl('totalUnpaid', formatCurrencyShort(totalUnpaid) + ' <small>ج.م</small>');
+    setEl('unpaidCount', formatNumber(unpaidCount));
+    
+    var subtitle = document.getElementById('pageSubtitle');
+    if (subtitle) subtitle.textContent = totalInvoices + ' فاتورة';
+}
+
+function getCustomerById(id) {
+    for (var i = 0; i < state.customers.length; i++) {
+        if (state.customers[i].id === id) return state.customers[i];
+    }
+    return null;
+}
+
+function getRepairById(id) {
+    for (var i = 0; i < state.repairs.length; i++) {
+        if (state.repairs[i].id === id) return state.repairs[i];
+    }
+    return null;
+}
+
+function getPaymentsForInvoice(invoiceId) {
+    return state.payments.filter(function(p) { return p.invoice_id === invoiceId; });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎯 Filters
+// ═══════════════════════════════════════════════════════════════
+function applyFilters() {
+    var list = state.invoices.slice();
+    var q = (state.searchQuery || '').trim().toLowerCase();
+    
+    if (q) {
+        list = list.filter(function(inv) {
+            var invNum = (inv.invoice_number || '').toLowerCase();
+            var custName = '';
+            var custPhone = '';
+            
+            var customer = getCustomerById(inv.customer_id);
+            if (customer) {
+                custName = (customer.name || '').toLowerCase();
+                custPhone = (customer.phone || '').toLowerCase();
+            } else if (inv.customer) {
+                custName = (inv.customer.name || '').toLowerCase();
+                custPhone = (inv.customer.phone || '').toLowerCase();
+            }
+            
+            return invNum.indexOf(q) !== -1 ||
+                   custName.indexOf(q) !== -1 ||
+                   custPhone.indexOf(q) !== -1;
+        });
+    }
+    
+    if (state.statusFilter) {
+        list = list.filter(function(inv) {
+            return getInvoiceStatus(inv) === state.statusFilter;
+        });
+    }
+    
+    switch (state.sortFilter) {
+        case 'oldest':
+            list.sort(function(a, b) { return new Date(a.created_at || 0) - new Date(b.created_at || 0); });
+            break;
+        case 'total_high':
+            list.sort(function(a, b) { return (parseFloat(b.total) || 0) - (parseFloat(a.total) || 0); });
+            break;
+        case 'total_low':
+            list.sort(function(a, b) { return (parseFloat(a.total) || 0) - (parseFloat(b.total) || 0); });
+            break;
+        case 'newest':
+        default:
+            list.sort(function(a, b) {
+                return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime();
+            });
+    }
+    
+    state.filtered = list;
+    state.currentPage = 1;
+    render();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎨 Render
+// ═══════════════════════════════════════════════════════════════
+function render() {
+    var container = document.getElementById('invoicesContainer');
+    var pagination = document.getElementById('pagination');
+    if (!container) return;
+    
+    if (state.isLoading) {
+        container.innerHTML = '<div class="invoice-list">' +
+            '<div class="skeleton skeleton-row"></div>'.repeat(5) +
+        '</div>';
+        if (pagination) pagination.style.display = 'none';
+        return;
+    }
+    
+    if (!state.filtered.length) {
+        container.innerHTML = getEmptyState();
+        bindEmptyStateBtn();
+        if (pagination) pagination.style.display = 'none';
+        return;
+    }
+    
+    var totalPages = Math.ceil(state.filtered.length / PAGE_SIZE);
+    var start = (state.currentPage - 1) * PAGE_SIZE;
+    var pageItems = state.filtered.slice(start, start + PAGE_SIZE);
+    
+    container.innerHTML = '<div class="invoice-list">' +
+        '<div class="invoice-header">' +
+            '<div>رقم الفاتورة</div>' +
+            '<div>العميل</div>' +
+            '<div>القطع</div>' +
+            '<div>المصنعية</div>' +
+            '<div>الإجمالي</div>' +
+            '<div>الحالة</div>' +
+            '<div></div>' +
+        '</div>' +
+        pageItems.map(renderInvoiceRow).join('') +
+    '</div>';
+    
+    if (totalPages > 1 && pagination) {
+        pagination.style.display = 'flex';
+        pagination.innerHTML = renderPagination(totalPages);
+        bindPaginationEvents();
+    } else if (pagination) {
+        pagination.style.display = 'none';
+    }
+    
+    bindInvoiceEvents();
+}
+
+function getEmptyState() {
+    if (state.searchQuery || state.statusFilter) {
+        return '<div class="empty-state">' +
+            '<i class="fas fa-magnifying-glass"></i>' +
+            '<h3>لا توجد نتائج</h3>' +
+            '<p>لم نجد فواتير تطابق بحثك</p>' +
+        '</div>';
+    }
+    return '<div class="empty-state">' +
+        '<i class="fas fa-file-invoice-dollar"></i>' +
+        '<h3>لا توجد فواتير بعد</h3>' +
+        '<p>ابدأ بإنشاء أول فاتورة</p>' +
+        '<button class="btn btn-primary" id="emptyAddBtn"><i class="fas fa-plus"></i> فاتورة جديدة</button>' +
+    '</div>';
+}
+
+function bindEmptyStateBtn() {
+    var btn = document.getElementById('emptyAddBtn');
+    if (btn) btn.addEventListener('click', openAddModal);
+}
+
+function renderInvoiceRow(inv) {
+    var status = getInvoiceStatus(inv);
+    var customer = getCustomerById(inv.customer_id) || inv.customer || {};
+    var initials = getInitials(customer.name);
+    var total = parseFloat(inv.total) || 0;
+    var paid = parseFloat(inv.paid_amount) || 0;
+    var parts = parseFloat(inv.parts_total) || 0;
+    var labor = parseFloat(inv.labor_cost) || 0;
+    
+    return '<div class="invoice-item" data-id="' + inv.id + '">' +
+        '<div class="invoice-number" data-label="رقم الفاتورة">' +
+            '<i class="fas fa-hashtag"></i> ' + escapeHtml(inv.invoice_number || '—') +
+        '</div>' +
+        
+        '<div class="invoice-customer" data-label="العميل">' +
+            '<div class="invoice-customer-avatar">' + escapeHtml(initials) + '</div>' +
+            '<div class="invoice-customer-info">' +
+                '<div class="invoice-customer-name">' + escapeHtml(customer.name || 'عميل') + '</div>' +
+                '<div class="invoice-customer-phone">' + escapeHtml(customer.phone || '—') + '</div>' +
+            '</div>' +
+        '</div>' +
+        
+        '<div class="invoice-cell" data-label="القطع">' +
+            formatCurrencyShort(parts) +
+            '<small>' + formatDate(inv.created_at) + '</small>' +
+        '</div>' +
+        
+        '<div class="invoice-cell" data-label="المصنعية">' +
+            formatCurrencyShort(labor) +
+        '</div>' +
+        
+        '<div class="invoice-total" data-label="الإجمالي">' +
+            formatCurrencyShort(total) +
+            (paid > 0 && paid < total ? '<small>مدفوع: ' + formatCurrencyShort(paid) + '</small>' : '') +
+        '</div>' +
+        
+        '<div data-label="الحالة">' +
+            getStatusBadge(status) +
+        '</div>' +
+        
+        '<div class="invoice-actions">' +
+            '<button class="btn btn-sm btn-secondary" data-action="view" data-id="' + inv.id + '" title="عرض">' +
+                '<i class="fas fa-eye"></i>' +
+            '</button>' +
+            '<button class="btn btn-sm btn-secondary" data-action="edit" data-id="' + inv.id + '" title="تعديل">' +
+                '<i class="fas fa-pen"></i>' +
+            '</button>' +
+            '<button class="btn btn-sm btn-danger" data-action="delete" data-id="' + inv.id + '" title="حذف">' +
+                '<i class="fas fa-trash"></i>' +
+            '</button>' +
+        '</div>' +
+    '</div>';
+}
+
+function renderPagination(totalPages) {
+    var current = state.currentPage;
+    var pages = [];
+    pages.push('<button class="pagination-btn" data-page="' + (current - 1) + '" ' + (current === 1 ? 'disabled' : '') + '><i class="fas fa-chevron-right"></i></button>');
+    var start = Math.max(1, current - 2);
+    var end = Math.min(totalPages, current + 2);
+    if (start > 1) {
+        pages.push('<button class="pagination-btn" data-page="1">1</button>');
+        if (start > 2) pages.push('<span style="padding: 0 0.5rem; color: var(--text-muted);">...</span>');
+    }
+    for (var i = start; i <= end; i++) {
+        pages.push('<button class="pagination-btn ' + (i === current ? 'active' : '') + '" data-page="' + i + '">' + i + '</button>');
+    }
+    if (end < totalPages) {
+        if (end < totalPages - 1) pages.push('<span style="padding: 0 0.5rem; color: var(--text-muted);">...</span>');
+        pages.push('<button class="pagination-btn" data-page="' + totalPages + '">' + totalPages + '</button>');
+    }
+    pages.push('<button class="pagination-btn" data-page="' + (current + 1) + '" ' + (current === totalPages ? 'disabled' : '') + '><i class="fas fa-chevron-left"></i></button>');
+    return pages.join('');
+}
+
+function bindPaginationEvents() {
+    var btns = document.querySelectorAll('.pagination-btn[data-page]');
+    for (var i = 0; i < btns.length; i++) {
+        (function(btn) {
+            btn.addEventListener('click', function() {
+                var page = parseInt(btn.dataset.page);
+                var totalPages = Math.ceil(state.filtered.length / PAGE_SIZE);
+                if (page >= 1 && page <= totalPages) {
+                    state.currentPage = page;
+                    render();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        })(btns[i]);
+    }
+}
+
+function bindInvoiceEvents() {
+    document.querySelectorAll('.invoice-item').forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            var target = e.target;
+            while (target && target !== item) {
+                if (target.dataset && target.dataset.action) {
+                    e.stopPropagation();
+                    var action = target.dataset.action;
+                    var id = target.dataset.id;
+                    if (action === 'edit') openEditModal(id);
+                    else if (action === 'delete') openDeleteModal(id);
+                    else if (action === 'view') openDetailsModal(id);
+                    return;
+                }
+                target = target.parentElement;
+            }
+            openDetailsModal(item.dataset.id);
+        });
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🪟 Add/Edit Modal
+// ═══════════════════════════════════════════════════════════════
+function openAddModal() {
+    state.editingInvoice = null;
+    state.selectedRepair = null;
+    
+    document.getElementById('invoiceModalTitle').textContent = 'فاتورة جديدة';
+    document.getElementById('invoiceModalIcon').className = 'fas fa-plus';
+    document.getElementById('saveInvoiceText').textContent = 'حفظ الفاتورة';
+    
+    document.getElementById('invoiceForm').reset();
+    document.getElementById('partsTotal').value = '0';
+    document.getElementById('laborCost').value = '0';
+    document.getElementById('discountValue').value = '0';
+    document.getElementById('paidAmount').value = '0';
+    document.getElementById('discountType').value = 'fixed';
+    document.getElementById('paymentMethod').value = 'cash';
+    
+    document.getElementById('repairSearch').value = '';
+    document.getElementById('selectedRepairContainer').innerHTML = '';
+    document.getElementById('customerInfoBox').style.display = 'none';
+    
+    clearFormErrors();
+    updateSummary();
+    
+    document.getElementById('invoiceModal').classList.add('show');
+}
+
+function openEditModal(id) {
+    var inv = null;
+    for (var i = 0; i < state.invoices.length; i++) {
+        if (state.invoices[i].id === id) { inv = state.invoices[i]; break; }
+    }
+    if (!inv) return;
+    
+    state.editingInvoice = inv;
+    
+    // Load repair
+    var repair = getRepairById(inv.repair_order_id);
+    state.selectedRepair = repair;
+    
+    document.getElementById('invoiceModalTitle').textContent = 'تعديل الفاتورة';
+    document.getElementById('invoiceModalIcon').className = 'fas fa-pen';
+    document.getElementById('saveInvoiceText').textContent = 'حفظ التعديلات';
+    
+    document.getElementById('partsTotal').value = inv.parts_total || 0;
+    document.getElementById('laborCost').value = inv.labor_cost || 0;
+    document.getElementById('discountType').value = inv.discount_type || 'fixed';
+    document.getElementById('discountValue').value = inv.discount || 0;
+    document.getElementById('paymentMethod').value = inv.payment_method || 'cash';
+    document.getElementById('paidAmount').value = inv.paid_amount || 0;
+    document.getElementById('invoiceNotes').value = inv.notes || '';
+    
+    if (repair) {
+        document.getElementById('repairSearch').value = repair.tracking_code + ' - ' + (repair.device_type || '');
+        renderSelectedRepair(repair);
+    }
+    
+    clearFormErrors();
+    updateSummary();
+    
+    document.getElementById('invoiceModal').classList.add('show');
+}
+
+function closeInvoiceModal() {
+    document.getElementById('invoiceModal').classList.remove('show');
+    document.getElementById('repairDropdown').classList.remove('show');
+    state.editingInvoice = null;
+    state.selectedRepair = null;
+}
+
+function clearFormErrors() {
+    var errors = document.querySelectorAll('.form-error');
+    for (var i = 0; i < errors.length; i++) errors[i].classList.remove('show');
+    var inputs = document.querySelectorAll('.form-input.error, .form-textarea.error, .form-select.error');
+    for (var j = 0; j < inputs.length; j++) inputs[j].classList.remove('error');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔍 Repair Picker
+// ═══════════════════════════════════════════════════════════════
+function initRepairPicker() {
+    var input = document.getElementById('repairSearch');
+    var dropdown = document.getElementById('repairDropdown');
+    var searchInput = document.getElementById('repairDropdownSearch');
+    
+    if (input) {
+        input.addEventListener('click', function() {
+            if (state.editingInvoice) return;
+            dropdown.classList.add('show');
+            renderRepairOptions('');
+            setTimeout(function() {
+                if (searchInput) searchInput.focus();
+            }, 100);
+        });
+    }
+    
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            renderRepairOptions(e.target.value);
+        });
+    }
+    
+    document.addEventListener('click', function(e) {
+        if (!dropdown || !input) return;
+        if (!dropdown.contains(e.target) && !input.contains(e.target)) {
+            dropdown.classList.remove('show');
+        }
+    });
+}
+
+function renderRepairOptions(search) {
+    var list = document.getElementById('repairOptionsList');
+    if (!list) return;
+    
+    var q = (search || '').trim().toLowerCase();
+    var repairs = state.repairs.filter(function(r) {
+        // فلترة: بس اللي مش عندهم فاتورة (في حالة جديدة)
+        if (!state.editingInvoice) {
+            var hasInvoice = state.invoices.some(function(inv) { return inv.repair_order_id === r.id; });
+            if (hasInvoice) return false;
+        }
+        if (q) {
+            var code = (r.tracking_code || '').toLowerCase();
+            var devType = (r.device_type || '').toLowerCase();
+            var devModel = (r.device_model || '').toLowerCase();
+            var custName = (r.customer && r.customer.name || '').toLowerCase();
+            return code.indexOf(q) !== -1 || devType.indexOf(q) !== -1 ||
+                   devModel.indexOf(q) !== -1 || custName.indexOf(q) !== -1;
+        }
+        return true;
+    });
+    
+    if (!repairs.length) {
+        list.innerHTML = '<div class="picker-empty"><i class="fas fa-screwdriver-wrench"></i><p>لا توجد أوامر صيانة متاحة</p></div>';
+        return;
+    }
+    
+    list.innerHTML = repairs.slice(0, 50).map(function(r) {
+        var cust = r.customer || {};
+        var initials = getInitials(cust.name || 'عميل');
+        var device = (r.device_type || '') + (r.device_model ? ' - ' + r.device_model : '');
+        return '<div class="picker-option" data-repair-id="' + r.id + '">' +
+            '<div class="picker-option-avatar">' + escapeHtml(initials) + '</div>' +
+            '<div class="picker-option-info">' +
+                '<div class="picker-option-name">' + escapeHtml(device || 'جهاز') + '</div>' +
+                '<div class="picker-option-meta">' +
+                    '<span><i class="fas fa-barcode"></i> ' + escapeHtml(r.tracking_code || '') + '</span>' +
+                    (cust.name ? '<span><i class="fas fa-user"></i> ' + escapeHtml(cust.name) + '</span>' : '') +
+                    '<span><i class="fas fa-clock"></i> ' + formatTimeAgo(r.created_at) + '</span>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+    }).join('');
+    
+    list.querySelectorAll('.picker-option').forEach(function(el) {
+        el.addEventListener('click', function() {
+            selectRepair(el.dataset.repairId);
+        });
+    });
+}
+
+function selectRepair(id) {
+    var r = null;
+    for (var i = 0; i < state.repairs.length; i++) {
+        if (state.repairs[i].id === id) { r = state.repairs[i]; break; }
+    }
+    if (!r) return;
+    
+    state.selectedRepair = r;
+    document.getElementById('repairDropdown').classList.remove('show');
+    document.getElementById('repairSearch').value = (r.tracking_code || '') + ' - ' + (r.device_type || '');
+    
+    // Prefill labor cost from repair
+    var laborInput = document.getElementById('laborCost');
+    if (laborInput && !laborInput.value) {
+        laborInput.value = (parseFloat(r.labor_cost) || 0).toFixed(2);
+    }
+    
+    renderSelectedRepair(r);
+    
+    // Show customer info
+    if (r.customer) {
+        document.getElementById('customerInfoBox').style.display = 'block';
+        document.getElementById('customerAvatar').textContent = getInitials(r.customer.name);
+        document.getElementById('customerName').textContent = r.customer.name || '—';
+        document.getElementById('customerPhone').textContent = r.customer.phone || '—';
+    }
+    
+    updateSummary();
+}
+
+function renderSelectedRepair(r) {
+    var container = document.getElementById('selectedRepairContainer');
+    if (!container) return;
+    
+    var cust = r.customer || {};
+    var device = (r.device_type || '') + (r.device_model ? ' - ' + r.device_model : '');
+    
+    container.innerHTML = '<div class="selected-chip">' +
+        '<div class="selected-chip-icon"><i class="fas fa-screwdriver-wrench"></i></div>' +
+        '<div class="selected-chip-info">' +
+            '<div class="selected-chip-name">' + escapeHtml(device || 'جهاز') + '</div>' +
+            '<div class="selected-chip-meta">' +
+                '<i class="fas fa-barcode"></i> ' + escapeHtml(r.tracking_code || '') +
+                (cust.name ? ' • ' + escapeHtml(cust.name) : '') +
+            '</div>' +
+        '</div>' +
+        (state.editingInvoice ? '' : 
+            '<button type="button" class="selected-chip-remove" id="removeSelectedRepair">' +
+                '<i class="fas fa-times"></i>' +
+            '</button>') +
+    '</div>';
+    
+    var removeBtn = document.getElementById('removeSelectedRepair');
+    if (removeBtn) {
+        removeBtn.addEventListener('click', function() {
+            state.selectedRepair = null;
+            document.getElementById('repairSearch').value = '';
+            container.innerHTML = '';
+            document.getElementById('customerInfoBox').style.display = 'none';
+            updateSummary();
+        });
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📊 Summary
+// ═══════════════════════════════════════════════════════════════
+function updateSummary() {
+    var parts = parseFloat(document.getElementById('partsTotal').value) || 0;
+    var labor = parseFloat(document.getElementById('laborCost').value) || 0;
+    var discountType = document.getElementById('discountType').value;
+    var discountVal = parseFloat(document.getElementById('discountValue').value) || 0;
+    var paidAmount = parseFloat(document.getElementById('paidAmount').value) || 0;
+    
+    var subtotal = parts + labor;
+    var discountAmount = 0;
+    
+    if (discountType === 'percent') {
+        discountAmount = subtotal * (discountVal / 100);
+    } else {
+        discountAmount = discountVal;
+    }
+    
+    if (discountAmount > subtotal) discountAmount = subtotal;
+    var total = subtotal - discountAmount;
+    
+    document.getElementById('summaryParts').textContent = formatCurrency(parts);
+    document.getElementById('summaryLabor').textContent = formatCurrency(labor);
+    
+    var discountRow = document.getElementById('summaryDiscountRow');
+    if (discountAmount > 0) {
+        discountRow.style.display = 'flex';
+        document.getElementById('summaryDiscount').textContent = '- ' + formatCurrency(discountAmount);
+    } else {
+        discountRow.style.display = 'none';
+    }
+    
+    document.getElementById('summaryTotal').textContent = formatCurrency(total);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 💾 Save Invoice
+// ═══════════════════════════════════════════════════════════════
+function saveInvoice(e) {
+    e.preventDefault();
+    clearFormErrors();
+    
+    var repairId = state.selectedRepair && state.selectedRepair.id;
+    var parts = parseFloat(document.getElementById('partsTotal').value) || 0;
+    var labor = parseFloat(document.getElementById('laborCost').value) || 0;
+    var discountType = document.getElementById('discountType').value;
+    var discountVal = parseFloat(document.getElementById('discountValue').value) || 0;
+    var paymentMethod = document.getElementById('paymentMethod').value;
+    var paidAmount = parseFloat(document.getElementById('paidAmount').value) || 0;
+    var notes = document.getElementById('invoiceNotes').value.trim() || null;
+    
+    if (!repairId || !isValidUUID(repairId)) {
+        document.getElementById('repairError').classList.add('show');
+        return;
+    }
+    
+    if (parts < 0 || labor < 0 || discountVal < 0 || paidAmount < 0) {
+        showToast('القيم لازم تكون موجبة', 'error');
+        return;
+    }
+    
+    // حساب الإجمالي
+    var subtotal = parts + labor;
+    var discountAmount = discountType === 'percent' ? (subtotal * (discountVal / 100)) : discountVal;
+    if (discountAmount > subtotal) discountAmount = subtotal;
+    var total = subtotal - discountAmount;
+    
+    if (paidAmount > total) paidAmount = total;
+    
+    var btn = document.getElementById('saveInvoiceBtn');
+    var spinner = btn.querySelector('.spinner');
+    var icon = btn.querySelector('i');
+    var text = document.getElementById('saveInvoiceText');
+    
+    btn.disabled = true;
+    spinner.style.display = 'block';
+    icon.style.display = 'none';
+    text.textContent = 'جاري الحفظ...';
+    
+    var session = getSession();
+    var sb = getSupabaseClient();
+    var isEditing = !!state.editingInvoice;
+    
+    var repair = state.selectedRepair;
+    var customerId = repair.customer_id || (repair.customer && repair.customer.id) || null;
+    
+    // Generate invoice number
+    var invoiceNumber = state.editingInvoice ? state.editingInvoice.invoice_number : generateInvoiceNumber();
+    
+    var invoiceData = {
+        invoice_number: invoiceNumber,
+        customer_id: customerId,
+        repair_order_id: repairId,
+        parts_total: parts,
+        labor_cost: labor,
+        subtotal: subtotal,
+        discount: discountAmount,
+        discount_type: discountType,
+        total: total,
+        paid_amount: paidAmount,
+        payment_method: paymentMethod,
+        paid: paidAmount >= total,
+        notes: notes,
+        created_by: session && session.user ? session.user.id : null
+    };
+    
+    var savePromise;
+    var tempId = 'temp_' + Date.now();
+    
+    if (isEditing) {
+        var editingId = state.editingInvoice.id;
+        
+        if (sb && navigator.onLine && isValidUUID(editingId)) {
+            savePromise = sb.from('invoices').update(invoiceData).eq('id', editingId)
+                .then(function(result) {
+                    if (result.error) throw result.error;
+                    sb.from('audit_log').insert({
+                        user_id: session && session.user ? session.user.id : null,
+                        action: 'UPDATE',
+                        table_name: 'invoices',
+                        record_id: editingId,
+                        old_data: state.editingInvoice,
+                        new_data: invoiceData
+                    }).then(function(){}, function(){});
+                });
+        } else {
+            savePromise = addToOutbox({ type: 'update', table: 'invoices', id: editingId, data: invoiceData });
+        }
+        
+        savePromise = savePromise.then(function() {
+            for (var i = 0; i < state.invoices.length; i++) {
+                if (state.invoices[i].id === editingId) {
+                    state.invoices[i] = Object.assign({}, state.invoices[i], invoiceData);
+                    dbPut('invoices', state.invoices[i]);
+                    break;
+                }
+            }
+            showToast('✅ تم تحديث الفاتورة', 'success');
+        });
+        
+    } else {
+        var newInvoice = Object.assign({
+            id: tempId,
+            uuid_link: generateUUID(),
+            created_at: new Date().toISOString()
+        }, invoiceData);
+        
+        if (sb && navigator.onLine) {
+            savePromise = sb.from('invoices').insert(invoiceData).select().single()
+                .then(function(result) {
+                    if (result.error) throw result.error;
+                    newInvoice.id = result.data.id;
+                    newInvoice.uuid_link = result.data.uuid_link;
+                    newInvoice.created_at = result.data.created_at;
+                    newInvoice.invoice_number = result.data.invoice_number;
+                    
+                    // Add initial payment if any
+                    if (paidAmount > 0) {
+                        return sb.from('payments').insert({
+                            invoice_id: result.data.id,
+                            amount: paidAmount,
+                            method: paymentMethod === 'credit' ? 'cash' : paymentMethod,
+                            notes: 'دفعة أولية'
+                        }).then(function() { return result.data; });
+                    }
+                    
+                    sb.from('audit_log').insert({
+                        user_id: session && session.user ? session.user.id : null,
+                        action: 'INSERT',
+                        table_name: 'invoices',
+                        record_id: result.data.id,
+                        new_data: result.data
+                    }).then(function(){}, function(){});
+                });
+        } else {
+            savePromise = addToOutbox({
+                type: 'insert', table: 'invoices', tempId: tempId, data: invoiceData
+            });
+        }
+        
+        savePromise = savePromise.then(function() {
+            state.invoices.unshift(newInvoice);
+            dbPut('invoices', newInvoice);
+            showToast('✅ تم إنشاء الفاتورة بنجاح', 'success');
+        });
+    }
+    
+    savePromise.then(function() {
+        closeInvoiceModal();
+        updateStats();
+        applyFilters();
+    }).catch(function(err) {
+        console.error('Save error:', err);
+        var msg = 'حدث خطأ أثناء الحفظ';
+        if (err.code === '23505') msg = 'رقم الفاتورة مكرر، حاول مرة أخرى';
+        else if (err.message) msg = err.message;
+        showToast(msg, 'error');
+    }).then(function() {
+        btn.disabled = false;
+        spinner.style.display = 'none';
+        icon.style.display = '';
+        text.textContent = isEditing ? 'حفظ التعديلات' : 'حفظ الفاتورة';
+    });
+}
+
+function generateInvoiceNumber() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = String(now.getMonth() + 1).padStart(2, '0');
+    var random = String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+    return 'INV-' + year + month + '-' + random;
+}
+
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0;
+        var v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📋 Details Modal
+// ═══════════════════════════════════════════════════════════════
+function openDetailsModal(id) {
+    var inv = null;
+    for (var i = 0; i < state.invoices.length; i++) {
+        if (state.invoices[i].id === id) { inv = state.invoices[i]; break; }
+    }
+    if (!inv) return;
+    
+    state.viewingInvoice = inv;
+    var status = getInvoiceStatus(inv);
+    var customer = getCustomerById(inv.customer_id) || {};
+    var repair = getRepairById(inv.repair_order_id);
+    var payments = getPaymentsForInvoice(inv.id);
+    
+    var total = parseFloat(inv.total) || 0;
+    var paid = parseFloat(inv.paid_amount) || 0;
+    var remaining = total - paid;
+    var parts = parseFloat(inv.parts_total) || 0;
+    var labor = parseFloat(inv.labor_cost) || 0;
+    var discount = parseFloat(inv.discount) || 0;
+    
+    var statusText = { 'paid': 'مدفوع', 'unpaid': 'غير مدفوع', 'partial': 'مدفوع جزئيًا' }[status];
+    var statusClass = status;
+    
+    var paymentsHtml = '';
+    if (payments.length) {
+        paymentsHtml = payments.map(function(p) {
+            return '<div class="payment-row">' +
+                '<div class="payment-row-icon"><i class="fas fa-check"></i></div>' +
+                '<div class="payment-row-info">' +
+                    '<div class="payment-row-title">' + getPaymentMethodText(p.method) + '</div>' +
+                    '<div class="payment-row-meta">' + formatDateTime(p.created_at) + (p.notes ? ' • ' + escapeHtml(p.notes) : '') + '</div>' +
+                '</div>' +
+                '<div class="payment-row-value">' + formatCurrency(p.amount) + '</div>' +
+            '</div>';
+        }).join('');
+    } else {
+        paymentsHtml = '<div style="padding: 2rem; text-align: center; color: var(--text-muted); background: var(--bg-primary); border-radius: var(--radius-md); border: 2px dashed var(--border-color);">' +
+            '<i class="fas fa-money-bill-wave" style="font-size: 2rem; opacity: 0.3; display: block; margin-bottom: 0.5rem;"></i>' +
+            '<p style="font-size: 0.85rem;">لا توجد دفعات مسجلة</p>' +
+        '</div>';
+    }
+    
+    // Generate invoice URL
+    var baseUrl = window.location.origin + window.location.pathname.replace('invoices.html', 'invoice-view.html');
+    var invoiceUrl = baseUrl + '?id=' + (inv.uuid_link || inv.id);
+    
+    document.getElementById('detailsContent').innerHTML =
+        '<div class="invoice-details-header">' +
+            '<div class="invoice-details-header-info">' +
+                '<h2>' + escapeHtml(inv.invoice_number || '—') + '</h2>' +
+                '<p><i class="fas fa-calendar"></i> ' + formatDateTime(inv.created_at) + '</p>' +
+            '</div>' +
+            '<div class="invoice-details-status ' + statusClass + '">' +
+                '<i class="fas fa-circle-check"></i> ' + statusText +
+            '</div>' +
+        '</div>' +
+        
+        '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">' +
+            '<div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); border: 1px solid var(--border-color);">' +
+                '<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem;">العميل</div>' +
+                '<div style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.2rem;">' + escapeHtml(customer.name || '—') + '</div>' +
+                '<div style="font-size: 0.75rem; color: var(--text-secondary); font-family: monospace; direction: ltr;">' + escapeHtml(customer.phone || '') + '</div>' +
+            '</div>' +
+            (repair ? 
+                '<div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); border: 1px solid var(--border-color);">' +
+                    '<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem;">أمر الصيانة</div>' +
+                    '<div style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.2rem;">' + escapeHtml(repair.device_type || '—') + '</div>' +
+                    '<div style="font-size: 0.75rem; color: var(--text-secondary); font-family: monospace;">' + escapeHtml(repair.tracking_code || '') + '</div>' +
+                '</div>'
+                : '') +
+        '</div>' +
+        
+        '<div class="qr-container">' +
+            '<div class="qr-box" id="qrBox"></div>' +
+            '<div class="qr-info">' +
+                '<h4><i class="fas fa-qrcode"></i> لينك العميل</h4>' +
+                '<p>امسح الـ QR لمشاهدة الفاتورة أونلاين</p>' +
+                '<code>' + escapeHtml(invoiceUrl) + '</code>' +
+            '</div>' +
+        '</div>' +
+        
+        '<div class="tabs-nav">' +
+            '<button class="tab-btn active" data-tab="items"><i class="fas fa-list"></i> البنود</button>' +
+            '<button class="tab-btn" data-tab="payments"><i class="fas fa-money-bill-wave"></i> الدفعات (' + payments.length + ')</button>' +
+            (inv.notes ? '<button class="tab-btn" data-tab="notes"><i class="fas fa-sticky-note"></i> ملاحظات</button>' : '') +
+        '</div>' +
+        
+        '<div class="tab-content active" data-tab-content="items">' +
+            '<table class="items-table">' +
+                '<thead><tr>' +
+                    '<th>البند</th>' +
+                    '<th style="text-align: left;">المبلغ</th>' +
+                '</tr></thead>' +
+                '<tbody>' +
+                    '<tr>' +
+                        '<td><i class="fas fa-boxes-stacked" style="color: var(--tech-blue); margin-left: 0.35rem;"></i> تكلفة القطع</td>' +
+                        '<td class="num" style="text-align: left;">' + formatCurrency(parts) + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                        '<td><i class="fas fa-screwdriver-wrench" style="color: var(--tech-blue); margin-left: 0.35rem;"></i> تكلفة المصنعية</td>' +
+                        '<td class="num" style="text-align: left;">' + formatCurrency(labor) + '</td>' +
+                    '</tr>' +
+                    (discount > 0 ? 
+                        '<tr style="color: var(--danger);">' +
+                            '<td><i class="fas fa-tags" style="margin-left: 0.35rem;"></i> الخصم ' + (inv.discount_type === 'percent' ? '(' + inv.discount + '%)' : '') + '</td>' +
+                            '<td class="num" style="text-align: left;">- ' + formatCurrency(discount) + '</td>' +
+                        '</tr>'
+                        : '') +
+                    '<tr style="background: var(--bg-primary); font-weight: 800;">' +
+                        '<td><i class="fas fa-calculator" style="margin-left: 0.35rem;"></i> الإجمالي</td>' +
+                        '<td class="num" style="text-align: left; color: var(--tech-blue); font-size: 1rem;">' + formatCurrency(total) + '</td>' +
+                    '</tr>' +
+                    (paid > 0 ? 
+                        '<tr style="color: var(--success);">' +
+                            '<td><i class="fas fa-check-circle" style="margin-left: 0.35rem;"></i> المدفوع</td>' +
+                            '<td class="num" style="text-align: left;">' + formatCurrency(paid) + '</td>' +
+                        '</tr>'
+                        : '') +
+                    (remaining > 0 ? 
+                        '<tr style="color: var(--danger); font-weight: 800;">' +
+                            '<td><i class="fas fa-exclamation-circle" style="margin-left: 0.35rem;"></i> المتبقي</td>' +
+                            '<td class="num" style="text-align: left;">' + formatCurrency(remaining) + '</td>' +
+                        '</tr>'
+                        : '') +
+                '</tbody>' +
+            '</table>' +
+        '</div>' +
+        
+        '<div class="tab-content" data-tab-content="payments">' + paymentsHtml + '</div>' +
+        
+        (inv.notes ? 
+            '<div class="tab-content" data-tab-content="notes">' +
+                '<div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); border: 1px solid var(--border-color); font-size: 0.9rem; line-height: 1.7;">' +
+                    escapeHtml(inv.notes) +
+                '</div>' +
+            '</div>'
+            : '');
+    
+    document.getElementById('detailsModal').classList.add('show');
+    bindTabEvents();
+    
+    // Generate QR
+    setTimeout(function() { generateQR(invoiceUrl); }, 100);
+}
+
+function bindTabEvents() {
+    var tabs = document.querySelectorAll('#detailsModal .tab-btn');
+    var contents = document.querySelectorAll('#detailsModal .tab-content');
+    tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            var tabName = tab.dataset.tab;
+            tabs.forEach(function(t) { t.classList.toggle('active', t === tab); });
+            contents.forEach(function(c) {
+                c.classList.toggle('active', c.dataset.tabContent === tabName);
+            });
+        });
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📱 QR Code
+// ═══════════════════════════════════════════════════════════════
+function generateQR(text) {
+    var qrBox = document.getElementById('qrBox');
+    if (!qrBox) return;
+    
+    // Check if qrcode library is loaded
+    if (typeof QRCode === 'undefined') {
+        // Load dynamically
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js';
+        script.onload = function() { generateQR(text); };
+        script.onerror = function() {
+            qrBox.innerHTML = '<i class="fas fa-qrcode" style="font-size: 2rem; color: var(--text-muted);"></i>';
+        };
+        document.head.appendChild(script);
+        return;
+    }
+    
+    QRCode.toCanvas(text, { width: 200, margin: 1, color: { dark: '#1d5b8e', light: '#ffffff' } }, function(err, canvas) {
+        if (err) {
+            console.warn('QR error:', err);
+            qrBox.innerHTML = '<i class="fas fa-qrcode" style="font-size: 2rem; color: var(--text-muted);"></i>';
+            return;
+        }
+        qrBox.innerHTML = '';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        qrBox.appendChild(canvas);
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🖨️ Print A4
+// ═══════════════════════════════════════════════════════════════
+function printA4() {
+    var inv = state.viewingInvoice;
+    if (!inv) return;
+    
+    var customer = getCustomerById(inv.customer_id) || {};
+    var repair = getRepairById(inv.repair_order_id);
+    
+    var total = parseFloat(inv.total) || 0;
+    var paid = parseFloat(inv.paid_amount) || 0;
+    var remaining = total - paid;
+    var parts = parseFloat(inv.parts_total) || 0;
+    var labor = parseFloat(inv.labor_cost) || 0;
+    var discount = parseFloat(inv.discount) || 0;
+    
+    var baseUrl = window.location.origin + window.location.pathname.replace('invoices.html', 'invoice-view.html');
+    var invoiceUrl = baseUrl + '?id=' + (inv.uuid_link || inv.id);
+    
+    var html = '<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8">' +
+        '<title>فاتورة ' + escapeHtml(inv.invoice_number) + '</title>' +
+        '<style>' +
+        '@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap");' +
+        '* { margin: 0; padding: 0; box-sizing: border-box; }' +
+        'body { font-family: "Cairo", sans-serif; padding: 15mm; background: white; color: #0a1f33; }' +
+        '.invoice { max-width: 210mm; margin: 0 auto; }' +
+        '.header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 5mm; border-bottom: 3px solid #1d5b8e; margin-bottom: 8mm; }' +
+        '.brand { display: flex; align-items: center; gap: 4mm; }' +
+        '.brand img { width: 60px; height: 60px; object-fit: contain; }' +
+        '.brand-text h1 { font-size: 22pt; font-weight: 900; color: #1d5b8e; margin-bottom: 1mm; }' +
+        '.brand-text p { font-size: 10pt; color: #64748b; }' +
+        '.invoice-info { text-align: left; }' +
+        '.invoice-info h2 { font-size: 28pt; font-weight: 900; color: #1d5b8e; margin-bottom: 2mm; font-family: monospace; }' +
+        '.invoice-info .date { font-size: 11pt; color: #475569; }' +
+        '.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; margin-bottom: 8mm; }' +
+        '.info-box { padding: 4mm; background: #f6f8fb; border-radius: 3mm; border: 1px solid #e1e8f0; }' +
+        '.info-box h3 { font-size: 9pt; color: #64748b; font-weight: 700; margin-bottom: 2mm; text-transform: uppercase; }' +
+        '.info-box .name { font-size: 13pt; font-weight: 800; color: #0a1f33; margin-bottom: 1mm; }' +
+        '.info-box .phone { font-size: 11pt; color: #475569; font-family: monospace; direction: ltr; }' +
+        'table { width: 100%; border-collapse: collapse; margin-bottom: 8mm; }' +
+        'table th { background: #1d5b8e; color: white; padding: 3mm; text-align: right; font-size: 11pt; font-weight: 800; }' +
+        'table td { padding: 3mm; border-bottom: 1px solid #e1e8f0; font-size: 11pt; font-weight: 600; }' +
+        'table tr:last-child td { border-bottom: none; }' +
+        'table td.num { font-family: monospace; font-weight: 800; text-align: left; }' +
+        '.totals { background: #f6f8fb; padding: 5mm; border-radius: 3mm; margin-bottom: 8mm; }' +
+        '.total-row { display: flex; justify-content: space-between; padding: 2mm 0; font-size: 12pt; }' +
+        '.total-row:not(:last-child) { border-bottom: 1px dashed #cbd5e1; }' +
+        '.total-row.grand { border-top: 2px solid #1d5b8e; border-bottom: none; padding-top: 4mm; margin-top: 2mm; font-size: 16pt; font-weight: 900; color: #1d5b8e; }' +
+        '.qr-section { display: flex; align-items: center; gap: 5mm; padding: 4mm; background: #f6f8fb; border-radius: 3mm; margin-bottom: 8mm; }' +
+        '.qr-section img, .qr-section canvas { width: 30mm; height: 30mm; }' +
+        '.footer { text-align: center; font-size: 9pt; color: #64748b; padding-top: 5mm; border-top: 1px solid #e1e8f0; }' +
+        '@media print { body { padding: 10mm; } }' +
+        '</style></head><body>' +
+        '<div class="invoice">' +
+            '<div class="header">' +
+                '<div class="brand">' +
+                    '<img src="logo.png" alt="إلكترونك" onerror="this.style.display=\'none\'">' +
+                    '<div class="brand-text">' +
+                        '<h1>إلكترونك</h1>' +
+                        '<p>لصيانة الأجهزة الإلكترونية</p>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="invoice-info">' +
+                    '<h2>' + escapeHtml(inv.invoice_number || '') + '</h2>' +
+                    '<div class="date">' + formatDateTime(inv.created_at) + '</div>' +
+                '</div>' +
+            '</div>' +
+            
+            '<div class="info-grid">' +
+                '<div class="info-box">' +
+                    '<h3>العميل</h3>' +
+                    '<div class="name">' + escapeHtml(customer.name || '—') + '</div>' +
+                    '<div class="phone">' + escapeHtml(customer.phone || '') + '</div>' +
+                '</div>' +
+                (repair ? 
+                    '<div class="info-box">' +
+                        '<h3>أمر الصيانة</h3>' +
+                        '<div class="name">' + escapeHtml(repair.device_type || '—') + '</div>' +
+                        '<div class="phone">' + escapeHtml(repair.tracking_code || '') + '</div>' +
+                    '</div>'
+                    : '') +
+            '</div>' +
+            
+            '<table>' +
+                '<thead><tr><th>البند</th><th style="text-align: left;">المبلغ</th></tr></thead>' +
+                '<tbody>' +
+                    '<tr><td>تكلفة القطع</td><td class="num">' + formatCurrency(parts) + '</td></tr>' +
+                    '<tr><td>تكلفة المصنعية</td><td class="num">' + formatCurrency(labor) + '</td></tr>' +
+                    (discount > 0 ? '<tr style="color: #ef4444;"><td>الخصم</td><td class="num">- ' + formatCurrency(discount) + '</td></tr>' : '') +
+                '</tbody>' +
+            '</table>' +
+            
+            '<div class="totals">' +
+                (paid > 0 ? '<div class="total-row"><span>المدفوع</span><span style="font-family: monospace; font-weight: 800; color: #10b981;">' + formatCurrency(paid) + '</span></div>' : '') +
+                (remaining > 0 ? '<div class="total-row"><span>المتبقي</span><span style="font-family: monospace; font-weight: 800; color: #ef4444;">' + formatCurrency(remaining) + '</span></div>' : '') +
+                '<div class="total-row grand"><span>الإجمالي</span><span style="font-family: monospace;">' + formatCurrency(total) + '</span></div>' +
+            '</div>' +
+            
+            '<div class="qr-section">' +
+                '<div id="qrPrint"></div>' +
+                '<div>' +
+                    '<div style="font-size: 11pt; font-weight: 800; margin-bottom: 2mm;">امسح الكود لمشاهدة الفاتورة أونلاين</div>' +
+                    '<div style="font-size: 9pt; color: #64748b; font-family: monospace; word-break: break-all;">' + escapeHtml(invoiceUrl) + '</div>' +
+                '</div>' +
+            '</div>' +
+            
+            '<div class="footer">' +
+                'شكراً لتعاملكم معنا • إلكترونك لصيانة الأجهزة الإلكترونية' +
+            '</div>' +
+        '</div>' +
+        '<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"><\/script>' +
+        '<script>' +
+        'window.onload = function() {' +
+        '  var url = ' + JSON.stringify(invoiceUrl) + ';' +
+        '  QRCode.toCanvas(url, { width: 200, margin: 1 }, function(err, canvas) {' +
+        '    if (!err) { document.getElementById("qrPrint").appendChild(canvas); }' +
+        '    setTimeout(function() { window.print(); }, 500);' +
+        '  });' +
+        '};' +
+        '<\/script>' +
+        '</body></html>';
+    
+    var win = window.open('', '_blank');
+    if (!win) {
+        showToast('يرجى السماح بالنوافذ المنبثقة', 'error');
+        return;
+    }
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🧾 Print Thermal POS 80mm
+// ═══════════════════════════════════════════════════════════════
+function printThermal() {
+    var inv = state.viewingInvoice;
+    if (!inv) return;
+    
+    var customer = getCustomerById(inv.customer_id) || {};
+    var repair = getRepairById(inv.repair_order_id);
+    
+    var total = parseFloat(inv.total) || 0;
+    var paid = parseFloat(inv.paid_amount) || 0;
+    var remaining = total - paid;
+    var parts = parseFloat(inv.parts_total) || 0;
+    var labor = parseFloat(inv.labor_cost) || 0;
+    var discount = parseFloat(inv.discount) || 0;
+    
+    var html = '<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8">' +
+        '<title>إيصال ' + escapeHtml(inv.invoice_number) + '</title>' +
+        '<style>' +
+        '@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap");' +
+        '@page { size: 80mm auto; margin: 0; }' +
+        '* { margin: 0; padding: 0; box-sizing: border-box; }' +
+        'body { font-family: "Cairo", sans-serif; width: 80mm; padding: 3mm; background: white; color: #000; font-size: 10pt; }' +
+        '.center { text-align: center; }' +
+        '.header { border-bottom: 2px dashed #000; padding-bottom: 3mm; margin-bottom: 3mm; }' +
+        '.header h1 { font-size: 16pt; font-weight: 900; margin-bottom: 1mm; }' +
+        '.header p { font-size: 9pt; }' +
+        '.invoice-num { font-size: 13pt; font-weight: 900; margin: 2mm 0; font-family: monospace; }' +
+        '.info { padding: 2mm 0; border-bottom: 1px dashed #000; margin-bottom: 3mm; font-size: 9pt; }' +
+        '.info div { display: flex; justify-content: space-between; margin-bottom: 1mm; }' +
+        '.info .label { font-weight: 600; }' +
+        '.items { margin-bottom: 3mm; }' +
+        '.item { display: flex; justify-content: space-between; padding: 1mm 0; font-size: 10pt; }' +
+        '.item.discount { color: #000; }' +
+        '.total-section { border-top: 2px solid #000; padding-top: 2mm; margin-top: 2mm; }' +
+        '.total-row { display: flex; justify-content: space-between; padding: 1mm 0; font-size: 11pt; }' +
+        '.total-row.grand { font-size: 15pt; font-weight: 900; border-top: 1px solid #000; padding-top: 2mm; margin-top: 2mm; }' +
+        '.footer { text-align: center; font-size: 8pt; padding-top: 3mm; border-top: 1px dashed #000; margin-top: 3mm; }' +
+        '.status { text-align: center; font-size: 12pt; font-weight: 900; padding: 2mm; border: 2px solid #000; margin: 3mm 0; }' +
+        '</style></head><body>' +
+        
+        '<div class="header center">' +
+            '<h1>إلكترونك</h1>' +
+            '<p>لصيانة الأجهزة الإلكترونية</p>' +
+        '</div>' +
+        
+        '<div class="center invoice-num">' + escapeHtml(inv.invoice_number || '') + '</div>' +
+        '<div class="center" style="font-size: 9pt; margin-bottom: 3mm;">' + formatDateTime(inv.created_at) + '</div>' +
+        
+        '<div class="info">' +
+            '<div><span class="label">العميل:</span><span>' + escapeHtml(customer.name || '—') + '</span></div>' +
+            (customer.phone ? '<div><span class="label">الموبايل:</span><span style="font-family: monospace;">' + escapeHtml(customer.phone) + '</span></div>' : '') +
+            (repair ? '<div><span class="label">الجهاز:</span><span>' + escapeHtml(repair.device_type || '') + '</span></div>' : '') +
+        '</div>' +
+        
+        '<div class="items">' +
+            '<div class="item"><span>قطع</span><span style="font-family: monospace; font-weight: 700;">' + formatCurrency(parts) + '</span></div>' +
+            '<div class="item"><span>مصنعية</span><span style="font-family: monospace; font-weight: 700;">' + formatCurrency(labor) + '</span></div>' +
+            (discount > 0 ? '<div class="item discount"><span>خصم</span><span style="font-family: monospace; font-weight: 700;">- ' + formatCurrency(discount) + '</span></div>' : '') +
+        '</div>' +
+        
+        '<div class="total-section">' +
+            (paid > 0 ? '<div class="total-row"><span>المدفوع</span><span style="font-family: monospace;">' + formatCurrency(paid) + '</span></div>' : '') +
+            (remaining > 0 ? '<div class="total-row"><span>المتبقي</span><span style="font-family: monospace;">' + formatCurrency(remaining) + '</span></div>' : '') +
+            '<div class="total-row grand"><span>الإجمالي</span><span style="font-family: monospace;">' + formatCurrency(total) + '</span></div>' +
+        '</div>' +
+        
+        '<div class="status">' + 
+            (remaining <= 0 ? '✓ مدفوع' : (paid > 0 ? 'مدفوع جزئيًا' : 'غير مدفوع')) +
+        '</div>' +
+        
+        '<div class="footer">' +
+            'شكراً لتعاملكم معنا' +
+        '</div>' +
+        
+        '<script>window.onload = function() { setTimeout(function() { window.print(); }, 300); };<\/script>' +
+        '</body></html>';
+    
+    var win = window.open('', '_blank');
+    if (!win) {
+        showToast('يرجى السماح بالنوافذ المنبثقة', 'error');
+        return;
+    }
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 💰 Payment
+// ═══════════════════════════════════════════════════════════════
+function openPaymentModal() {
+    var inv = state.viewingInvoice;
+    if (!inv) return;
+    
+    var total = parseFloat(inv.total) || 0;
+    var paid = parseFloat(inv.paid_amount) || 0;
+    var remaining = total - paid;
+    
+    document.getElementById('paymentForm').reset();
+    document.getElementById('paymentAmountInput').value = remaining > 0 ? remaining.toFixed(2) : '';
+    document.getElementById('paymentAmountInput').max = remaining.toFixed(2);
+    document.getElementById('paymentMethodInput').value = 'cash';
+    
+    document.getElementById('paymentModal').classList.add('show');
+    setTimeout(function() {
+        var el = document.getElementById('paymentAmountInput');
+        if (el) el.focus();
+    }, 300);
+}
+
+function closePaymentModal() {
+    document.getElementById('paymentModal').classList.remove('show');
+}
+
+function savePayment(e) {
+    e.preventDefault();
+    
+    var inv = state.viewingInvoice;
+    if (!inv) return;
+    
+    var amount = parseFloat(document.getElementById('paymentAmountInput').value) || 0;
+    var method = document.getElementById('paymentMethodInput').value;
+    var notes = document.getElementById('paymentNotesInput').value.trim() || null;
+    
+    var total = parseFloat(inv.total) || 0;
+    var paid = parseFloat(inv.paid_amount) || 0;
+    var remaining = total - paid;
+    
+    if (amount <= 0 || amount > remaining) {
+        document.getElementById('paymentAmountError').classList.add('show');
+        document.getElementById('paymentAmountInput').classList.add('error');
+        return;
+    }
+    
+    var btn = document.getElementById('savePaymentBtn');
+    var spinner = btn.querySelector('.spinner');
+    var icon = btn.querySelector('i');
+    var text = document.getElementById('savePaymentText');
+    
+    btn.disabled = true;
+    spinner.style.display = 'block';
+    icon.style.display = 'none';
+    text.textContent = 'جاري الحفظ...';
+    
+    var session = getSession();
+    var sb = getSupabaseClient();
+    var newPaidAmount = paid + amount;
+    var isFullyPaid = newPaidAmount >= total;
+    
+    var promise;
+    
+    if (sb && navigator.onLine && isValidUUID(inv.id)) {
+        promise = sb.from('payments').insert({
+            invoice_id: inv.id,
+            amount: amount,
+            method: method,
+            notes: notes,
+            created_by: session && session.user ? session.user.id : null
+        }).then(function(result) {
+            if (result.error) throw result.error;
+            return sb.from('invoices').update({
+                paid_amount: newPaidAmount,
+                paid: isFullyPaid
+            }).eq('id', inv.id);
+        }).then(function(result) {
+            if (result.error) throw result.error;
+        });
+    } else {
+        promise = addToOutbox({
+            type: 'insert',
+            table: 'payments',
+            data: {
+                invoice_id: inv.id,
+                amount: amount,
+                method: method,
+                notes: notes
+            }
+        }).then(function() {
+            return addToOutbox({
+                type: 'update',
+                table: 'invoices',
+                id: inv.id,
+                data: { paid_amount: newPaidAmount, paid: isFullyPaid }
+            });
+        });
+    }
+    
+    promise.then(function() {
+        // Update local state
+        for (var i = 0; i < state.invoices.length; i++) {
+            if (state.invoices[i].id === inv.id) {
+                state.invoices[i].paid_amount = newPaidAmount;
+                state.invoices[i].paid = isFullyPaid;
+                dbPut('invoices', state.invoices[i]);
+                break;
+            }
+        }
+        
+        var newPayment = {
+            id: 'temp_' + Date.now(),
+            invoice_id: inv.id,
+            amount: amount,
+            method: method,
+            notes: notes,
+            created_at: new Date().toISOString()
+        };
+        state.payments.unshift(newPayment);
+        dbPut('payments', newPayment);
+        
+        showToast('✅ تم تسجيل الدفعة بنجاح', 'success');
+        closePaymentModal();
+        updateStats();
+        applyFilters();
+        
+        // Refresh details modal
+        setTimeout(function() {
+            document.getElementById('detailsModal').classList.remove('show');
+            openDetailsModal(inv.id);
+        }, 200);
+        
+    }).catch(function(err) {
+        console.error('Payment error:', err);
+        showToast('حدث خطأ أثناء حفظ الدفعة', 'error');
+    }).then(function() {
+        btn.disabled = false;
+        spinner.style.display = 'none';
+        icon.style.display = '';
+        text.textContent = 'تسجيل الدفعة';
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🗑️ Delete
+// ═══════════════════════════════════════════════════════════════
+function openDeleteModal(id) {
+    var inv = null;
+    for (var i = 0; i < state.invoices.length; i++) {
+        if (state.invoices[i].id === id) { inv = state.invoices[i]; break; }
+    }
+    if (!inv) return;
+    
+    state.deletingInvoice = inv;
+    document.getElementById('deleteInvoiceNumber').textContent = inv.invoice_number || '';
+    document.getElementById('deleteModal').classList.add('show');
+}
+
+function confirmDelete() {
+    var inv = state.deletingInvoice;
+    if (!inv) return;
+    
+    var btn = document.getElementById('confirmDeleteBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner" style="display:block;width:16px;height:16px;"></span>';
+    
+    var session = getSession();
+    var sb = getSupabaseClient();
+    var promise;
+    
+    if (sb && navigator.onLine && isValidUUID(inv.id)) {
+        promise = sb.from('invoices').delete().eq('id', inv.id)
+            .then(function(result) {
+                if (result.error) throw result.error;
+                sb.from('audit_log').insert({
+                    user_id: session && session.user ? session.user.id : null,
+                    action: 'DELETE',
+                    table_name: 'invoices',
+                    record_id: inv.id,
+                    old_data: inv
+                }).then(function(){}, function(){});
+            });
+    } else {
+        promise = addToOutbox({ type: 'delete', table: 'invoices', id: inv.id });
+    }
+    
+    promise.then(function() {
+        state.invoices = state.invoices.filter(function(x) { return x.id !== inv.id; });
+        state.payments = state.payments.filter(function(p) { return p.invoice_id !== inv.id; });
+        dbDelete('invoices', inv.id);
+        showToast('✅ تم حذف الفاتورة', 'success');
+        document.getElementById('deleteModal').classList.remove('show');
+        state.deletingInvoice = null;
+        updateStats();
+        applyFilters();
+    }).catch(function(err) {
+        console.error('Delete error:', err);
+        showToast('حدث خطأ أثناء الحذف', 'error');
+    }).then(function() {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-trash"></i> حذف نهائي';
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📤 Export Excel
+// ═══════════════════════════════════════════════════════════════
+function exportExcel() {
+    var loadLib = Promise.resolve();
+    if (typeof XLSX === 'undefined') {
+        loadLib = new Promise(function(resolve, reject) {
+            var script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+    
+    loadLib.then(function() {
+        var data = state.filtered.map(function(inv) {
+            var customer = getCustomerById(inv.customer_id) || {};
+            var status = getInvoiceStatus(inv);
+            var statusText = { 'paid': 'مدفوع', 'unpaid': 'غير مدفوع', 'partial': 'مدفوع جزئيًا' }[status];
+            
+            return {
+                'رقم الفاتورة': inv.invoice_number || '',
+                'التاريخ': formatDate(inv.created_at),
+                'العميل': customer.name || '',
+                'الموبايل': customer.phone || '',
+                'القطع': parseFloat(inv.parts_total) || 0,
+                'المصنعية': parseFloat(inv.labor_cost) || 0,
+                'الخصم': parseFloat(inv.discount) || 0,
+                'الإجمالي': parseFloat(inv.total) || 0,
+                'المدفوع': parseFloat(inv.paid_amount) || 0,
+                'المتبقي': (parseFloat(inv.total) || 0) - (parseFloat(inv.paid_amount) || 0),
+                'الحالة': statusText,
+                'طريقة الدفع': getPaymentMethodText(inv.payment_method)
+            };
+        });
+        
+        var ws = XLSX.utils.json_to_sheet(data);
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'الفواتير');
+        XLSX.writeFile(wb, 'invoices_' + new Date().toISOString().split('T')[0] + '.xlsx');
+        showToast('تم التصدير بنجاح', 'success');
+    }).catch(function(err) {
+        console.error(err);
+        showToast('فشل التصدير', 'error');
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔔 Notifications
+// ═══════════════════════════════════════════════════════════════
+function loadNotifications() {
+    var session = getSession();
+    if (!session) return;
+    var sb = getSupabaseClient();
+    if (!sb || !navigator.onLine) return;
+    
+    sb.from('notifications')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .order('created_at', { ascending: false })
+        .limit(20)
+        .then(function(result) {
+            renderNotifications(result.data || []);
+        })
+        .catch(function(){});
+}
+
+function renderNotifications(notifications) {
+    var list = document.getElementById('notificationsList');
+    var badge = document.getElementById('notifBadge');
+    if (!list || !badge) return;
+    
+    var unread = 0;
+    for (var i = 0; i < notifications.length; i++) {
+        if (!notifications[i].read) unread++;
+    }
+    
+    if (unread > 0) {
+        badge.textContent = unread > 99 ? '99+' : unread;
+        badge.style.display = 'flex';
+    } else {
+        badge.style.display = 'none';
+    }
+    
+    if (!notifications.length) {
+        list.innerHTML = '<div class="notifications-empty"><i class="fas fa-bell-slash"></i><p>لا توجد إشعارات</p></div>';
+        return;
+    }
+    
+    var typeMap = {
+        'out_of_stock': { icon: 'fa-circle-xmark', cls: 'danger' },
+        'low_stock': { icon: 'fa-triangle-exclamation', cls: 'warning' },
+        'unpaid_invoice': { icon: 'fa-file-invoice-dollar', cls: 'danger' },
+        'info': { icon: 'fa-circle-info', cls: 'info' }
+    };
+    
+    list.innerHTML = notifications.map(function(n) {
+        var t = typeMap[n.type] || typeMap.info;
+        return '<div class="notification-item ' + (n.read ? '' : 'unread') + '">' +
+            '<div class="notification-item-icon ' + t.cls + '"><i class="fas ' + t.icon + '"></i></div>' +
+            '<div class="notification-item-content">' +
+                '<div class="notification-item-title">' + escapeHtml(n.title) + '</div>' +
+                '<div class="notification-item-message">' + escapeHtml(n.message || '') + '</div>' +
+                '<div class="notification-item-time"><i class="fas fa-clock"></i> ' + formatTimeAgo(n.created_at) + '</div>' +
+            '</div>' +
+        '</div>';
+    }).join('');
+}
+
+function markAllRead() {
+    var session = getSession();
+    if (!session) return;
+    var sb = getSupabaseClient();
+    if (sb && navigator.onLine) {
+        sb.from('notifications').update({ read: true }).eq('user_id', session.user.id).eq('read', false)
+            .then(function() {
+                loadNotifications();
+                showToast('تم تعيين الكل كمقروء', 'success');
+            }).catch(function(){});
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 👤 User UI
+// ═══════════════════════════════════════════════════════════════
+function updateUserUI(user) {
+    var initial = ((user.full_name || user.username || 'م') + '').charAt(0).toUpperCase();
+    var roleText = user.role === 'admin' ? 'مدير' : 'موظف';
+    
+    ['userAvatar', 'dropdownAvatar'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = initial;
+    });
+    ['userName', 'dropdownName'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = user.full_name || user.username;
+    });
+    ['userRole', 'dropdownRole'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = roleText;
+    });
+}
+
+function applyPermissions(user) {
+    var perms = user.permissions || {};
+    var isAdmin = user.role === 'admin';
+    
+    document.querySelectorAll('.sidebar-link[data-perm]').forEach(function(link) {
+        if (!isAdmin && !perms[link.dataset.perm]) link.style.display = 'none';
+    });
+    
+    if (isAdmin) {
+        var al = document.getElementById('adminLink');
+        var dal = document.getElementById('dropdownAdminLink');
+        if (al) al.style.display = 'flex';
+        if (dal) dal.style.display = 'flex';
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎯 URL Params
+// ═══════════════════════════════════════════════════════════════
+function handleUrlParams() {
+    var action = getUrlParam('action');
+    var id = getUrlParam('id');
+    var repairId = getUrlParam('repair_id');
+    
+    if (action === 'add') {
+        setTimeout(function() {
+            openAddModal();
+            if (repairId && isValidUUID(repairId)) {
+                setTimeout(function() { selectRepair(repairId); }, 500);
+            }
+        }, 500);
+    }
+    
+    if (id) {
+        setTimeout(function() {
+            var exists = state.invoices.some(function(i) { return i.id === id; });
+            if (exists) openDetailsModal(id);
+        }, 700);
+    }
+    
+    if (action || id) {
+        try {
+            window.history.replaceState({}, '', window.location.pathname);
+        } catch (e) {}
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🎬 Init
+// ═══════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+    
+    var session = getSession();
+    if (!session) { window.location.href = 'index.html'; return; }
+    if (session.user.must_change_password) { window.location.href = 'index.html'; return; }
+    
+    initTheme();
+    var themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+    
+    updateOnlineStatus();
+    window.addEventListener('online', function() {
+        updateOnlineStatus();
+        showToast('تم استعادة الاتصال', 'success');
+        loadData();
+    });
+    window.addEventListener('offline', function() {
+        updateOnlineStatus();
+        showToast('وضع Offline', 'warning');
+    });
+    
+    updateUserUI(session.user);
+    applyPermissions(session.user);
+    
+    // Sidebar
+    var menuBtn = document.getElementById('menuBtn');
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('sidebarOverlay');
+    if (menuBtn) menuBtn.addEventListener('click', function() {
+        if (sidebar) sidebar.classList.toggle('show');
+        if (overlay) overlay.classList.toggle('show');
+    });
+    if (overlay) overlay.addEventListener('click', function() {
+        if (sidebar) sidebar.classList.remove('show');
+        if (overlay) overlay.classList.remove('show');
+    });
+    
+    // User dropdown
+    var userBtn = document.getElementById('userBtn');
+    var userDropdown = document.getElementById('userDropdown');
+    var notifBtn = document.getElementById('notificationsBtn');
+    var notifPanel = document.getElementById('notificationsPanel');
+    
+    if (userBtn) userBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (userDropdown) userDropdown.classList.toggle('show');
+        if (notifPanel) notifPanel.classList.remove('show');
+    });
+    
+    var logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) logoutBtn.addEventListener('click', function() {
+        if (confirm('هل أنت متأكد من تسجيل الخروج؟')) logout();
+    });
+    
+    if (notifBtn) notifBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (notifPanel) notifPanel.classList.toggle('show');
+        if (userDropdown) userDropdown.classList.remove('show');
+    });
+    
+    var markAllBtn = document.getElementById('markAllReadBtn');
+    if (markAllBtn) markAllBtn.addEventListener('click', markAllRead);
+    
+    document.addEventListener('click', function(e) {
+        if (userDropdown && !userDropdown.contains(e.target) && userBtn && !userBtn.contains(e.target)) {
+            userDropdown.classList.remove('show');
+        }
+        if (notifPanel && !notifPanel.contains(e.target) && notifBtn && !notifBtn.contains(e.target)) {
+            notifPanel.classList.remove('show');
+        }
+    });
+    
+    // Search
+    var searchTimeout;
+    var searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.addEventListener('input', function(e) {
+        clearTimeout(searchTimeout);
+        var val = e.target.value;
+        searchTimeout = setTimeout(function() {
+            state.searchQuery = val;
+            applyFilters();
+        }, 250);
+    });
+    
+    // Filters
+    var statusFilter = document.getElementById('statusFilter');
+    if (statusFilter) statusFilter.addEventListener('change', function(e) {
+        state.statusFilter = e.target.value;
+        applyFilters();
+    });
+    
+    var sortFilter = document.getElementById('sortFilter');
+    if (sortFilter) sortFilter.addEventListener('change', function(e) {
+        state.sortFilter = e.target.value;
+        applyFilters();
+    });
+    
+    // Add
+    var addBtn = document.getElementById('addInvoiceBtn');
+    if (addBtn) addBtn.addEventListener('click', openAddModal);
+    
+    // Invoice modal
+    var closeP = document.getElementById('closeInvoiceModal');
+    var cancelP = document.getElementById('cancelInvoiceBtn');
+    var form = document.getElementById('invoiceForm');
+    if (closeP) closeP.addEventListener('click', closeInvoiceModal);
+    if (cancelP) cancelP.addEventListener('click', closeInvoiceModal);
+    if (form) form.addEventListener('submit', saveInvoice);
+    
+    // Repair picker
+    initRepairPicker();
+    
+    // Summary listeners
+    ['partsTotal', 'laborCost', 'discountValue', 'discountType'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('input', updateSummary);
+        if (el) el.addEventListener('change', updateSummary);
+    });
+    
+    // Delete modal
+    var closeDel = document.getElementById('closeDeleteModal');
+    var cancelDel = document.getElementById('cancelDeleteBtn');
+    var confirmDel = document.getElementById('confirmDeleteBtn');
+    if (closeDel) closeDel.addEventListener('click', function() {
+        document.getElementById('deleteModal').classList.remove('show');
+        state.deletingInvoice = null;
+    });
+    if (cancelDel) cancelDel.addEventListener('click', function() {
+        document.getElementById('deleteModal').classList.remove('show');
+        state.deletingInvoice = null;
+    });
+    if (confirmDel) confirmDel.addEventListener('click', confirmDelete);
+    
+    // Details modal
+    var closeDetails = document.getElementById('closeDetailsModal');
+    var closeDetailsBtn = document.getElementById('closeDetailsBtn');
+    if (closeDetails) closeDetails.addEventListener('click', function() {
+        document.getElementById('detailsModal').classList.remove('show');
+        state.viewingInvoice = null;
+    });
+    if (closeDetailsBtn) closeDetailsBtn.addEventListener('click', function() {
+        document.getElementById('detailsModal').classList.remove('show');
+        state.viewingInvoice = null;
+    });
+    
+    // Print buttons
+    var printA4Btn = document.getElementById('printA4Btn');
+    var printThermalBtn = document.getElementById('printThermalBtn');
+    if (printA4Btn) printA4Btn.addEventListener('click', printA4);
+    if (printThermalBtn) printThermalBtn.addEventListener('click', printThermal);
+    
+    // Payment
+    var addPaymentBtn = document.getElementById('addPaymentBtn');
+    if (addPaymentBtn) addPaymentBtn.addEventListener('click', openPaymentModal);
+    
+    var closePay = document.getElementById('closePaymentModal');
+    var cancelPay = document.getElementById('cancelPaymentBtn');
+    var payForm = document.getElementById('paymentForm');
+    if (closePay) closePay.addEventListener('click', closePaymentModal);
+    if (cancelPay) cancelPay.addEventListener('click', closePaymentModal);
+    if (payForm) payForm.addEventListener('submit', savePayment);
+    
+    // Export
+    var expBtn = document.getElementById('exportExcelBtn');
+    if (expBtn) expBtn.addEventListener('click', exportExcel);
+    
+    // Overlay close
+    document.querySelectorAll('.modal-overlay').forEach(function(ov) {
+        ov.addEventListener('click', function(e) {
+            if (e.target === ov) ov.classList.remove('show');
+        });
+    });
+    
+    // Keyboard
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.show').forEach(function(m) { m.classList.remove('show'); });
+            var dropdown = document.getElementById('repairDropdown');
+            if (dropdown) dropdown.classList.remove('show');
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            var si = document.getElementById('searchInput');
+            if (si) si.focus();
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+            e.preventDefault();
+            toggleTheme();
+        }
+    });
+    
+    // Scroll
+    var progressBar = document.getElementById('readingProgress');
+    var scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', function() {
+        var winScroll = document.documentElement.scrollTop;
+        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+        if (progressBar) progressBar.style.width = scrolled + '%';
+        if (winScroll > 300) {
+            if (scrollTopBtn) scrollTopBtn.classList.add('show');
+        } else {
+            if (scrollTopBtn) scrollTopBtn.classList.remove('show');
+        }
+    }, { passive: true });
+    if (scrollTopBtn) scrollTopBtn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    
+    // Permissions
+    if (session.user.role !== 'admin' && (!session.user.permissions || !session.user.permissions.can_create_invoices)) {
+        var addBtn2 = document.getElementById('addInvoiceBtn');
+        if (addBtn2) addBtn2.style.display = 'none';
+    }
+    
+    // Load
+    openDB()
+        .then(function() { return loadData(); })
+        .then(function() {
+            loadNotifications();
+            setInterval(loadNotifications, 60000);
+            handleUrlParams();
+        })
+        .catch(function(err) {
+            console.error('Init error:', err);
+            state.isLoading = false;
+            showToast('حدث خطأ في تحميل البيانات', 'error');
+        });
+    
+    startInactivityMonitor();
+    console.log('%c🧾 صفحة الفواتير جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+});
+
+window.InvoicesApp = {
+    showToast: showToast,
+    logout: logout,
+    getSession: getSession,
+    reload: function() { return loadData(); }
+};
+
+})();
+</script>
+
+</body>
+</html>
