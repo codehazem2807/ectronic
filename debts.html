@@ -117,7 +117,6 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: 0 0 10px rgba(29, 91, 142, 0.6);
 }
 
-/* Navbar */
 .navbar {
     position: fixed; top: 0; left: 0; right: 0;
     height: var(--navbar-height);
@@ -231,7 +230,6 @@ img { max-width: 100%; height: auto; display: block; }
 .navbar-user-info strong { font-size: 0.8rem; font-weight: 700; }
 .navbar-user-info span { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
 
-/* Sidebar */
 .sidebar {
     position: fixed; top: var(--navbar-height); right: 0; bottom: 0;
     width: var(--sidebar-width); background: var(--bg-card);
@@ -276,7 +274,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .sidebar-overlay.show { opacity: 1; visibility: visible; }
 
-/* Main */
 .main-content {
     margin-top: var(--navbar-height);
     margin-right: var(--sidebar-width);
@@ -324,7 +321,6 @@ img { max-width: 100%; height: auto; display: block; }
 .btn-sm { padding: 0.4rem 0.85rem; font-size: 0.8rem; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-/* Stats */
 .stats-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1rem; margin-bottom: 1.5rem;
@@ -334,12 +330,7 @@ img { max-width: 100%; height: auto; display: block; }
     border-radius: var(--radius-lg); padding: 1.25rem;
     position: relative; overflow: hidden;
     transition: all var(--transition);
-    animation: fadeInUp 0.5s ease backwards;
 }
-.stat-card:nth-child(1) { animation-delay: 0.05s; }
-.stat-card:nth-child(2) { animation-delay: 0.1s; }
-.stat-card:nth-child(3) { animation-delay: 0.15s; }
-.stat-card:nth-child(4) { animation-delay: 0.2s; }
 .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--tech-blue); }
 .stat-card::before {
     content: ''; position: absolute; top: 0; right: 0;
@@ -361,7 +352,6 @@ img { max-width: 100%; height: auto; display: block; }
 .stat-value { font-size: 1.75rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.25rem; }
 .stat-label { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; }
 
-/* Toolbar */
 .toolbar {
     background: var(--bg-card); border: 1px solid var(--border-color);
     border-radius: var(--radius-lg); padding: 1rem;
@@ -399,7 +389,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .filter-select:focus { border-color: var(--tech-blue); box-shadow: 0 0 0 4px rgba(29, 91, 142, 0.12); }
 
-/* Filters */
 .filter-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
 .filter-chip {
     padding: 0.5rem 1rem; border-radius: var(--radius-full);
@@ -422,7 +411,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .filter-chip:not(.active) .count { background: var(--bg-primary); color: var(--text-muted); }
 
-/* Debts List */
 .debts-list {
     background: var(--bg-card); border: 1px solid var(--border-color);
     border-radius: var(--radius-lg); overflow: hidden;
@@ -448,7 +436,6 @@ img { max-width: 100%; height: auto; display: block; }
     border-bottom: 1px solid var(--border-color);
     transition: all var(--transition-fast);
     align-items: center;
-    animation: fadeInUp 0.3s ease backwards;
 }
 .debt-item:last-child { border-bottom: none; }
 .debt-item:hover { background: var(--bg-hover); }
@@ -517,30 +504,32 @@ img { max-width: 100%; height: auto; display: block; }
 .debt-actions .action-btn-sm.wa { background: rgba(37, 211, 102, 0.12); color: #25d366; border-color: rgba(37, 211, 102, 0.3); }
 .debt-actions .action-btn-sm.wa:hover { background: #25d366; color: white; }
 
-/* Modal */
+.badge {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    padding: 0.2rem 0.6rem; border-radius: var(--radius-full);
+    font-size: 0.7rem; font-weight: 700; white-space: nowrap;
+}
+.badge-danger { background: rgba(239, 68, 68, 0.12); color: var(--danger); }
+.badge-success { background: rgba(16, 185, 129, 0.12); color: var(--success); }
+.badge-warning { background: rgba(245, 158, 11, 0.12); color: var(--warning); }
+
 .modal-overlay {
     position: fixed; inset: 0; background: rgba(10, 31, 51, 0.7);
     backdrop-filter: blur(8px); display: none;
     align-items: center; justify-content: center;
     z-index: 2000; padding: 1rem;
-    animation: fadeIn 0.3s ease; overflow-y: auto;
+    overflow-y: auto;
 }
 .modal-overlay.show { display: flex; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .modal {
     background: var(--bg-card); border-radius: var(--radius-xl);
     box-shadow: var(--shadow-xl);
     max-width: 600px; width: 100%; max-height: 92vh;
     overflow: hidden;
-    animation: modalIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     display: flex; flex-direction: column; margin: auto;
     border: 1px solid var(--border-color);
 }
 .modal-lg { max-width: 820px; }
-@keyframes modalIn {
-    from { opacity: 0; transform: scale(0.9) translateY(20px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-}
 .modal-header {
     padding: 1.25rem 1.5rem;
     border-bottom: 1px solid var(--border-color);
@@ -570,7 +559,6 @@ img { max-width: 100%; height: auto; display: block; }
 .modal-footer .btn { flex: 1; min-width: 120px; }
 @media (min-width: 480px) { .modal-footer .btn { flex: initial; min-width: auto; } }
 
-/* Forms */
 .form-group { margin-bottom: 1rem; }
 .form-group:last-child { margin-bottom: 0; }
 .form-label {
@@ -597,7 +585,6 @@ img { max-width: 100%; height: auto; display: block; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
 
-/* Payment Amount */
 .amount-input-wrapper { position: relative; }
 .amount-input-wrapper input {
     padding-left: 4rem;
@@ -625,7 +612,6 @@ img { max-width: 100%; height: auto; display: block; }
 .quick-amount-btn.full { background: rgba(239, 68, 68, 0.12); color: var(--danger); border-color: rgba(239, 68, 68, 0.3); }
 .quick-amount-btn.full:hover { background: var(--danger); color: white; }
 
-/* Debt Summary */
 .debt-summary {
     background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(239, 68, 68, 0.03));
     border: 1.5px solid rgba(239, 68, 68, 0.3);
@@ -650,7 +636,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .debt-summary-value.danger { color: var(--danger); font-size: 1.1rem; }
 
-/* Toast */
 .toast-container {
     position: fixed; top: calc(var(--navbar-height) + 1rem);
     left: 50%; transform: translateX(-50%);
@@ -682,7 +667,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 @keyframes toastOut { to { opacity: 0; transform: translateY(-20px) scale(0.95); } }
 
-/* Skeleton */
 .skeleton {
     background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
     background-size: 200% 100%;
@@ -695,7 +679,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .skeleton-row { height: 72px; margin-bottom: 0.5rem; border-radius: var(--radius-md); }
 
-/* Empty */
 .empty-state {
     padding: 4rem 1rem; text-align: center; color: var(--text-muted);
     background: var(--bg-card); border: 2px dashed var(--border-color);
@@ -711,7 +694,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .empty-state p { font-size: 0.85rem; margin-bottom: 1rem; }
 
-/* Invoice Item */
 .invoice-item {
     display: flex; align-items: center; justify-content: space-between;
     padding: 0.85rem 1rem;
@@ -733,7 +715,6 @@ img { max-width: 100%; height: auto; display: block; }
 .invoice-total { font-size: 0.9rem; font-weight: 800; color: var(--tech-blue); }
 .invoice-remaining { font-size: 0.75rem; font-weight: 700; color: var(--danger); margin-top: 0.15rem; }
 
-/* Scroll top */
 .scroll-top {
     position: fixed; bottom: calc(1rem + var(--safe-bottom));
     left: calc(1rem + var(--safe-left));
@@ -747,7 +728,6 @@ img { max-width: 100%; height: auto; display: block; }
 .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
 .scroll-top:hover { transform: translateY(-4px); }
 
-/* Notifications */
 .notifications-panel {
     position: fixed; top: calc(var(--navbar-height) + 0.5rem);
     left: 1rem; width: 380px; max-width: calc(100vw - 2rem);
@@ -820,7 +800,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .notifications-footer button:hover { text-decoration: underline; }
 
-/* User Dropdown */
 .user-dropdown {
     position: fixed; top: calc(var(--navbar-height) + 0.5rem);
     left: 1rem; width: 240px; background: var(--bg-card);
@@ -855,10 +834,6 @@ img { max-width: 100%; height: auto; display: block; }
 .user-dropdown-item i { width: 18px; text-align: center; }
 .user-dropdown-divider { height: 1px; background: var(--border-color); margin: 0.35rem 0.5rem; }
 
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
 @keyframes spin { to { transform: rotate(360deg); } }
 .spinner {
     width: 20px; height: 20px;
@@ -1137,7 +1112,7 @@ img { max-width: 100%; height: auto; display: block; }
                 <i class="fas fa-money-bill-wave" style="color: var(--success);"></i>
                 <span>تسجيل دفعة</span>
             </h3>
-            <button class="modal-close" onclick="closePaymentModal()"><i class="fas fa-times"></i></button>
+            <button class="modal-close" id="closePaymentBtn"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body">
             <div id="paymentCustomerInfo"></div>
@@ -1149,7 +1124,7 @@ img { max-width: 100%; height: auto; display: block; }
                     المبلغ <span class="required">*</span>
                 </label>
                 <div class="amount-input-wrapper">
-                    <input type="number" class="form-input" id="paymentAmount" placeholder="0" min="0" step="0.01" required>
+                    <input type="number" class="form-input" id="paymentAmount" placeholder="0" min="0" step="0.01">
                     <span class="currency">ج.م</span>
                 </div>
                 <div class="quick-amounts" id="quickAmounts"></div>
@@ -1190,8 +1165,8 @@ img { max-width: 100%; height: auto; display: block; }
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-secondary" onclick="closePaymentModal()">إلغاء</button>
-            <button class="btn btn-success" id="savePaymentBtn" onclick="savePayment()">
+            <button class="btn btn-secondary" id="cancelPaymentBtn">إلغاء</button>
+            <button class="btn btn-success" id="savePaymentBtn">
                 <span class="spinner" style="display:none;"></span>
                 <i class="fas fa-check"></i>
                 <span>حفظ الدفعة</span>
@@ -1208,7 +1183,7 @@ img { max-width: 100%; height: auto; display: block; }
                 <i class="fas fa-circle-info"></i>
                 تفاصيل مديونية العميل
             </h3>
-            <button class="modal-close" onclick="closeDetailsModal()"><i class="fas fa-times"></i></button>
+            <button class="modal-close" id="closeDetailsBtn"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body" id="detailsBody"></div>
     </div>
@@ -1265,6 +1240,7 @@ var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
 
 var supabaseClient = null;
+
 function getSupabaseClient() {
     if (supabaseClient) return supabaseClient;
     if (typeof window.supabase === 'undefined' || !window.supabase.createClient) return null;
@@ -1273,7 +1249,9 @@ function getSupabaseClient() {
             auth: { persistSession: false, autoRefreshToken: false }
         });
         return supabaseClient;
-    } catch (e) { return null; }
+    } catch (e) {
+        return null;
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1282,25 +1260,38 @@ function getSupabaseClient() {
 function escapeHtml(str) {
     if (str == null) return '';
     return String(str)
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 }
+
 function formatCurrency(amount) {
     var num = parseFloat(amount) || 0;
-    try { return num.toLocaleString('ar-EG', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' ج.م'; }
-    catch (e) { return num.toFixed(2) + ' ج.م'; }
+    try {
+        return num.toLocaleString('ar-EG', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) + ' ج.م';
+    } catch (e) {
+        return num.toFixed(2) + ' ج.م';
+    }
 }
+
 function formatNumber(num) {
     var n = parseInt(num) || 0;
     try { return n.toLocaleString('ar-EG'); } catch (e) { return String(n); }
 }
+
 function formatDate(date) {
     if (!date) return '—';
     var d = new Date(date);
     if (isNaN(d.getTime())) return '—';
-    try { return d.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' }); }
-    catch (e) { return d.toISOString().split('T')[0]; }
+    try {
+        return d.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
+    } catch (e) {
+        return d.toISOString().split('T')[0];
+    }
 }
+
 function formatTimeAgo(date) {
     if (!date) return '';
     var d = new Date(date);
@@ -1312,11 +1303,22 @@ function formatTimeAgo(date) {
     if (seconds < 604800) return 'منذ ' + Math.floor(seconds / 86400) + ' يوم';
     return formatDate(date);
 }
+
 function daysBetween(date) {
     if (!date) return 0;
     var d = new Date(date);
     if (isNaN(d.getTime())) return 0;
     return Math.floor((Date.now() - d.getTime()) / (1000 * 60 * 60 * 24));
+}
+
+function debounce(fn, ms) {
+    var t;
+    return function() {
+        var args = arguments;
+        var ctx = this;
+        clearTimeout(t);
+        t = setTimeout(function() { fn.apply(ctx, args); }, ms);
+    };
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1327,10 +1329,12 @@ function initTheme() {
     document.documentElement.setAttribute('data-theme', saved);
     updateThemeIcon(saved);
 }
+
 function updateThemeIcon(theme) {
     var icon = document.querySelector('#themeToggle i');
     if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
 }
+
 function toggleTheme() {
     var current = document.documentElement.getAttribute('data-theme') || 'light';
     var next = current === 'dark' ? 'light' : 'dark';
@@ -1347,7 +1351,12 @@ function showToast(message, type, duration) {
     duration = duration || 3500;
     var container = document.getElementById('toastContainer');
     if (!container) return;
-    var icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', warning: 'fa-triangle-exclamation', info: 'fa-circle-info' };
+    var icons = {
+        success: 'fa-circle-check',
+        error: 'fa-circle-xmark',
+        warning: 'fa-triangle-exclamation',
+        info: 'fa-circle-info'
+    };
     var toast = document.createElement('div');
     toast.className = 'toast ' + type;
     toast.innerHTML = '<i class="fas ' + (icons[type] || icons.info) + '"></i><span>' + escapeHtml(message) + '</span>';
@@ -1365,8 +1374,13 @@ function updateOnlineStatus() {
     var dot = document.getElementById('onlineDot');
     var btn = document.getElementById('onlineBtn');
     if (!dot || !btn) return;
-    if (navigator.onLine) { dot.classList.remove('offline'); btn.title = 'متصل بالإنترنت'; }
-    else { dot.classList.add('offline'); btn.title = 'غير متصل - وضع Offline'; }
+    if (navigator.onLine) {
+        dot.classList.remove('offline');
+        btn.title = 'متصل بالإنترنت';
+    } else {
+        dot.classList.add('offline');
+        btn.title = 'غير متصل - وضع Offline';
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1383,7 +1397,9 @@ function getSession() {
             return null;
         }
         return s;
-    } catch (e) { return null; }
+    } catch (e) {
+        return null;
+    }
 }
 
 function logout(message) {
@@ -1401,12 +1417,14 @@ function logout(message) {
 // ═══════════════════════════════════════════════════════════════
 var INACTIVITY_TIMEOUT = 30 * 60 * 1000;
 var inactivityTimer = null;
+
 function resetInactivity() {
     if (inactivityTimer) clearTimeout(inactivityTimer);
     inactivityTimer = setTimeout(function() {
         logout('تم تسجيل خروجك بسبب عدم النشاط');
     }, INACTIVITY_TIMEOUT);
 }
+
 function startInactivityMonitor() {
     ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(function(evt) {
         document.addEventListener(evt, resetInactivity, { passive: true });
@@ -1429,27 +1447,37 @@ var state = {
     viewingCustomer: null
 };
 
+var allNotifications = [];
+
 var CACHE_KEY = 'elk_debts_cache_v1';
 var CACHE_INVOICES = 'elk_debts_invoices_cache_v1';
 var CACHE_CUSTOMERS = 'elk_debts_customers_cache_v1';
+var CACHE_NOTIFS = 'elk_debts_notifications_cache_v1';
+var OFFLINE_PAYMENTS_KEY = 'elk_debts_offline_payments_v1';
 
-function getCache(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
-function setCache(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function getCache(k) {
+    try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; }
+}
+
+function setCache(k, v) {
+    try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {}
+}
 
 // ═══════════════════════════════════════════════════════════════
 // 📥 Load Data
 // ═══════════════════════════════════════════════════════════════
 function loadData() {
-    // Cache أولاً
-    var cachedDebts = getCache(CACHE_KEY);
+    // 1) Cache أولاً للعرض السريع
     var cachedInvoices = getCache(CACHE_INVOICES);
     var cachedCustomers = getCache(CACHE_CUSTOMERS);
+    var cachedDebts = getCache(CACHE_KEY);
 
-    if (cachedInvoices) state.invoices = cachedInvoices;
-    if (cachedCustomers) state.customers = cachedCustomers;
-    if (cachedDebts) state.debts = cachedDebts;
+    if (cachedInvoices && Array.isArray(cachedInvoices)) state.invoices = cachedInvoices;
+    if (cachedCustomers && Array.isArray(cachedCustomers)) state.customers = cachedCustomers;
+    if (cachedDebts && Array.isArray(cachedDebts)) state.debts = cachedDebts;
 
-    if (state.debts.length || state.invoices.length) {
+    if (state.invoices.length || state.customers.length) {
+        recomputeDebts();
         updateStats();
         applyFilters();
     }
@@ -1460,8 +1488,11 @@ function loadData() {
     console.log('📥 Loading debts from Supabase...');
 
     return Promise.all([
-        sb.from('invoices').select('id, invoice_number, customer_id, total, paid_amount, paid, created_at, payment_method').order('created_at', { ascending: false }),
-        sb.from('customers').select('id, name, phone, address, notes, created_at')
+        sb.from('invoices')
+            .select('id, invoice_number, customer_id, total, paid_amount, paid, created_at, payment_method')
+            .order('created_at', { ascending: false }),
+        sb.from('customers')
+            .select('id, name, phone, address, notes, created_at')
     ]).then(function(results) {
         var invoicesRes = results[0];
         var customersRes = results[1];
@@ -1491,7 +1522,7 @@ function loadData() {
         setCache(CACHE_INVOICES, state.invoices);
         setCache(CACHE_CUSTOMERS, state.customers);
 
-        console.log('📊 Invoices:', state.invoices.length, 'Customers:', state.customers.length);
+        console.log('📊 Loaded invoices:', state.invoices.length, 'Customers:', state.customers.length);
 
         recomputeDebts();
         updateStats();
@@ -1530,7 +1561,7 @@ function recomputeDebts() {
         }
 
         var debt = debtMap[cid];
-        debt.unpaid_invoices_count++;
+        debt.unpaid_invoices_count += 1;
         debt.total_debt += inv.remaining;
         debt.total_paid += inv.paid_amount;
         debt.total_invoiced += inv.total;
@@ -1570,24 +1601,34 @@ function updateStats() {
 
     var avgDebt = debtorsCount > 0 ? totalDebt / debtorsCount : 0;
 
-    document.getElementById('totalDebt').textContent = formatNumber(Math.round(totalDebt));
-    document.getElementById('totalDebtors').textContent = formatNumber(debtorsCount);
-    document.getElementById('unpaidInvoices').textContent = formatNumber(totalInvoices);
-    document.getElementById('avgDebt').textContent = formatNumber(Math.round(avgDebt));
+    var el = document.getElementById('totalDebt');
+    if (el) el.textContent = formatNumber(Math.round(totalDebt));
+    el = document.getElementById('totalDebtors');
+    if (el) el.textContent = formatNumber(debtorsCount);
+    el = document.getElementById('unpaidInvoices');
+    if (el) el.textContent = formatNumber(totalInvoices);
+    el = document.getElementById('avgDebt');
+    if (el) el.textContent = formatNumber(Math.round(avgDebt));
 
-    document.getElementById('pageSubtitle').textContent = debtorsCount + ' عميل مدين • ' + totalInvoices + ' فاتورة';
+    el = document.getElementById('pageSubtitle');
+    if (el) el.textContent = debtorsCount + ' عميل مدين • ' + totalInvoices + ' فاتورة';
 
     var recent = 0, medium = 0, old = 0;
     state.debts.forEach(function(d) {
         var days = daysBetween(d.oldest_debt_date);
-        if (days <= 30) recent++;
-        else if (days <= 90) medium++;
-        else old++;
+        if (days <= 30) recent += 1;
+        else if (days <= 90) medium += 1;
+        else old += 1;
     });
-    document.getElementById('countAll').textContent = state.debts.length;
-    document.getElementById('countRecent').textContent = recent;
-    document.getElementById('countMedium').textContent = medium;
-    document.getElementById('countOld').textContent = old;
+
+    el = document.getElementById('countAll');
+    if (el) el.textContent = state.debts.length;
+    el = document.getElementById('countRecent');
+    if (el) el.textContent = recent;
+    el = document.getElementById('countMedium');
+    if (el) el.textContent = medium;
+    el = document.getElementById('countOld');
+    if (el) el.textContent = old;
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1630,7 +1671,9 @@ function applyFilters() {
             });
             break;
         case 'name':
-            list.sort(function(a, b) { return (a.customer_name || '').localeCompare(b.customer_name || '', 'ar'); });
+            list.sort(function(a, b) {
+                return (a.customer_name || '').localeCompare(b.customer_name || '', 'ar');
+            });
             break;
         case 'highest':
         default:
@@ -1651,21 +1694,26 @@ function render() {
             '<i class="fas ' + (isFiltered ? 'fa-magnifying-glass' : 'fa-circle-check') + '"></i>' +
             '<h3>' + (isFiltered ? 'لا توجد نتائج مطابقة' : 'لا توجد مديونيات') + '</h3>' +
             '<p>' + (isFiltered ? 'جرّب فلتر أو بحث مختلف' : 'كل العملاء سدّدوا مستحقاتهم 🎉') + '</p>' +
-        '</div>';
+            '</div>';
         return;
     }
 
-    container.innerHTML = '<div class="debts-list">' +
-        '<div class="debts-header">' +
-            '<div>العميل</div>' +
-            '<div>الموبايل</div>' +
-            '<div>عدد الفواتير</div>' +
-            '<div>المديونية</div>' +
-            '<div>أقدم مديونية</div>' +
-            '<div>إجراءات</div>' +
-        '</div>' +
-        state.filtered.map(renderDebtRow).join('') +
-    '</div>';
+    var html = '<div class="debts-list">';
+    html += '<div class="debts-header">';
+    html += '<div>العميل</div>';
+    html += '<div>الموبايل</div>';
+    html += '<div>عدد الفواتير</div>';
+    html += '<div>المديونية</div>';
+    html += '<div>أقدم مديونية</div>';
+    html += '<div>إجراءات</div>';
+    html += '</div>';
+
+    state.filtered.forEach(function(d) {
+        html += renderDebtRow(d);
+    });
+
+    html += '</div>';
+    container.innerHTML = html;
 }
 
 function renderDebtRow(d) {
@@ -1674,14 +1722,20 @@ function renderDebtRow(d) {
     var daysLabel = days <= 30 ? 'حديث' : (days <= 90 ? 'متوسط' : 'متأخر');
     var initials = (d.customer_name || '?').trim().charAt(0);
 
+    var phoneHtml = d.customer_phone
+        ? '<i class="fas fa-phone" style="font-size: 0.7rem;"></i> ' + escapeHtml(d.customer_phone)
+        : '—';
+
+    var waBtnHtml = d.customer_phone
+        ? '<button class="action-btn-sm wa" data-action="whatsapp" data-id="' + d.customer_id + '" title="تذكير واتساب"><i class="fab fa-whatsapp"></i></button>'
+        : '';
+
     return '<div class="debt-item">' +
         '<div class="debt-customer">' +
             '<div class="debt-avatar">' + escapeHtml(initials) + '</div>' +
             '<div class="debt-info">' +
                 '<div class="debt-name" title="' + escapeHtml(d.customer_name) + '">' + escapeHtml(d.customer_name) + '</div>' +
-                '<div class="debt-phone">' +
-                    (d.customer_phone ? '<i class="fas fa-phone" style="font-size: 0.7rem;"></i> ' + escapeHtml(d.customer_phone) : '—') +
-                '</div>' +
+                '<div class="debt-phone">' + phoneHtml + '</div>' +
             '</div>' +
         '</div>' +
         '<div class="debt-cell" data-label="الموبايل">' +
@@ -1702,15 +1756,9 @@ function renderDebtRow(d) {
             '<small>' + formatDate(d.oldest_debt_date) + '</small>' +
         '</div>' +
         '<div class="debt-actions">' +
-            '<button class="action-btn-sm success" onclick="openPaymentModal(\'' + d.customer_id + '\')" title="تسجيل دفعة">' +
-                '<i class="fas fa-money-bill-wave"></i>' +
-            '</button>' +
-            (d.customer_phone ? '<button class="action-btn-sm wa" onclick="remindWhatsApp(\'' + d.customer_id + '\')" title="تذكير واتساب">' +
-                '<i class="fab fa-whatsapp"></i>' +
-            '</button>' : '') +
-            '<button class="action-btn-sm" onclick="openDetailsModal(\'' + d.customer_id + '\')" title="التفاصيل">' +
-                '<i class="fas fa-eye"></i>' +
-            '</button>' +
+            '<button class="action-btn-sm success" data-action="payment" data-id="' + d.customer_id + '" title="تسجيل دفعة"><i class="fas fa-money-bill-wave"></i></button>' +
+            waBtnHtml +
+            '<button class="action-btn-sm" data-action="details" data-id="' + d.customer_id + '" title="التفاصيل"><i class="fas fa-eye"></i></button>' +
         '</div>' +
     '</div>';
 }
@@ -1718,65 +1766,82 @@ function renderDebtRow(d) {
 // ═══════════════════════════════════════════════════════════════
 // 💰 Payment Modal
 // ═══════════════════════════════════════════════════════════════
-window.openPaymentModal = function(customerId) {
+function openPaymentModal(customerId) {
     var d = state.debts.find(function(x) { return x.customer_id === customerId; });
     if (!d) return;
 
     state.paymentTarget = d;
 
-    document.getElementById('paymentCustomerInfo').innerHTML =
-        '<div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); margin-bottom: 1.25rem;">' +
-            '<div class="debt-avatar" style="width: 56px; height: 56px; font-size: 1.4rem;">' + escapeHtml((d.customer_name || '?').charAt(0)) + '</div>' +
-            '<div style="flex: 1; min-width: 0;">' +
-                '<h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 0.2rem;">' + escapeHtml(d.customer_name) + '</h3>' +
-                '<div style="font-size: 0.8rem; color: var(--text-muted);">' + escapeHtml(d.customer_phone || '—') + '</div>' +
-            '</div>' +
-        '</div>';
+    var infoEl = document.getElementById('paymentCustomerInfo');
+    if (infoEl) {
+        infoEl.innerHTML =
+            '<div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); margin-bottom: 1.25rem;">' +
+                '<div class="debt-avatar" style="width: 56px; height: 56px; font-size: 1.4rem;">' + escapeHtml((d.customer_name || '?').charAt(0)) + '</div>' +
+                '<div style="flex: 1; min-width: 0;">' +
+                    '<h3 style="font-size: 1.05rem; font-weight: 800; margin-bottom: 0.2rem;">' + escapeHtml(d.customer_name) + '</h3>' +
+                    '<div style="font-size: 0.8rem; color: var(--text-muted);">' + escapeHtml(d.customer_phone || '—') + '</div>' +
+                '</div>' +
+            '</div>';
+    }
 
-    document.getElementById('paymentSummary').innerHTML =
-        '<div class="debt-summary-row">' +
-            '<span class="debt-summary-label"><i class="fas fa-file-invoice"></i> عدد الفواتير</span>' +
-            '<span class="debt-summary-value">' + formatNumber(d.unpaid_invoices_count) + '</span>' +
-        '</div>' +
-        '<div class="debt-summary-row">' +
-            '<span class="debt-summary-label"><i class="fas fa-hand-holding-dollar"></i> إجمالي المديونية</span>' +
-            '<span class="debt-summary-value danger">' + formatCurrency(d.total_debt) + '</span>' +
-        '</div>';
+    var summaryEl = document.getElementById('paymentSummary');
+    if (summaryEl) {
+        summaryEl.innerHTML =
+            '<div class="debt-summary-row">' +
+                '<span class="debt-summary-label"><i class="fas fa-file-invoice"></i> عدد الفواتير</span>' +
+                '<span class="debt-summary-value">' + formatNumber(d.unpaid_invoices_count) + '</span>' +
+            '</div>' +
+            '<div class="debt-summary-row">' +
+                '<span class="debt-summary-label"><i class="fas fa-hand-holding-dollar"></i> إجمالي المديونية</span>' +
+                '<span class="debt-summary-value danger">' + formatCurrency(d.total_debt) + '</span>' +
+            '</div>';
+    }
 
     var quickHtml = '';
-    [100, 200, 500, 1000].forEach(function(a) {
+    var presets = [100, 200, 500, 1000];
+    presets.forEach(function(a) {
         if (a <= d.total_debt) {
-            quickHtml += '<button type="button" class="quick-amount-btn" onclick="setPaymentAmount(' + a + ')">' + a + ' ج.م</button>';
+            quickHtml += '<button type="button" class="quick-amount-btn" data-amount="' + a + '">' + a + ' ج.م</button>';
         }
     });
-    quickHtml += '<button type="button" class="quick-amount-btn full" onclick="setPaymentAmount(' + d.total_debt.toFixed(2) + ')">سداد كامل</button>';
-    document.getElementById('quickAmounts').innerHTML = quickHtml;
+    quickHtml += '<button type="button" class="quick-amount-btn full" data-amount="' + d.total_debt.toFixed(2) + '">سداد كامل</button>';
 
-    document.getElementById('paymentAmount').value = '';
-    document.getElementById('paymentMethod').value = 'cash';
-    document.getElementById('paymentNotes').value = '';
-    document.getElementById('paymentDate').value = new Date().toISOString().split('T')[0];
+    var quickEl = document.getElementById('quickAmounts');
+    if (quickEl) quickEl.innerHTML = quickHtml;
 
-    document.getElementById('amountError').classList.remove('show');
+    var amtEl = document.getElementById('paymentAmount');
+    if (amtEl) amtEl.value = '';
+    var methodEl = document.getElementById('paymentMethod');
+    if (methodEl) methodEl.value = 'cash';
+    var notesEl = document.getElementById('paymentNotes');
+    if (notesEl) notesEl.value = '';
+    var dateEl = document.getElementById('paymentDate');
+    if (dateEl) dateEl.value = new Date().toISOString().split('T')[0];
+
+    var errEl = document.getElementById('amountError');
+    if (errEl) errEl.classList.remove('show');
+
     document.getElementById('paymentModal').classList.add('show');
 
     setTimeout(function() {
-        document.getElementById('paymentAmount').focus();
+        var a = document.getElementById('paymentAmount');
+        if (a) a.focus();
     }, 300);
-};
+}
 
-window.closePaymentModal = function() {
+function closePaymentModal() {
     document.getElementById('paymentModal').classList.remove('show');
     state.paymentTarget = null;
-};
+}
 
-window.setPaymentAmount = function(amount) {
+function setPaymentAmount(amount) {
     var input = document.getElementById('paymentAmount');
+    if (!input) return;
     input.value = parseFloat(amount).toFixed(2);
     input.focus();
-};
+}
 
-window.savePayment = function() {
+function savePayment() {
     if (!state.paymentTarget) return;
 
     var amount = parseFloat(document.getElementById('paymentAmount').value) || 0;
@@ -1840,6 +1905,7 @@ window.savePayment = function() {
         applyFilters();
     };
 
+    // Offline
     if (!sb || !navigator.onLine) {
         queueOfflinePayment(d, amount, method, notes, payDate, invoicesToUpdate);
         applyLocalPayment(invoicesToUpdate);
@@ -1865,13 +1931,12 @@ window.savePayment = function() {
                     notes: notes || null,
                     created_by: session && session.user ? session.user.id : null
                 ]);
-            }).then(function(result) {
-                if (result && result.error) console.warn('Payment record:', result.error);
             });
         });
     });
 
     chain.then(function() {
+        // Audit log (اختياري)
         sb.from('audit_log').insert([{
             user_id: session && session.user ? session.user.id : null,
             action: 'PAYMENT',
@@ -1883,7 +1948,7 @@ window.savePayment = function() {
                 method: method,
                 invoices_count: invoicesToUpdate.length
             }
-        }]).then(function(){}, function(){});
+        }]).then(function() {}, function() {});
 
         applyLocalPayment(invoicesToUpdate);
         showToast('✅ تم تسجيل الدفعة بنجاح', 'success');
@@ -1893,15 +1958,17 @@ window.savePayment = function() {
     }).then(function() {
         finalize();
     });
-};
+}
 
 function applyLocalPayment(invoicesToUpdate) {
     invoicesToUpdate.forEach(function(upd) {
-        var inv = state.invoices.find(function(i) { return i.id === upd.id; });
-        if (inv) {
-            inv.paid_amount = upd.new_paid;
-            inv.paid = upd.new_paid >= inv.total - 0.01;
-            inv.remaining = Math.max(0, inv.total - inv.paid_amount);
+        for (var i = 0; i < state.invoices.length; i++) {
+            if (state.invoices[i].id === upd.id) {
+                state.invoices[i].paid_amount = upd.new_paid;
+                state.invoices[i].paid = upd.new_paid >= state.invoices[i].total - 0.01;
+                state.invoices[i].remaining = Math.max(0, state.invoices[i].total - state.invoices[i].paid_amount);
+                break;
+            }
         }
     });
     state.invoices = state.invoices.filter(function(i) { return i.remaining > 0.01; });
@@ -1910,7 +1977,7 @@ function applyLocalPayment(invoicesToUpdate) {
 
 function queueOfflinePayment(customerDebt, amount, method, notes, payDate, invoicesToUpdate) {
     try {
-        var q = JSON.parse(localStorage.getItem('elk_debts_offline_payments') || '[]');
+        var q = JSON.parse(localStorage.getItem(OFFLINE_PAYMENTS_KEY) || '[]');
         q.push({
             customer_id: customerDebt.customer_id,
             customer_name: customerDebt.customer_name,
@@ -1921,7 +1988,7 @@ function queueOfflinePayment(customerDebt, amount, method, notes, payDate, invoi
             invoices: invoicesToUpdate,
             ts: Date.now()
         });
-        localStorage.setItem('elk_debts_offline_payments', JSON.stringify(q));
+        localStorage.setItem(OFFLINE_PAYMENTS_KEY, JSON.stringify(q));
     } catch (e) {}
 }
 
@@ -1931,7 +1998,7 @@ function syncOfflinePayments() {
     if (!sb) return;
 
     try {
-        var q = JSON.parse(localStorage.getItem('elk_debts_offline_payments') || '[]');
+        var q = JSON.parse(localStorage.getItem(OFFLINE_PAYMENTS_KEY) || '[]');
         if (!q.length) return;
 
         var session = getSession();
@@ -1958,12 +2025,12 @@ function syncOfflinePayments() {
                         });
                     });
                 });
-                return subChain.then(function() { synced++; });
+                return subChain.then(function() { synced += 1; });
             });
         });
 
         chain.then(function() {
-            localStorage.removeItem('elk_debts_offline_payments');
+            localStorage.removeItem(OFFLINE_PAYMENTS_KEY);
             if (synced > 0) {
                 showToast('تم مزامنة ' + synced + ' دفعة', 'success');
                 loadData();
@@ -1977,7 +2044,7 @@ function syncOfflinePayments() {
 // ═══════════════════════════════════════════════════════════════
 // 📋 Details Modal
 // ═══════════════════════════════════════════════════════════════
-window.openDetailsModal = function(customerId) {
+function openDetailsModal(customerId) {
     var d = state.debts.find(function(x) { return x.customer_id === customerId; });
     if (!d) return;
 
@@ -1986,8 +2053,9 @@ window.openDetailsModal = function(customerId) {
     var initials = (d.customer_name || '?').trim().charAt(0);
     var days = daysBetween(d.oldest_debt_date);
 
-    var invoicesHtml = d.invoices.map(function(inv) {
-        return '<div class="invoice-item" onclick="window.location.href=\'invoice-view.html?id=' + inv.id + '\'">' +
+    var invoicesHtml = '';
+    d.invoices.forEach(function(inv) {
+        invoicesHtml += '<div class="invoice-item" data-invoice-id="' + inv.id + '">' +
             '<div class="invoice-info">' +
                 '<div class="invoice-number">' + escapeHtml(inv.invoice_number || 'بدون رقم') + '</div>' +
                 '<div class="invoice-date"><i class="fas fa-calendar"></i> ' + formatDate(inv.created_at) + '</div>' +
@@ -1997,56 +2065,59 @@ window.openDetailsModal = function(customerId) {
                 '<div class="invoice-remaining">متبقي: ' + formatCurrency(inv.remaining) + '</div>' +
             '</div>' +
         '</div>';
-    }).join('');
+    });
 
-    document.getElementById('detailsBody').innerHTML =
-        '<div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">' +
-            '<div class="debt-avatar" style="width: 72px; height: 72px; font-size: 1.8rem;">' + escapeHtml(initials) + '</div>' +
-            '<div style="flex: 1; min-width: 0;">' +
-                '<h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.35rem;">' + escapeHtml(d.customer_name) + '</h2>' +
-                '<div style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem;">' +
-                    '<i class="fas fa-phone"></i> ' + escapeHtml(d.customer_phone || '—') +
-                '</div>' +
-                (d.customer_address ? '<div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;"><i class="fas fa-location-dot"></i> ' + escapeHtml(d.customer_address) + '</div>' : '') +
-            '</div>' +
-        '</div>' +
+    var bodyHtml = '';
+    bodyHtml += '<div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">';
+    bodyHtml += '<div class="debt-avatar" style="width: 72px; height: 72px; font-size: 1.8rem;">' + escapeHtml(initials) + '</div>';
+    bodyHtml += '<div style="flex: 1; min-width: 0;">';
+    bodyHtml += '<h2 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 0.35rem;">' + escapeHtml(d.customer_name) + '</h2>';
+    bodyHtml += '<div style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem;">';
+    bodyHtml += '<i class="fas fa-phone"></i> ' + escapeHtml(d.customer_phone || '—');
+    bodyHtml += '</div>';
+    if (d.customer_address) {
+        bodyHtml += '<div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;"><i class="fas fa-location-dot"></i> ' + escapeHtml(d.customer_address) + '</div>';
+    }
+    bodyHtml += '</div>';
+    bodyHtml += '</div>';
 
-        '<div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 1.25rem; gap: 0.75rem;">' +
-            '<div class="stat-card" style="padding: 1rem; --accent-color: #ef4444;">' +
-                '<div class="stat-value" style="font-size: 1.35rem;">' + formatCurrency(d.total_debt) + '</div>' +
-                '<div class="stat-label" style="font-size: 0.75rem;">المديونية</div>' +
-            '</div>' +
-            '<div class="stat-card" style="padding: 1rem; --accent-color: #10b981;">' +
-                '<div class="stat-value" style="font-size: 1.35rem;">' + formatCurrency(d.total_paid) + '</div>' +
-                '<div class="stat-label" style="font-size: 0.75rem;">إجمالي المدفوع</div>' +
-            '</div>' +
-            '<div class="stat-card" style="padding: 1rem; --accent-color: #8b5cf6;">' +
-                '<div class="stat-value" style="font-size: 1.35rem;">' + days + ' يوم</div>' +
-                '<div class="stat-label" style="font-size: 0.75rem;">عمر أقدم دين</div>' +
-            '</div>' +
-        '</div>' +
+    bodyHtml += '<div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 1.25rem; gap: 0.75rem;">';
+    bodyHtml += '<div class="stat-card" style="padding: 1rem; --accent-color: #ef4444;">';
+    bodyHtml += '<div class="stat-value" style="font-size: 1.35rem;">' + formatCurrency(d.total_debt) + '</div>';
+    bodyHtml += '<div class="stat-label" style="font-size: 0.75rem;">المديونية</div>';
+    bodyHtml += '</div>';
+    bodyHtml += '<div class="stat-card" style="padding: 1rem; --accent-color: #10b981;">';
+    bodyHtml += '<div class="stat-value" style="font-size: 1.35rem;">' + formatCurrency(d.total_paid) + '</div>';
+    bodyHtml += '<div class="stat-label" style="font-size: 0.75rem;">إجمالي المدفوع</div>';
+    bodyHtml += '</div>';
+    bodyHtml += '<div class="stat-card" style="padding: 1rem; --accent-color: #8b5cf6;">';
+    bodyHtml += '<div class="stat-value" style="font-size: 1.35rem;">' + days + ' يوم</div>';
+    bodyHtml += '<div class="stat-label" style="font-size: 0.75rem;">عمر أقدم دين</div>';
+    bodyHtml += '</div>';
+    bodyHtml += '</div>';
 
-        '<h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">' +
-            '<i class="fas fa-file-invoice" style="color: var(--tech-blue);"></i>' +
-            'الفواتير غير المدفوعة (' + d.invoices.length + ')' +
-        '</h3>' +
+    bodyHtml += '<h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">';
+    bodyHtml += '<i class="fas fa-file-invoice" style="color: var(--tech-blue);"></i>';
+    bodyHtml += 'الفواتير غير المدفوعة (' + d.invoices.length + ')';
+    bodyHtml += '</h3>';
 
-        '<div style="border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; max-height: 320px; overflow-y: auto;">' +
-            invoicesHtml +
-        '</div>';
+    bodyHtml += '<div style="border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; max-height: 320px; overflow-y: auto;">';
+    bodyHtml += invoicesHtml;
+    bodyHtml += '</div>';
 
+    document.getElementById('detailsBody').innerHTML = bodyHtml;
     document.getElementById('detailsModal').classList.add('show');
-};
+}
 
-window.closeDetailsModal = function() {
+function closeDetailsModal() {
     document.getElementById('detailsModal').classList.remove('show');
     state.viewingCustomer = null;
-};
+}
 
 // ═══════════════════════════════════════════════════════════════
 // 📱 WhatsApp
 // ═══════════════════════════════════════════════════════════════
-window.remindWhatsApp = function(customerId) {
+function remindWhatsApp(customerId) {
     var d = state.debts.find(function(x) { return x.customer_id === customerId; });
     if (!d || !d.customer_phone) {
         showToast('لا يوجد رقم مسجل', 'warning');
@@ -2063,13 +2134,16 @@ window.remindWhatsApp = function(customerId) {
     var encoded = encodeURIComponent(msg);
     var phone = d.customer_phone.replace(/^0/, '');
     window.open('https://wa.me/2' + phone + '?text=' + encoded, '_blank');
-};
+}
 
 // ═══════════════════════════════════════════════════════════════
 // 📤 Export Excel
 // ═══════════════════════════════════════════════════════════════
 function exportExcel() {
-    if (typeof XLSX === 'undefined') { showToast('مكتبة Excel غير محملة', 'error'); return; }
+    if (typeof XLSX === 'undefined') {
+        showToast('مكتبة Excel غير محملة', 'error');
+        return;
+    }
 
     var data = state.filtered.map(function(d) {
         var days = daysBetween(d.oldest_debt_date);
@@ -2095,7 +2169,7 @@ function exportExcel() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📤 Export PDF (الاسم الصحيح بحروف كبيرة)
+// 📤 Export PDF
 // ═══════════════════════════════════════════════════════════════
 function exportPDF() {
     if (typeof window.jspdf === 'undefined') {
@@ -2141,14 +2215,21 @@ function exportPDF() {
 // ═══════════════════════════════════════════════════════════════
 // 🔔 Notifications
 // ═══════════════════════════════════════════════════════════════
-var allNotifications = [];
-
 function loadNotifications() {
     var session = getSession();
     if (!session) return Promise.resolve();
     var sb = getSupabaseClient();
 
-    if (!sb || !navigator.onLine) { renderNotifications(); return Promise.resolve(); }
+    var cached = getCache(CACHE_NOTIFS);
+    if (cached && Array.isArray(cached)) {
+        allNotifications = cached;
+        renderNotifications();
+    }
+
+    if (!sb || !navigator.onLine) {
+        renderNotifications();
+        return Promise.resolve();
+    }
 
     return sb.from('notifications')
         .select('*')
@@ -2157,9 +2238,12 @@ function loadNotifications() {
         .limit(20)
         .then(function(result) {
             allNotifications = result.data || [];
+            setCache(CACHE_NOTIFS, allNotifications);
             renderNotifications();
         })
-        .catch(function() { renderNotifications(); });
+        .catch(function() {
+            renderNotifications();
+        });
 }
 
 function renderNotifications() {
@@ -2187,32 +2271,43 @@ function renderNotifications() {
         'info': { icon: 'fa-circle-info', cls: 'info' }
     };
 
-    list.innerHTML = allNotifications.map(function(n) {
+    var html = '';
+    allNotifications.forEach(function(n) {
         var t = typeMap[n.type] || typeMap.info;
-        return '<div class="notification-item ' + (n.read ? '' : 'unread') + '" data-id="' + escapeHtml(n.id) + '">' +
-            '<div class="notification-item-icon ' + t.cls + '"><i class="fas ' + t.icon + '"></i></div>' +
-            '<div class="notification-item-content">' +
-                '<div class="notification-item-title">' +
-                    '<span>' + escapeHtml(n.title || '') + '</span>' +
-                    '<span class="time">' + formatTimeAgo(n.created_at) + '</span>' +
-                '</div>' +
-                '<div class="notification-item-message">' + escapeHtml(n.message || '') + '</div>' +
-            '</div>' +
-        '</div>';
-    }).join('');
+        html += '<div class="notification-item ' + (n.read ? '' : 'unread') + '" data-id="' + escapeHtml(n.id) + '">';
+        html += '<div class="notification-item-icon ' + t.cls + '"><i class="fas ' + t.icon + '"></i></div>';
+        html += '<div class="notification-item-content">';
+        html += '<div class="notification-item-title">';
+        html += '<span>' + escapeHtml(n.title || '') + '</span>';
+        html += '<span class="time">' + formatTimeAgo(n.created_at) + '</span>';
+        html += '</div>';
+        html += '<div class="notification-item-message">' + escapeHtml(n.message || '') + '</div>';
+        html += '</div>';
+        html += '</div>';
+    });
+
+    list.innerHTML = html;
 }
 
 function markAllRead() {
     var session = getSession();
     if (!session) return;
+
     allNotifications.forEach(function(n) { n.read = true; });
+    setCache(CACHE_NOTIFS, allNotifications);
     renderNotifications();
+
     var sb = getSupabaseClient();
     if (sb && navigator.onLine) {
         sb.from('notifications').update({ read: true })
-            .eq('user_id', session.user.id).eq('read', false)
-            .then(function() { showToast('تم تعيين الكل كمقروء', 'success'); })
+            .eq('user_id', session.user.id)
+            .eq('read', false)
+            .then(function() {
+                showToast('تم تعيين الكل كمقروء', 'success');
+            })
             .catch(function() {});
+    } else {
+        showToast('تم محليًا', 'info');
     }
 }
 
@@ -2222,6 +2317,7 @@ function markAllRead() {
 function updateUserUI(user) {
     var initial = ((user.full_name || user.username || 'م') + '').charAt(0).toUpperCase();
     var roleText = user.role === 'admin' ? 'مدير' : 'موظف';
+
     ['userAvatar', 'dropdownAvatar'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el) el.textContent = initial;
@@ -2239,9 +2335,11 @@ function updateUserUI(user) {
 function applyPermissions(user) {
     var perms = user.permissions || {};
     var isAdmin = user.role === 'admin';
+
     document.querySelectorAll('.sidebar-link[data-perm]').forEach(function(link) {
         if (!isAdmin && !perms[link.dataset.perm]) link.style.display = 'none';
     });
+
     if (isAdmin) {
         var al = document.getElementById('adminLink');
         var dal = document.getElementById('dropdownAdminLink');
@@ -2290,7 +2388,7 @@ document.addEventListener('DOMContentLoaded', function() {
         overlay.classList.remove('show');
     });
 
-    // User dropdown
+    // User dropdown & notifications
     var userBtn = document.getElementById('userBtn');
     var userDropdown = document.getElementById('userDropdown');
     var notifBtn = document.getElementById('notificationsBtn');
@@ -2299,7 +2397,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (userBtn) userBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         userDropdown.classList.toggle('show');
-        notifPanel.classList.remove('show');
+        if (notifPanel) notifPanel.classList.remove('show');
     });
 
     var logoutBtn = document.getElementById('logoutBtn');
@@ -2310,7 +2408,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (notifBtn) notifBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         notifPanel.classList.toggle('show');
-        userDropdown.classList.remove('show');
+        if (userDropdown) userDropdown.classList.remove('show');
         if (notifPanel.classList.contains('show')) loadNotifications();
     });
 
@@ -2370,15 +2468,56 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ✅ Excel
     var expBtn = document.getElementById('exportExcelBtn');
     if (expBtn) expBtn.addEventListener('click', exportExcel);
 
-    // ✅ PDF (الاسم الصحيح exportPDF بحروف كبيرة)
     var pdfBtn = document.getElementById('exportPdfBtn');
     if (pdfBtn) pdfBtn.addEventListener('click', exportPDF);
 
-    // Modal overlay
+    // Modal close buttons
+    var closePayBtn = document.getElementById('closePaymentBtn');
+    if (closePayBtn) closePayBtn.addEventListener('click', closePaymentModal);
+    var cancelPayBtn = document.getElementById('cancelPaymentBtn');
+    if (cancelPayBtn) cancelPayBtn.addEventListener('click', closePaymentModal);
+
+    var closeDetBtn = document.getElementById('closeDetailsBtn');
+    if (closeDetBtn) closeDetBtn.addEventListener('click', closeDetailsModal);
+
+    // Save payment
+    var savePayBtn = document.getElementById('savePaymentBtn');
+    if (savePayBtn) savePayBtn.addEventListener('click', savePayment);
+
+    // Quick amounts (event delegation)
+    var quickEl = document.getElementById('quickAmounts');
+    if (quickEl) quickEl.addEventListener('click', function(e) {
+        var target = e.target.closest('.quick-amount-btn');
+        if (!target) return;
+        var amt = target.dataset.amount;
+        if (amt) setPaymentAmount(amt);
+    });
+
+    // Debt list actions (event delegation)
+    var debtsContainer = document.getElementById('debtsContainer');
+    if (debtsContainer) debtsContainer.addEventListener('click', function(e) {
+        var btn = e.target.closest('[data-action]');
+        if (!btn) return;
+        var action = btn.dataset.action;
+        var id = btn.dataset.id;
+        if (action === 'payment') openPaymentModal(id);
+        else if (action === 'whatsapp') remindWhatsApp(id);
+        else if (action === 'details') openDetailsModal(id);
+    });
+
+    // Invoice items in details modal
+    var detailsBody = document.getElementById('detailsBody');
+    if (detailsBody) detailsBody.addEventListener('click', function(e) {
+        var item = e.target.closest('.invoice-item');
+        if (!item) return;
+        var invoiceId = item.dataset.invoiceId;
+        if (invoiceId) window.location.href = 'invoice-view.html?id=' + invoiceId;
+    });
+
+    // Modal overlay click
     var pm = document.getElementById('paymentModal');
     if (pm) pm.addEventListener('click', function(e) {
         if (e.target.id === 'paymentModal') closePaymentModal();
@@ -2395,12 +2534,15 @@ document.addEventListener('DOMContentLoaded', function() {
             var si = document.getElementById('globalSearchInput');
             if (si) si.focus();
         }
-        if ((e.ctrlKey || e.metaKey) && e.key === 'd') { e.preventDefault(); toggleTheme(); }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+            e.preventDefault();
+            toggleTheme();
+        }
         if (e.key === 'Escape') {
             closePaymentModal();
             closeDetailsModal();
-            notifPanel.classList.remove('show');
-            userDropdown.classList.remove('show');
+            if (notifPanel) notifPanel.classList.remove('show');
+            if (userDropdown) userDropdown.classList.remove('show');
         }
         if (e.key === 'Enter' && document.getElementById('paymentModal').classList.contains('show')) {
             e.preventDefault();
@@ -2426,7 +2568,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Load
+    // Load data
     loadData().then(function() {
         loadNotifications();
     });
@@ -2439,14 +2581,30 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('%c💰 إلكترونك - المديونيات جاهزة', 'color: #ef4444; font-size: 16px; font-weight: bold;');
 });
 
+// ═══════════════════════════════════════════════════════════════
+// 🌐 Expose للـ global scope
+// ═══════════════════════════════════════════════════════════════
 window.DebtsApp = {
     showToast: showToast,
     logout: logout,
     getSession: getSession,
     loadData: loadData,
     exportExcel: exportExcel,
-    exportPDF: exportPDF
+    exportPDF: exportPDF,
+    openPaymentModal: openPaymentModal,
+    closePaymentModal: closePaymentModal,
+    openDetailsModal: openDetailsModal,
+    closeDetailsModal: closeDetailsModal,
+    remindWhatsApp: remindWhatsApp
 };
+
+window.openPaymentModal = openPaymentModal;
+window.closePaymentModal = closePaymentModal;
+window.setPaymentAmount = setPaymentAmount;
+window.savePayment = savePayment;
+window.openDetailsModal = openDetailsModal;
+window.closeDetailsModal = closeDetailsModal;
+window.remindWhatsApp = remindWhatsApp;
 
 })();
 </script>
