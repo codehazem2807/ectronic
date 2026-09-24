@@ -5,29 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#1d5b8e">
 <meta name="description" content="إلكترونك - لصيانة الأجهزة الإلكترونية | نظام إدارة متكامل">
+<meta name="format-detection" content="telephone=no">
+<meta name="color-scheme" content="light dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="إلكترونك">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="إلكترونك">
 <title>تسجيل الدخول | إلكترونك - لصيانة الأجهزة الإلكترونية</title>
 
-<!-- Favicon + Apple Touch Icons -->
 <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
 <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
 <link rel="apple-touch-icon" sizes="180x180" href="logo.png">
 <link rel="manifest" href="manifest.json">
 
-<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
 
+<!-- Supabase UMD محمّل مسبقاً -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+
 <style>
-/* ═══════════════════════════════════════════════════════════════
-   🎨 Design System - CSS Variables
-   ═══════════════════════════════════════════════════════════════ */
 :root {
     --tech-blue: #1d5b8e;
     --tech-blue-dark: #154668;
@@ -84,9 +85,6 @@
     --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.6);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🔄 Reset + Base
-   ═══════════════════════════════════════════════════════════════ */
 *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -137,9 +135,6 @@ img {
     display: block;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   📊 Reading Progress Bar
-   ═══════════════════════════════════════════════════════════════ */
 .reading-progress {
     position: fixed;
     top: 0;
@@ -152,9 +147,7 @@ img {
     box-shadow: 0 0 10px rgba(29, 91, 142, 0.6);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🎯 شاشة تسجيل الدخول
-   ═══════════════════════════════════════════════════════════════ */
+/* Login Wrapper */
 .login-wrapper {
     min-height: 100vh;
     min-height: 100dvh;
@@ -164,7 +157,6 @@ img {
     overflow: hidden;
 }
 
-/* الجانب الأيسر - Branding */
 .login-brand {
     background: linear-gradient(135deg, var(--tech-black) 0%, var(--tech-blue-dark) 50%, var(--tech-blue) 100%);
     display: flex;
@@ -298,7 +290,6 @@ img {
     opacity: 0.7;
 }
 
-/* الجانب الأيمن - Form */
 .login-form-side {
     display: flex;
     flex-direction: column;
@@ -345,7 +336,6 @@ img {
     color: var(--text-secondary);
 }
 
-/* Form */
 .login-form {
     background: var(--bg-card);
     padding: 2rem;
@@ -463,7 +453,6 @@ img {
     background: rgba(29, 91, 142, 0.1);
 }
 
-/* Form Options */
 .form-options {
     display: flex;
     align-items: center;
@@ -518,7 +507,6 @@ img {
     cursor: pointer;
 }
 
-/* Submit Button */
 .btn-submit {
     width: 100%;
     padding: 0.95rem 1.5rem;
@@ -593,7 +581,6 @@ img {
     to { transform: rotate(360deg); }
 }
 
-/* Error Message */
 .error-message {
     display: none;
     padding: 0.85rem 1rem;
@@ -617,7 +604,6 @@ img {
     font-size: 1.1rem;
 }
 
-/* Footer */
 .login-footer {
     text-align: center;
     margin-top: 1.5rem;
@@ -636,7 +622,6 @@ img {
     text-decoration: underline;
 }
 
-/* Top Controls */
 .top-controls {
     position: fixed;
     top: calc(1rem + var(--safe-top));
@@ -709,9 +694,6 @@ img {
     50% { opacity: 0.5; }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🍞 Toast Notifications
-   ═══════════════════════════════════════════════════════════════ */
 .toast-container {
     position: fixed;
     top: calc(1rem + var(--safe-top));
@@ -780,9 +762,6 @@ img {
     }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🪟 Modal (تغيير كلمة السر + Install)
-   ═══════════════════════════════════════════════════════════════ */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -910,9 +889,6 @@ img {
     background: var(--border-color);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   📱 PWA Install Banner
-   ═══════════════════════════════════════════════════════════════ */
 .install-banner {
     position: fixed;
     bottom: calc(1rem + var(--safe-bottom));
@@ -1022,9 +998,6 @@ img {
     color: var(--danger);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   ⬆️ Scroll to Top
-   ═══════════════════════════════════════════════════════════════ */
 .scroll-top {
     position: fixed;
     bottom: calc(1rem + var(--safe-bottom));
@@ -1057,9 +1030,6 @@ img {
     box-shadow: 0 12px 32px rgba(29, 91, 142, 0.5);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   ✨ Animations
-   ═══════════════════════════════════════════════════════════════ */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -1082,9 +1052,6 @@ img {
     }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   📱 Responsive
-   ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 968px) {
     .login-wrapper {
         grid-template-columns: 1fr;
@@ -1134,9 +1101,6 @@ img {
     }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   🎬 Reduced Motion
-   ═══════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -1148,29 +1112,23 @@ img {
 </head>
 <body>
 
-<!-- Reading Progress Bar -->
 <div class="reading-progress" id="readingProgress"></div>
 
-<!-- Top Controls -->
 <div class="top-controls">
     <button class="control-btn" id="themeToggle" title="تبديل الوضع" aria-label="تبديل الوضع">
         <i class="fas fa-moon"></i>
     </button>
 </div>
 
-<!-- Online/Offline Indicator -->
 <div class="online-indicator" id="onlineIndicator">
     <span class="dot"></span>
     <span class="status-text" id="statusText">متصل</span>
 </div>
 
-<!-- Toast Container -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- Login Wrapper -->
 <div class="login-wrapper">
     
-    <!-- Brand Side -->
     <div class="login-brand">
         <div class="brand-content">
             <img src="logo.png" alt="إلكترونك" class="brand-logo" onerror="this.style.display='none'">
@@ -1210,7 +1168,6 @@ img {
         </div>
     </div>
     
-    <!-- Form Side -->
     <div class="login-form-side">
         <div class="login-form-container">
             
@@ -1293,7 +1250,6 @@ img {
     
 </div>
 
-<!-- Modal: تغيير كلمة السر -->
 <div class="modal-overlay" id="changePasswordModal">
     <div class="modal">
         <div class="modal-header">
@@ -1338,7 +1294,6 @@ img {
     </div>
 </div>
 
-<!-- PWA Install Banner -->
 <div class="install-banner" id="installBanner">
     <div class="install-banner-icon">
         <img src="logo.png" alt="إلكترونك" onerror="this.parentElement.innerHTML='<i class=\'fas fa-bolt\'></i>'">
@@ -1355,20 +1310,35 @@ img {
     </div>
 </div>
 
-<!-- Scroll to Top -->
 <button class="scroll-top" id="scrollTop" aria-label="العودة للأعلى">
     <i class="fas fa-arrow-up"></i>
 </button>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     📜 JavaScript
-     ═══════════════════════════════════════════════════════════════ -->
-<script type="module">
+<script>
 // ═══════════════════════════════════════════════════════════════
 // 🔑 Supabase Config
 // ═══════════════════════════════════════════════════════════════
-const SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
+var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
+
+var supabaseClient = null;
+
+function getSupabase() {
+    if (supabaseClient) return supabaseClient;
+    if (typeof window.supabase === 'undefined' || !window.supabase.createClient) {
+        console.warn('Supabase library not loaded');
+        return null;
+    }
+    try {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth: { persistSession: false, autoRefreshToken: false }
+        });
+        return supabaseClient;
+    } catch (err) {
+        console.warn('فشل تهيئة Supabase:', err);
+        return null;
+    }
+}
 
 // ═══════════════════════════════════════════════════════════════
 // 🧰 Helpers
@@ -1394,150 +1364,161 @@ function sanitizePhone(phone) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📦 IndexedDB Simple Wrapper (لأننا هنستخدم idb لاحقًا)
+// 📦 IndexedDB Wrapper
 // ═══════════════════════════════════════════════════════════════
-const DB_NAME = 'electronic_db';
-const DB_VERSION = 1;
-
-let dbInstance = null;
+var DB_NAME = 'electronic_db';
+var DB_VERSION = 1;
+var dbInstance = null;
+var dbPromise = null;
 
 function openDB() {
-    return new Promise((resolve, reject) => {
-        if (dbInstance) return resolve(dbInstance);
-        
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-        
-        request.onupgradeneeded = (event) => {
-            const db = event.target.result;
+    if (dbInstance) return Promise.resolve(dbInstance);
+    if (dbPromise) return dbPromise;
+    
+    dbPromise = new Promise(function(resolve) {
+        try {
+            var request = indexedDB.open(DB_NAME, DB_VERSION);
             
-            if (!db.objectStoreNames.contains('accounts')) {
-                db.createObjectStore('accounts', { keyPath: 'id' });
-            }
-            if (!db.objectStoreNames.contains('outbox')) {
-                const store = db.createObjectStore('outbox', { keyPath: 'id', autoIncrement: true });
-                store.createIndex('status', 'status');
-            }
-            if (!db.objectStoreNames.contains('cache')) {
-                db.createObjectStore('cache', { keyPath: 'key' });
-            }
-            if (!db.objectStoreNames.contains('settings')) {
-                db.createObjectStore('settings', { keyPath: 'key' });
-            }
-        };
-        
-        request.onsuccess = () => {
-            dbInstance = request.result;
-            resolve(dbInstance);
-        };
-        
-        request.onerror = () => reject(request.error);
+            request.onupgradeneeded = function(event) {
+                var db = event.target.result;
+                
+                if (!db.objectStoreNames.contains('accounts')) {
+                    db.createObjectStore('accounts', { keyPath: 'id' });
+                }
+                if (!db.objectStoreNames.contains('outbox')) {
+                    var store = db.createObjectStore('outbox', { keyPath: 'id', autoIncrement: true });
+                    store.createIndex('status', 'status');
+                }
+                if (!db.objectStoreNames.contains('cache')) {
+                    db.createObjectStore('cache', { keyPath: 'key' });
+                }
+                if (!db.objectStoreNames.contains('settings')) {
+                    db.createObjectStore('settings', { keyPath: 'key' });
+                }
+            };
+            
+            request.onsuccess = function() {
+                dbInstance = request.result;
+                resolve(dbInstance);
+            };
+            
+            request.onerror = function() {
+                console.warn('IndexedDB error:', request.error);
+                resolve(null);
+            };
+            
+            request.onblocked = function() {
+                setTimeout(function() { resolve(null); }, 500);
+            };
+        } catch (e) {
+            console.warn('IndexedDB not available:', e);
+            resolve(null);
+        }
     });
+    
+    return dbPromise;
 }
 
 async function dbPut(storeName, data) {
-    const db = await openDB();
-    return new Promise((resolve, reject) => {
-        const tx = db.transaction(storeName, 'readwrite');
-        const store = tx.objectStore(storeName);
-        const request = store.put(data);
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
+    var db = await openDB();
+    if (!db || !db.objectStoreNames.contains(storeName)) return null;
+    return new Promise(function(resolve) {
+        try {
+            var tx = db.transaction(storeName, 'readwrite');
+            var store = tx.objectStore(storeName);
+            var request = store.put(data);
+            request.onsuccess = function() { resolve(request.result); };
+            request.onerror = function() { resolve(null); };
+        } catch (e) { resolve(null); }
     });
 }
 
 async function dbGet(storeName, key) {
-    const db = await openDB();
-    return new Promise((resolve, reject) => {
-        const tx = db.transaction(storeName, 'readonly');
-        const store = tx.objectStore(storeName);
-        const request = store.get(key);
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
+    var db = await openDB();
+    if (!db || !db.objectStoreNames.contains(storeName)) return null;
+    return new Promise(function(resolve) {
+        try {
+            var tx = db.transaction(storeName, 'readonly');
+            var store = tx.objectStore(storeName);
+            var request = store.get(key);
+            request.onsuccess = function() { resolve(request.result); };
+            request.onerror = function() { resolve(null); };
+        } catch (e) { resolve(null); }
     });
 }
 
 async function dbGetAll(storeName) {
-    const db = await openDB();
-    return new Promise((resolve, reject) => {
-        const tx = db.transaction(storeName, 'readonly');
-        const store = tx.objectStore(storeName);
-        const request = store.getAll();
-        request.onsuccess = () => resolve(request.result || []);
-        request.onerror = () => reject(request.error);
-    });
-}
-
-async function dbClear(storeName) {
-    const db = await openDB();
-    return new Promise((resolve, reject) => {
-        const tx = db.transaction(storeName, 'readwrite');
-        const store = tx.objectStore(storeName);
-        const request = store.clear();
-        request.onsuccess = () => resolve();
-        request.onerror = () => reject(request.error);
+    var db = await openDB();
+    if (!db || !db.objectStoreNames.contains(storeName)) return [];
+    return new Promise(function(resolve) {
+        try {
+            var tx = db.transaction(storeName, 'readonly');
+            var store = tx.objectStore(storeName);
+            var request = store.getAll();
+            request.onsuccess = function() { resolve(request.result || []); };
+            request.onerror = function() { resolve([]); };
+        } catch (e) { resolve([]); }
     });
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🎨 Theme Management
+// 🎨 Theme
 // ═══════════════════════════════════════════════════════════════
 function initTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    var savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
 }
 
 function updateThemeIcon(theme) {
-    const icon = document.querySelector('#themeToggle i');
+    var icon = document.querySelector('#themeToggle i');
     if (icon) {
         icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     }
 }
 
 function toggleTheme() {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    const newTheme = current === 'dark' ? 'light' : 'dark';
+    var current = document.documentElement.getAttribute('data-theme') || 'light';
+    var newTheme = current === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     updateThemeIcon(newTheme);
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🍞 Toast Notifications
+// 🍞 Toast
 // ═══════════════════════════════════════════════════════════════
-function showToast(message, type = 'info', duration = 3500) {
-    const container = document.getElementById('toastContainer');
+function showToast(message, type, duration) {
+    type = type || 'info';
+    duration = duration || 3500;
+    var container = document.getElementById('toastContainer');
     if (!container) return;
     
-    const icons = {
+    var icons = {
         success: 'fa-circle-check',
         error: 'fa-circle-xmark',
         warning: 'fa-triangle-exclamation',
         info: 'fa-circle-info'
     };
     
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.innerHTML = `
-        <i class="fas ${icons[type] || icons.info}"></i>
-        <span>${escapeHtml(message)}</span>
-    `;
+    var toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    toast.innerHTML = '<i class="fas ' + (icons[type] || icons.info) + '"></i><span>' + escapeHtml(message) + '</span>';
     
     container.appendChild(toast);
     
-    setTimeout(() => {
+    setTimeout(function() {
         toast.classList.add('hide');
-        setTimeout(() => toast.remove(), 300);
+        setTimeout(function() { toast.remove(); }, 300);
     }, duration);
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🌐 Online/Offline
+// 🌐 Online Status
 // ═══════════════════════════════════════════════════════════════
 function updateOnlineStatus() {
-    const indicator = document.getElementById('onlineIndicator');
-    const statusText = document.getElementById('statusText');
-    
+    var indicator = document.getElementById('onlineIndicator');
+    var statusText = document.getElementById('statusText');
     if (!indicator || !statusText) return;
     
     if (navigator.onLine) {
@@ -1550,24 +1531,22 @@ function updateOnlineStatus() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ⏱️ Auto Logout (30 min inactivity)
+// ⏱️ Auto Logout
 // ═══════════════════════════════════════════════════════════════
-const INACTIVITY_TIMEOUT = 30 * 60 * 1000; // 30 دقيقة
-let inactivityTimer = null;
+var INACTIVITY_TIMEOUT = 30 * 60 * 1000;
+var inactivityTimer = null;
 
 function resetInactivityTimer() {
     if (inactivityTimer) clearTimeout(inactivityTimer);
-    
-    const session = getSession();
+    var session = getSession();
     if (!session) return;
-    
-    inactivityTimer = setTimeout(() => {
+    inactivityTimer = setTimeout(function() {
         logout('تم تسجيل خروجك تلقائيًا بسبب عدم النشاط');
     }, INACTIVITY_TIMEOUT);
 }
 
 function startInactivityMonitor() {
-    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(evt => {
+    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(function(evt) {
         document.addEventListener(evt, resetInactivityTimer, { passive: true });
     });
     resetInactivityTimer();
@@ -1581,28 +1560,27 @@ function stopInactivityMonitor() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🔐 Session Management
+// 🔐 Session
 // ═══════════════════════════════════════════════════════════════
 function getSession() {
     try {
-        const raw = localStorage.getItem('session');
+        var raw = localStorage.getItem('session');
         if (!raw) return null;
-        const session = JSON.parse(raw);
+        var session = JSON.parse(raw);
         if (!session || !session.user) return null;
-        // تحقق من انتهاء الصلاحية (24 ساعة)
         if (session.expiresAt && Date.now() > session.expiresAt) {
             localStorage.removeItem('session');
             return null;
         }
         return session;
-    } catch {
+    } catch (e) {
         return null;
     }
 }
 
 function saveSession(user, remember) {
-    const duration = remember ? 7 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
-    const session = {
+    var duration = remember ? 7 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
+    var session = {
         user: {
             id: user.id,
             username: user.username,
@@ -1617,49 +1595,16 @@ function saveSession(user, remember) {
     localStorage.setItem('session', JSON.stringify(session));
 }
 
-function updateSessionUser(user) {
-    const session = getSession();
-    if (!session) return;
-    session.user = {
-        id: user.id,
-        username: user.username,
-        full_name: user.full_name,
-        role: user.role,
-        permissions: user.permissions,
-        must_change_password: user.must_change_password
-    };
-    localStorage.setItem('session', JSON.stringify(session));
-}
-
 function logout(message) {
     localStorage.removeItem('session');
     stopInactivityMonitor();
     if (message) {
         showToast(message, 'info');
-        setTimeout(() => {
+        setTimeout(function() {
             window.location.href = 'index.html';
         }, 1200);
     } else {
         window.location.href = 'index.html';
-    }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// 🗄️ Supabase Client (Dynamic Import)
-// ═══════════════════════════════════════════════════════════════
-let supabaseClient = null;
-
-async function getSupabase() {
-    if (supabaseClient) return supabaseClient;
-    try {
-        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
-        supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-            auth: { persistSession: false }
-        });
-        return supabaseClient;
-    } catch (err) {
-        console.warn('فشل تحميل Supabase:', err);
-        return null;
     }
 }
 
@@ -1670,55 +1615,48 @@ async function login(username, password) {
     // 1) حاول من السيرفر لو متصل
     if (navigator.onLine) {
         try {
-            const sb = await getSupabase();
+            var sb = getSupabase();
             if (sb) {
-                const { data, error } = await sb
+                var result = await sb
                     .from('accounts')
                     .select('*')
                     .eq('username', username.trim().toLowerCase())
                     .eq('is_active', true)
                     .maybeSingle();
                 
-                if (error) throw error;
+                if (result.error) throw result.error;
                 
-                if (data && data.password === password) {
-                    // تحديث الكاش المحلي
+                if (result.data && result.data.password === password) {
                     try {
                         await dbPut('accounts', {
-                            id: data.id,
-                            username: data.username,
-                            password: data.password,
-                            full_name: data.full_name,
-                            role: data.role,
-                            permissions: data.permissions,
-                            is_active: data.is_active,
-                            must_change_password: data.must_change_password,
+                            id: result.data.id,
+                            username: result.data.username,
+                            password: result.data.password,
+                            full_name: result.data.full_name,
+                            role: result.data.role,
+                            permissions: result.data.permissions,
+                            is_active: result.data.is_active,
+                            must_change_password: result.data.must_change_password,
                             cached_at: Date.now()
                         });
-                    } catch (e) {
-                        console.warn('فشل تخزين الحساب محليًا:', e);
-                    }
-                    return { success: true, user: data };
+                    } catch (e) {}
+                    return { success: true, user: result.data };
                 }
                 
-                // لو الحساب مش موجود على السيرفر، جرب الكاش
-                const cached = await findCachedAccount(username, password);
-                if (cached) {
-                    return { success: true, user: cached, fromCache: true };
-                }
+                var cached = await findCachedAccount(username, password);
+                if (cached) return { success: true, user: cached, fromCache: true };
                 
                 return { success: false, error: 'اسم المستخدم أو كلمة السر غير صحيحة' };
             }
         } catch (err) {
             console.warn('خطأ في الاتصال بالسيرفر:', err);
-            // fallback للكاش
         }
     }
     
-    // 2) Offline → ابحث في الكاش
-    const cached = await findCachedAccount(username, password);
-    if (cached) {
-        return { success: true, user: cached, fromCache: true };
+    // 2) Offline
+    var cachedAcc = await findCachedAccount(username, password);
+    if (cachedAcc) {
+        return { success: true, user: cachedAcc, fromCache: true };
     }
     
     return { 
@@ -1731,14 +1669,14 @@ async function login(username, password) {
 
 async function findCachedAccount(username, password) {
     try {
-        const accounts = await dbGetAll('accounts');
-        const user = accounts.find(a => 
-            a.username === username.trim().toLowerCase() && 
-            a.password === password &&
-            a.is_active !== false
-        );
+        var accounts = await dbGetAll('accounts');
+        var user = accounts.find(function(a) {
+            return a.username === username.trim().toLowerCase() && 
+                   a.password === password &&
+                   a.is_active !== false;
+        });
         return user || null;
-    } catch {
+    } catch (e) {
         return null;
     }
 }
@@ -1746,23 +1684,17 @@ async function findCachedAccount(username, password) {
 async function refreshAccountsCache() {
     if (!navigator.onLine) return;
     try {
-        const sb = await getSupabase();
+        var sb = getSupabase();
         if (!sb) return;
-        const { data, error } = await sb
-            .from('accounts')
-            .select('*')
-            .eq('is_active', true);
+        var result = await sb.from('accounts').select('*').eq('is_active', true);
+        if (result.error) throw result.error;
         
-        if (error) throw error;
-        
-        if (data && data.length) {
-            for (const acc of data) {
-                await dbPut('accounts', {
-                    ...acc,
-                    cached_at: Date.now()
-                });
+        if (result.data && result.data.length) {
+            for (var i = 0; i < result.data.length; i++) {
+                var acc = result.data[i];
+                await dbPut('accounts', Object.assign({}, acc, { cached_at: Date.now() }));
             }
-            console.log(`✅ تم تحديث كاش ${data.length} حساب`);
+            console.log('✅ تم تحديث كاش ' + result.data.length + ' حساب');
         }
     } catch (err) {
         console.warn('فشل تحديث كاش الحسابات:', err);
@@ -1770,35 +1702,32 @@ async function refreshAccountsCache() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🎬 UI Logic
+// 🎬 Init
 // ═══════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
     
-    // السنة في الفوتر
-    const yearEl = document.getElementById('year');
+    var yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
     
-    // Theme
     initTheme();
-    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+    var themeBtn = document.getElementById('themeToggle');
+    if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
     
-    // Online status
     updateOnlineStatus();
-    window.addEventListener('online', () => {
+    window.addEventListener('online', function() {
         updateOnlineStatus();
         showToast('تم استعادة الاتصال بالإنترنت', 'success');
         refreshAccountsCache();
     });
-    window.addEventListener('offline', () => {
+    window.addEventListener('offline', function() {
         updateOnlineStatus();
         showToast('انقطع الاتصال - التطبيق يعمل Offline', 'warning');
     });
     
-    // Check session موجود بالفعل
-    const existingSession = getSession();
+    // Check existing session
+    var existingSession = getSession();
     if (existingSession) {
         if (existingSession.user.must_change_password) {
-            // افتح modal تغيير كلمة السر
             openChangePasswordModal(existingSession.user);
         } else {
             window.location.href = 'dashboard.html';
@@ -1807,269 +1736,262 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Toggle Password
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
+    var togglePassword = document.getElementById('togglePassword');
+    var passwordInput = document.getElementById('password');
     if (togglePassword && passwordInput) {
-        togglePassword.addEventListener('click', () => {
-            const type = passwordInput.type === 'password' ? 'text' : 'password';
+        togglePassword.addEventListener('click', function() {
+            var type = passwordInput.type === 'password' ? 'text' : 'password';
             passwordInput.type = type;
-            togglePassword.innerHTML = `<i class="fas fa-eye${type === 'password' ? '' : '-slash'}"></i>`;
+            togglePassword.innerHTML = '<i class="fas fa-eye' + (type === 'password' ? '' : '-slash') + '"></i>';
         });
     }
     
-    // Login Form Submit
-    const loginForm = document.getElementById('loginForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const errorMessage = document.getElementById('errorMessage');
-    const errorText = document.getElementById('errorText');
+    // Login Form
+    var loginForm = document.getElementById('loginForm');
+    var submitBtn = document.getElementById('submitBtn');
+    var errorMessage = document.getElementById('errorMessage');
+    var errorText = document.getElementById('errorText');
     
-    loginForm?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const username = document.getElementById('username').value.trim();
-        const password = document.getElementById('password').value;
-        const remember = document.getElementById('rememberMe').checked;
-        
-        // Reset UI
-        errorMessage.classList.remove('show');
-        document.getElementById('username').classList.remove('error');
-        document.getElementById('password').classList.remove('error');
-        
-        // Validation
-        if (!username) {
-            document.getElementById('username').classList.add('error');
-            errorText.textContent = 'من فضلك أدخل اسم المستخدم';
-            errorMessage.classList.add('show');
-            return;
-        }
-        
-        if (!password) {
-            document.getElementById('password').classList.add('error');
-            errorText.textContent = 'من فضلك أدخل كلمة السر';
-            errorMessage.classList.add('show');
-            return;
-        }
-        
-        // Loading
-        submitBtn.classList.add('loading');
-        submitBtn.disabled = true;
-        
-        try {
-            const result = await login(username, password);
+    if (loginForm) {
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            if (result.success) {
-                saveSession(result.user, remember);
+            var username = document.getElementById('username').value.trim();
+            var password = document.getElementById('password').value;
+            var remember = document.getElementById('rememberMe').checked;
+            
+            errorMessage.classList.remove('show');
+            document.getElementById('username').classList.remove('error');
+            document.getElementById('password').classList.remove('error');
+            
+            if (!username) {
+                document.getElementById('username').classList.add('error');
+                errorText.textContent = 'من فضلك أدخل اسم المستخدم';
+                errorMessage.classList.add('show');
+                return;
+            }
+            
+            if (!password) {
+                document.getElementById('password').classList.add('error');
+                errorText.textContent = 'من فضلك أدخل كلمة السر';
+                errorMessage.classList.add('show');
+                return;
+            }
+            
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+            
+            try {
+                var result = await login(username, password);
                 
-                if (result.fromCache) {
-                    showToast('تم الدخول من البيانات المحفوظة (Offline)', 'warning');
+                if (result.success) {
+                    saveSession(result.user, remember);
+                    
+                    if (result.fromCache) {
+                        showToast('تم الدخول من البيانات المحفوظة (Offline)', 'warning');
+                    } else {
+                        showToast('أهلاً بك ' + result.user.full_name + ' 👋', 'success');
+                    }
+                    
+                    refreshAccountsCache().catch(function() {});
+                    
+                    if (result.user.must_change_password) {
+                        setTimeout(function() { openChangePasswordModal(result.user); }, 600);
+                        submitBtn.classList.remove('loading');
+                        submitBtn.disabled = false;
+                        return;
+                    }
+                    
+                    setTimeout(function() {
+                        window.location.href = 'dashboard.html';
+                    }, 800);
                 } else {
-                    showToast(`أهلاً بك ${result.user.full_name} 👋`, 'success');
-                }
-                
-                // جبّد كاش الحسابات في الخلفية
-                refreshAccountsCache().catch(() => {});
-                
-                // لو محتاج تغيير كلمة السر
-                if (result.user.must_change_password) {
-                    setTimeout(() => openChangePasswordModal(result.user), 600);
+                    errorText.textContent = result.error;
+                    errorMessage.classList.add('show');
+                    document.getElementById('username').classList.add('error');
+                    document.getElementById('password').classList.add('error');
                     submitBtn.classList.remove('loading');
                     submitBtn.disabled = false;
-                    return;
                 }
-                
-                // توجيه للـ dashboard
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 800);
-            } else {
-                errorText.textContent = result.error;
+            } catch (err) {
+                console.error(err);
+                errorText.textContent = 'حدث خطأ غير متوقع. حاول مرة أخرى.';
                 errorMessage.classList.add('show');
-                document.getElementById('username').classList.add('error');
-                document.getElementById('password').classList.add('error');
                 submitBtn.classList.remove('loading');
                 submitBtn.disabled = false;
             }
-        } catch (err) {
-            console.error(err);
-            errorText.textContent = 'حدث خطأ غير متوقع. حاول مرة أخرى.';
-            errorMessage.classList.add('show');
-            submitBtn.classList.remove('loading');
-            submitBtn.disabled = false;
-        }
-    });
-    
-    // Start inactivity monitor لو فيه session
-    if (existingSession) {
-        startInactivityMonitor();
+        });
     }
     
+    if (existingSession) startInactivityMonitor();
+    
     // Reading Progress
-    const progressBar = document.getElementById('readingProgress');
-    window.addEventListener('scroll', () => {
-        const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+    var progressBar = document.getElementById('readingProgress');
+    window.addEventListener('scroll', function() {
+        var winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        var scrolled = height > 0 ? (winScroll / height) * 100 : 0;
         if (progressBar) progressBar.style.width = scrolled + '%';
     }, { passive: true });
     
     // Scroll to Top
-    const scrollTopBtn = document.getElementById('scrollTop');
-    window.addEventListener('scroll', () => {
+    var scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', function() {
         if (window.scrollY > 300) {
-            scrollTopBtn?.classList.add('show');
+            if (scrollTopBtn) scrollTopBtn.classList.add('show');
         } else {
-            scrollTopBtn?.classList.remove('show');
+            if (scrollTopBtn) scrollTopBtn.classList.remove('show');
         }
     }, { passive: true });
     
-    scrollTopBtn?.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-    
-    // تحديث كاش الحسابات عند التحميل (لو فيه نت)
-    if (navigator.onLine) {
-        refreshAccountsCache().catch(() => {});
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
     }
     
-    // Initialize PWA install
-    initPWAInstall();
+    if (navigator.onLine) {
+        refreshAccountsCache().catch(function() {});
+    }
     
-    // Register Service Worker
+    initPWAInstall();
     registerServiceWorker();
 });
 
 // ═══════════════════════════════════════════════════════════════
 // 🔑 Change Password Modal
 // ═══════════════════════════════════════════════════════════════
-let currentUserForPasswordChange = null;
+var currentUserForPasswordChange = null;
 
 function openChangePasswordModal(user) {
     currentUserForPasswordChange = user;
-    const modal = document.getElementById('changePasswordModal');
+    var modal = document.getElementById('changePasswordModal');
     if (!modal) return;
     modal.classList.add('show');
     document.getElementById('newPassword').value = '';
     document.getElementById('confirmPassword').value = '';
     document.getElementById('changePassError').classList.remove('show');
-    setTimeout(() => document.getElementById('newPassword')?.focus(), 300);
+    setTimeout(function() {
+        var el = document.getElementById('newPassword');
+        if (el) el.focus();
+    }, 300);
 }
 
-document.getElementById('savePasswordBtn')?.addEventListener('click', async () => {
-    const newPass = document.getElementById('newPassword').value;
-    const confirmPass = document.getElementById('confirmPassword').value;
-    const errorEl = document.getElementById('changePassError');
-    const errorTextEl = document.getElementById('changePassErrorText');
-    
-    errorEl.classList.remove('show');
-    
-    if (!newPass || newPass.length < 6) {
-        errorTextEl.textContent = 'كلمة السر يجب أن تكون 6 أحرف على الأقل';
-        errorEl.classList.add('show');
-        return;
-    }
-    
-    if (newPass !== confirmPass) {
-        errorTextEl.textContent = 'كلمتا السر غير متطابقتين';
-        errorEl.classList.add('show');
-        return;
-    }
-    
-    if (!currentUserForPasswordChange) return;
-    
-    const btn = document.getElementById('savePasswordBtn');
-    const originalHTML = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner" style="display:block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;"></span>';
-    
-    try {
-        let updated = false;
+var savePasswordBtn = document.getElementById('savePasswordBtn');
+if (savePasswordBtn) {
+    savePasswordBtn.addEventListener('click', async function() {
+        var newPass = document.getElementById('newPassword').value;
+        var confirmPass = document.getElementById('confirmPassword').value;
+        var errorEl = document.getElementById('changePassError');
+        var errorTextEl = document.getElementById('changePassErrorText');
         
-        // حدّث على السيرفر لو متصل
-        if (navigator.onLine) {
-            const sb = await getSupabase();
-            if (sb) {
-                const { error } = await sb
-                    .from('accounts')
-                    .update({
-                        password: newPass,
-                        must_change_password: false
-                    })
-                    .eq('id', currentUserForPasswordChange.id);
-                
-                if (error) throw error;
-                updated = true;
+        errorEl.classList.remove('show');
+        
+        if (!newPass || newPass.length < 6) {
+            errorTextEl.textContent = 'كلمة السر يجب أن تكون 6 أحرف على الأقل';
+            errorEl.classList.add('show');
+            return;
+        }
+        
+        if (newPass !== confirmPass) {
+            errorTextEl.textContent = 'كلمتا السر غير متطابقتين';
+            errorEl.classList.add('show');
+            return;
+        }
+        
+        if (!currentUserForPasswordChange) return;
+        
+        var btn = document.getElementById('savePasswordBtn');
+        var originalHTML = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span style="display:block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;"></span>';
+        
+        try {
+            if (navigator.onLine) {
+                var sb = getSupabase();
+                if (sb) {
+                    var result = await sb
+                        .from('accounts')
+                        .update({
+                            password: newPass,
+                            must_change_password: false
+                        })
+                        .eq('id', currentUserForPasswordChange.id);
+                    
+                    if (result.error) throw result.error;
+                }
             }
+            
+            var cachedAccount = await dbGet('accounts', currentUserForPasswordChange.id);
+            if (cachedAccount) {
+                cachedAccount.password = newPass;
+                cachedAccount.must_change_password = false;
+                await dbPut('accounts', cachedAccount);
+            }
+            
+            var session = getSession();
+            if (session) {
+                session.user.must_change_password = false;
+                localStorage.setItem('session', JSON.stringify(session));
+            }
+            
+            showToast('✅ تم تغيير كلمة السر بنجاح', 'success');
+            document.getElementById('changePasswordModal').classList.remove('show');
+            
+            setTimeout(function() {
+                window.location.href = 'dashboard.html';
+            }, 900);
+            
+        } catch (err) {
+            console.error(err);
+            errorTextEl.textContent = 'فشل تغيير كلمة السر. حاول مرة أخرى.';
+            errorEl.classList.add('show');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalHTML;
         }
-        
-        // حدّث الكاش دائمًا
-        const cachedAccount = await dbGet('accounts', currentUserForPasswordChange.id);
-        if (cachedAccount) {
-            cachedAccount.password = newPass;
-            cachedAccount.must_change_password = false;
-            await dbPut('accounts', cachedAccount);
-        }
-        
-        // حدّث الـ session
-        const session = getSession();
-        if (session) {
-            session.user.must_change_password = false;
-            localStorage.setItem('session', JSON.stringify(session));
-        }
-        
-        showToast('✅ تم تغيير كلمة السر بنجاح', 'success');
-        
-        document.getElementById('changePasswordModal').classList.remove('show');
-        
-        setTimeout(() => {
-            window.location.href = 'dashboard.html';
-        }, 900);
-        
-    } catch (err) {
-        console.error(err);
-        errorTextEl.textContent = 'فشل تغيير كلمة السر. حاول مرة أخرى.';
-        errorEl.classList.add('show');
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = originalHTML;
-    }
-});
+    });
+}
 
 // ═══════════════════════════════════════════════════════════════
 // 📱 PWA Install
 // ═══════════════════════════════════════════════════════════════
-let deferredPrompt = null;
+var deferredPrompt = null;
 
 function initPWAInstall() {
-    const banner = document.getElementById('installBanner');
-    const installBtn = document.getElementById('installBannerBtn');
-    const dismissBtn = document.getElementById('installDismissBtn');
+    var banner = document.getElementById('installBanner');
+    var installBtn = document.getElementById('installBannerBtn');
+    var dismissBtn = document.getElementById('installDismissBtn');
     
-    // لو مستخدم قبل كده، متظهرش
     if (localStorage.getItem('pwa_install_dismissed') === 'true') return;
     
-    window.addEventListener('beforeinstallprompt', (e) => {
+    window.addEventListener('beforeinstallprompt', function(e) {
         e.preventDefault();
         deferredPrompt = e;
         if (banner) banner.classList.add('show');
     });
     
-    installBtn?.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-            showToast('تم تثبيت التطبيق بنجاح 🎉', 'success');
-        }
-        deferredPrompt = null;
-        if (banner) banner.classList.remove('show');
-    });
+    if (installBtn) {
+        installBtn.addEventListener('click', async function() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            var choice = await deferredPrompt.userChoice;
+            if (choice.outcome === 'accepted') {
+                showToast('تم تثبيت التطبيق بنجاح 🎉', 'success');
+            }
+            deferredPrompt = null;
+            if (banner) banner.classList.remove('show');
+        });
+    }
     
-    dismissBtn?.addEventListener('click', () => {
-        localStorage.setItem('pwa_install_dismissed', 'true');
-        if (banner) banner.classList.remove('show');
-    });
+    if (dismissBtn) {
+        dismissBtn.addEventListener('click', function() {
+            localStorage.setItem('pwa_install_dismissed', 'true');
+            if (banner) banner.classList.remove('show');
+        });
+    }
     
-    window.addEventListener('appinstalled', () => {
+    window.addEventListener('appinstalled', function() {
         showToast('تم تثبيت التطبيق بنجاح 🎉', 'success');
         if (banner) banner.classList.remove('show');
         deferredPrompt = null;
@@ -2077,41 +1999,56 @@ function initPWAInstall() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ⚙️ Service Worker
+// ⚙️ Service Worker — تسجيل هادئ
 // ═══════════════════════════════════════════════════════════════
 function registerServiceWorker() {
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('✅ SW registered:', reg.scope))
-                .catch(err => console.warn('❌ SW registration failed:', err));
-        });
-    }
+    if (!('serviceWorker' in navigator)) return;
+    
+    window.addEventListener('load', function() {
+        // استخدم مسار نسبي واضح
+        var swPath = './sw.js';
+        
+        navigator.serviceWorker.register(swPath, { scope: './' })
+            .then(function(reg) {
+                console.log('✅ SW registered:', reg.scope);
+                
+                // تحقق من وجود تحديثات
+                reg.addEventListener('updatefound', function() {
+                    console.log('ℹ️ SW update found');
+                });
+            })
+            .catch(function(err) {
+                // تحقق إن الخطأ بسبب عدم وجود الملف
+                if (err && err.message && err.message.indexOf('404') !== -1) {
+                    console.info('ℹ️ sw.js not found - PWA caching disabled (هذا ليس خطأ)');
+                } else {
+                    console.info('ℹ️ Service Worker not available:', err.message || err);
+                }
+            });
+    });
 }
 
 // ═══════════════════════════════════════════════════════════════
 // ⌨️ Keyboard Shortcuts
 // ═══════════════════════════════════════════════════════════════
-document.addEventListener('keydown', (e) => {
-    // Ctrl + D → Dark mode
+document.addEventListener('keydown', function(e) {
     if (e.ctrlKey && e.key === 'd') {
         e.preventDefault();
         toggleTheme();
     }
-    // Escape → اقفل الـ modals
     if (e.key === 'Escape') {
-        document.getElementById('changePasswordModal')?.classList.remove('show');
+        var m = document.getElementById('changePasswordModal');
+        if (m) m.classList.remove('show');
     }
 });
 
-// تصدير للاستخدام العام
 window.ElectronicApp = {
-    showToast,
-    logout,
-    getSession,
-    escapeHtml,
-    isValidUUID,
-    sanitizePhone
+    showToast: showToast,
+    logout: logout,
+    getSession: getSession,
+    escapeHtml: escapeHtml,
+    isValidUUID: isValidUUID,
+    sanitizePhone: sanitizePhone
 };
 
 console.log('%c⚡ إلكترونك - نظام إدارة صيانة الأجهزة الإلكترونية', 
