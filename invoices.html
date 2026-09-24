@@ -4,12 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#1d5b8e">
+<meta name="description" content="الفواتير - إلكترونك لصيانة الأجهزة الإلكترونية">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>الفواتير | إلكترونك</title>
 
 <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
+<link rel="icon" type="image/png" sizes="16x16" href="logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo.png">
 <link rel="manifest" href="manifest.json">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -22,7 +27,7 @@
 :root {
     --tech-blue: #1d5b8e; --tech-blue-dark: #154668; --tech-blue-light: #2d7ab8;
     --success: #10b981; --danger: #ef4444; --warning: #f59e0b; --info: #3b82f6;
-    --purple: #8b5cf6;
+    --purple: #8b5cf6; --pink: #ec4899;
     --bg-primary: #f6f8fb; --bg-card: #ffffff; --bg-hover: #f1f5f9;
     --text-primary: #0a1f33; --text-secondary: #475569; --text-muted: #94a3b8;
     --border-color: #e1e8f0;
@@ -31,7 +36,7 @@
     --shadow-lg: 0 12px 32px rgba(10,31,51,0.12);
     --shadow-xl: 0 24px 48px rgba(10,31,51,0.16);
     --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px; --radius-full: 9999px;
-    --navbar-height: 64px;
+    --navbar-height: 64px; --sidebar-width: 260px;
     --transition-fast: 0.15s ease; --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
     --safe-top: env(safe-area-inset-top,0); --safe-bottom: env(safe-area-inset-bottom,0);
     --safe-left: env(safe-area-inset-left,0); --safe-right: env(safe-area-inset-right,0);
@@ -139,7 +144,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .sidebar {
     position: fixed; top: var(--navbar-height); right: 0; bottom: 0;
-    width: 260px; background: var(--bg-card);
+    width: var(--sidebar-width); background: var(--bg-card);
     border-left: 1px solid var(--border-color);
     z-index: 900; overflow-y: auto;
     padding: 1rem 0.75rem calc(1rem + var(--safe-bottom));
@@ -181,7 +186,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .main-content {
     margin-top: var(--navbar-height);
-    margin-right: 260px;
+    margin-right: var(--sidebar-width);
     padding: 1.5rem; min-height: calc(100vh - var(--navbar-height));
 }
 .page-header {
@@ -223,10 +228,12 @@ img { max-width: 100%; height: auto; display: block; }
     background: linear-gradient(135deg, var(--success), #059669);
     color: white;
 }
+.btn-success:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16,185,129,0.4); }
 .btn-warning {
     background: linear-gradient(135deg, var(--warning), #d97706);
     color: white;
 }
+.btn-warning:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,0.4); }
 .btn-sm { padding: 0.45rem 0.8rem; font-size: 0.8rem; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
 
@@ -239,6 +246,7 @@ img { max-width: 100%; height: auto; display: block; }
     border-radius: var(--radius-lg); padding: 1.15rem;
     display: flex; align-items: center; gap: 0.85rem;
     transition: all var(--transition);
+    animation: fadeInUp 0.4s ease backwards;
 }
 .stat-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--tech-blue); }
 .stat-item-icon {
@@ -246,10 +254,11 @@ img { max-width: 100%; height: auto; display: block; }
     display: flex; align-items: center; justify-content: center;
     font-size: 1.2rem; color: white; flex-shrink: 0;
     background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    box-shadow: 0 4px 12px rgba(29,91,142,0.3);
 }
-.stat-item-icon.success { background: linear-gradient(135deg, var(--success), #059669); }
-.stat-item-icon.warning { background: linear-gradient(135deg, var(--warning), #d97706); }
-.stat-item-icon.danger { background: linear-gradient(135deg, var(--danger), #dc2626); }
+.stat-item-icon.success { background: linear-gradient(135deg, var(--success), #059669); box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+.stat-item-icon.warning { background: linear-gradient(135deg, var(--warning), #d97706); box-shadow: 0 4px 12px rgba(245,158,11,0.3); }
+.stat-item-icon.danger { background: linear-gradient(135deg, var(--danger), #dc2626); box-shadow: 0 4px 12px rgba(239,68,68,0.3); }
 .stat-item-content { flex: 1; min-width: 0; }
 .stat-item-value { font-size: 1.35rem; font-weight: 800; color: var(--text-primary); line-height: 1.2; }
 .stat-item-value small { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); }
@@ -286,6 +295,7 @@ img { max-width: 100%; height: auto; display: block; }
     background-repeat: no-repeat; background-position: left 0.75rem center;
     min-width: 150px;
 }
+.toolbar-select:focus { border-color: var(--tech-blue); box-shadow: 0 0 0 4px rgba(29,91,142,0.12); }
 
 .invoice-list {
     background: var(--bg-card); border: 1px solid var(--border-color);
@@ -293,20 +303,21 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .invoice-header {
     display: grid;
-    grid-template-columns: 120px 1.5fr 1fr 1fr 1fr 130px 120px;
+    grid-template-columns: 120px 1.5fr 1fr 1fr 1fr 130px 160px;
     gap: 0.75rem; padding: 0.85rem 1rem;
     background: var(--bg-primary);
     border-bottom: 1px solid var(--border-color);
     font-size: 0.75rem; font-weight: 700; color: var(--text-muted);
-    text-transform: uppercase;
+    text-transform: uppercase; letter-spacing: 0.3px;
 }
 .invoice-item {
     display: grid;
-    grid-template-columns: 120px 1.5fr 1fr 1fr 1fr 130px 120px;
+    grid-template-columns: 120px 1.5fr 1fr 1fr 1fr 130px 160px;
     gap: 0.75rem; padding: 0.9rem 1rem;
     border-bottom: 1px solid var(--border-color);
     transition: all var(--transition-fast);
     align-items: center;
+    animation: fadeInUp 0.3s ease backwards;
     cursor: pointer;
 }
 .invoice-item:last-child { border-bottom: none; }
@@ -317,7 +328,10 @@ img { max-width: 100%; height: auto; display: block; }
     font-family: 'Courier New', monospace;
     display: flex; align-items: center; gap: 0.3rem;
 }
-.invoice-customer { display: flex; align-items: center; gap: 0.6rem; min-width: 0; }
+.invoice-customer {
+    display: flex; align-items: center; gap: 0.6rem;
+    min-width: 0;
+}
 .invoice-customer-avatar {
     width: 36px; height: 36px; border-radius: 50%;
     background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
@@ -332,7 +346,8 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .invoice-customer-phone {
     font-size: 0.7rem; color: var(--text-muted);
-    font-family: 'Courier New', monospace; direction: ltr;
+    font-family: 'Courier New', monospace;
+    direction: ltr;
 }
 .invoice-cell {
     font-size: 0.85rem; font-weight: 700;
@@ -342,12 +357,21 @@ img { max-width: 100%; height: auto; display: block; }
     display: block; font-size: 0.68rem; color: var(--text-muted);
     font-weight: 500; margin-top: 0.1rem;
 }
-.invoice-total { font-size: 0.95rem; font-weight: 800; color: var(--tech-blue); }
+.invoice-total {
+    font-size: 0.95rem; font-weight: 800; color: var(--tech-blue);
+}
 .invoice-total small {
     display: block; font-size: 0.68rem; color: var(--text-muted);
     font-weight: 500; margin-top: 0.1rem;
 }
-.invoice-actions { display: flex; gap: 0.35rem; justify-content: flex-end; }
+.invoice-actions {
+    display: flex; gap: 0.3rem; justify-content: flex-end;
+}
+.invoice-actions .btn-sm {
+    padding: 0.4rem;
+    min-width: 32px;
+    height: 32px;
+}
 
 .badge {
     display: inline-flex; align-items: center; gap: 0.25rem;
@@ -358,26 +382,34 @@ img { max-width: 100%; height: auto; display: block; }
 .badge-danger { background: rgba(239,68,68,0.15); color: var(--danger); }
 .badge-warning { background: rgba(245,158,11,0.15); color: var(--warning); }
 .badge-info { background: rgba(59,130,246,0.15); color: var(--info); }
+.badge-gray { background: var(--bg-hover); color: var(--text-secondary); }
+.badge-purple { background: rgba(139,92,246,0.15); color: var(--purple); }
 
 .modal-overlay {
     position: fixed; inset: 0; background: rgba(10,31,51,0.7);
     backdrop-filter: blur(8px); display: none;
     align-items: center; justify-content: center;
     z-index: 2000; padding: 1rem;
-    overflow-y: auto;
+    animation: fadeIn 0.3s ease; overflow-y: auto;
 }
 .modal-overlay.show { display: flex; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .modal {
     background: var(--bg-card); border-radius: var(--radius-xl);
     box-shadow: var(--shadow-xl);
     max-width: 640px; width: 100%; max-height: 92vh;
     overflow: hidden;
+    animation: modalIn 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
     display: flex; flex-direction: column; margin: auto;
     border: 1px solid var(--border-color);
 }
 .modal-sm { max-width: 480px; }
 .modal-lg { max-width: 900px; }
 .modal-xl { max-width: 1100px; }
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
 .modal-header {
     padding: 1.25rem 1.5rem;
     border-bottom: 1px solid var(--border-color);
@@ -392,17 +424,23 @@ img { max-width: 100%; height: auto; display: block; }
     color: var(--text-muted); transition: all var(--transition);
     flex-shrink: 0;
 }
-.modal-close:hover { background: rgba(239,68,68,0.1); color: var(--danger); }
+.modal-close:hover { background: rgba(239,68,68,0.1); color: var(--danger); transform: rotate(90deg); }
 .modal-body {
-    padding: 1.5rem; overflow-y: auto;
+    padding: 1.5rem; overflow-y: auto; overflow-x: hidden;
     flex: 1; min-height: 0; max-height: calc(92vh - 180px);
+    scrollbar-width: thin; scrollbar-color: var(--border-color) transparent;
 }
+.modal-body::-webkit-scrollbar { width: 8px; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
+.modal-body::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
 .modal-footer {
     padding: 1rem 1.5rem;
     border-top: 1px solid var(--border-color);
     display: flex; gap: 0.75rem; justify-content: flex-end;
     flex-shrink: 0; background: var(--bg-primary); flex-wrap: wrap;
 }
+.modal-footer .btn { flex: 1; min-width: 120px; }
+@media (min-width: 480px) { .modal-footer .btn { flex: initial; min-width: auto; } }
 
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .form-group { margin-bottom: 0; }
@@ -424,6 +462,10 @@ img { max-width: 100%; height: auto; display: block; }
     border-color: var(--tech-blue); background: var(--bg-card);
     box-shadow: 0 0 0 4px rgba(29,91,142,0.12);
 }
+.form-input[type="number"] {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+}
 .form-textarea { resize: vertical; min-height: 70px; max-height: 200px; line-height: 1.6; }
 .form-select {
     cursor: pointer; appearance: none;
@@ -434,6 +476,12 @@ img { max-width: 100%; height: auto; display: block; }
 .form-input.error, .form-textarea.error, .form-select.error {
     border-color: var(--danger);
     box-shadow: 0 0 0 4px rgba(239,68,68,0.12);
+    animation: shake 0.4s ease;
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
 }
 .form-error {
     font-size: 0.75rem; color: var(--danger); margin-top: 0.4rem;
@@ -443,10 +491,15 @@ img { max-width: 100%; height: auto; display: block; }
 
 .picker { position: relative; }
 .picker-input {
-    width: 100%; padding: 0.75rem 0.95rem; padding-left: 2.5rem;
+    width: 100%; padding: 0.75rem 0.95rem;
+    padding-left: 2.5rem;
     background: var(--bg-primary); border: 1.5px solid var(--border-color);
     border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 500;
     outline: none; transition: all var(--transition); cursor: pointer;
+}
+.picker-input:focus {
+    border-color: var(--tech-blue); background: var(--bg-card);
+    box-shadow: 0 0 0 4px rgba(29,91,142,0.12);
 }
 .picker-icon {
     position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%);
@@ -470,6 +523,11 @@ img { max-width: 100%; height: auto; display: block; }
     width: 100%; padding: 0.5rem 0.75rem; padding-right: 2rem;
     background: var(--bg-primary); border: 1px solid var(--border-color);
     border-radius: var(--radius-sm); font-size: 0.85rem; outline: none;
+}
+.picker-dropdown-search i {
+    position: absolute; right: 1.35rem; top: 50%;
+    transform: translateY(-50%); color: var(--text-muted);
+    font-size: 0.8rem; pointer-events: none;
 }
 .picker-option {
     display: flex; align-items: center; gap: 0.65rem;
@@ -499,6 +557,10 @@ img { max-width: 100%; height: auto; display: block; }
     padding: 2rem 1rem; text-align: center;
     color: var(--text-muted); font-size: 0.85rem;
 }
+.picker-empty i {
+    font-size: 1.5rem; opacity: 0.3;
+    margin-bottom: 0.5rem; display: block;
+}
 
 .selected-chip {
     display: flex; align-items: center; gap: 0.75rem;
@@ -526,8 +588,10 @@ img { max-width: 100%; height: auto; display: block; }
 
 .parts-section {
     background: var(--bg-primary);
-    border-radius: var(--radius-md); padding: 1rem;
-    margin-top: 1rem; border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-top: 1rem;
+    border: 1.5px solid var(--border-color);
 }
 .parts-section-header {
     display: flex; align-items: center; justify-content: space-between;
@@ -694,10 +758,19 @@ img { max-width: 100%; height: auto; display: block; }
     border-radius: var(--radius-lg); margin-bottom: 1.25rem;
     display: flex; align-items: center; justify-content: space-between;
     gap: 1rem; flex-wrap: wrap;
+    position: relative; overflow: hidden;
 }
+.invoice-details-header::before {
+    content: ''; position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+.invoice-details-header-info { position: relative; z-index: 1; }
 .invoice-details-header-info h2 {
     font-size: 1.5rem; font-weight: 800; margin-bottom: 0.25rem;
     font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
 }
 .invoice-details-header-info p { font-size: 0.85rem; opacity: 0.9; }
 .invoice-details-status {
@@ -705,6 +778,7 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.8rem; font-weight: 700;
     background: rgba(255,255,255,0.2);
     display: inline-flex; align-items: center; gap: 0.4rem;
+    position: relative; z-index: 1;
 }
 .invoice-details-status.paid { background: rgba(16,185,129,0.3); color: #a7f3d0; }
 .invoice-details-status.unpaid { background: rgba(239,68,68,0.3); color: #fecaca; }
@@ -716,7 +790,8 @@ img { max-width: 100%; height: auto; display: block; }
     border-radius: var(--radius-md); margin-bottom: 1rem;
 }
 .qr-box {
-    width: 100px; height: 100px; background: white; padding: 0.5rem;
+    width: 100px; height: 100px;
+    background: white; padding: 0.5rem;
     border-radius: var(--radius-sm);
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
@@ -742,6 +817,8 @@ img { max-width: 100%; height: auto; display: block; }
     background: var(--bg-primary); color: var(--text-muted);
     font-size: 0.72rem; font-weight: 700;
     padding: 0.65rem 0.75rem; text-align: right;
+    text-transform: uppercase; letter-spacing: 0.3px;
+    border-bottom: 1px solid var(--border-color);
 }
 .items-table td {
     padding: 0.7rem 0.75rem; font-size: 0.85rem; font-weight: 600;
@@ -818,9 +895,165 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .tab-btn.active {
     background: var(--bg-card); color: var(--tech-blue);
+    box-shadow: var(--shadow-sm);
 }
+.tab-btn:hover:not(.active) { color: var(--tech-blue); }
 .tab-content { display: none; }
-.tab-content.active { display: block; }
+.tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+/* Share Modal Styles */
+.share-header {
+    text-align: center;
+    margin-bottom: 1.25rem;
+}
+.share-icon-circle {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 0.75rem;
+    border-radius: 50%;
+    background: rgba(37, 211, 102, 0.15);
+    color: #25d366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+}
+.share-invoice-number {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin-bottom: 0.25rem;
+    font-family: 'Courier New', monospace;
+}
+.share-customer-name {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+.share-customer-phone {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: 'Courier New', monospace;
+    direction: ltr;
+}
+.share-total {
+    font-size: 1.25rem;
+    font-weight: 900;
+    color: var(--tech-blue);
+    margin-top: 0.5rem;
+}
+.share-qr-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+.share-qr-box {
+    width: 170px;
+    height: 170px;
+    background: white;
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.share-qr-box canvas,
+.share-qr-box img {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 6px;
+}
+.share-link-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+}
+.share-link-row {
+    display: flex;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+}
+.share-link-input {
+    flex: 1;
+    padding: 0.6rem 0.75rem;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.72rem;
+    font-family: 'Courier New', monospace;
+    direction: ltr;
+    text-align: left;
+    outline: none;
+    color: var(--text-primary);
+    min-width: 0;
+}
+.share-link-input:focus { border-color: var(--tech-blue); }
+.share-copy-btn {
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: all var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+}
+.share-copy-btn:hover { transform: translateY(-2px); }
+.share-copy-btn.copied {
+    background: linear-gradient(135deg, var(--success), #059669);
+}
+.share-actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+.share-action-btn {
+    padding: 0.75rem 0.85rem;
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all var(--transition);
+    text-align: center;
+    border: 1.5px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    cursor: pointer;
+    text-decoration: none;
+}
+.share-action-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.share-action-btn.whatsapp {
+    background: #25d366;
+    color: white;
+    border-color: #25d366;
+}
+.share-action-btn.whatsapp:hover { background: #128c7e; }
+.share-action-btn.sms {
+    background: linear-gradient(135deg, var(--info), #2563eb);
+    color: white;
+    border-color: var(--info);
+}
+.share-action-btn.open {
+    background: var(--bg-primary);
+    color: var(--tech-blue);
+    border-color: var(--tech-blue);
+}
+.share-action-btn.download {
+    background: linear-gradient(135deg, var(--purple), #7c3aed);
+    color: white;
+    border-color: var(--purple);
+}
+@media (max-width: 400px) {
+    .share-actions-grid { grid-template-columns: 1fr; }
+}
 
 .toast-container {
     position: fixed; top: calc(var(--navbar-height) + 1rem);
@@ -835,6 +1068,7 @@ img { max-width: 100%; height: auto; display: block; }
     box-shadow: var(--shadow-xl); border: 1px solid var(--border-color);
     display: flex; align-items: center; gap: 0.75rem;
     font-size: 0.9rem; font-weight: 500; pointer-events: auto;
+    animation: toastIn 0.4s cubic-bezier(0.68,-0.55,0.265,1.55);
     border-right: 4px solid var(--info);
 }
 .toast.success { border-right-color: var(--success); }
@@ -844,6 +1078,13 @@ img { max-width: 100%; height: auto; display: block; }
 .toast.success i { color: var(--success); }
 .toast.error i { color: var(--danger); }
 .toast.warning i { color: var(--warning); }
+.toast.info i { color: var(--info); }
+.toast.hide { animation: toastOut 0.3s ease forwards; }
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes toastOut { to { opacity: 0; transform: translateY(-20px) scale(0.95); } }
 
 .skeleton {
     background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
@@ -884,9 +1125,11 @@ img { max-width: 100%; height: auto; display: block; }
     display: flex; align-items: center; justify-content: center;
     transition: all var(--transition);
 }
+.pagination-btn:hover:not(:disabled):not(.active) { border-color: var(--tech-blue); color: var(--tech-blue); }
 .pagination-btn.active {
     background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
     color: white; border-color: var(--tech-blue);
+    box-shadow: 0 4px 12px rgba(29,91,142,0.3);
 }
 .pagination-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
@@ -901,6 +1144,7 @@ img { max-width: 100%; height: auto; display: block; }
     transition: all var(--transition); z-index: 1400;
 }
 .scroll-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+.scroll-top:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(29,91,142,0.5); }
 
 .notifications-panel, .user-dropdown {
     position: fixed; top: calc(var(--navbar-height) + 0.5rem);
@@ -908,27 +1152,56 @@ img { max-width: 100%; height: auto; display: block; }
     background: var(--bg-card); border: 1px solid var(--border-color);
     border-radius: var(--radius-lg); box-shadow: var(--shadow-xl);
     z-index: 1200; opacity: 0; visibility: hidden;
-    transform: translateY(-10px);
+    transform: translateY(-10px) scale(0.98);
     transition: all var(--transition); overflow: hidden;
 }
 .user-dropdown { width: 240px; }
 .notifications-panel.show, .user-dropdown.show {
-    opacity: 1; visibility: visible; transform: translateY(0);
+    opacity: 1; visibility: visible; transform: translateY(0) scale(1);
 }
 .notifications-header {
     padding: 1rem 1.15rem; border-bottom: 1px solid var(--border-color);
     display: flex; align-items: center; justify-content: space-between;
 }
 .notifications-title { font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+.notifications-title i { color: var(--tech-blue); }
+.notifications-mark-read {
+    font-size: 0.75rem; font-weight: 600; color: var(--tech-blue);
+    padding: 0.35rem 0.65rem; border-radius: var(--radius-sm);
+    transition: all var(--transition);
+}
+.notifications-mark-read:hover { background: rgba(29,91,142,0.1); }
 .notifications-list { max-height: 400px; overflow-y: auto; }
 .notification-item {
     display: flex; gap: 0.75rem; padding: 0.85rem 1.15rem;
     border-bottom: 1px solid var(--border-color);
-    transition: all var(--transition-fast); cursor: pointer;
+    transition: all var(--transition-fast); cursor: pointer; position: relative;
 }
 .notification-item:hover { background: var(--bg-hover); }
+.notification-item.unread { background: rgba(29,91,142,0.04); }
+.notification-item.unread::before {
+    content: ''; position: absolute; right: 0; top: 50%;
+    transform: translateY(-50%); width: 3px; height: 60%;
+    background: var(--tech-blue); border-radius: 3px;
+}
+.notification-item-icon {
+    width: 36px; height: 36px; border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; flex-shrink: 0;
+}
+.notification-item-icon.info { background: rgba(59,130,246,0.12); color: var(--info); }
+.notification-item-icon.warning { background: rgba(245,158,11,0.12); color: var(--warning); }
+.notification-item-icon.danger { background: rgba(239,68,68,0.12); color: var(--danger); }
+.notification-item-icon.success { background: rgba(16,185,129,0.12); color: var(--success); }
+.notification-item-content { flex: 1; min-width: 0; }
+.notification-item-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.15rem; }
+.notification-item-message {
+    font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.notification-item-time { font-size: 0.65rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.25rem; }
 .notifications-empty { padding: 2.5rem 1rem; text-align: center; color: var(--text-muted); }
-
+.notifications-empty i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
 .user-dropdown-header {
     padding: 1rem; border-bottom: 1px solid var(--border-color);
     display: flex; align-items: center; gap: 0.75rem;
@@ -974,7 +1247,8 @@ img { max-width: 100%; height: auto; display: block; }
     .invoice-header { display: none; }
     .invoice-item {
         grid-template-columns: 1fr;
-        gap: 0.5rem; padding: 0.85rem;
+        gap: 0.5rem;
+        padding: 0.85rem;
         border-radius: var(--radius-md);
         margin-bottom: 0.5rem;
         border: 1px solid var(--border-color);
@@ -982,7 +1256,7 @@ img { max-width: 100%; height: auto; display: block; }
     .invoice-item > *:nth-child(n+3)::before {
         content: attr(data-label);
         display: block; font-size: 0.65rem; color: var(--text-muted);
-        font-weight: 700; margin-bottom: 0.15rem;
+        font-weight: 700; margin-bottom: 0.15rem; text-transform: uppercase;
     }
     .invoice-actions { justify-content: flex-start !important; }
 }
@@ -1004,12 +1278,20 @@ img { max-width: 100%; height: auto; display: block; }
     .modal-body { padding: 1rem; max-height: calc(92vh - 160px); }
     .modal-header { padding: 1rem 1.25rem; }
     .modal-footer { padding: 0.85rem 1.25rem; gap: 0.5rem; }
+    .invoice-details-header { padding: 1rem; flex-direction: column; align-items: flex-start; }
+    .invoice-details-header-info h2 { font-size: 1.15rem; }
     .qr-container { flex-direction: column; text-align: center; }
     .part-item { flex-wrap: wrap; }
     .part-item-qty { width: 100%; justify-content: flex-end; margin-top: 0.35rem; }
 }
 @media (max-width: 400px) {
     .stats-bar { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
 }
 </style>
 </head>
@@ -1018,7 +1300,9 @@ img { max-width: 100%; height: auto; display: block; }
 <div class="reading-progress" id="readingProgress"></div>
 
 <nav class="navbar">
-    <button class="navbar-menu-btn" id="menuBtn" aria-label="القائمة"><i class="fas fa-bars"></i></button>
+    <button class="navbar-menu-btn" id="menuBtn" aria-label="القائمة">
+        <i class="fas fa-bars"></i>
+    </button>
     <a href="dashboard.html" class="navbar-brand">
         <img src="logo.png" alt="إلكترونك" class="navbar-logo" onerror="this.style.display='none'">
         <div class="navbar-brand-text">
@@ -1086,14 +1370,19 @@ img { max-width: 100%; height: auto; display: block; }
 </aside>
 
 <main class="main-content">
+    
     <div class="page-header">
         <div class="page-header-text">
             <h1><i class="fas fa-file-invoice-dollar"></i> الفواتير</h1>
             <p id="pageSubtitle">إدارة فواتير المركز</p>
         </div>
         <div class="page-header-actions">
-            <button class="btn btn-secondary" id="exportExcelBtn"><i class="fas fa-file-excel"></i> تصدير</button>
-            <button class="btn btn-primary" id="addInvoiceBtn"><i class="fas fa-plus"></i> فاتورة جديدة</button>
+            <button class="btn btn-secondary" id="exportExcelBtn">
+                <i class="fas fa-file-excel"></i> تصدير
+            </button>
+            <button class="btn btn-primary" id="addInvoiceBtn">
+                <i class="fas fa-plus"></i> فاتورة جديدة
+            </button>
         </div>
     </div>
     
@@ -1152,13 +1441,15 @@ img { max-width: 100%; height: auto; display: block; }
             <div class="skeleton skeleton-row"></div>
             <div class="skeleton skeleton-row"></div>
             <div class="skeleton skeleton-row"></div>
+            <div class="skeleton skeleton-row"></div>
         </div>
     </div>
     
     <div class="pagination" id="pagination" style="display: none;"></div>
+    
 </main>
 
-<!-- Invoice Modal -->
+<!-- Add/Edit Invoice Modal -->
 <div class="modal-overlay" id="invoiceModal">
     <div class="modal modal-lg">
         <div class="modal-header">
@@ -1171,14 +1462,18 @@ img { max-width: 100%; height: auto; display: block; }
         <form id="invoiceForm" autocomplete="off">
             <div class="modal-body">
                 
+                <!-- Repair Order Picker -->
                 <div class="form-group" style="margin-bottom: 1rem;">
-                    <label class="form-label"><i class="fas fa-screwdriver-wrench"></i> أمر الصيانة <span class="required">*</span></label>
+                    <label class="form-label">
+                        <i class="fas fa-screwdriver-wrench"></i> أمر الصيانة <span class="required">*</span>
+                    </label>
                     <div class="picker" id="repairPicker">
                         <input type="text" class="picker-input" id="repairSearch" placeholder="اضغط لاختيار أمر صيانة..." readonly>
                         <i class="fas fa-screwdriver-wrench picker-icon"></i>
                         <div class="picker-dropdown" id="repairDropdown">
                             <div class="picker-dropdown-search">
                                 <input type="text" id="repairDropdownSearch" placeholder="ابحث بالكود، اسم العميل..." autocomplete="off">
+                                <i class="fas fa-magnifying-glass"></i>
                             </div>
                             <div id="repairOptionsList"></div>
                         </div>
@@ -1187,16 +1482,18 @@ img { max-width: 100%; height: auto; display: block; }
                     <div class="form-error" id="repairError"><i class="fas fa-circle-exclamation"></i><span>الرجاء اختيار أمر صيانة</span></div>
                 </div>
                 
+                <!-- Customer Info -->
                 <div id="customerInfoBox" style="display: none; padding: 0.85rem; background: var(--bg-primary); border-radius: var(--radius-md); margin-bottom: 1rem;">
                     <div style="display: flex; align-items: center; gap: 0.75rem;">
                         <div class="picker-option-avatar" id="customerAvatar">؟</div>
                         <div style="flex: 1; min-width: 0;">
-                            <div style="font-size: 0.9rem; font-weight: 700;" id="customerName">—</div>
+                            <div style="font-size: 0.9rem; font-weight: 700; margin-bottom: 0.15rem;" id="customerName">—</div>
                             <div style="font-size: 0.75rem; color: var(--text-secondary); font-family: monospace; direction: ltr;" id="customerPhone">—</div>
                         </div>
                     </div>
                 </div>
                 
+                <!-- ═══ PARTS SECTION ═══ -->
                 <div class="parts-section">
                     <div class="parts-section-header">
                         <h3 class="parts-section-title">
@@ -1210,39 +1507,59 @@ img { max-width: 100%; height: auto; display: block; }
                     </div>
                     <div class="parts-list" id="partsListContainer"></div>
                 </div>
+                <!-- ═══ END PARTS ═══ -->
                 
                 <div class="form-grid" style="margin-top: 1rem;">
+                    
                     <div class="form-group">
-                        <label class="form-label" for="laborCost"><i class="fas fa-screwdriver-wrench"></i> تكلفة المصنعية (ج.م)</label>
+                        <label class="form-label" for="laborCost">
+                            <i class="fas fa-screwdriver-wrench"></i> تكلفة المصنعية (ج.م)
+                        </label>
                         <input type="number" class="form-input" id="laborCost" placeholder="0.00" min="0" step="0.01" value="0">
                     </div>
+                    
                     <div class="form-group">
-                        <label class="form-label" for="discountType"><i class="fas fa-percent"></i> نوع الخصم</label>
+                        <label class="form-label" for="discountType">
+                            <i class="fas fa-percent"></i> نوع الخصم
+                        </label>
                         <select class="form-select" id="discountType">
                             <option value="fixed">مبلغ ثابت (ج.م)</option>
                             <option value="percent">نسبة (%)</option>
                         </select>
                     </div>
+                    
                     <div class="form-group">
-                        <label class="form-label" for="discountValue"><i class="fas fa-tags"></i> الخصم</label>
+                        <label class="form-label" for="discountValue">
+                            <i class="fas fa-tags"></i> الخصم
+                        </label>
                         <input type="number" class="form-input" id="discountValue" placeholder="0" min="0" step="0.01" value="0">
                     </div>
+                    
                     <div class="form-group">
-                        <label class="form-label" for="paymentMethod"><i class="fas fa-credit-card"></i> طريقة الدفع</label>
+                        <label class="form-label" for="paymentMethod">
+                            <i class="fas fa-credit-card"></i> طريقة الدفع
+                        </label>
                         <select class="form-select" id="paymentMethod">
                             <option value="cash">كاش</option>
                             <option value="visa">فيزا</option>
                             <option value="credit">آجل</option>
                         </select>
                     </div>
+                    
                     <div class="form-group full">
-                        <label class="form-label" for="paidAmount"><i class="fas fa-money-bill-wave"></i> المبلغ المدفوع (ج.م)</label>
+                        <label class="form-label" for="paidAmount">
+                            <i class="fas fa-money-bill-wave"></i> المبلغ المدفوع (ج.م)
+                        </label>
                         <input type="number" class="form-input" id="paidAmount" placeholder="0.00" min="0" step="0.01" value="0">
                     </div>
+                    
                     <div class="form-group full">
-                        <label class="form-label" for="invoiceNotes"><i class="fas fa-align-right"></i> ملاحظات</label>
+                        <label class="form-label" for="invoiceNotes">
+                            <i class="fas fa-align-right"></i> ملاحظات
+                        </label>
                         <textarea class="form-textarea" id="invoiceNotes" placeholder="أي ملاحظات على الفاتورة..." maxlength="500"></textarea>
                     </div>
+                    
                 </div>
                 
                 <input type="hidden" id="partsTotal" value="0">
@@ -1268,7 +1585,9 @@ img { max-width: 100%; height: auto; display: block; }
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="cancelInvoiceBtn"><i class="fas fa-times"></i> إلغاء</button>
+                <button type="button" class="btn btn-secondary" id="cancelInvoiceBtn">
+                    <i class="fas fa-times"></i> إلغاء
+                </button>
                 <button type="submit" class="btn btn-primary" id="saveInvoiceBtn">
                     <span class="spinner" style="display: none;"></span>
                     <i class="fas fa-check"></i>
@@ -1283,7 +1602,10 @@ img { max-width: 100%; height: auto; display: block; }
 <div class="modal-overlay" id="productPickerModal">
     <div class="modal modal-lg">
         <div class="modal-header">
-            <h3 class="modal-title"><i class="fas fa-boxes-stacked"></i><span>اختر قطعة من المخزون</span></h3>
+            <h3 class="modal-title">
+                <i class="fas fa-boxes-stacked"></i>
+                <span>اختر قطعة من المخزون</span>
+            </h3>
             <button class="modal-close" id="closeProductPickerModal"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body" style="padding: 0;">
@@ -1296,46 +1618,70 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Details Modal -->
+<!-- Invoice Details Modal -->
 <div class="modal-overlay" id="detailsModal">
     <div class="modal modal-xl">
         <div class="modal-header">
-            <h3 class="modal-title"><i class="fas fa-file-invoice"></i><span>تفاصيل الفاتورة</span></h3>
+            <h3 class="modal-title">
+                <i class="fas fa-file-invoice"></i>
+                <span>تفاصيل الفاتورة</span>
+            </h3>
             <button class="modal-close" id="closeDetailsModal"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body" id="detailsContent"></div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" id="closeDetailsBtn">إغلاق</button>
-            <button type="button" class="btn btn-warning" id="printThermalBtn"><i class="fas fa-receipt"></i> طباعة POS</button>
-            <button type="button" class="btn btn-success" id="printA4Btn"><i class="fas fa-print"></i> طباعة A4</button>
-            <button type="button" class="btn btn-primary" id="addPaymentBtn"><i class="fas fa-plus-circle"></i> دفعة</button>
+            <button type="button" class="btn btn-warning" id="printThermalBtn">
+                <i class="fas fa-receipt"></i> طباعة POS
+            </button>
+            <button type="button" class="btn btn-success" id="printA4Btn">
+                <i class="fas fa-print"></i> طباعة A4
+            </button>
+            <button type="button" class="btn btn-secondary" id="shareFromDetailsBtn" style="background: rgba(37,211,102,0.15); color: #25d366; border-color: rgba(37,211,102,0.3);">
+                <i class="fas fa-share-nodes"></i> مشاركة
+            </button>
+            <button type="button" class="btn btn-primary" id="addPaymentBtn">
+                <i class="fas fa-plus-circle"></i> دفعة
+            </button>
         </div>
     </div>
 </div>
 
-<!-- Payment Modal -->
+<!-- Add Payment Modal -->
 <div class="modal-overlay" id="paymentModal">
     <div class="modal modal-sm">
         <div class="modal-header">
-            <h3 class="modal-title"><i class="fas fa-money-bill-wave"></i><span>تسجيل دفعة</span></h3>
+            <h3 class="modal-title">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>تسجيل دفعة</span>
+            </h3>
             <button class="modal-close" id="closePaymentModal"><i class="fas fa-times"></i></button>
         </div>
         <form id="paymentForm" autocomplete="off">
             <div class="modal-body">
                 <div class="form-group" style="margin-bottom: 1rem;">
-                    <label class="form-label" for="paymentAmountInput"><i class="fas fa-dollar-sign"></i> المبلغ <span class="required">*</span></label>
+                    <label class="form-label" for="paymentAmountInput">
+                        <i class="fas fa-dollar-sign"></i> المبلغ <span class="required">*</span>
+                    </label>
                     <input type="number" class="form-input" id="paymentAmountInput" placeholder="0.00" min="0.01" step="0.01" required>
-                    <div class="form-error" id="paymentAmountError"><i class="fas fa-circle-exclamation"></i><span>الرجاء إدخال مبلغ صحيح</span></div>
+                    <div class="form-error" id="paymentAmountError">
+                        <i class="fas fa-circle-exclamation"></i>
+                        <span>الرجاء إدخال مبلغ صحيح</span>
+                    </div>
                 </div>
                 <div class="form-group" style="margin-bottom: 1rem;">
-                    <label class="form-label" for="paymentMethodInput"><i class="fas fa-credit-card"></i> طريقة الدفع</label>
+                    <label class="form-label" for="paymentMethodInput">
+                        <i class="fas fa-credit-card"></i> طريقة الدفع
+                    </label>
                     <select class="form-select" id="paymentMethodInput">
                         <option value="cash">كاش</option>
                         <option value="visa">فيزا</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="paymentNotesInput"><i class="fas fa-align-right"></i> ملاحظات</label>
+                    <label class="form-label" for="paymentNotesInput">
+                        <i class="fas fa-align-right"></i> ملاحظات
+                    </label>
                     <textarea class="form-textarea" id="paymentNotesInput" placeholder="ملاحظات على الدفعة..." maxlength="300"></textarea>
                 </div>
             </div>
@@ -1351,11 +1697,28 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
+<!-- Share Modal -->
+<div class="modal-overlay" id="shareModal">
+    <div class="modal modal-sm">
+        <div class="modal-header">
+            <h3 class="modal-title">
+                <i class="fas fa-share-nodes" style="color: #25d366;"></i>
+                <span>مشاركة الفاتورة</span>
+            </h3>
+            <button class="modal-close" id="closeShareModal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body" id="shareModalBody"></div>
+    </div>
+</div>
+
 <!-- Delete Modal -->
 <div class="modal-overlay" id="deleteModal">
     <div class="modal modal-sm">
         <div class="modal-header">
-            <h3 class="modal-title"><i class="fas fa-triangle-exclamation" style="color: var(--danger);"></i> تأكيد الحذف</h3>
+            <h3 class="modal-title">
+                <i class="fas fa-triangle-exclamation" style="color: var(--danger);"></i>
+                تأكيد الحذف
+            </h3>
             <button class="modal-close" id="closeDeleteModal"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body">
@@ -1370,7 +1733,9 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" id="cancelDeleteBtn">إلغاء</button>
-            <button type="button" class="btn btn-danger" id="confirmDeleteBtn"><i class="fas fa-trash"></i> حذف نهائي</button>
+            <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                <i class="fas fa-trash"></i> حذف نهائي
+            </button>
         </div>
     </div>
 </div>
@@ -1378,7 +1743,7 @@ img { max-width: 100%; height: auto; display: block; }
 <div class="notifications-panel" id="notificationsPanel">
     <div class="notifications-header">
         <h3 class="notifications-title"><i class="fas fa-bell"></i> الإشعارات</h3>
-        <button class="notifications-mark-read" id="markAllReadBtn" style="font-size: 0.75rem; color: var(--tech-blue); font-weight: 600;">تعيين الكل كمقروء</button>
+        <button class="notifications-mark-read" id="markAllReadBtn">تعيين الكل كمقروء</button>
     </div>
     <div class="notifications-list" id="notificationsList"></div>
 </div>
@@ -1400,12 +1765,15 @@ img { max-width: 100%; height: auto; display: block; }
 </div>
 
 <div class="toast-container" id="toastContainer"></div>
-<button class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+<button class="scroll-top" id="scrollTop" aria-label="العودة للأعلى"><i class="fas fa-arrow-up"></i></button>
 
 <script>
 (function() {
 'use strict';
 
+// ═══════════════════════════════════════════════════════════════
+// 🔑 Config
+// ═══════════════════════════════════════════════════════════════
 var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
 var DB_NAME = 'electronic_db';
@@ -1425,6 +1793,9 @@ function getSupabaseClient() {
     } catch (e) { return null; }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🧰 Helpers
+// ═══════════════════════════════════════════════════════════════
 function escapeHtml(str) {
     if (str == null) return '';
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -1528,6 +1899,9 @@ function getPaymentMethodText(method) {
     return map[method] || method;
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🎨 Theme
+// ═══════════════════════════════════════════════════════════════
 function initTheme() {
     var saved = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
@@ -1545,6 +1919,9 @@ function toggleTheme() {
     updateThemeIcon(next);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🍞 Toast
+// ═══════════════════════════════════════════════════════════════
 function showToast(message, type, duration) {
     type = type || 'info';
     duration = duration || 3500;
@@ -1559,8 +1936,7 @@ function showToast(message, type, duration) {
     toast.innerHTML = '<i class="fas ' + (icons[type] || icons.info) + '"></i><span>' + escapeHtml(message) + '</span>';
     container.appendChild(toast);
     setTimeout(function() {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateY(-20px)';
+        toast.classList.add('hide');
         setTimeout(function() { toast.remove(); }, 300);
     }, duration);
 }
@@ -1612,6 +1988,9 @@ function startInactivityMonitor() {
     resetInactivity();
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 💾 IndexedDB
+// ═══════════════════════════════════════════════════════════════
 var dbInstance = null;
 var dbPromise = null;
 var dbFailed = false;
@@ -1637,10 +2016,15 @@ function openDB() {
                 if (!db.objectStoreNames.contains('outbox')) {
                     var s = db.createObjectStore('outbox', { keyPath: 'id', autoIncrement: true });
                     s.createIndex('status', 'status');
+                    s.createIndex('created_at', 'created_at');
                 }
             };
             req.onsuccess = function() {
                 dbInstance = req.result;
+                dbInstance.onversionchange = function() {
+                    try { dbInstance.close(); } catch(e) {}
+                    dbInstance = null; dbPromise = null;
+                };
                 resolve(dbInstance);
             };
             req.onerror = function() { dbFailed = true; dbPromise = null; resolve(null); };
@@ -1724,6 +2108,9 @@ function addToOutbox(action) {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📊 State
+// ═══════════════════════════════════════════════════════════════
 var state = {
     invoices: [],
     customers: [],
@@ -1744,6 +2131,9 @@ var state = {
     isLoading: true
 };
 
+// ═══════════════════════════════════════════════════════════════
+// 📥 Load Data
+// ═══════════════════════════════════════════════════════════════
 function loadData() {
     state.isLoading = true;
     var sb = getSupabaseClient();
@@ -1764,6 +2154,12 @@ function loadData() {
         state.payments = results[3].data || [];
         state.products = results[4].data || [];
         state.invoiceItems = results[5].data || [];
+        
+        console.log('✅ Loaded:', {
+            invoices: state.invoices.length,
+            products: state.products.length,
+            invoiceItems: state.invoiceItems.length
+        });
         
         return Promise.all([
             dbBulkPut('invoices', state.invoices),
@@ -1809,6 +2205,9 @@ function loadFromCacheInternal() {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📊 Stats
+// ═══════════════════════════════════════════════════════════════
 function updateStats() {
     var totalInvoices = state.invoices.length;
     var totalSales = 0;
@@ -1841,6 +2240,9 @@ function updateStats() {
     if (subtitle) subtitle.textContent = totalInvoices + ' فاتورة';
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🔍 Lookups
+// ═══════════════════════════════════════════════════════════════
 function getCustomerById(id) {
     if (!id) return null;
     for (var i = 0; i < state.customers.length; i++) {
@@ -1873,6 +2275,9 @@ function getItemsForInvoice(invoiceId) {
     return state.invoiceItems.filter(function(item) { return item.invoice_id === invoiceId; });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🎯 Filters & Render
+// ═══════════════════════════════════════════════════════════════
 function applyFilters() {
     var list = state.invoices.slice();
     var q = (state.searchQuery || '').trim().toLowerCase();
@@ -2000,6 +2405,7 @@ function renderInvoiceRow(inv) {
         '<div data-label="الحالة">' + getStatusBadge(status) + '</div>' +
         '<div class="invoice-actions">' +
             '<button class="btn btn-sm btn-secondary" data-action="view" data-id="' + inv.id + '" title="عرض"><i class="fas fa-eye"></i></button>' +
+            '<button class="btn btn-sm btn-secondary" data-action="share" data-id="' + inv.id + '" title="مشاركة" style="background: rgba(37,211,102,0.15); color: #25d366; border-color: rgba(37,211,102,0.3);"><i class="fas fa-share-nodes"></i></button>' +
             '<button class="btn btn-sm btn-secondary" data-action="edit" data-id="' + inv.id + '" title="تعديل"><i class="fas fa-pen"></i></button>' +
             '<button class="btn btn-sm btn-danger" data-action="delete" data-id="' + inv.id + '" title="حذف"><i class="fas fa-trash"></i></button>' +
         '</div>' +
@@ -2056,6 +2462,7 @@ function bindInvoiceEvents() {
                     if (action === 'edit') openEditModal(id);
                     else if (action === 'delete') openDeleteModal(id);
                     else if (action === 'view') openDetailsModal(id);
+                    else if (action === 'share') openShareModal(id);
                     return;
                 }
                 target = target.parentElement;
@@ -2065,6 +2472,9 @@ function bindInvoiceEvents() {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🧩 Parts Section
+// ═══════════════════════════════════════════════════════════════
 function renderPartsSection() {
     var container = document.getElementById('partsListContainer');
     var badge = document.getElementById('partsCountBadge');
@@ -2168,8 +2578,12 @@ function removePart(idx) {
     state.currentItems.splice(idx, 1);
     renderPartsSection();
     updateSummary();
+    showToast('تم إزالة القطعة', 'info', 1500);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🛒 Product Picker
+// ═══════════════════════════════════════════════════════════════
 function openProductPicker() {
     document.getElementById('productPickerModal').classList.add('show');
     var searchInput = document.getElementById('productPickerSearch');
@@ -2207,9 +2621,9 @@ function renderProductPickerList(search) {
         var lowStock = qty > 0 && qty <= (p.min_quantity || 5);
         
         var stockBadge = '';
-        if (outOfStock) stockBadge = '<span class="stock-badge out">نفذ</span>';
-        else if (lowStock) stockBadge = '<span class="stock-badge low">' + qty + ' متبقي</span>';
-        else stockBadge = '<span class="stock-badge">' + qty + ' متوفر</span>';
+        if (outOfStock) stockBadge = '<span class="stock-badge out"><i class="fas fa-circle-xmark"></i> نفذ</span>';
+        else if (lowStock) stockBadge = '<span class="stock-badge low"><i class="fas fa-triangle-exclamation"></i> ' + qty + ' متبقي</span>';
+        else stockBadge = '<span class="stock-badge"><i class="fas fa-check"></i> ' + qty + ' متوفر</span>';
         
         var img = p.image_url 
             ? '<img src="' + escapeHtml(p.image_url) + '" alt="" class="product-picker-item-img" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><div class="product-picker-item-img placeholder" style="display:none;"><i class="fas fa-image"></i></div>'
@@ -2289,6 +2703,9 @@ function addProductToInvoice(productId) {
     showToast('تم إضافة ' + product.name, 'success', 2000);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🪟 Add/Edit Modal
+// ═══════════════════════════════════════════════════════════════
 function openAddModal() {
     state.editingInvoice = null;
     state.selectedRepair = null;
@@ -2388,6 +2805,9 @@ function clearFormErrors() {
     for (var j = 0; j < inputs.length; j++) inputs[j].classList.remove('error');
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🔍 Repair Picker
+// ═══════════════════════════════════════════════════════════════
 function initRepairPicker() {
     var input = document.getElementById('repairSearch');
     var dropdown = document.getElementById('repairDropdown');
@@ -2516,6 +2936,9 @@ function renderSelectedRepair(r) {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📊 Summary
+// ═══════════════════════════════════════════════════════════════
 function updateSummary() {
     var labor = parseFloat(document.getElementById('laborCost').value) || 0;
     var discountType = document.getElementById('discountType').value;
@@ -2552,6 +2975,9 @@ function updateSummary() {
     document.getElementById('summaryTotal').textContent = formatCurrency(total);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 💾 Save Invoice
+// ═══════════════════════════════════════════════════════════════
 function saveInvoice(e) {
     e.preventDefault();
     clearFormErrors();
@@ -2580,7 +3006,6 @@ function saveInvoice(e) {
         return;
     }
     
-    // فحص الكميات قبل الحفظ
     if (state.currentItems.length > 0) {
         var stockError = null;
         for (var ci = 0; ci < state.currentItems.length; ci++) {
@@ -2680,6 +3105,8 @@ function saveInvoice(e) {
         
         return sb.from('invoice_items').insert(rows).then(function(result) {
             if (!result.error) return { ok: true };
+            
+            console.error('❌ Insert items error:', result.error);
             return {
                 ok: false,
                 message: result.error.message || 'فشل حفظ القطع'
@@ -2698,7 +3125,10 @@ function saveInvoice(e) {
                     if (result.error) throw result.error;
                     return sb.from('invoice_items').delete().eq('invoice_id', invoiceId);
                 })
-                .then(function() {
+                .then(function(delResult) {
+                    if (delResult.error) {
+                        console.warn('Delete items warning:', delResult.error);
+                    }
                     return insertItems(invoiceId);
                 })
                 .then(function(insertResult) {
@@ -2750,7 +3180,12 @@ function saveInvoice(e) {
                             method: paymentMethod === 'credit' ? 'cash' : paymentMethod,
                             notes: 'دفعة أولية',
                             created_by: session && session.user ? session.user.id : null
-                        }).then(function() { return data; });
+                        }).then(function(payResult) {
+                            if (payResult.error) {
+                                console.warn('Payment warning:', payResult.error);
+                            }
+                            return data;
+                        });
                     }
                     return data;
                 });
@@ -2801,6 +3236,197 @@ function generateInvoiceNumber() {
     return 'INV-' + year + month + '-' + random;
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📤 Share Invoice Modal
+// ═══════════════════════════════════════════════════════════════
+function openShareModal(id) {
+    var inv = null;
+    for (var i = 0; i < state.invoices.length; i++) {
+        if (state.invoices[i].id === id) { inv = state.invoices[i]; break; }
+    }
+    if (!inv) return;
+
+    state.viewingInvoice = inv;
+    var customer = getCustomerById(inv.customer_id) || {};
+    var invoiceNumber = inv.invoice_number || 'INV';
+    var total = parseFloat(inv.total) || 0;
+
+    var linkIdentifier = inv.uuid_link || inv.id;
+    var baseUrl = window.location.origin + window.location.pathname.replace('invoices.html', 'invoice-view.html');
+    var invoiceUrl = baseUrl + '?id=' + linkIdentifier;
+
+    var phone = (customer.phone || '').replace(/[^\d+]/g, '');
+    var phoneForWa = phone.replace(/^0/, '');
+    if (phoneForWa && !phoneForWa.startsWith('+') && !phoneForWa.startsWith('2')) {
+        phoneForWa = '2' + phoneForWa;
+    }
+
+    var waText = encodeURIComponent(
+        'مرحباً ' + (customer.name || '') + '،\n\n' +
+        'فاتورتك رقم ' + invoiceNumber + '\n' +
+        'بإجمالي: ' + formatCurrency(total) + '\n\n' +
+        'يمكنك عرض الفاتورة من الرابط:\n' + invoiceUrl
+    );
+
+    var smsText = encodeURIComponent(
+        'فاتورتك رقم ' + invoiceNumber + ' - ' + formatCurrency(total) + '\n' + invoiceUrl
+    );
+
+    var bodyHtml =
+        '<div class="share-header">' +
+            '<div class="share-icon-circle"><i class="fas fa-share-nodes"></i></div>' +
+            '<div class="share-invoice-number">' + escapeHtml(invoiceNumber) + '</div>' +
+            (customer.name ? '<div class="share-customer-name">' + escapeHtml(customer.name) + '</div>' : '') +
+            (customer.phone ? '<div class="share-customer-phone">' + escapeHtml(customer.phone) + '</div>' : '') +
+            '<div class="share-total">' + formatCurrency(total) + '</div>' +
+        '</div>' +
+
+        '<div class="share-qr-wrapper">' +
+            '<div class="share-qr-box" id="shareQrBox"></div>' +
+        '</div>' +
+
+        '<label class="share-link-label"><i class="fas fa-link"></i> لينك الفاتورة</label>' +
+        '<div class="share-link-row">' +
+            '<input type="text" id="shareLinkInput" class="share-link-input" value="' + escapeHtml(invoiceUrl) + '" readonly>' +
+            '<button type="button" class="share-copy-btn" id="shareCopyBtn" title="نسخ الرابط">' +
+                '<i class="fas fa-copy"></i>' +
+            '</button>' +
+        '</div>' +
+
+        '<div class="share-actions-grid">' +
+            (phoneForWa ?
+                '<a href="https://wa.me/' + escapeHtml(phoneForWa) + '?text=' + waText + '" target="_blank" rel="noopener" class="share-action-btn whatsapp">' +
+                    '<i class="fab fa-whatsapp"></i> واتساب' +
+                '</a>' :
+                '<button type="button" class="share-action-btn whatsapp" disabled style="opacity:0.5;cursor:not-allowed;">' +
+                    '<i class="fab fa-whatsapp"></i> واتساب' +
+                '</button>'
+            ) +
+            (phone ?
+                '<a href="sms:' + escapeHtml(phone) + '?body=' + smsText + '" class="share-action-btn sms">' +
+                    '<i class="fas fa-comment-sms"></i> SMS' +
+                '</a>' :
+                '<button type="button" class="share-action-btn sms" disabled style="opacity:0.5;cursor:not-allowed;">' +
+                    '<i class="fas fa-comment-sms"></i> SMS' +
+                '</button>'
+            ) +
+            '<a href="' + escapeHtml(invoiceUrl) + '" target="_blank" rel="noopener" class="share-action-btn open">' +
+                '<i class="fas fa-external-link-alt"></i> فتح الفاتورة' +
+            '</a>' +
+            '<button type="button" class="share-action-btn download" id="shareDownloadQrBtn">' +
+                '<i class="fas fa-download"></i> تحميل QR' +
+            '</button>' +
+        '</div>';
+
+    document.getElementById('shareModalBody').innerHTML = bodyHtml;
+    document.getElementById('shareModal').classList.add('show');
+
+    setTimeout(function() { generateShareQR(invoiceUrl); }, 150);
+
+    var copyBtn = document.getElementById('shareCopyBtn');
+    if (copyBtn) copyBtn.addEventListener('click', copyInvoiceLink);
+
+    var downloadQrBtn = document.getElementById('shareDownloadQrBtn');
+    if (downloadQrBtn) {
+        downloadQrBtn.addEventListener('click', function() { downloadInvoiceQR(invoiceNumber); });
+    }
+}
+
+function closeShareModal() {
+    var modal = document.getElementById('shareModal');
+    if (modal) modal.classList.remove('show');
+    state.viewingInvoice = null;
+}
+
+function copyInvoiceLink() {
+    var input = document.getElementById('shareLinkInput');
+    var copyBtn = document.getElementById('shareCopyBtn');
+    if (!input) return;
+
+    input.select();
+    input.setSelectionRange(0, 99999);
+
+    var onSuccess = function() {
+        if (copyBtn) {
+            copyBtn.classList.add('copied');
+            copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(function() {
+                copyBtn.classList.remove('copied');
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+            }, 2000);
+        }
+        showToast('✅ تم نسخ الرابط', 'success');
+    };
+
+    try {
+        var ok = document.execCommand('copy');
+        if (ok) { onSuccess(); return; }
+        throw new Error('execCommand failed');
+    } catch (e) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(input.value).then(onSuccess).catch(function() {
+                showToast('فشل نسخ الرابط', 'error');
+            });
+        } else {
+            showToast('فشل نسخ الرابط', 'error');
+        }
+    }
+}
+
+function generateShareQR(text) {
+    var box = document.getElementById('shareQrBox');
+    if (!box) return;
+
+    if (typeof QRCode === 'undefined') {
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js';
+        script.onload = function() { generateShareQR(text); };
+        script.onerror = function() {
+            box.innerHTML = '<i class="fas fa-qrcode" style="font-size: 2rem; color: var(--text-muted);"></i>';
+        };
+        document.head.appendChild(script);
+        return;
+    }
+
+    QRCode.toCanvas(text, {
+        width: 340, margin: 1,
+        color: { dark: '#1d5b8e', light: '#ffffff' },
+        errorCorrectionLevel: 'M'
+    }, function(err, canvas) {
+        if (err) {
+            box.innerHTML = '<i class="fas fa-qrcode" style="font-size: 2rem; color: var(--text-muted);"></i>';
+            return;
+        }
+        box.innerHTML = '';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        box.appendChild(canvas);
+    });
+}
+
+function downloadInvoiceQR(invoiceNumber) {
+    var canvas = document.querySelector('#shareQrBox canvas');
+    if (!canvas) {
+        showToast('جاري توليد QR...', 'info');
+        setTimeout(function() { downloadInvoiceQR(invoiceNumber); }, 800);
+        return;
+    }
+    try {
+        var link = document.createElement('a');
+        link.download = 'invoice_qr_' + (invoiceNumber || 'invoice') + '_' + Date.now() + '.png';
+        link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast('✅ تم تحميل الـ QR', 'success');
+    } catch (e) {
+        showToast('فشل التحميل', 'error');
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📋 Details Modal
+// ═══════════════════════════════════════════════════════════════
 function openDetailsModal(id) {
     var inv = null;
     for (var i = 0; i < state.invoices.length; i++) {
@@ -2915,7 +3541,7 @@ function openDetailsModal(id) {
                     '<tr><td><i class="fas fa-screwdriver-wrench" style="color: var(--tech-blue); margin-left: 0.35rem;"></i> تكلفة المصنعية</td>' +
                         '<td class="num" style="text-align: left;">' + formatCurrency(labor) + '</td></tr>' +
                     (discount > 0 ? '<tr style="color: var(--danger);">' +
-                        '<td><i class="fas fa-tags" style="margin-left: 0.35rem;"></i> الخصم</td>' +
+                        '<td><i class="fas fa-tags" style="margin-left: 0.35rem;"></i> الخصم' + (inv.discount_type === 'percent' ? ' (' + inv.discount + '%)' : '') + '</td>' +
                         '<td class="num" style="text-align: left;">- ' + formatCurrency(discount) + '</td></tr>' : '') +
                     '<tr style="background: var(--bg-primary); font-weight: 800;">' +
                         '<td><i class="fas fa-calculator" style="margin-left: 0.35rem;"></i> الإجمالي</td>' +
@@ -2963,6 +3589,9 @@ function generateQR(text) {
         var script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js';
         script.onload = function() { generateQR(text); };
+        script.onerror = function() {
+            qrBox.innerHTML = '<i class="fas fa-qrcode" style="font-size: 2rem; color: var(--text-muted);"></i>';
+        };
         document.head.appendChild(script);
         return;
     }
@@ -2979,6 +3608,9 @@ function generateQR(text) {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🖨️ Print A4
+// ═══════════════════════════════════════════════════════════════
 function printA4() {
     var inv = state.viewingInvoice;
     if (!inv) return;
@@ -3008,6 +3640,7 @@ function printA4() {
         '* { margin: 0; padding: 0; box-sizing: border-box; }' +
         'body { font-family: "Cairo", sans-serif; padding: 15mm; background: white; color: #0a1f33; }' +
         '.header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #1d5b8e; padding-bottom: 5mm; margin-bottom: 8mm; }' +
+        '.brand { display: flex; align-items: center; gap: 4mm; }' +
         '.brand h1 { font-size: 22pt; font-weight: 900; color: #1d5b8e; }' +
         '.brand p { font-size: 10pt; color: #64748b; }' +
         '.invoice-info { text-align: left; }' +
@@ -3125,6 +3758,9 @@ function printThermal() {
     win.document.close();
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 💰 Payment
+// ═══════════════════════════════════════════════════════════════
 function openPaymentModal() {
     var inv = state.viewingInvoice;
     if (!inv) return;
@@ -3205,6 +3841,13 @@ function savePayment(e) {
             }
         }
         
+        var newPayment = {
+            id: 'temp_' + Date.now(), invoice_id: inv.id,
+            amount: amount, method: method, notes: notes,
+            created_at: new Date().toISOString()
+        };
+        state.payments.unshift(newPayment);
+        
         showToast('✅ تم تسجيل الدفعة بنجاح', 'success');
         closePaymentModal();
         updateStats();
@@ -3225,6 +3868,9 @@ function savePayment(e) {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🗑️ Delete
+// ═══════════════════════════════════════════════════════════════
 function openDeleteModal(id) {
     var inv = null;
     for (var i = 0; i < state.invoices.length; i++) {
@@ -3249,10 +3895,17 @@ function confirmDelete() {
     var promise;
     
     if (sb && navigator.onLine && isValidUUID(inv.id)) {
-        // حذف الفاتورة - CASCADE على invoice_items سيرجّع الكميات تلقائياً
         promise = sb.from('invoices').delete().eq('id', inv.id)
             .then(function(result) {
                 if (result.error) throw result.error;
+                
+                sb.from('audit_log').insert({
+                    user_id: session && session.user ? session.user.id : null,
+                    action: 'DELETE',
+                    table_name: 'invoices',
+                    record_id: inv.id,
+                    old_data: inv
+                }).then(function(){}, function(){});
             });
     } else {
         promise = addToOutbox({ type: 'delete', table: 'invoices', id: inv.id });
@@ -3278,6 +3931,9 @@ function confirmDelete() {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📤 Export Excel
+// ═══════════════════════════════════════════════════════════════
 function exportExcel() {
     var loadLib = Promise.resolve();
     if (typeof XLSX === 'undefined') {
@@ -3306,7 +3962,8 @@ function exportExcel() {
                 'الإجمالي': parseFloat(inv.total) || 0,
                 'المدفوع': parseFloat(inv.paid_amount) || 0,
                 'المتبقي': (parseFloat(inv.total) || 0) - (parseFloat(inv.paid_amount) || 0),
-                'الحالة': statusText
+                'الحالة': statusText,
+                'طريقة الدفع': getPaymentMethodText(inv.payment_method)
             };
         });
         
@@ -3321,6 +3978,9 @@ function exportExcel() {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🔔 Notifications
+// ═══════════════════════════════════════════════════════════════
 function loadNotifications() {
     var session = getSession();
     if (!session) return;
@@ -3347,7 +4007,7 @@ function renderNotifications(notifications) {
     }
     
     if (!notifications.length) {
-        list.innerHTML = '<div class="notifications-empty"><i class="fas fa-bell-slash" style="font-size: 2rem; opacity: 0.3; display: block; margin-bottom: 0.5rem;"></i><p>لا توجد إشعارات</p></div>';
+        list.innerHTML = '<div class="notifications-empty"><i class="fas fa-bell-slash"></i><p>لا توجد إشعارات</p></div>';
         return;
     }
     
@@ -3360,14 +4020,12 @@ function renderNotifications(notifications) {
     
     list.innerHTML = notifications.map(function(n) {
         var t = typeMap[n.type] || typeMap.info;
-        var clsMap = { danger: 'rgba(239,68,68,0.12)', warning: 'rgba(245,158,11,0.12)', info: 'rgba(59,130,246,0.12)', success: 'rgba(16,185,129,0.12)' };
-        var colorMap = { danger: 'var(--danger)', warning: 'var(--warning)', info: 'var(--info)', success: 'var(--success)' };
         return '<div class="notification-item ' + (n.read ? '' : 'unread') + '">' +
-            '<div style="width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; background: ' + (clsMap[t.cls] || clsMap.info) + '; color: ' + (colorMap[t.cls] || colorMap.info) + ';"><i class="fas ' + t.icon + '"></i></div>' +
-            '<div style="flex: 1; min-width: 0;">' +
-                '<div style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.15rem;">' + escapeHtml(n.title) + '</div>' +
-                '<div style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem;">' + escapeHtml(n.message || '') + '</div>' +
-                '<div style="font-size: 0.65rem; color: var(--text-muted);"><i class="fas fa-clock"></i> ' + formatTimeAgo(n.created_at) + '</div>' +
+            '<div class="notification-item-icon ' + t.cls + '"><i class="fas ' + t.icon + '"></i></div>' +
+            '<div class="notification-item-content">' +
+                '<div class="notification-item-title">' + escapeHtml(n.title) + '</div>' +
+                '<div class="notification-item-message">' + escapeHtml(n.message || '') + '</div>' +
+                '<div class="notification-item-time"><i class="fas fa-clock"></i> ' + formatTimeAgo(n.created_at) + '</div>' +
             '</div></div>';
     }).join('');
 }
@@ -3385,6 +4043,9 @@ function markAllRead() {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 👤 User UI
+// ═══════════════════════════════════════════════════════════════
 function updateUserUI(user) {
     var initial = ((user.full_name || user.username || 'م') + '').charAt(0).toUpperCase();
     var roleText = user.role === 'admin' ? 'مدير' : 'موظف';
@@ -3416,6 +4077,9 @@ function applyPermissions(user) {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🎯 URL Params
+// ═══════════════════════════════════════════════════════════════
 function handleUrlParams() {
     var action = getUrlParam('action');
     var id = getUrlParam('id');
@@ -3442,7 +4106,11 @@ function handleUrlParams() {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🎬 Init
+// ═══════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', function() {
+    
     var session = getSession();
     if (!session) { window.location.href = 'index.html'; return; }
     if (session.user.must_change_password) { window.location.href = 'index.html'; return; }
@@ -3464,6 +4132,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateUserUI(session.user);
     applyPermissions(session.user);
     
+    // Sidebar
     document.getElementById('menuBtn')?.addEventListener('click', function() {
         document.getElementById('sidebar')?.classList.toggle('show');
         document.getElementById('sidebarOverlay')?.classList.toggle('show');
@@ -3473,6 +4142,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('sidebarOverlay')?.classList.remove('show');
     });
     
+    // User dropdown
     var userBtn = document.getElementById('userBtn');
     var userDropdown = document.getElementById('userDropdown');
     var notifBtn = document.getElementById('notificationsBtn');
@@ -3505,6 +4175,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Search
     var searchTimeout;
     document.getElementById('searchInput')?.addEventListener('input', function(e) {
         clearTimeout(searchTimeout);
@@ -3526,17 +4197,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     document.getElementById('addInvoiceBtn')?.addEventListener('click', openAddModal);
+    
+    // Invoice modal
     document.getElementById('closeInvoiceModal')?.addEventListener('click', closeInvoiceModal);
     document.getElementById('cancelInvoiceBtn')?.addEventListener('click', closeInvoiceModal);
     document.getElementById('invoiceForm')?.addEventListener('submit', saveInvoice);
     
+    // Repair picker
     initRepairPicker();
     
+    // Summary listeners
     ['laborCost', 'discountValue'].forEach(function(id) {
         document.getElementById(id)?.addEventListener('input', updateSummary);
     });
     document.getElementById('discountType')?.addEventListener('change', updateSummary);
     
+    // Parts
     document.getElementById('addPartBtn')?.addEventListener('click', openProductPicker);
     document.getElementById('closeProductPickerModal')?.addEventListener('click', closeProductPicker);
     document.getElementById('productPickerSearch')?.addEventListener('input', function(e) {
@@ -3546,6 +4222,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target === this) closeProductPicker();
     });
     
+    // Delete modal
     document.getElementById('closeDeleteModal')?.addEventListener('click', function() {
         document.getElementById('deleteModal').classList.remove('show');
         state.deletingInvoice = null;
@@ -3556,6 +4233,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     document.getElementById('confirmDeleteBtn')?.addEventListener('click', confirmDelete);
     
+    // Share modal
+    document.getElementById('closeShareModal')?.addEventListener('click', closeShareModal);
+    document.getElementById('shareModal')?.addEventListener('click', function(e) {
+        if (e.target === this) closeShareModal();
+    });
+    
+    // Details modal
     document.getElementById('closeDetailsModal')?.addEventListener('click', function() {
         document.getElementById('detailsModal').classList.remove('show');
         state.viewingInvoice = null;
@@ -3569,18 +4253,29 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('printThermalBtn')?.addEventListener('click', printThermal);
     document.getElementById('addPaymentBtn')?.addEventListener('click', openPaymentModal);
     
+    document.getElementById('shareFromDetailsBtn')?.addEventListener('click', function() {
+        if (state.viewingInvoice) {
+            var invId = state.viewingInvoice.id;
+            document.getElementById('detailsModal').classList.remove('show');
+            setTimeout(function() { openShareModal(invId); }, 200);
+        }
+    });
+    
+    // Payment modal
     document.getElementById('closePaymentModal')?.addEventListener('click', closePaymentModal);
     document.getElementById('cancelPaymentBtn')?.addEventListener('click', closePaymentModal);
     document.getElementById('paymentForm')?.addEventListener('submit', savePayment);
     
     document.getElementById('exportExcelBtn')?.addEventListener('click', exportExcel);
     
+    // Overlay close
     document.querySelectorAll('.modal-overlay').forEach(function(ov) {
         ov.addEventListener('click', function(e) {
             if (e.target === ov) ov.classList.remove('show');
         });
     });
     
+    // Keyboard
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             document.querySelectorAll('.modal-overlay.show').forEach(function(m) { m.classList.remove('show'); });
@@ -3596,6 +4291,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Scroll
     var progressBar = document.getElementById('readingProgress');
     var scrollTopBtn = document.getElementById('scrollTop');
     window.addEventListener('scroll', function() {
@@ -3608,6 +4304,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { passive: true });
     scrollTopBtn?.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
     
+    if (session.user.role !== 'admin' && (!session.user.permissions || !session.user.permissions.can_create_invoices)) {
+        var addBtn2 = document.getElementById('addInvoiceBtn');
+        if (addBtn2) addBtn2.style.display = 'none';
+    }
+    
+    // Load
     openDB()
         .then(function() { return loadData(); })
         .then(function() {
@@ -3624,6 +4326,13 @@ document.addEventListener('DOMContentLoaded', function() {
     startInactivityMonitor();
     console.log('%c🧾 صفحة الفواتير جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
 });
+
+window.InvoicesApp = {
+    showToast: showToast,
+    logout: logout,
+    getSession: getSession,
+    reload: function() { return loadData(); }
+};
 
 })();
 </script>
