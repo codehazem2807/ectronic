@@ -319,6 +319,23 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0; transition: all var(--transition);
 }
 .category-card:hover .category-icon-box { transform: scale(1.08) rotate(-5deg); }
+
+/* ✅ دعم عرض أيقونات SVG داخل category-icon-box */
+.category-icon-box .svg-icon-wrap {
+    width: 60%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+}
+.category-icon-box .svg-icon-wrap svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
 .category-card-menu {
     display: flex; gap: 0.25rem; opacity: 0;
     transition: opacity var(--transition);
@@ -526,7 +543,7 @@ img { max-width: 100%; height: auto; display: block; }
     background: var(--bg-primary);
     border: 1.5px solid var(--border-color);
     border-radius: var(--radius-md);
-    max-height: 380px;
+    max-height: 420px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--border-color) transparent;
@@ -578,6 +595,14 @@ img { max-width: 100%; height: auto; display: block; }
     border: 1px solid var(--border-color);
 }
 
+/* ✅ SVG group مميز */
+.icon-group-title.svg-group {
+    background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(5,150,105,0.05));
+    border-color: rgba(16,185,129,0.3);
+    color: var(--success);
+}
+.icon-group-title.svg-group i { color: var(--success); }
+
 .icon-group-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
@@ -597,6 +622,7 @@ img { max-width: 100%; height: auto; display: block; }
     cursor: pointer;
     transition: all var(--transition-fast);
     position: relative;
+    padding: 4px;
 }
 
 .icon-option:hover {
@@ -633,6 +659,22 @@ img { max-width: 100%; height: auto; display: block; }
     justify-content: center;
     line-height: 1;
 }
+
+/* ✅ SVG icon داخل picker */
+.icon-option .svg-wrap {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.icon-option .svg-wrap svg {
+    width: 100%;
+    height: 100%;
+    max-width: 34px;
+    max-height: 34px;
+}
+.icon-option.selected .svg-wrap { color: white; }
 
 .icon-picker-empty {
     padding: 2rem 1rem;
@@ -1078,7 +1120,7 @@ img { max-width: 100%; height: auto; display: block; }
                     <label class="form-label"><i class="fas fa-icons"></i> الأيقونة</label>
                     <div class="icon-picker-toolbar">
                         <div class="icon-search-box">
-                            <input type="text" id="iconSearchInput" placeholder="ابحث عن أيقونة... (مثال: microchip, battery, wrench)" autocomplete="off">
+                            <input type="text" id="iconSearchInput" placeholder="ابحث... (مثال: resistor, capacitor, diode)" autocomplete="off">
                             <i class="fas fa-magnifying-glass"></i>
                         </div>
                         <div class="icon-count-badge" id="iconCountBadge">
@@ -1089,7 +1131,7 @@ img { max-width: 100%; height: auto; display: block; }
                     <div class="icon-picker" id="iconPicker"></div>
                     <div class="form-hint">
                         <i class="fas fa-hand-pointer"></i>
-                        اضغط لاختيار الأيقونة المناسبة - استخدم البحث للوصول السريع
+                        اختر أيقونة - استخدم البحث للوصول السريع
                     </div>
                 </div>
                 <div class="form-group">
@@ -1229,12 +1271,204 @@ var COLOR_PRESETS = [
 ];
 
 // ═══════════════════════════════════════════════════════════════
-// 🎨 ICON PRESETS - مقسمة لمجموعات إلكترونية احترافية
+// ⚡ SVG ICONS - مكتبة الرموز الإلكترونية المخصصة
+// ═══════════════════════════════════════════════════════════════
+// كل أيقونة SVG معرّفها بصيغة "svg:xxx"
+// عند العرض: بنتحقق لو الـ icon يبدأ بـ svg: نستخدم SVG_ICONS
+// ═══════════════════════════════════════════════════════════════
+var SVG_ICONS = {
+    // ═══ مقاومات ═══
+    'resistor': {
+        name: 'مقاومة',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 20 20 L 25 10 L 35 30 L 45 10 L 55 30 L 65 10 L 75 30 L 80 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    },
+    'resistor-box': {
+        name: 'مقاومة (مستطيل)',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 20 20 M 80 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="20" y="10" width="60" height="20" fill="none" stroke="currentColor" stroke-width="4" rx="2"/></svg>'
+    },
+    'variable-resistor': {
+        name: 'مقاومة متغيرة',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 20 20 M 80 20 L 95 20 M 50 5 L 60 25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="20" y="12" width="60" height="16" fill="none" stroke="currentColor" stroke-width="4" rx="2"/><polyline points="45,5 50,5 60,25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    },
+    'thermistor': {
+        name: 'ثيرمستور',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 15 20 M 85 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="15" y="10" width="70" height="20" fill="none" stroke="currentColor" stroke-width="4"/><line x1="15" y1="32" x2="85" y2="38" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'
+    },
+    'varistor': {
+        name: 'فاريستور',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 15 20 M 85 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="15" y="10" width="70" height="20" fill="none" stroke="currentColor" stroke-width="4"/><polyline points="15,32 35,32 45,38 55,32 85,32" fill="none" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    'potentiometer': {
+        name: 'بوتنسيومتر',
+        svg: '<svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg"><path d="M 5 25 L 20 25 M 80 25 L 95 25 M 50 5 L 50 15" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="20" y="17" width="60" height="16" fill="none" stroke="currentColor" stroke-width="4" rx="2"/><polyline points="45,15 50,5 55,15" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><polygon points="50,15 47,22 53,22" fill="currentColor"/></svg>'
+    },
+    
+    // ═══ مكثفات ═══
+    'capacitor': {
+        name: 'مكثف',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 40 20 M 60 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="40" y1="5" x2="40" y2="35" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="60" y1="5" x2="60" y2="35" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'
+    },
+    'electrolytic-capacitor': {
+        name: 'مكثف إلكتروليتي',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 40 20 M 65 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="40" y1="5" x2="40" y2="35" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M 55 5 Q 65 20 55 35" fill="none" stroke="currentColor" stroke-width="4"/><path d="M 62 5 Q 72 20 62 35" fill="none" stroke="currentColor" stroke-width="4"/></svg>'
+    },
+    'variable-capacitor': {
+        name: 'مكثف متغير',
+        svg: '<svg viewBox="0 0 100 45" xmlns="http://www.w3.org/2000/svg"><path d="M 5 25 L 40 25 M 60 25 L 95 25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="40" y1="10" x2="40" y2="40" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="60" y1="10" x2="60" y2="40" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="60" y1="10" x2="90" y2="2" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><polygon points="90,2 82,4 86,10" fill="currentColor"/></svg>'
+    },
+    'polarized-capacitor': {
+        name: 'مكثف مستقطب',
+        svg: '<svg viewBox="0 0 100 45" xmlns="http://www.w3.org/2000/svg"><path d="M 5 25 L 40 25 M 60 25 L 95 25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="40" y1="10" x2="40" y2="40" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="60" y1="10" x2="60" y2="40" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><text x="28" y="18" font-size="14" font-weight="900" fill="currentColor">+</text></svg>'
+    },
+    
+    // ═══ دايودات ═══
+    'diode': {
+        name: 'دايود',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 35 20 M 65 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><polygon points="35,8 65,20 35,32" fill="currentColor"/><line x1="65" y1="8" x2="65" y2="32" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'
+    },
+    'zener-diode': {
+        name: 'دايود زنر',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 35 20 M 65 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><polygon points="35,8 65,20 35,32" fill="currentColor"/><polyline points="60,8 65,8 65,32 70,32" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    },
+    'schottky-diode': {
+        name: 'دايود شوتكي',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 35 20 M 65 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><polygon points="35,8 65,20 35,32" fill="currentColor"/><polyline points="58,8 65,8 65,32 58,32" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="65,8 72,8 72,32 65,32" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    },
+    'led': {
+        name: 'LED',
+        svg: '<svg viewBox="0 0 100 45" xmlns="http://www.w3.org/2000/svg"><path d="M 5 25 L 35 25 M 65 25 L 95 25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><polygon points="35,13 65,25 35,37" fill="currentColor"/><line x1="65" y1="13" x2="65" y2="37" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="42" y1="5" x2="55" y2="15" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><line x1="50" y1="2" x2="63" y2="12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'
+    },
+    'photodiode': {
+        name: 'فوتو دايود',
+        svg: '<svg viewBox="0 0 100 45" xmlns="http://www.w3.org/2000/svg"><path d="M 5 25 L 35 25 M 65 25 L 95 25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><polygon points="35,13 65,25 35,37" fill="currentColor"/><line x1="65" y1="13" x2="65" y2="37" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="42" y1="10" x2="55" y2="5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><line x1="45" y1="18" x2="58" y2="13" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'
+    },
+    'bridge-rectifier': {
+        name: 'قنطرة تقويم',
+        svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="15" width="70" height="70" fill="none" stroke="currentColor" stroke-width="4"/><polygon points="30,30 45,40 30,50" fill="currentColor"/><line x1="45" y1="30" x2="45" y2="50" stroke="currentColor" stroke-width="3"/><polygon points="55,50 70,60 55,70" fill="currentColor"/><line x1="55" y1="50" x2="55" y2="70" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    
+    // ═══ فيوزات ═══
+    'fuse': {
+        name: 'فيوز',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 20 20 M 80 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="20" y="12" width="60" height="16" fill="none" stroke="currentColor" stroke-width="3" rx="8"/><path d="M 25 20 Q 40 8 50 20 T 75 20" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>'
+    },
+    'fuse-box': {
+        name: 'فيوز (مربع)',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 20 20 M 80 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="20" y="10" width="60" height="20" fill="none" stroke="currentColor" stroke-width="4"/><line x1="20" y1="20" x2="80" y2="20" stroke="currentColor" stroke-width="2.5"/></svg>'
+    },
+    'circuit-breaker': {
+        name: 'قاطع كهربائي',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 25 20 M 75 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="25" y="10" width="50" height="20" fill="none" stroke="currentColor" stroke-width="4"/><line x1="35" y1="30" x2="65" y2="10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="35" cy="30" r="2.5" fill="currentColor"/><circle cx="65" cy="10" r="2.5" fill="currentColor"/></svg>'
+    },
+    
+    // ═══ ترانزستورات ═══
+    'transistor-npn': {
+        name: 'ترانزستور NPN',
+        svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><line x1="30" y1="25" x2="30" y2="75" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><line x1="30" y1="40" x2="70" y2="20" stroke="currentColor" stroke-width="3"/><line x1="30" y1="60" x2="70" y2="80" stroke="currentColor" stroke-width="3"/><line x1="70" y1="20" x2="70" y2="10" stroke="currentColor" stroke-width="3"/><line x1="70" y1="80" x2="70" y2="90" stroke="currentColor" stroke-width="3"/><polygon points="70,80 60,72 65,82" fill="currentColor"/></svg>'
+    },
+    'transistor-pnp': {
+        name: 'ترانزستور PNP',
+        svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><line x1="30" y1="25" x2="30" y2="75" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><line x1="30" y1="40" x2="70" y2="20" stroke="currentColor" stroke-width="3"/><line x1="30" y1="60" x2="70" y2="80" stroke="currentColor" stroke-width="3"/><line x1="70" y1="20" x2="70" y2="10" stroke="currentColor" stroke-width="3"/><line x1="70" y1="80" x2="70" y2="90" stroke="currentColor" stroke-width="3"/><polygon points="40,52 30,60 40,68" fill="currentColor"/></svg>'
+    },
+    'mosfet': {
+        name: 'MOSFET',
+        svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><line x1="30" y1="20" x2="30" y2="80" stroke="currentColor" stroke-width="4"/><line x1="42" y1="20" x2="42" y2="35" stroke="currentColor" stroke-width="6"/><line x1="42" y1="42" x2="42" y2="58" stroke="currentColor" stroke-width="6"/><line x1="42" y1="65" x2="42" y2="80" stroke="currentColor" stroke-width="6"/><line x1="42" y1="28" x2="75" y2="10" stroke="currentColor" stroke-width="3"/><line x1="42" y1="50" x2="75" y2="50" stroke="currentColor" stroke-width="3"/><line x1="42" y1="72" x2="75" y2="90" stroke="currentColor" stroke-width="3"/><line x1="75" y1="10" x2="75" y2="0" stroke="currentColor" stroke-width="3"/><line x1="75" y1="50" x2="75" y2="40" stroke="currentColor" stroke-width="3"/><line x1="75" y1="90" x2="75" y2="100" stroke="currentColor" stroke-width="3"/><polygon points="75,50 65,44 65,56" fill="currentColor"/></svg>'
+    },
+    
+    // ═══ ملفات ومحولات ═══
+    'inductor': {
+        name: 'ملف (Inductor)',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 25 L 20 25 M 80 25 L 95 25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M 20 25 Q 25 10 30 25 Q 35 10 40 25 Q 45 10 50 25 Q 55 10 60 25 Q 65 10 70 25 Q 75 10 80 25" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg>'
+    },
+    'transformer': {
+        name: 'محول (Transformer)',
+        svg: '<svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg"><line x1="5" y1="20" x2="25" y2="20" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><line x1="5" y1="40" x2="25" y2="40" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><path d="M 25 10 Q 35 15 25 20 Q 35 25 25 30 Q 35 35 25 40 Q 35 45 25 50" fill="none" stroke="currentColor" stroke-width="3"/><line x1="50" y1="5" x2="50" y2="55" stroke="currentColor" stroke-width="3"/><line x1="50" y1="5" x2="50" y2="55" stroke="currentColor" stroke-width="3" transform="translate(6,0)"/><path d="M 75 10 Q 65 15 75 20 Q 65 25 75 30 Q 65 35 75 40 Q 65 45 75 50" fill="none" stroke="currentColor" stroke-width="3"/><line x1="75" y1="20" x2="95" y2="20" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><line x1="75" y1="40" x2="95" y2="40" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg>'
+    },
+    'coil': {
+        name: 'كويل / ملف',
+        svg: '<svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg"><path d="M 5 30 L 20 30 M 80 30 L 95 30" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><ellipse cx="30" cy="30" rx="10" ry="15" fill="none" stroke="currentColor" stroke-width="3"/><ellipse cx="50" cy="30" rx="10" ry="15" fill="none" stroke="currentColor" stroke-width="3"/><ellipse cx="70" cy="30" rx="10" ry="15" fill="none" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    
+    // ═══ مفاتيح وأزرار ═══
+    'switch': {
+        name: 'مفتاح',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><line x1="5" y1="25" x2="35" y2="25" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="65" y1="25" x2="95" y2="25" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="35" cy="25" r="3" fill="currentColor"/><circle cx="65" cy="25" r="3" fill="currentColor"/><line x1="35" y1="25" x2="65" y2="10" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg>'
+    },
+    'push-button': {
+        name: 'زر ضغط',
+        svg: '<svg viewBox="0 0 100 45" xmlns="http://www.w3.org/2000/svg"><line x1="5" y1="30" x2="30" y2="30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="70" y1="30" x2="95" y2="30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="30" cy="30" r="3" fill="currentColor"/><circle cx="70" cy="30" r="3" fill="currentColor"/><line x1="30" y1="30" x2="70" y2="30" stroke="currentColor" stroke-width="3"/><rect x="42" y="12" width="16" height="8" fill="currentColor" rx="2"/></svg>'
+    },
+    'relay': {
+        name: 'ريلاي',
+        svg: '<svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="10" width="80" height="40" fill="none" stroke="currentColor" stroke-width="3" rx="4"/><path d="M 20 30 L 35 30 L 40 22 L 45 38 L 50 22 L 55 38 L 60 30 L 75 30" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><line x1="85" y1="20" x2="95" y2="20" stroke="currentColor" stroke-width="3"/><line x1="85" y1="40" x2="95" y2="40" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    
+    // ═══ موصلات ═══
+    'ground': {
+        name: 'أرضي',
+        svg: '<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><line x1="30" y1="5" x2="30" y2="30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="10" y1="30" x2="50" y2="30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="18" y1="40" x2="42" y2="40" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="24" y1="50" x2="36" y2="50" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'
+    },
+    'battery-cell': {
+        name: 'بطارية',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 30 20 M 70 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="30" y1="5" x2="30" y2="35" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><line x1="45" y1="12" x2="45" y2="28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><line x1="55" y1="5" x2="55" y2="35" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><line x1="70" y1="12" x2="70" y2="28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'
+    },
+    'crystal-oscillator': {
+        name: 'كريستالة',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 30 20 M 70 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="30" y="8" width="40" height="24" fill="none" stroke="currentColor" stroke-width="3"/><line x1="35" y1="15" x2="65" y2="15" stroke="currentColor" stroke-width="3"/><line x1="35" y1="25" x2="65" y2="25" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    'ic-chip': {
+        name: 'دائرة متكاملة IC',
+        svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="20" width="60" height="60" fill="none" stroke="currentColor" stroke-width="4" rx="4"/><circle cx="35" cy="35" r="4" fill="none" stroke="currentColor" stroke-width="2.5"/><line x1="20" y1="35" x2="10" y2="35" stroke="currentColor" stroke-width="3"/><line x1="20" y1="50" x2="10" y2="50" stroke="currentColor" stroke-width="3"/><line x1="20" y1="65" x2="10" y2="65" stroke="currentColor" stroke-width="3"/><line x1="80" y1="35" x2="90" y2="35" stroke="currentColor" stroke-width="3"/><line x1="80" y1="50" x2="90" y2="50" stroke="currentColor" stroke-width="3"/><line x1="80" y1="65" x2="90" y2="65" stroke="currentColor" stroke-width="3"/><line x1="35" y1="20" x2="35" y2="10" stroke="currentColor" stroke-width="3"/><line x1="50" y1="20" x2="50" y2="10" stroke="currentColor" stroke-width="3"/><line x1="65" y1="20" x2="65" y2="10" stroke="currentColor" stroke-width="3"/><line x1="35" y1="80" x2="35" y2="90" stroke="currentColor" stroke-width="3"/><line x1="50" y1="80" x2="50" y2="90" stroke="currentColor" stroke-width="3"/><line x1="65" y1="80" x2="65" y2="90" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    'antenna': {
+        name: 'هوائي',
+        svg: '<svg viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg"><line x1="30" y1="10" x2="30" y2="70" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="10" y1="70" x2="50" y2="70" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="15" y1="80" x2="45" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><line x1="20" y1="90" x2="40" y2="90" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M 30 10 Q 15 5 10 15 M 30 10 Q 45 5 50 15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'
+    },
+    'lamp': {
+        name: 'مصباح',
+        svg: '<svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg"><line x1="5" y1="30" x2="35" y2="30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="65" y1="30" x2="95" y2="30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="30" r="15" fill="none" stroke="currentColor" stroke-width="4"/><line x1="35" y1="20" x2="65" y2="40" stroke="currentColor" stroke-width="3"/><line x1="35" y1="40" x2="65" y2="20" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    'speaker': {
+        name: 'مكبر صوت',
+        svg: '<svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg"><path d="M 20 20 L 35 20 L 50 5 L 50 55 L 35 40 L 20 40 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M 58 20 Q 70 30 58 40" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M 68 15 Q 82 30 68 45" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'
+    },
+    'motor': {
+        name: 'موتور',
+        svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" stroke-width="4"/><text x="50" y="60" font-size="28" font-weight="900" fill="currentColor" text-anchor="middle" font-family="Arial">M</text></svg>'
+    },
+    'microphone-svg': {
+        name: 'ميكروفون',
+        svg: '<svg viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="10" width="16" height="40" rx="8" fill="none" stroke="currentColor" stroke-width="4"/><path d="M 12 45 Q 12 65 30 65 Q 48 65 48 45" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="30" y1="65" x2="30" y2="85" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="18" y1="85" x2="42" y2="85" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'
+    }
+};
+
+// ═══════════════════════════════════════════════════════════════
+// 🎨 FONT AWESOME ICON GROUPS (كما هي)
 // ═══════════════════════════════════════════════════════════════
 var ICON_GROUPS = [
     {
+        id: 'electronics-svg',
+        name: '⚡ رموز إلكترونية (SVG)',
+        icon: 'fa-bolt',
+        isSvg: true,
+        icons: [
+            'svg:resistor', 'svg:resistor-box', 'svg:variable-resistor', 'svg:thermistor',
+            'svg:varistor', 'svg:potentiometer',
+            'svg:capacitor', 'svg:electrolytic-capacitor', 'svg:variable-capacitor', 'svg:polarized-capacitor',
+            'svg:diode', 'svg:zener-diode', 'svg:schottky-diode', 'svg:led',
+            'svg:photodiode', 'svg:bridge-rectifier',
+            'svg:fuse', 'svg:fuse-box', 'svg:circuit-breaker',
+            'svg:transistor-npn', 'svg:transistor-pnp', 'svg:mosfet',
+            'svg:inductor', 'svg:transformer', 'svg:coil',
+            'svg:switch', 'svg:push-button', 'svg:relay',
+            'svg:ground', 'svg:battery-cell', 'svg:crystal-oscillator',
+            'svg:ic-chip', 'svg:antenna', 'svg:lamp', 'svg:speaker',
+            'svg:motor', 'svg:microphone-svg'
+        ]
+    },
+    {
         id: 'devices',
-        name: 'أجهزة إلكترونية',
+        name: '📱 أجهزة إلكترونية',
         icon: 'fa-mobile-screen',
         icons: [
             'fa-tv', 'fa-mobile-screen', 'fa-mobile-screen-button', 'fa-laptop',
@@ -1246,7 +1480,7 @@ var ICON_GROUPS = [
     },
     {
         id: 'components',
-        name: 'قطع إلكترونية دقيقة',
+        name: '🔧 قطع إلكترونية دقيقة',
         icon: 'fa-microchip',
         icons: [
             'fa-microchip', 'fa-memory', 'fa-hard-drive', 'fa-compact-disc',
@@ -1258,7 +1492,7 @@ var ICON_GROUPS = [
     },
     {
         id: 'power',
-        name: 'كهرباء ومكونات',
+        name: '⚡ كهرباء ومكونات',
         icon: 'fa-bolt',
         icons: [
             'fa-bolt', 'fa-bolt-lightning', 'fa-plug', 'fa-plug-circle-bolt',
@@ -1271,7 +1505,7 @@ var ICON_GROUPS = [
     },
     {
         id: 'connectors',
-        name: 'موصلات وكابلات',
+        name: '🔌 موصلات وكابلات',
         icon: 'fa-usb',
         icons: [
             'fa-usb', 'fa-ethernet', 'fa-link', 'fa-link-slash',
@@ -1283,7 +1517,7 @@ var ICON_GROUPS = [
     },
     {
         id: 'tools',
-        name: 'أدوات صيانة',
+        name: '🛠️ أدوات صيانة',
         icon: 'fa-screwdriver-wrench',
         icons: [
             'fa-screwdriver', 'fa-screwdriver-wrench', 'fa-wrench', 'fa-hammer',
@@ -1296,7 +1530,7 @@ var ICON_GROUPS = [
     },
     {
         id: 'measurement',
-        name: 'قياس واختبار',
+        name: '📊 قياس واختبار',
         icon: 'fa-gauge',
         icons: [
             'fa-gauge', 'fa-gauge-high', 'fa-gauge-simple', 'fa-tachometer-alt',
@@ -1309,7 +1543,7 @@ var ICON_GROUPS = [
     },
     {
         id: 'networking',
-        name: 'اتصالات وشبكات',
+        name: '🌐 اتصالات وشبكات',
         icon: 'fa-wifi',
         icons: [
             'fa-wifi', 'fa-bluetooth', 'fa-bluetooth-b', 'fa-network-wired',
@@ -1321,7 +1555,7 @@ var ICON_GROUPS = [
     },
     {
         id: 'controls',
-        name: 'تحكم وإعدادات',
+        name: '🎛️ تحكم وإعدادات',
         icon: 'fa-gears',
         icons: [
             'fa-gear', 'fa-gears', 'fa-sliders', 'fa-toggle-on',
@@ -1333,7 +1567,7 @@ var ICON_GROUPS = [
     },
     {
         id: 'storage',
-        name: 'تخزين وأرشفة',
+        name: '📦 تخزين وأرشفة',
         icon: 'fa-box-archive',
         icons: [
             'fa-box', 'fa-boxes-stacked', 'fa-boxes-packing', 'fa-box-open',
@@ -1345,7 +1579,7 @@ var ICON_GROUPS = [
     },
     {
         id: 'security',
-        name: 'حماية وأمان',
+        name: '🛡️ حماية وأمان',
         icon: 'fa-shield-halved',
         icons: [
             'fa-shield', 'fa-shield-halved', 'fa-shield-heart', 'fa-lock',
@@ -1357,7 +1591,7 @@ var ICON_GROUPS = [
     },
     {
         id: 'signs',
-        name: 'رموز وإشارات',
+        name: '⭐ رموز وإشارات',
         icon: 'fa-tag',
         icons: [
             'fa-tag', 'fa-tags', 'fa-star', 'fa-star-half-stroke',
@@ -1369,7 +1603,7 @@ var ICON_GROUPS = [
     },
     {
         id: 'creative',
-        name: 'تصميم وإبداع',
+        name: '🎨 تصميم وإبداع',
         icon: 'fa-palette',
         icons: [
             'fa-palette', 'fa-brush', 'fa-paintbrush', 'fa-paint-roller',
@@ -1381,15 +1615,36 @@ var ICON_GROUPS = [
     }
 ];
 
-// قائمة مسطّحة لكل الأيقونات
-var ICON_PRESETS = [];
-ICON_GROUPS.forEach(function(g) {
-    g.icons.forEach(function(icon) {
-        if (ICON_PRESETS.indexOf(icon) === -1) {
-            ICON_PRESETS.push(icon);
+// ═══════════════════════════════════════════════════════════════
+// 🎨 Helper: عرض أيقونة (SVG أو FA)
+// ═══════════════════════════════════════════════════════════════
+function renderIconHTML(iconValue, size) {
+    // لو الـ icon من نوع SVG
+    if (iconValue && iconValue.indexOf('svg:') === 0) {
+        var svgKey = iconValue.substring(4);
+        var svgData = SVG_ICONS[svgKey];
+        if (svgData) {
+            return '<div class="svg-icon-wrap">' + svgData.svg + '</div>';
         }
-    });
-});
+        // fallback
+        return '<i class="fas fa-bolt"></i>';
+    }
+    // FontAwesome
+    return '<i class="fas ' + escapeHtml(iconValue || 'fa-tag') + '"></i>';
+}
+
+// للأيقونة الصغيرة داخل picker
+function renderIconOptionHTML(iconValue) {
+    if (iconValue && iconValue.indexOf('svg:') === 0) {
+        var svgKey = iconValue.substring(4);
+        var svgData = SVG_ICONS[svgKey];
+        if (svgData) {
+            return '<div class="svg-wrap">' + svgData.svg + '</div>';
+        }
+        return '<i class="fas fa-bolt"></i>';
+    }
+    return '<i class="fas ' + iconValue + '"></i>';
+}
 
 // ═══════════════════════════════════════════════════════════════
 // 🧰 Helpers
@@ -1433,25 +1688,18 @@ function formatTimeAgo(date) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🗄️ Supabase Client
+// 🗄️ Supabase
 // ═══════════════════════════════════════════════════════════════
 var supabaseClient = null;
-
 function getSupabaseClient() {
     if (supabaseClient) return supabaseClient;
-    if (typeof window.supabase === 'undefined' || !window.supabase.createClient) {
-        console.warn('Supabase library not loaded');
-        return null;
-    }
+    if (typeof window.supabase === 'undefined' || !window.supabase.createClient) return null;
     try {
         supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
             auth: { persistSession: false, autoRefreshToken: false }
         });
         return supabaseClient;
-    } catch (e) {
-        console.error('Supabase init failed:', e);
-        return null;
-    }
+    } catch (e) { return null; }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1596,14 +1844,12 @@ function openDB() {
             };
             
             req.onerror = function() {
-                console.warn('IndexedDB error:', req.error);
                 dbFailed = true;
                 dbPromise = null;
                 resolve(null);
             };
             
             req.onblocked = function() {
-                console.warn('IndexedDB blocked - اقفل التابات التانية');
                 setTimeout(function() {
                     dbFailed = true;
                     dbPromise = null;
@@ -1611,7 +1857,6 @@ function openDB() {
                 }, 500);
             };
         } catch (e) {
-            console.warn('IndexedDB not available:', e);
             dbFailed = true;
             resolve(null);
         }
@@ -1719,9 +1964,7 @@ function loadData() {
     state.isLoading = true;
     var sb = getSupabaseClient();
     
-    if (!sb || !navigator.onLine) {
-        return loadFromCache();
-    }
+    if (!sb || !navigator.onLine) return loadFromCache();
     
     return sb.from('categories').select('*').order('created_at', { ascending: false })
         .then(function(catRes) {
@@ -1903,7 +2146,7 @@ function renderCategoryCard(c) {
     return '<div class="category-card" data-id="' + c.id + '" ' +
         'style="--cat-color: ' + escapeHtml(color) + '; --cat-color-dark: ' + escapeHtml(colorDark) + '; --cat-shadow: ' + shadow + ';">' +
         '<div class="category-card-header">' +
-            '<div class="category-icon-box"><i class="fas ' + escapeHtml(icon) + '"></i></div>' +
+            '<div class="category-icon-box">' + renderIconHTML(icon) + '</div>' +
             '<div class="category-card-menu">' +
                 '<button class="category-menu-btn" data-action="edit" data-id="' + c.id + '" title="تعديل"><i class="fas fa-pen"></i></button>' +
                 '<button class="category-menu-btn danger" data-action="delete" data-id="' + c.id + '" title="حذف"><i class="fas fa-trash"></i></button>' +
@@ -1979,7 +2222,7 @@ function renderColorPicker() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🎨 Icon Picker الاحترافي - مع مجموعات + بحث
+// 🎨 Icon Picker
 // ═══════════════════════════════════════════════════════════════
 function renderIconPicker() {
     var container = document.getElementById('iconPicker');
@@ -1989,10 +2232,19 @@ function renderIconPicker() {
     var term = (state.iconSearchTerm || '').trim().toLowerCase();
     var totalVisible = 0;
     
-    // فلترة المجموعات حسب البحث
     var filteredGroups = ICON_GROUPS.map(function(group) {
         var matchedIcons = group.icons.filter(function(icon) {
             if (!term) return true;
+            // ابحث في الـ key نفسه (svg:resistor) أو في الاسم العربي
+            if (icon.indexOf('svg:') === 0) {
+                var svgKey = icon.substring(4);
+                var svgData = SVG_ICONS[svgKey];
+                if (svgData) {
+                    return svgKey.toLowerCase().indexOf(term) !== -1 ||
+                           svgData.name.toLowerCase().indexOf(term) !== -1;
+                }
+                return svgKey.toLowerCase().indexOf(term) !== -1;
+            }
             return icon.toLowerCase().indexOf(term) !== -1;
         });
         totalVisible += matchedIcons.length;
@@ -2000,34 +2252,33 @@ function renderIconPicker() {
             id: group.id,
             name: group.name,
             icon: group.icon,
-            icons: matchedIcons
+            icons: matchedIcons,
+            isSvg: group.isSvg
         };
     }).filter(function(g) { return g.icons.length > 0; });
     
-    // تحديث العداد
     if (countBadge) countBadge.textContent = totalVisible;
     
     if (filteredGroups.length === 0) {
         container.innerHTML = '<div class="icon-picker-empty">' +
             '<i class="fas fa-magnifying-glass"></i>' +
             '<p>لا توجد أيقونات تطابق "' + escapeHtml(term) + '"</p>' +
-            '<p style="font-size: 0.72rem; margin-top: 0.35rem; opacity: 0.7;">جرب كلمة أخرى أو امسح البحث</p>' +
+            '<p style="font-size: 0.72rem; margin-top: 0.35rem; opacity: 0.7;">جرب: resistor, capacitor, diode, fuse</p>' +
         '</div>';
         return;
     }
     
-    // بناء HTML
     var html = filteredGroups.map(function(group) {
         var iconsHtml = group.icons.map(function(icon) {
             var isSelected = state.selectedIcon === icon;
             return '<div class="icon-option ' + (isSelected ? 'selected' : '') + '" ' +
-                'data-icon="' + icon + '" title="' + icon + '">' +
-                '<i class="fas ' + icon + '"></i>' +
+                'data-icon="' + icon + '" title="' + getIconTitle(icon) + '">' +
+                renderIconOptionHTML(icon) +
             '</div>';
         }).join('');
         
         return '<div class="icon-group">' +
-            '<div class="icon-group-title">' +
+            '<div class="icon-group-title ' + (group.isSvg ? 'svg-group' : '') + '">' +
                 '<i class="fas ' + group.icon + '"></i>' +
                 '<span>' + escapeHtml(group.name) + '</span>' +
                 '<span class="icon-count">' + group.icons.length + '</span>' +
@@ -2038,7 +2289,6 @@ function renderIconPicker() {
     
     container.innerHTML = html;
     
-    // ربط الأحداث
     var options = container.querySelectorAll('.icon-option');
     for (var i = 0; i < options.length; i++) {
         (function(el) {
@@ -2049,6 +2299,15 @@ function renderIconPicker() {
             });
         })(options[i]);
     }
+}
+
+function getIconTitle(icon) {
+    if (icon.indexOf('svg:') === 0) {
+        var svgKey = icon.substring(4);
+        var svgData = SVG_ICONS[svgKey];
+        return svgData ? svgData.name + ' (' + svgKey + ')' : svgKey;
+    }
+    return icon;
 }
 
 function initIconSearch() {
@@ -2074,15 +2333,14 @@ function updatePreview() {
     var descInput = document.getElementById('categoryDescription');
     var previewName = document.getElementById('previewName');
     var previewDesc = document.getElementById('previewDesc');
-    var previewIcon = document.getElementById('previewIcon');
     var previewIconBox = document.getElementById('previewIconBox');
     var previewCard = document.getElementById('categoryPreview');
     
     if (previewName) previewName.textContent = (nameInput && nameInput.value) || 'اسم الفئة';
     if (previewDesc) previewDesc.textContent = (descInput && descInput.value) || 'وصف الفئة سيظهر هنا...';
-    if (previewIcon) previewIcon.className = 'fas ' + state.selectedIcon;
     
     if (previewIconBox) {
+        previewIconBox.innerHTML = renderIconHTML(state.selectedIcon);
         previewIconBox.style.background = 'linear-gradient(135deg, ' + state.selectedColor.value + ', ' + state.selectedColor.dark + ')';
         previewIconBox.style.boxShadow = '0 6px 16px ' + state.selectedColor.shadow;
     }
@@ -2097,7 +2355,7 @@ function updatePreview() {
 function openAddModal() {
     state.editingCategory = null;
     state.selectedColor = COLOR_PRESETS[0];
-    state.selectedIcon = 'fa-tag';
+    state.selectedIcon = 'svg:resistor';
     state.iconSearchTerm = '';
     
     document.getElementById('categoryModalTitle').textContent = 'إضافة فئة جديدة';
@@ -2109,7 +2367,6 @@ function openAddModal() {
     document.getElementById('categoryDescription').value = '';
     document.getElementById('descCounter').textContent = '0 / 300';
     
-    // إعادة تعيين البحث
     var searchInput = document.getElementById('iconSearchInput');
     if (searchInput) searchInput.value = '';
     
@@ -2150,7 +2407,6 @@ function openEditModal(id) {
     document.getElementById('categoryDescription').value = c.description || '';
     document.getElementById('descCounter').textContent = ((c.description || '').length) + ' / 300';
     
-    // إعادة تعيين البحث
     var searchInput = document.getElementById('iconSearchInput');
     if (searchInput) searchInput.value = '';
     
@@ -2198,7 +2454,6 @@ function saveCategory(e) {
         return;
     }
     
-    // فحص الاسم المكرر
     var duplicate = null;
     for (var i = 0; i < state.categories.length; i++) {
         var c = state.categories[i];
@@ -2433,7 +2688,7 @@ function openDetailsModal(id) {
                     '<div style="font-size: 0.85rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + escapeHtml(p.name || '') + '</div>' +
                     '<div style="font-size: 0.7rem; color: var(--text-muted); font-family: monospace;">' + escapeHtml(p.barcode || '') + '</div>' +
                 '</div>' +
-                '<span class="badge" style="background: ' + (qty > 0 ? 'rgba(16,185,129,0.15); color: var(--success);' : 'rgba(239,68,68,0.15); color: var(--danger);') + '; padding: 0.25rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700;">' + qty + '</span>' +
+                '<span style="background: ' + (qty > 0 ? 'rgba(16,185,129,0.15); color: var(--success);' : 'rgba(239,68,68,0.15); color: var(--danger);') + '; padding: 0.25rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700;">' + qty + '</span>' +
             '</div>';
         }).join('');
         
@@ -2458,7 +2713,7 @@ function openDetailsModal(id) {
     document.getElementById('detailsContent').innerHTML =
         '<div style="display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: var(--bg-primary); border-radius: var(--radius-lg); margin-bottom: 1.25rem;">' +
             '<div style="width: 72px; height: 72px; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; background: linear-gradient(135deg, ' + escapeHtml(color) + ', ' + escapeHtml(colorDark) + '); box-shadow: 0 6px 16px ' + color + '40; flex-shrink: 0;">' +
-                '<i class="fas ' + escapeHtml(icon) + '"></i>' +
+                renderIconHTML(icon) +
             '</div>' +
             '<div style="flex: 1; min-width: 0;">' +
                 '<h2 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 0.35rem;">' + escapeHtml(c.name) + '</h2>' +
@@ -2746,7 +3001,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updatePreview();
     });
     
-    // ✅ Icon Search
+    // Icon Search
     initIconSearch();
     
     // Delete modal
@@ -2850,8 +3105,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     
     startInactivityMonitor();
-    console.log('%c🏷️ صفحة الفئات جاهزة - مع ' + ICON_PRESETS.length + ' أيقونة إلكترونية', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
-    console.log('%c🔍 استخدم البحث للوصول السريع لأي أيقونة', 'color: #10b981; font-size: 12px;');
+    console.log('%c🏷️ صفحة الفئات جاهزة - مع ' + Object.keys(SVG_ICONS).length + ' رمز إلكتروني SVG', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+    console.log('%c⚡ رموز: مقاومة، مكثف، دايود، زنر، فيوز، ترانزستور، MOSFET وغيرها', 'color: #10b981; font-size: 12px;');
 });
 
 window.CategoriesApp = {
@@ -2859,7 +3114,7 @@ window.CategoriesApp = {
     logout: logout,
     getSession: getSession,
     reload: function() { return loadData(); },
-    ICON_PRESETS: ICON_PRESETS,
+    SVG_ICONS: SVG_ICONS,
     ICON_GROUPS: ICON_GROUPS
 };
 
