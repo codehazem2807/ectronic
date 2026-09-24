@@ -9,7 +9,6 @@
 <meta name="color-scheme" content="light dark">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="إلكترونك">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="إلكترونك">
 <title>تسجيل الدخول | إلكترونك - لصيانة الأجهزة الإلكترونية</title>
@@ -1314,6 +1313,11 @@ img {
     <i class="fas fa-arrow-up"></i>
 </button>
 
+<!-- ═══════════════════════════════════════════════════════════════
+     📦 db-config.js — ملف مشترك لقاعدة البيانات (يجب أن يكون قبل السكريبت الرئيسي)
+     ═══════════════════════════════════════════════════════════════ -->
+<script src="db-config.js"></script>
+
 <script>
 // ═══════════════════════════════════════════════════════════════
 // 🔑 Supabase Config
@@ -1361,104 +1365,6 @@ function isValidUUID(uuid) {
 function sanitizePhone(phone) {
     if (!phone) return '';
     return String(phone).replace(/[^\d+]/g, '');
-}
-
-// ═══════════════════════════════════════════════════════════════
-// 📦 IndexedDB Wrapper
-// ═══════════════════════════════════════════════════════════════
-var DB_NAME = 'electronic_db';
-var DB_VERSION = 1;
-var dbInstance = null;
-var dbPromise = null;
-
-function openDB() {
-    if (dbInstance) return Promise.resolve(dbInstance);
-    if (dbPromise) return dbPromise;
-    
-    dbPromise = new Promise(function(resolve) {
-        try {
-            var request = indexedDB.open(DB_NAME, DB_VERSION);
-            
-            request.onupgradeneeded = function(event) {
-                var db = event.target.result;
-                
-                if (!db.objectStoreNames.contains('accounts')) {
-                    db.createObjectStore('accounts', { keyPath: 'id' });
-                }
-                if (!db.objectStoreNames.contains('outbox')) {
-                    var store = db.createObjectStore('outbox', { keyPath: 'id', autoIncrement: true });
-                    store.createIndex('status', 'status');
-                }
-                if (!db.objectStoreNames.contains('cache')) {
-                    db.createObjectStore('cache', { keyPath: 'key' });
-                }
-                if (!db.objectStoreNames.contains('settings')) {
-                    db.createObjectStore('settings', { keyPath: 'key' });
-                }
-            };
-            
-            request.onsuccess = function() {
-                dbInstance = request.result;
-                resolve(dbInstance);
-            };
-            
-            request.onerror = function() {
-                console.warn('IndexedDB error:', request.error);
-                resolve(null);
-            };
-            
-            request.onblocked = function() {
-                setTimeout(function() { resolve(null); }, 500);
-            };
-        } catch (e) {
-            console.warn('IndexedDB not available:', e);
-            resolve(null);
-        }
-    });
-    
-    return dbPromise;
-}
-
-async function dbPut(storeName, data) {
-    var db = await openDB();
-    if (!db || !db.objectStoreNames.contains(storeName)) return null;
-    return new Promise(function(resolve) {
-        try {
-            var tx = db.transaction(storeName, 'readwrite');
-            var store = tx.objectStore(storeName);
-            var request = store.put(data);
-            request.onsuccess = function() { resolve(request.result); };
-            request.onerror = function() { resolve(null); };
-        } catch (e) { resolve(null); }
-    });
-}
-
-async function dbGet(storeName, key) {
-    var db = await openDB();
-    if (!db || !db.objectStoreNames.contains(storeName)) return null;
-    return new Promise(function(resolve) {
-        try {
-            var tx = db.transaction(storeName, 'readonly');
-            var store = tx.objectStore(storeName);
-            var request = store.get(key);
-            request.onsuccess = function() { resolve(request.result); };
-            request.onerror = function() { resolve(null); };
-        } catch (e) { resolve(null); }
-    });
-}
-
-async function dbGetAll(storeName) {
-    var db = await openDB();
-    if (!db || !db.objectStoreNames.contains(storeName)) return [];
-    return new Promise(function(resolve) {
-        try {
-            var tx = db.transaction(storeName, 'readonly');
-            var store = tx.objectStore(storeName);
-            var request = store.getAll();
-            request.onsuccess = function() { resolve(request.result || []); };
-            request.onerror = function() { resolve([]); };
-        } catch (e) { resolve([]); }
-    });
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1628,7 +1534,7 @@ async function login(username, password) {
                 
                 if (result.data && result.data.password === password) {
                     try {
-                        await dbPut('accounts', {
+                        await ElectronicDB.put('accounts', {
                             id: result.data.id,
                             username: result.data.username,
                             password: result.data.password,
@@ -1669,7 +1575,7 @@ async function login(username, password) {
 
 async function findCachedAccount(username, password) {
     try {
-        var accounts = await dbGetAll('accounts');
+        var accounts = await ElectronicDB.getAll('accounts');
         var user = accounts.find(function(a) {
             return a.username === username.trim().toLowerCase() && 
                    a.password === password &&
@@ -1692,7 +1598,7 @@ async function refreshAccountsCache() {
         if (result.data && result.data.length) {
             for (var i = 0; i < result.data.length; i++) {
                 var acc = result.data[i];
-                await dbPut('accounts', Object.assign({}, acc, { cached_at: Date.now() }));
+                await ElectronicDB.put('accounts', Object.assign({}, acc, { cached_at: Date.now() }));
             }
             console.log('✅ تم تحديث كاش ' + result.data.length + ' حساب');
         }
@@ -1704,7 +1610,7 @@ async function refreshAccountsCache() {
 // ═══════════════════════════════════════════════════════════════
 // 🎬 Init
 // ═══════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     
     var yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -1723,6 +1629,13 @@ document.addEventListener('DOMContentLoaded', function() {
         updateOnlineStatus();
         showToast('انقطع الاتصال - التطبيق يعمل Offline', 'warning');
     });
+    
+    // 🧹 تأكد من نسخة قاعدة البيانات قبل أي استخدام
+    try {
+        await ElectronicDB.ensureDBVersion();
+    } catch (e) {
+        console.warn('تعذر التحقق من نسخة DB:', e);
+    }
     
     // Check existing session
     var existingSession = getSession();
@@ -1922,11 +1835,11 @@ if (savePasswordBtn) {
                 }
             }
             
-            var cachedAccount = await dbGet('accounts', currentUserForPasswordChange.id);
+            var cachedAccount = await ElectronicDB.get('accounts', currentUserForPasswordChange.id);
             if (cachedAccount) {
                 cachedAccount.password = newPass;
                 cachedAccount.must_change_password = false;
-                await dbPut('accounts', cachedAccount);
+                await ElectronicDB.put('accounts', cachedAccount);
             }
             
             var session = getSession();
@@ -2005,20 +1918,17 @@ function registerServiceWorker() {
     if (!('serviceWorker' in navigator)) return;
     
     window.addEventListener('load', function() {
-        // استخدم مسار نسبي واضح
         var swPath = './sw.js';
         
         navigator.serviceWorker.register(swPath, { scope: './' })
             .then(function(reg) {
                 console.log('✅ SW registered:', reg.scope);
                 
-                // تحقق من وجود تحديثات
                 reg.addEventListener('updatefound', function() {
                     console.log('ℹ️ SW update found');
                 });
             })
             .catch(function(err) {
-                // تحقق إن الخطأ بسبب عدم وجود الملف
                 if (err && err.message && err.message.indexOf('404') !== -1) {
                     console.info('ℹ️ sw.js not found - PWA caching disabled (هذا ليس خطأ)');
                 } else {
