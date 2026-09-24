@@ -6,7 +6,6 @@
 <meta name="theme-color" content="#1d5b8e">
 <meta name="description" content="الفئات - إلكترونك لصيانة الأجهزة الإلكترونية">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>الفئات | إلكترونك</title>
 
@@ -464,36 +463,190 @@ img { max-width: 100%; height: auto; display: block; }
     display: flex; align-items: center; gap: 0.35rem; line-height: 1.5;
 }
 
-.icon-picker {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
-    gap: 0.5rem; padding: 0.75rem;
-    background: var(--bg-primary); border: 1.5px solid var(--border-color);
-    border-radius: var(--radius-md); max-height: 220px;
-    overflow-y: auto; scrollbar-width: thin;
+/* ═══════════════════════════════════════════════════════════════
+   🎨 Icon Picker الاحترافي - مع مجموعات + بحث
+   ═══════════════════════════════════════════════════════════════ */
+.icon-picker-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.65rem;
+    flex-wrap: wrap;
 }
-.icon-picker::-webkit-scrollbar { width: 6px; }
-.icon-picker::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
-.icon-option {
-    aspect-ratio: 1; border-radius: var(--radius-md);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.15rem; color: var(--text-secondary);
-    background: var(--bg-card); border: 1.5px solid var(--border-color);
-    cursor: pointer; transition: all var(--transition-fast);
+
+.icon-search-box {
+    flex: 1;
+    min-width: 180px;
     position: relative;
 }
-.icon-option:hover { transform: scale(1.08); border-color: var(--tech-blue); color: var(--tech-blue); }
+
+.icon-search-box input {
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    padding-right: 2.25rem;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    outline: none;
+    transition: all var(--transition);
+}
+
+.icon-search-box input:focus {
+    border-color: var(--tech-blue);
+    background: var(--bg-card);
+    box-shadow: 0 0 0 4px rgba(29,91,142,0.12);
+}
+
+.icon-search-box i {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+    font-size: 0.8rem;
+}
+
+.icon-count-badge {
+    padding: 0.4rem 0.75rem;
+    background: var(--tech-blue);
+    color: white;
+    border-radius: var(--radius-full);
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+}
+
+.icon-picker {
+    padding: 0.75rem;
+    background: var(--bg-primary);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    max-height: 380px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+.icon-picker::-webkit-scrollbar { width: 6px; }
+.icon-picker::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 3px;
+}
+
+.icon-group {
+    margin-bottom: 1rem;
+}
+
+.icon-group:last-child { margin-bottom: 0; }
+
+.icon-group-title {
+    position: sticky;
+    top: -0.75rem;
+    z-index: 2;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--tech-blue);
+    padding: 0.5rem 0.65rem;
+    margin-bottom: 0.5rem;
+    background: var(--bg-card);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 2px 6px rgba(10,31,51,0.04);
+}
+
+.icon-group-title i {
+    color: var(--tech-blue);
+    font-size: 0.75rem;
+}
+
+.icon-group-title .icon-count {
+    margin-right: auto;
+    font-size: 0.65rem;
+    padding: 0.1rem 0.45rem;
+    background: var(--bg-primary);
+    border-radius: var(--radius-full);
+    color: var(--text-muted);
+    font-weight: 700;
+    border: 1px solid var(--border-color);
+}
+
+.icon-group-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    gap: 0.4rem;
+}
+
+.icon-option {
+    aspect-ratio: 1;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-color);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.icon-option:hover {
+    transform: scale(1.1);
+    border-color: var(--tech-blue);
+    color: var(--tech-blue);
+    z-index: 1;
+    box-shadow: 0 4px 12px rgba(29,91,142,0.15);
+}
+
 .icon-option.selected {
     background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
-    color: white; border-color: var(--tech-blue);
-    box-shadow: 0 4px 12px rgba(29,91,142,0.4); transform: scale(1.05);
+    color: white;
+    border-color: var(--tech-blue);
+    box-shadow: 0 4px 12px rgba(29,91,142,0.4);
+    transform: scale(1.05);
 }
+
 .icon-option.selected::after {
-    content: '\f00c'; font-family: 'Font Awesome 6 Free';
-    font-weight: 900; position: absolute; top: 2px; right: 2px;
-    font-size: 0.55rem; background: white; color: var(--tech-blue);
-    width: 14px; height: 14px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 0.55rem;
+    background: white;
+    color: var(--tech-blue);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.icon-picker-empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.icon-picker-empty i {
+    font-size: 1.8rem;
+    opacity: 0.3;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--tech-blue);
 }
 
 .color-picker {
@@ -578,14 +731,6 @@ img { max-width: 100%; height: auto; display: block; }
     color: var(--text-secondary); margin-bottom: 0.35rem;
 }
 .empty-state p { font-size: 0.85rem; margin-bottom: 1rem; }
-
-/* Loading indicator */
-.loading-indicator {
-    display: flex; align-items: center; justify-content: center;
-    padding: 3rem 1rem; color: var(--text-muted); gap: 0.75rem;
-    font-weight: 600; grid-column: 1 / -1;
-}
-.loading-indicator i { font-size: 1.5rem; color: var(--tech-blue); }
 
 .scroll-top {
     position: fixed; bottom: calc(1rem + var(--safe-bottom));
@@ -721,7 +866,8 @@ img { max-width: 100%; height: auto; display: block; }
     .stat-item-icon { width: 38px; height: 38px; font-size: 1rem; }
     .stat-item-value { font-size: 1.1rem; }
     .stat-item-label { font-size: 0.68rem; }
-    .icon-picker { grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); }
+    .icon-picker { max-height: 320px; }
+    .icon-group-grid { grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); }
     .color-option { width: 36px; height: 36px; }
 }
 @media (max-width: 400px) {
@@ -930,10 +1076,20 @@ img { max-width: 100%; height: auto; display: block; }
                 </div>
                 <div class="form-group">
                     <label class="form-label"><i class="fas fa-icons"></i> الأيقونة</label>
+                    <div class="icon-picker-toolbar">
+                        <div class="icon-search-box">
+                            <input type="text" id="iconSearchInput" placeholder="ابحث عن أيقونة... (مثال: microchip, battery, wrench)" autocomplete="off">
+                            <i class="fas fa-magnifying-glass"></i>
+                        </div>
+                        <div class="icon-count-badge" id="iconCountBadge">
+                            <i class="fas fa-icons"></i>
+                            <span id="iconCountValue">0</span>
+                        </div>
+                    </div>
                     <div class="icon-picker" id="iconPicker"></div>
                     <div class="form-hint">
                         <i class="fas fa-hand-pointer"></i>
-                        اضغط لاختيار الأيقونة المناسبة
+                        اضغط لاختيار الأيقونة المناسبة - استخدم البحث للوصول السريع
                     </div>
                 </div>
                 <div class="form-group">
@@ -1052,10 +1208,10 @@ img { max-width: 100%; height: auto; display: block; }
 var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
 var DB_NAME = 'electronic_db';
-var DB_VERSION = 5; // ✅ متوافق مع stock-in.html
+var DB_VERSION = 5;
 
 // ═══════════════════════════════════════════════════════════════
-// 🎨 Presets
+// 🎨 COLOR PRESETS
 // ═══════════════════════════════════════════════════════════════
 var COLOR_PRESETS = [
     { name: 'أزرق تقني', value: '#1d5b8e', dark: '#154668', shadow: 'rgba(29,91,142,0.3)' },
@@ -1072,19 +1228,168 @@ var COLOR_PRESETS = [
     { name: 'أسود', value: '#0a1f33', dark: '#051220', shadow: 'rgba(10,31,51,0.3)' }
 ];
 
-var ICON_PRESETS = [
-    'fa-tv', 'fa-mobile-screen', 'fa-laptop', 'fa-tablet-screen-button',
-    'fa-headphones', 'fa-plug', 'fa-battery-full', 'fa-gears',
-    'fa-box', 'fa-tag', 'fa-microchip', 'fa-keyboard',
-    'fa-mouse', 'fa-print', 'fa-camera', 'fa-headset',
-    'fa-bolt', 'fa-tools', 'fa-screwdriver-wrench', 'fa-hard-drive',
-    'fa-memory', 'fa-sim-card', 'fa-sd-card', 'fa-compact-disc',
-    'fa-usb', 'fa-shield-halved', 'fa-satellite-dish', 'fa-radio',
-    'fa-video', 'fa-gamepad', 'fa-fan', 'fa-snowflake',
-    'fa-lightbulb', 'fa-wifi', 'fa-bluetooth', 'fa-signal',
-    'fa-calculator', 'fa-clock', 'fa-watch', 'fa-stopwatch',
-    'fa-tachometer-alt', 'fa-weight-scale', 'fa-ruler', 'fa-microscope'
+// ═══════════════════════════════════════════════════════════════
+// 🎨 ICON PRESETS - مقسمة لمجموعات إلكترونية احترافية
+// ═══════════════════════════════════════════════════════════════
+var ICON_GROUPS = [
+    {
+        id: 'devices',
+        name: 'أجهزة إلكترونية',
+        icon: 'fa-mobile-screen',
+        icons: [
+            'fa-tv', 'fa-mobile-screen', 'fa-mobile-screen-button', 'fa-laptop',
+            'fa-tablet-screen-button', 'fa-desktop', 'fa-computer', 'fa-display',
+            'fa-print', 'fa-camera', 'fa-video', 'fa-headphones',
+            'fa-headset', 'fa-microphone', 'fa-gamepad', 'fa-speaker',
+            'fa-calculator', 'fa-clock', 'fa-watch', 'fa-stopwatch'
+        ]
+    },
+    {
+        id: 'components',
+        name: 'قطع إلكترونية دقيقة',
+        icon: 'fa-microchip',
+        icons: [
+            'fa-microchip', 'fa-memory', 'fa-hard-drive', 'fa-compact-disc',
+            'fa-sd-card', 'fa-sim-card', 'fa-square-binary', 'fa-barcode',
+            'fa-qrcode', 'fa-code', 'fa-terminal', 'fa-cube', 'fa-cubes',
+            'fa-layer-group', 'fa-server', 'fa-database', 'fa-network-wired',
+            'fa-diagram-project', 'fa-circle-nodes', 'fa-bullseye'
+        ]
+    },
+    {
+        id: 'power',
+        name: 'كهرباء ومكونات',
+        icon: 'fa-bolt',
+        icons: [
+            'fa-bolt', 'fa-bolt-lightning', 'fa-plug', 'fa-plug-circle-bolt',
+            'fa-power-off', 'fa-battery-full', 'fa-battery-half', 'fa-battery-quarter',
+            'fa-battery-empty', 'fa-car-battery', 'fa-charging-station', 'fa-toggle-on',
+            'fa-toggle-off', 'fa-lightbulb', 'fa-fire-flame-curved', 'fa-fire',
+            'fa-snowflake', 'fa-fan', 'fa-temperature-high', 'fa-temperature-low',
+            'fa-magnet', 'fa-house-signal', 'fa-tower-broadcast', 'fa-satellite-dish'
+        ]
+    },
+    {
+        id: 'connectors',
+        name: 'موصلات وكابلات',
+        icon: 'fa-usb',
+        icons: [
+            'fa-usb', 'fa-ethernet', 'fa-link', 'fa-link-slash',
+            'fa-code-branch', 'fa-circle-dot', 'fa-circle-notch', 'fa-plug-circle-xmark',
+            'fa-plug-circle-check', 'fa-phone', 'fa-phone-volume', 'fa-inbox',
+            'fa-envelope', 'fa-satellite', 'fa-tower-cell', 'fa-signal',
+            'fa-tty', 'fa-fax', 'fa-print', 'fa-hdd'
+        ]
+    },
+    {
+        id: 'tools',
+        name: 'أدوات صيانة',
+        icon: 'fa-screwdriver-wrench',
+        icons: [
+            'fa-screwdriver', 'fa-screwdriver-wrench', 'fa-wrench', 'fa-hammer',
+            'fa-toolbox', 'fa-tools', 'fa-ruler', 'fa-ruler-combined',
+            'fa-ruler-vertical', 'fa-ruler-horizontal', 'fa-scissors', 'fa-stethoscope',
+            'fa-magnifying-glass-chart', 'fa-microscope', 'fa-flask', 'fa-vial',
+            'fa-droplet', 'fa-oil-can', 'fa-spray-can', 'fa-brush',
+            'fa-paintbrush', 'fa-pen-ruler', 'fa-eraser', 'fa-dumpster'
+        ]
+    },
+    {
+        id: 'measurement',
+        name: 'قياس واختبار',
+        icon: 'fa-gauge',
+        icons: [
+            'fa-gauge', 'fa-gauge-high', 'fa-gauge-simple', 'fa-tachometer-alt',
+            'fa-wave-square', 'fa-chart-line', 'fa-chart-simple', 'fa-chart-column',
+            'fa-chart-area', 'fa-chart-pie', 'fa-chart-bar', 'fa-chart-scatter',
+            'fa-weight-scale', 'fa-scale-balanced', 'fa-scale-unbalanced', 'fa-calculator',
+            'fa-thermometer', 'fa-thermometer-half', 'fa-thermometer-quarter', 'fa-stopwatch',
+            'fa-clock', 'fa-hourglass', 'fa-hourglass-half', 'fa-timeline'
+        ]
+    },
+    {
+        id: 'networking',
+        name: 'اتصالات وشبكات',
+        icon: 'fa-wifi',
+        icons: [
+            'fa-wifi', 'fa-bluetooth', 'fa-bluetooth-b', 'fa-network-wired',
+            'fa-server', 'fa-database', 'fa-cloud', 'fa-cloud-arrow-up',
+            'fa-cloud-arrow-down', 'fa-cloud-bolt', 'fa-radio', 'fa-walkie-talkie',
+            'fa-mobile-retro', 'fa-house-laptop', 'fa-house-signal', 'fa-tower-broadcast',
+            'fa-satellite-dish', 'fa-satellite', 'fa-tower-cell', 'fa-signal'
+        ]
+    },
+    {
+        id: 'controls',
+        name: 'تحكم وإعدادات',
+        icon: 'fa-gears',
+        icons: [
+            'fa-gear', 'fa-gears', 'fa-sliders', 'fa-toggle-on',
+            'fa-toggle-off', 'fa-power-off', 'fa-play', 'fa-pause',
+            'fa-stop', 'fa-forward', 'fa-backward', 'fa-rotate',
+            'fa-arrows-rotate', 'fa-shuffle', 'fa-repeat', 'fa-infinity',
+            'fa-circle-play', 'fa-circle-pause', 'fa-circle-stop', 'fa-square-poll-vertical'
+        ]
+    },
+    {
+        id: 'storage',
+        name: 'تخزين وأرشفة',
+        icon: 'fa-box-archive',
+        icons: [
+            'fa-box', 'fa-boxes-stacked', 'fa-boxes-packing', 'fa-box-open',
+            'fa-box-archive', 'fa-archive', 'fa-file-zipper', 'fa-folder',
+            'fa-folder-open', 'fa-folder-tree', 'fa-file', 'fa-file-code',
+            'fa-file-lines', 'fa-file-invoice', 'fa-clipboard', 'fa-clipboard-list',
+            'fa-hdd', 'fa-floppy-disk', 'fa-compact-disc', 'fa-database'
+        ]
+    },
+    {
+        id: 'security',
+        name: 'حماية وأمان',
+        icon: 'fa-shield-halved',
+        icons: [
+            'fa-shield', 'fa-shield-halved', 'fa-shield-heart', 'fa-lock',
+            'fa-unlock', 'fa-key', 'fa-fingerprint', 'fa-user-shield',
+            'fa-user-lock', 'fa-eye', 'fa-eye-slash', 'fa-user-secret',
+            'fa-circle-exclamation', 'fa-triangle-exclamation', 'fa-circle-check', 'fa-circle-xmark',
+            'fa-circle-info', 'fa-circle-question', 'fa-ban', 'fa-skull-crossbones'
+        ]
+    },
+    {
+        id: 'signs',
+        name: 'رموز وإشارات',
+        icon: 'fa-tag',
+        icons: [
+            'fa-tag', 'fa-tags', 'fa-star', 'fa-star-half-stroke',
+            'fa-heart', 'fa-thumbs-up', 'fa-thumbs-down', 'fa-bookmark',
+            'fa-flag', 'fa-award', 'fa-medal', 'fa-certificate',
+            'fa-crown', 'fa-gem', 'fa-diamond', 'fa-circle',
+            'fa-square', 'fa-hexagon', 'fa-cube', 'fa-star-of-life'
+        ]
+    },
+    {
+        id: 'creative',
+        name: 'تصميم وإبداع',
+        icon: 'fa-palette',
+        icons: [
+            'fa-palette', 'fa-brush', 'fa-paintbrush', 'fa-paint-roller',
+            'fa-pen-ruler', 'fa-pen', 'fa-pen-nib', 'fa-pencil',
+            'fa-highlighter', 'fa-marker', 'fa-crop', 'fa-crop-simple',
+            'fa-object-group', 'fa-object-ungroup', 'fa-vector-square', 'fa-shapes',
+            'fa-bezier-curve', 'fa-draw-polygon', 'fa-swatchbook', 'fa-fill-drip'
+        ]
+    }
 ];
+
+// قائمة مسطّحة لكل الأيقونات
+var ICON_PRESETS = [];
+ICON_GROUPS.forEach(function(g) {
+    g.icons.forEach(function(icon) {
+        if (ICON_PRESETS.indexOf(icon) === -1) {
+            ICON_PRESETS.push(icon);
+        }
+    });
+});
 
 // ═══════════════════════════════════════════════════════════════
 // 🧰 Helpers
@@ -1248,7 +1553,7 @@ function startInactivityMonitor() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📦 IndexedDB - نفس الإصدار 5
+// 📦 IndexedDB
 // ═══════════════════════════════════════════════════════════════
 var dbInstance = null;
 var dbPromise = null;
@@ -1403,11 +1708,12 @@ var state = {
     viewingCategory: null,
     selectedColor: COLOR_PRESETS[0],
     selectedIcon: 'fa-tag',
+    iconSearchTerm: '',
     isLoading: true
 };
 
 // ═══════════════════════════════════════════════════════════════
-// 📥 Load Data - 3-tier strategy
+// 📥 Load Data
 // ═══════════════════════════════════════════════════════════════
 function loadData() {
     state.isLoading = true;
@@ -1417,16 +1723,13 @@ function loadData() {
         return loadFromCache();
     }
     
-    // Strategy: دوّر على categories + products معاً
     return sb.from('categories').select('*').order('created_at', { ascending: false })
         .then(function(catRes) {
             if (catRes.error) throw catRes.error;
             state.categories = catRes.data || [];
-            // Cache
             return dbBulkPut('categories', state.categories);
         })
         .then(function() {
-            // جلب الأصناف
             return sb.from('products').select('id, name, barcode, category_id, quantity').order('name');
         })
         .then(function(prodRes) {
@@ -1434,7 +1737,6 @@ function loadData() {
                 state.products = prodRes.data;
                 return dbBulkPut('products', state.products);
             }
-            // في حالة الفشل، استخدم الـ cache للأصناف
             return dbGetAll('products').then(function(cached) {
                 state.products = cached || [];
             });
@@ -1629,7 +1931,6 @@ function bindCategoryEvents() {
     for (var i = 0; i < cards.length; i++) {
         (function(card) {
             card.addEventListener('click', function(e) {
-                // لو ضغط على زر داخلي
                 var target = e.target;
                 while (target && target !== card) {
                     if (target.dataset && target.dataset.action) {
@@ -1642,7 +1943,6 @@ function bindCategoryEvents() {
                     }
                     target = target.parentElement;
                 }
-                // ضغط على البطاقة نفسها
                 var id = card.dataset.id;
                 if (id) openDetailsModal(id);
             });
@@ -1651,7 +1951,7 @@ function bindCategoryEvents() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🎨 Icon & Color Pickers
+// 🎨 Color Picker
 // ═══════════════════════════════════════════════════════════════
 function renderColorPicker() {
     var container = document.getElementById('colorPicker');
@@ -1678,17 +1978,67 @@ function renderColorPicker() {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🎨 Icon Picker الاحترافي - مع مجموعات + بحث
+// ═══════════════════════════════════════════════════════════════
 function renderIconPicker() {
     var container = document.getElementById('iconPicker');
+    var countBadge = document.getElementById('iconCountValue');
     if (!container) return;
     
-    container.innerHTML = ICON_PRESETS.map(function(icon) {
-        return '<div class="icon-option ' + (state.selectedIcon === icon ? 'selected' : '') + '" ' +
-            'data-icon="' + icon + '" title="' + icon + '">' +
-            '<i class="fas ' + icon + '"></i>' +
+    var term = (state.iconSearchTerm || '').trim().toLowerCase();
+    var totalVisible = 0;
+    
+    // فلترة المجموعات حسب البحث
+    var filteredGroups = ICON_GROUPS.map(function(group) {
+        var matchedIcons = group.icons.filter(function(icon) {
+            if (!term) return true;
+            return icon.toLowerCase().indexOf(term) !== -1;
+        });
+        totalVisible += matchedIcons.length;
+        return {
+            id: group.id,
+            name: group.name,
+            icon: group.icon,
+            icons: matchedIcons
+        };
+    }).filter(function(g) { return g.icons.length > 0; });
+    
+    // تحديث العداد
+    if (countBadge) countBadge.textContent = totalVisible;
+    
+    if (filteredGroups.length === 0) {
+        container.innerHTML = '<div class="icon-picker-empty">' +
+            '<i class="fas fa-magnifying-glass"></i>' +
+            '<p>لا توجد أيقونات تطابق "' + escapeHtml(term) + '"</p>' +
+            '<p style="font-size: 0.72rem; margin-top: 0.35rem; opacity: 0.7;">جرب كلمة أخرى أو امسح البحث</p>' +
+        '</div>';
+        return;
+    }
+    
+    // بناء HTML
+    var html = filteredGroups.map(function(group) {
+        var iconsHtml = group.icons.map(function(icon) {
+            var isSelected = state.selectedIcon === icon;
+            return '<div class="icon-option ' + (isSelected ? 'selected' : '') + '" ' +
+                'data-icon="' + icon + '" title="' + icon + '">' +
+                '<i class="fas ' + icon + '"></i>' +
+            '</div>';
+        }).join('');
+        
+        return '<div class="icon-group">' +
+            '<div class="icon-group-title">' +
+                '<i class="fas ' + group.icon + '"></i>' +
+                '<span>' + escapeHtml(group.name) + '</span>' +
+                '<span class="icon-count">' + group.icons.length + '</span>' +
+            '</div>' +
+            '<div class="icon-group-grid">' + iconsHtml + '</div>' +
         '</div>';
     }).join('');
     
+    container.innerHTML = html;
+    
+    // ربط الأحداث
     var options = container.querySelectorAll('.icon-option');
     for (var i = 0; i < options.length; i++) {
         (function(el) {
@@ -1701,6 +2051,24 @@ function renderIconPicker() {
     }
 }
 
+function initIconSearch() {
+    var input = document.getElementById('iconSearchInput');
+    if (!input) return;
+    
+    var timeout;
+    input.addEventListener('input', function(e) {
+        clearTimeout(timeout);
+        var val = e.target.value;
+        timeout = setTimeout(function() {
+            state.iconSearchTerm = val;
+            renderIconPicker();
+        }, 200);
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 👁️ Preview
+// ═══════════════════════════════════════════════════════════════
 function updatePreview() {
     var nameInput = document.getElementById('categoryName');
     var descInput = document.getElementById('categoryDescription');
@@ -1730,6 +2098,7 @@ function openAddModal() {
     state.editingCategory = null;
     state.selectedColor = COLOR_PRESETS[0];
     state.selectedIcon = 'fa-tag';
+    state.iconSearchTerm = '';
     
     document.getElementById('categoryModalTitle').textContent = 'إضافة فئة جديدة';
     document.getElementById('categoryModalIcon').className = 'fas fa-plus';
@@ -1739,6 +2108,10 @@ function openAddModal() {
     document.getElementById('categoryName').value = '';
     document.getElementById('categoryDescription').value = '';
     document.getElementById('descCounter').textContent = '0 / 300';
+    
+    // إعادة تعيين البحث
+    var searchInput = document.getElementById('iconSearchInput');
+    if (searchInput) searchInput.value = '';
     
     clearFormErrors();
     renderColorPicker();
@@ -1760,6 +2133,7 @@ function openEditModal(id) {
     if (!c) return;
     
     state.editingCategory = c;
+    state.iconSearchTerm = '';
     
     var colorPreset = COLOR_PRESETS[0];
     for (var j = 0; j < COLOR_PRESETS.length; j++) {
@@ -1776,6 +2150,10 @@ function openEditModal(id) {
     document.getElementById('categoryDescription').value = c.description || '';
     document.getElementById('descCounter').textContent = ((c.description || '').length) + ' / 300';
     
+    // إعادة تعيين البحث
+    var searchInput = document.getElementById('iconSearchInput');
+    if (searchInput) searchInput.value = '';
+    
     clearFormErrors();
     renderColorPicker();
     renderIconPicker();
@@ -1791,6 +2169,7 @@ function openEditModal(id) {
 function closeCategoryModal() {
     document.getElementById('categoryModal').classList.remove('show');
     state.editingCategory = null;
+    state.iconSearchTerm = '';
 }
 
 function clearFormErrors() {
@@ -1870,7 +2249,6 @@ function saveCategory(e) {
             savePromise = sb.from('categories').update(categoryData).eq('id', editingId)
                 .then(function(result) {
                     if (result.error) throw result.error;
-                    // Audit log - بدون انتظار
                     sb.from('audit_log').insert({
                         user_id: session && session.user ? session.user.id : null,
                         action: 'UPDATE',
@@ -1986,7 +2364,6 @@ function confirmDelete() {
     var promise;
     
     if (sb && navigator.onLine && isValidUUID(c.id)) {
-        // فك ربط الأصناف الأول
         promise = sb.from('products').update({ category_id: null }).eq('category_id', c.id)
             .then(function() {
                 return sb.from('categories').delete().eq('id', c.id);
@@ -2056,7 +2433,7 @@ function openDetailsModal(id) {
                     '<div style="font-size: 0.85rem; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + escapeHtml(p.name || '') + '</div>' +
                     '<div style="font-size: 0.7rem; color: var(--text-muted); font-family: monospace;">' + escapeHtml(p.barcode || '') + '</div>' +
                 '</div>' +
-                '<span class="badge" style="background: ' + (qty > 0 ? 'rgba(16,185,129,0.15); color: var(--success);' : 'rgba(239,68,68,0.15); color: var(--danger);') + '">' + qty + '</span>' +
+                '<span class="badge" style="background: ' + (qty > 0 ? 'rgba(16,185,129,0.15); color: var(--success);' : 'rgba(239,68,68,0.15); color: var(--danger);') + '; padding: 0.25rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700;">' + qty + '</span>' +
             '</div>';
         }).join('');
         
@@ -2369,6 +2746,9 @@ document.addEventListener('DOMContentLoaded', function() {
         updatePreview();
     });
     
+    // ✅ Icon Search
+    initIconSearch();
+    
     // Delete modal
     var closeDel = document.getElementById('closeDeleteModal');
     var cancelDel = document.getElementById('cancelDeleteBtn');
@@ -2456,7 +2836,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (addBtn2) addBtn2.style.display = 'none';
     }
     
-    // ✅ Load - نفتح DB الأول، ثم نحمّل البيانات
+    // Load
     openDB()
         .then(function() { return loadData(); })
         .then(function() {
@@ -2470,14 +2850,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     
     startInactivityMonitor();
-    console.log('%c🏷️ صفحة الفئات جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+    console.log('%c🏷️ صفحة الفئات جاهزة - مع ' + ICON_PRESETS.length + ' أيقونة إلكترونية', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+    console.log('%c🔍 استخدم البحث للوصول السريع لأي أيقونة', 'color: #10b981; font-size: 12px;');
 });
 
 window.CategoriesApp = {
     showToast: showToast,
     logout: logout,
     getSession: getSession,
-    reload: function() { return loadData(); }
+    reload: function() { return loadData(); },
+    ICON_PRESETS: ICON_PRESETS,
+    ICON_GROUPS: ICON_GROUPS
 };
 
 })();
