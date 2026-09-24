@@ -6,7 +6,6 @@
 <meta name="theme-color" content="#1d5b8e">
 <meta name="description" content="الفواتير - اكترونك لصيانة جميع الاجهزه الالكترونيه والكهربائيه">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>الفواتير | إكترونك</title>
 
@@ -723,7 +722,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .product-picker-item-meta {
     font-size: 0.7rem; color: var(--text-muted);
-    display: flex; gap: 0.5rem; flex-wrap: wrap;
+    display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;
 }
 .product-picker-item-price {
     font-size: 0.85rem; font-weight: 800; color: var(--tech-blue);
@@ -733,6 +732,7 @@ img { max-width: 100%; height: auto; display: block; }
     padding: 0.15rem 0.5rem; border-radius: var(--radius-full);
     font-size: 0.65rem; font-weight: 700;
     background: rgba(16,185,129,0.15); color: var(--success);
+    display: inline-flex; align-items: center; gap: 0.2rem;
 }
 .stock-badge.low { background: rgba(245,158,11,0.15); color: var(--warning); }
 .stock-badge.out { background: rgba(239,68,68,0.15); color: var(--danger); }
@@ -1758,12 +1758,18 @@ img { max-width: 100%; height: auto; display: block; }
 (function() {
 'use strict';
 
+// ═══════════════════════════════════════════════════════════════
+// 🔑 Config
+// ═══════════════════════════════════════════════════════════════
 var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
 var DB_NAME = 'electronic_db';
 var DB_VERSION = 5;
 var PAGE_SIZE = 20;
 
+// ═══════════════════════════════════════════════════════════════
+// 🗄️ Supabase
+// ═══════════════════════════════════════════════════════════════
 var supabaseClient = null;
 
 function getSupabaseClient() {
@@ -1777,6 +1783,9 @@ function getSupabaseClient() {
     } catch (e) { return null; }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🧰 Helpers
+// ═══════════════════════════════════════════════════════════════
 function escapeHtml(str) {
     if (str == null) return '';
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -1794,11 +1803,9 @@ function sanitizePhone(phone) {
 }
 
 function generateUUID() {
-    // ✅ UUID v4 حقيقي - بيستخدم crypto.randomUUID لو متاح
     if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
         return crypto.randomUUID();
     }
-    // Fallback for older browsers
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random() * 16 | 0;
         var v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -1887,6 +1894,9 @@ function getPaymentMethodText(method) {
     return map[method] || method;
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🎨 Theme
+// ═══════════════════════════════════════════════════════════════
 function initTheme() {
     var saved = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
@@ -1904,6 +1914,9 @@ function toggleTheme() {
     updateThemeIcon(next);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🍞 Toast
+// ═══════════════════════════════════════════════════════════════
 function showToast(message, type, duration) {
     type = type || 'info';
     duration = duration || 3500;
@@ -1923,12 +1936,18 @@ function showToast(message, type, duration) {
     }, duration);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🌐 Online
+// ═══════════════════════════════════════════════════════════════
 function updateOnlineStatus() {
     var dot = document.getElementById('onlineDot');
     if (!dot) return;
     dot.classList.toggle('offline', !navigator.onLine);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🔐 Session
+// ═══════════════════════════════════════════════════════════════
 function getSession() {
     try {
         var raw = localStorage.getItem('session');
@@ -1953,6 +1972,9 @@ function logout(message) {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// ⏱️ Inactivity
+// ═══════════════════════════════════════════════════════════════
 var INACTIVITY_TIMEOUT = 30 * 60 * 1000;
 var inactivityTimer = null;
 
@@ -1970,6 +1992,9 @@ function startInactivityMonitor() {
     resetInactivity();
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📦 IndexedDB
+// ═══════════════════════════════════════════════════════════════
 var dbInstance = null;
 var dbPromise = null;
 var dbFailed = false;
@@ -2087,6 +2112,9 @@ function addToOutbox(action) {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📊 State
+// ═══════════════════════════════════════════════════════════════
 var state = {
     invoices: [],
     customers: [],
@@ -2107,6 +2135,9 @@ var state = {
     isLoading: true
 };
 
+// ═══════════════════════════════════════════════════════════════
+// 📥 Load Data
+// ═══════════════════════════════════════════════════════════════
 function loadData() {
     state.isLoading = true;
     var sb = getSupabaseClient();
@@ -2172,6 +2203,9 @@ function loadFromCacheInternal() {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📊 Stats
+// ═══════════════════════════════════════════════════════════════
 function updateStats() {
     var totalInvoices = state.invoices.length;
     var totalSales = 0;
@@ -2204,7 +2238,11 @@ function updateStats() {
     if (subtitle) subtitle.textContent = totalInvoices + ' فاتورة';
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🔍 Lookups
+// ═══════════════════════════════════════════════════════════════
 function getCustomerById(id) {
+    if (!id) return null;
     for (var i = 0; i < state.customers.length; i++) {
         if (state.customers[i].id === id) return state.customers[i];
     }
@@ -2212,6 +2250,7 @@ function getCustomerById(id) {
 }
 
 function getRepairById(id) {
+    if (!id) return null;
     for (var i = 0; i < state.repairs.length; i++) {
         if (state.repairs[i].id === id) return state.repairs[i];
     }
@@ -2219,8 +2258,17 @@ function getRepairById(id) {
 }
 
 function getProductById(id) {
+    if (!id) return null;
     for (var i = 0; i < state.products.length; i++) {
         if (state.products[i].id === id) return state.products[i];
+    }
+    return null;
+}
+
+function getProductByBarcode(barcode) {
+    if (!barcode) return null;
+    for (var i = 0; i < state.products.length; i++) {
+        if (state.products[i].barcode === barcode) return state.products[i];
     }
     return null;
 }
@@ -2233,6 +2281,9 @@ function getItemsForInvoice(invoiceId) {
     return state.invoiceItems.filter(function(item) { return item.invoice_id === invoiceId; });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🎯 Filters & Render
+// ═══════════════════════════════════════════════════════════════
 function applyFilters() {
     var list = state.invoices.slice();
     var q = (state.searchQuery || '').trim().toLowerCase();
@@ -2428,266 +2479,8 @@ function bindInvoiceEvents() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📤 Share Invoice Modal
+// 🛒 Product Picker — مع تحقق صارم من الكميات
 // ═══════════════════════════════════════════════════════════════
-function openShareModal(id) {
-    var inv = null;
-    for (var i = 0; i < state.invoices.length; i++) {
-        if (state.invoices[i].id === id) { inv = state.invoices[i]; break; }
-    }
-    if (!inv) return;
-
-    state.viewingInvoice = inv;
-    var customer = getCustomerById(inv.customer_id) || {};
-    var invoiceNumber = inv.invoice_number || 'INV';
-    var total = parseFloat(inv.total) || 0;
-
-    // ✅ استخدم uuid_link أولاً، ثم id كـ fallback
-    var linkIdentifier = inv.uuid_link || inv.id;
-    var baseUrl = window.location.origin + window.location.pathname.replace('invoices.html', 'invoice-view.html');
-    var invoiceUrl = baseUrl + '?id=' + linkIdentifier;
-
-    console.log('📤 Share - using identifier:', linkIdentifier, '(uuid_link:', inv.uuid_link, ')');
-
-    var bodyHtml =
-        '<div class="share-header">' +
-            '<div class="share-icon-circle"><i class="fas fa-share-nodes"></i></div>' +
-            '<div class="share-invoice-number">' + escapeHtml(invoiceNumber) + '</div>' +
-            (customer.name ? '<div class="share-customer-name">' + escapeHtml(customer.name) + '</div>' : '') +
-            (customer.phone ? '<div class="share-customer-phone">' + escapeHtml(customer.phone) + '</div>' : '') +
-            '<div class="share-total">' + formatCurrency(total) + '</div>' +
-        '</div>' +
-
-        '<div class="share-qr-wrapper">' +
-            '<div class="share-qr-box" id="shareQrBox"></div>' +
-        '</div>' +
-
-        '<label class="share-link-label">لينك الفاتورة</label>' +
-        '<div class="share-link-row">' +
-            '<input type="text" id="shareLinkInput" class="share-link-input" value="' + escapeHtml(invoiceUrl) + '" readonly>' +
-            '<button type="button" class="share-copy-btn" id="shareCopyBtn" title="نسخ الرابط">' +
-                '<i class="fas fa-copy"></i>' +
-            '</button>' +
-        '</div>' +
-
-        '<div class="share-actions-grid">' +
-            '<a href="https://wa.me/2' + escapeHtml(sanitizePhone(customer.phone || '').replace(/^0/, '')) + '?text=' + encodeURIComponent('مرحباً ' + (customer.name || '') + '،\n\nفاتورتك رقم ' + invoiceNumber + '\nبإجمالي: ' + formatCurrency(total) + '\n\nيمكنك عرض الفاتورة من الرابط:\n' + invoiceUrl) + '" target="_blank" class="share-action-btn whatsapp">' +
-                '<i class="fab fa-whatsapp"></i> واتساب' +
-            '</a>' +
-            '<a href="sms:' + escapeHtml(sanitizePhone(customer.phone || '')) + '?body=' + encodeURIComponent('فاتورتك رقم ' + invoiceNumber + ' - ' + formatCurrency(total) + '\n' + invoiceUrl) + '" class="share-action-btn sms">' +
-                '<i class="fas fa-comment-sms"></i> SMS' +
-            '</a>' +
-            '<a href="' + escapeHtml(invoiceUrl) + '" target="_blank" class="share-action-btn open">' +
-                '<i class="fas fa-external-link-alt"></i> فتح الفاتورة' +
-            '</a>' +
-            '<button type="button" class="share-action-btn download" id="shareDownloadQrBtn">' +
-                '<i class="fas fa-download"></i> تحميل QR' +
-            '</button>' +
-        '</div>';
-
-    document.getElementById('shareModalBody').innerHTML = bodyHtml;
-    document.getElementById('shareModal').classList.add('show');
-
-    setTimeout(function() {
-        generateShareQR(invoiceUrl);
-    }, 100);
-
-    var copyBtn = document.getElementById('shareCopyBtn');
-    if (copyBtn) {
-        copyBtn.addEventListener('click', function() {
-            copyInvoiceLink();
-        });
-    }
-
-    var downloadQrBtn = document.getElementById('shareDownloadQrBtn');
-    if (downloadQrBtn) {
-        downloadQrBtn.addEventListener('click', function() {
-            downloadInvoiceQR(invoiceNumber);
-        });
-    }
-}
-
-function closeShareModal() {
-    var modal = document.getElementById('shareModal');
-    if (modal) modal.classList.remove('show');
-    state.viewingInvoice = null;
-}
-
-function copyInvoiceLink() {
-    var input = document.getElementById('shareLinkInput');
-    var copyBtn = document.getElementById('shareCopyBtn');
-    if (!input) return;
-
-    input.select();
-    input.setSelectionRange(0, 99999);
-
-    var onSuccess = function() {
-        if (copyBtn) {
-            copyBtn.classList.add('copied');
-            copyBtn.innerHTML = '<i class="fas fa-check"></i>';
-            setTimeout(function() {
-                copyBtn.classList.remove('copied');
-                copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
-            }, 2000);
-        }
-        showToast('✅ تم نسخ الرابط', 'success');
-    };
-
-    try {
-        document.execCommand('copy');
-        onSuccess();
-    } catch (e) {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(input.value).then(onSuccess).catch(function() {
-                showToast('فشل نسخ الرابط', 'error');
-            });
-        } else {
-            showToast('فشل نسخ الرابط', 'error');
-        }
-    }
-}
-
-function generateShareQR(text) {
-    var box = document.getElementById('shareQrBox');
-    if (!box) return;
-
-    if (typeof QRCode === 'undefined') {
-        var script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js';
-        script.onload = function() { generateShareQR(text); };
-        script.onerror = function() {
-            box.innerHTML = '<i class="fas fa-qrcode" style="font-size: 2rem; color: var(--text-muted);"></i>';
-        };
-        document.head.appendChild(script);
-        return;
-    }
-
-    QRCode.toCanvas(text, {
-        width: 300,
-        margin: 1,
-        color: { dark: '#1d5b8e', light: '#ffffff' },
-        errorCorrectionLevel: 'M'
-    }, function(err, canvas) {
-        if (err) {
-            box.innerHTML = '<i class="fas fa-qrcode" style="font-size: 2rem; color: var(--text-muted);"></i>';
-            return;
-        }
-        box.innerHTML = '';
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        canvas.style.borderRadius = '6px';
-        box.appendChild(canvas);
-    });
-}
-
-function downloadInvoiceQR(invoiceNumber) {
-    var canvas = document.querySelector('#shareQrBox canvas');
-    if (!canvas) {
-        showToast('جاري توليد QR...', 'info');
-        setTimeout(function() { downloadInvoiceQR(invoiceNumber); }, 800);
-        return;
-    }
-
-    try {
-        var link = document.createElement('a');
-        link.download = 'invoice_qr_' + (invoiceNumber || 'invoice') + '_' + Date.now() + '.png';
-        link.href = canvas.toDataURL('image/png');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        showToast('✅ تم تحميل الـ QR', 'success');
-    } catch (e) {
-        console.error('Download QR error:', e);
-        showToast('فشل التحميل', 'error');
-    }
-}
-
-function renderPartsSection() {
-    var container = document.getElementById('partsListContainer');
-    var badge = document.getElementById('partsCountBadge');
-    if (!container) return;
-    
-    if (badge) badge.textContent = state.currentItems.length;
-    
-    if (!state.currentItems.length) {
-        container.innerHTML = '<div class="parts-empty">' +
-            '<i class="fas fa-box-open"></i><p>لم تضف أي قطع بعد</p>' +
-            '<button type="button" class="btn btn-primary btn-sm" id="emptyAddPartBtn" style="margin-top: 0.5rem;">' +
-            '<i class="fas fa-plus"></i> إضافة قطعة</button></div>';
-        var emptyBtn = document.getElementById('emptyAddPartBtn');
-        if (emptyBtn) emptyBtn.addEventListener('click', openProductPicker);
-        return;
-    }
-    
-    container.innerHTML = state.currentItems.map(function(item, idx) {
-        var product = getProductById(item.product_id);
-        var img = product && product.image_url 
-            ? '<img src="' + escapeHtml(product.image_url) + '" alt="" class="part-item-img">'
-            : '<div class="part-item-img placeholder"><i class="fas fa-image"></i></div>';
-        
-        var lineTotal = (parseFloat(item.unit_price) || 0) * (parseInt(item.quantity) || 0);
-        
-        return '<div class="part-item">' + img +
-            '<div class="part-item-info">' +
-                '<div class="part-item-name">' + escapeHtml(item.product_name || (product && product.name) || 'قطعة') + '</div>' +
-                '<div class="part-item-meta"><span>' + formatCurrency(item.unit_price) + ' × ' + item.quantity + '</span></div>' +
-            '</div>' +
-            '<div class="part-item-qty">' +
-                '<button type="button" class="qty-btn" data-action="decrease" data-idx="' + idx + '"><i class="fas fa-minus"></i></button>' +
-                '<div class="qty-value">' + item.quantity + '</div>' +
-                '<button type="button" class="qty-btn" data-action="increase" data-idx="' + idx + '"><i class="fas fa-plus"></i></button>' +
-            '</div>' +
-            '<div class="part-item-price">' + formatCurrencyShort(lineTotal) + '</div>' +
-            '<button type="button" class="part-item-remove" data-action="remove" data-idx="' + idx + '"><i class="fas fa-times"></i></button>' +
-        '</div>';
-    }).join('');
-    
-    container.querySelectorAll('[data-action]').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            var action = btn.dataset.action;
-            var idx = parseInt(btn.dataset.idx);
-            if (action === 'increase') increasePartQty(idx);
-            else if (action === 'decrease') decreasePartQty(idx);
-            else if (action === 'remove') removePart(idx);
-        });
-    });
-}
-
-function increasePartQty(idx) {
-    var item = state.currentItems[idx];
-    if (!item) return;
-    var product = getProductById(item.product_id);
-    if (!product) return;
-    
-    var newQty = item.quantity + 1;
-    if (newQty > (parseInt(product.quantity) || 0)) {
-        showToast('الكمية المتوفرة ' + product.quantity + ' فقط', 'warning');
-        return;
-    }
-    
-    state.currentItems[idx].quantity = newQty;
-    state.currentItems[idx].total = newQty * item.unit_price;
-    renderPartsSection();
-    updateSummary();
-}
-
-function decreasePartQty(idx) {
-    var item = state.currentItems[idx];
-    if (!item) return;
-    if (item.quantity <= 1) { removePart(idx); return; }
-    state.currentItems[idx].quantity = item.quantity - 1;
-    state.currentItems[idx].total = (item.quantity - 1) * item.unit_price;
-    renderPartsSection();
-    updateSummary();
-}
-
-function removePart(idx) {
-    state.currentItems.splice(idx, 1);
-    renderPartsSection();
-    updateSummary();
-}
-
 function openProductPicker() {
     document.getElementById('productPickerModal').classList.add('show');
     var searchInput = document.getElementById('productPickerSearch');
@@ -2719,18 +2512,23 @@ function renderProductPickerList(search) {
         return;
     }
     
-    container.innerHTML = products.slice(0, 100).map(function(p) {
+    container.innerHTML = products.slice(0, 200).map(function(p) {
         var qty = parseInt(p.quantity) || 0;
+        var minQty = parseInt(p.min_quantity) || 5;
         var outOfStock = qty <= 0;
-        var lowStock = qty > 0 && qty <= (p.min_quantity || 5);
+        var lowStock = qty > 0 && qty <= minQty;
         
         var stockBadge = '';
-        if (outOfStock) stockBadge = '<span class="stock-badge out">نفذ</span>';
-        else if (lowStock) stockBadge = '<span class="stock-badge low">' + qty + ' متبقي</span>';
-        else stockBadge = '<span class="stock-badge">' + qty + ' متوفر</span>';
+        if (outOfStock) {
+            stockBadge = '<span class="stock-badge out"><i class="fas fa-circle-xmark"></i> نفذ</span>';
+        } else if (lowStock) {
+            stockBadge = '<span class="stock-badge low"><i class="fas fa-triangle-exclamation"></i> ' + qty + ' متبقي</span>';
+        } else {
+            stockBadge = '<span class="stock-badge"><i class="fas fa-check"></i> ' + qty + ' متوفر</span>';
+        }
         
         var img = p.image_url 
-            ? '<img src="' + escapeHtml(p.image_url) + '" alt="" class="product-picker-item-img">'
+            ? '<img src="' + escapeHtml(p.image_url) + '" alt="" class="product-picker-item-img" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><div class="product-picker-item-img placeholder" style="display:none;"><i class="fas fa-image"></i></div>'
             : '<div class="product-picker-item-img placeholder"><i class="fas fa-image"></i></div>';
         
         return '<div class="product-picker-item ' + (outOfStock ? 'out-of-stock' : '') + '" ' +
@@ -2738,7 +2536,8 @@ function renderProductPickerList(search) {
             '<div class="product-picker-item-info">' +
                 '<div class="product-picker-item-name">' + escapeHtml(p.name) + '</div>' +
                 '<div class="product-picker-item-meta">' +
-                    '<span><i class="fas fa-barcode"></i> ' + escapeHtml(p.barcode || '—') + '</span>' + stockBadge +
+                    '<span><i class="fas fa-barcode"></i> ' + escapeHtml(p.barcode || '—') + '</span>' + 
+                    stockBadge +
                 '</div>' +
             '</div>' +
             '<div class="product-picker-item-price">' + formatCurrency(p.sell_price) + '</div>' +
@@ -2748,7 +2547,7 @@ function renderProductPickerList(search) {
     container.querySelectorAll('.product-picker-item').forEach(function(el) {
         el.addEventListener('click', function() {
             if (el.dataset.disabled === 'true') {
-                showToast('الصنف غير متوفر في المخزون', 'warning');
+                showToast('⚠️ الصنف نفذ من المخزون', 'error');
                 return;
             }
             addProductToInvoice(el.dataset.productId);
@@ -2758,24 +2557,43 @@ function renderProductPickerList(search) {
 
 function addProductToInvoice(productId) {
     var product = getProductById(productId);
-    if (!product) return;
+    if (!product) {
+        showToast('الصنف غير موجود', 'error');
+        return;
+    }
     
-    var qty = parseInt(product.quantity) || 0;
-    if (qty <= 0) { showToast('الصنف غير متوفر', 'warning'); return; }
+    var availableQty = parseInt(product.quantity) || 0;
+    if (availableQty <= 0) {
+        showToast('⚠️ الصنف "' + product.name + '" نفذ من المخزون', 'error', 4000);
+        return;
+    }
     
+    // ✅ فحص لو الصنف مضاف بالفعل
     var existingIdx = -1;
     for (var i = 0; i < state.currentItems.length; i++) {
-        if (state.currentItems[i].product_id === productId) { existingIdx = i; break; }
+        if (state.currentItems[i].product_id === productId) {
+            existingIdx = i;
+            break;
+        }
+    }
+    
+    var totalRequested = existingIdx !== -1 
+        ? state.currentItems[existingIdx].quantity + 1 
+        : 1;
+    
+    // ✅ فحص صارم ضد السالب
+    if (totalRequested > availableQty) {
+        showToast(
+            '⚠️ الكمية المتوفرة من "' + product.name + '" هي ' + availableQty + ' فقط', 
+            'warning', 
+            4000
+        );
+        return;
     }
     
     if (existingIdx !== -1) {
-        var currentQty = state.currentItems[existingIdx].quantity;
-        if (currentQty + 1 > qty) {
-            showToast('وصلت للحد الأقصى المتوفر (' + qty + ')', 'warning');
-            return;
-        }
-        state.currentItems[existingIdx].quantity = currentQty + 1;
-        state.currentItems[existingIdx].total = (currentQty + 1) * state.currentItems[existingIdx].unit_price;
+        state.currentItems[existingIdx].quantity = totalRequested;
+        state.currentItems[existingIdx].total = totalRequested * state.currentItems[existingIdx].unit_price;
     } else {
         state.currentItems.push({
             product_id: productId,
@@ -2791,9 +2609,119 @@ function addProductToInvoice(productId) {
     closeProductPicker();
     renderPartsSection();
     updateSummary();
-    showToast('تم إضافة ' + product.name, 'success', 2000);
+    showToast('✅ تم إضافة ' + product.name, 'success', 2000);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🧾 Parts Section — مع فحص صارم
+// ═══════════════════════════════════════════════════════════════
+function renderPartsSection() {
+    var container = document.getElementById('partsListContainer');
+    var badge = document.getElementById('partsCountBadge');
+    if (!container) return;
+    
+    if (badge) badge.textContent = state.currentItems.length;
+    
+    if (!state.currentItems.length) {
+        container.innerHTML = '<div class="parts-empty">' +
+            '<i class="fas fa-box-open"></i><p>لم تضف أي قطع بعد</p>' +
+            '<button type="button" class="btn btn-primary btn-sm" id="emptyAddPartBtn" style="margin-top: 0.5rem;">' +
+            '<i class="fas fa-plus"></i> إضافة قطعة</button></div>';
+        var emptyBtn = document.getElementById('emptyAddPartBtn');
+        if (emptyBtn) emptyBtn.addEventListener('click', openProductPicker);
+        return;
+    }
+    
+    container.innerHTML = state.currentItems.map(function(item, idx) {
+        var product = getProductById(item.product_id);
+        var img = product && product.image_url 
+            ? '<img src="' + escapeHtml(product.image_url) + '" alt="" class="part-item-img">'
+            : '<div class="part-item-img placeholder"><i class="fas fa-image"></i></div>';
+        
+        var lineTotal = (parseFloat(item.unit_price) || 0) * (parseInt(item.quantity) || 0);
+        var stockInfo = '';
+        if (product) {
+            var avail = parseInt(product.quantity) || 0;
+            if (item.quantity > avail) {
+                stockInfo = ' <span style="color: var(--danger); font-weight: 800;">⚠️ يتجاوز المتوفر (' + avail + ')</span>';
+            }
+        }
+        
+        return '<div class="part-item">' + img +
+            '<div class="part-item-info">' +
+                '<div class="part-item-name">' + escapeHtml(item.product_name || (product && product.name) || 'قطعة') + '</div>' +
+                '<div class="part-item-meta"><span>' + formatCurrency(item.unit_price) + ' × ' + item.quantity + '</span>' + stockInfo + '</div>' +
+            '</div>' +
+            '<div class="part-item-qty">' +
+                '<button type="button" class="qty-btn" data-action="decrease" data-idx="' + idx + '"><i class="fas fa-minus"></i></button>' +
+                '<div class="qty-value">' + item.quantity + '</div>' +
+                '<button type="button" class="qty-btn" data-action="increase" data-idx="' + idx + '"><i class="fas fa-plus"></i></button>' +
+            '</div>' +
+            '<div class="part-item-price">' + formatCurrencyShort(lineTotal) + '</div>' +
+            '<button type="button" class="part-item-remove" data-action="remove" data-idx="' + idx + '"><i class="fas fa-times"></i></button>' +
+        '</div>';
+    }).join('');
+    
+    container.querySelectorAll('[data-action]').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var action = btn.dataset.action;
+            var idx = parseInt(btn.dataset.idx);
+            if (action === 'increase') increasePartQty(idx);
+            else if (action === 'decrease') decreasePartQty(idx);
+            else if (action === 'remove') removePart(idx);
+        });
+    });
+}
+
+function increasePartQty(idx) {
+    var item = state.currentItems[idx];
+    if (!item) return;
+    
+    var product = getProductById(item.product_id);
+    if (!product) {
+        showToast('الصنف غير موجود', 'error');
+        return;
+    }
+    
+    var availableQty = parseInt(product.quantity) || 0;
+    var newQty = item.quantity + 1;
+    
+    if (newQty > availableQty) {
+        showToast(
+            '⚠️ الكمية المتوفرة ' + availableQty + ' فقط', 
+            'warning', 
+            3000
+        );
+        return;
+    }
+    
+    state.currentItems[idx].quantity = newQty;
+    state.currentItems[idx].total = newQty * (parseFloat(item.unit_price) || 0);
+    renderPartsSection();
+    updateSummary();
+}
+
+function decreasePartQty(idx) {
+    var item = state.currentItems[idx];
+    if (!item) return;
+    if (item.quantity <= 1) { removePart(idx); return; }
+    state.currentItems[idx].quantity = item.quantity - 1;
+    state.currentItems[idx].total = (item.quantity - 1) * (parseFloat(item.unit_price) || 0);
+    renderPartsSection();
+    updateSummary();
+}
+
+function removePart(idx) {
+    state.currentItems.splice(idx, 1);
+    renderPartsSection();
+    updateSummary();
+    showToast('تم إزالة القطعة', 'info', 1500);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🪟 Invoice Modal
+// ═══════════════════════════════════════════════════════════════
 function openAddModal() {
     state.editingInvoice = null;
     state.selectedRepair = null;
@@ -2833,11 +2761,21 @@ function openEditModal(id) {
     var repair = getRepairById(inv.repair_order_id);
     state.selectedRepair = repair;
     
+    // ✅ تحميل القطع مع التحقق من product_id
     state.currentItems = getItemsForInvoice(inv.id).map(function(item) {
         var product = getProductById(item.product_id);
+        // لو product_id مش موجود، حاول بالباركود أو الاسم
+        if (!product && item.product_name) {
+            for (var k = 0; k < state.products.length; k++) {
+                if (state.products[k].name === item.product_name) {
+                    product = state.products[k];
+                    break;
+                }
+            }
+        }
         return {
             id: item.id,
-            product_id: item.product_id,
+            product_id: product ? product.id : item.product_id,
             product_name: item.product_name || (product && product.name) || '',
             description: item.description || '',
             quantity: parseInt(item.quantity) || 1,
@@ -3054,6 +2992,9 @@ function updateSummary() {
     document.getElementById('summaryTotal').textContent = formatCurrency(total);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 💾 Save Invoice — مع فحص صارم
+// ═══════════════════════════════════════════════════════════════
 function saveInvoice(e) {
     e.preventDefault();
     clearFormErrors();
@@ -3081,6 +3022,38 @@ function saveInvoice(e) {
         return;
     }
     
+    // ✅ فحص صارم للكميات قبل الحفظ
+    if (state.currentItems.length > 0) {
+        var stockError = null;
+        for (var ci = 0; ci < state.currentItems.length; ci++) {
+            var ci_item = state.currentItems[ci];
+            var ci_product = getProductById(ci_item.product_id);
+            if (!ci_product) {
+                stockError = 'الصنف "' + ci_item.product_name + '" مش موجود في المخزون';
+                break;
+            }
+            var ci_avail = parseInt(ci_product.quantity) || 0;
+            // في حالة التعديل: نضيف الكمية الأصلية لأنها هترجع للمخزون
+            if (state.editingInvoice) {
+                var originalItem = getItemsForInvoice(state.editingInvoice.id).find(function(oi) {
+                    return oi.product_id === ci_item.product_id;
+                });
+                if (originalItem) {
+                    ci_avail += parseInt(originalItem.quantity) || 0;
+                }
+            }
+            if (ci_item.quantity > ci_avail) {
+                stockError = 'الكمية المتوفرة من "' + ci_product.name + '" هي ' + ci_avail + ' فقط (المطلوب: ' + ci_item.quantity + ')';
+                break;
+            }
+        }
+        
+        if (stockError) {
+            showToast('⚠️ ' + stockError, 'error', 6000);
+            return;
+        }
+    }
+    
     var subtotal = parts + labor;
     var discountAmount = discountType === 'percent' ? (subtotal * (discountVal / 100)) : discountVal;
     if (discountAmount > subtotal) discountAmount = subtotal;
@@ -3106,14 +3079,13 @@ function saveInvoice(e) {
     
     var invoiceNumber = state.editingInvoice ? state.editingInvoice.invoice_number : generateInvoiceNumber();
     
-    // ✅ uuid_link - دايماً نولّده للفواتير الجديدة
     var uuidLink = isEditing 
         ? (state.editingInvoice.uuid_link || generateUUID())
         : generateUUID();
     
     var invoiceData = {
         invoice_number: invoiceNumber,
-        uuid_link: uuidLink,  // ✅ مهم جداً
+        uuid_link: uuidLink,
         customer_id: customerId,
         repair_order_id: repairId,
         parts_total: parts,
@@ -3129,8 +3101,6 @@ function saveInvoice(e) {
         created_by: session && session.user ? session.user.id : null
     };
     
-    console.log('💾 Saving invoice with uuid_link:', uuidLink);
-    
     var savePromise;
     var tempId = 'temp_' + Date.now();
     var invoiceId = isEditing ? state.editingInvoice.id : null;
@@ -3140,6 +3110,7 @@ function saveInvoice(e) {
             savePromise = sb.from('invoices').update(invoiceData).eq('id', invoiceId)
                 .then(function(result) {
                     if (result.error) throw result.error;
+                    // ⚠️ حذف القطع القديمة - الـ trigger هيرجع الكميات تلقائيًا
                     return sb.from('invoice_items').delete().eq('invoice_id', invoiceId);
                 })
                 .then(function() {
@@ -3156,6 +3127,7 @@ function saveInvoice(e) {
                                 total: item.unit_price * item.quantity
                             };
                         });
+                        // ⚠️ الـ trigger هيخصم الكميات تلقائيًا
                         return sb.from('invoice_items').insert(items);
                     }
                 });
@@ -3201,6 +3173,7 @@ function saveInvoice(e) {
                                 total: item.unit_price * item.quantity
                             };
                         });
+                        // ⚠️ الـ trigger هيخصم الكميات تلقائيًا
                         return sb.from('invoice_items').insert(items).then(function() { return result.data; });
                     }
                     return result.data;
@@ -3227,15 +3200,8 @@ function saveInvoice(e) {
             state.invoices.unshift(finalInvoice);
             dbPut('invoices', finalInvoice);
             
-            state.currentItems.forEach(function(item) {
-                for (var k = 0; k < state.products.length; k++) {
-                    if (state.products[k].id === item.product_id) {
-                        state.products[k].quantity = Math.max(0, (state.products[k].quantity || 0) - item.quantity);
-                        dbPut('products', state.products[k]);
-                        break;
-                    }
-                }
-            });
+            // ⚠️ مهم: مفيش خصم يدوي - الـ Trigger في DB بيعمل ده
+            // بس هنحدّث الـ cache المحلي بعدين من السيرفر
             
             showToast('✅ تم إنشاء الفاتورة بنجاح', 'success');
         });
@@ -3243,12 +3209,21 @@ function saveInvoice(e) {
     
     savePromise.then(function() {
         closeInvoiceModal();
-        loadData();
+        // ✅ إعادة تحميل البيانات من السيرفر عشان الكميات تتحدث
+        return loadData();
     }).catch(function(err) {
         console.error('Save error:', err);
         var msg = 'حدث خطأ أثناء الحفظ';
-        if (err.message) msg = err.message;
-        showToast(msg, 'error', 5000);
+        if (err.message) {
+            if (err.code === '23505') {
+                msg = 'رقم الفاتورة مستخدم، حاول مرة أخرى';
+            } else if (err.message.indexOf('الكمية المتوفرة') !== -1) {
+                msg = '⚠️ ' + err.message;
+            } else {
+                msg = err.message;
+            }
+        }
+        showToast(msg, 'error', 6000);
     }).then(function() {
         btn.disabled = false;
         spinner.style.display = 'none';
@@ -3265,6 +3240,9 @@ function generateInvoiceNumber() {
     return 'INV-' + year + month + '-' + random;
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 👁️ Details Modal
+// ═══════════════════════════════════════════════════════════════
 function openDetailsModal(id) {
     var inv = null;
     for (var i = 0; i < state.invoices.length; i++) {
@@ -3326,7 +3304,6 @@ function openDetailsModal(id) {
             '<p style="font-size: 0.85rem;">لا توجد دفعات مسجلة</p></div>';
     }
     
-    // ✅ استخدام uuid_link للـ QR والرابط
     var linkIdentifier = inv.uuid_link || inv.id;
     var baseUrl = window.location.origin + window.location.pathname.replace('invoices.html', 'invoice-view.html');
     var invoiceUrl = baseUrl + '?id=' + linkIdentifier;
@@ -3448,6 +3425,9 @@ function generateQR(text) {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🖨️ Print
+// ═══════════════════════════════════════════════════════════════
 function printA4() {
     var inv = state.viewingInvoice;
     if (!inv) return;
@@ -3597,6 +3577,9 @@ function printThermal() {
     win.document.close();
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 💰 Payments
+// ═══════════════════════════════════════════════════════════════
 function openPaymentModal() {
     var inv = state.viewingInvoice;
     if (!inv) return;
@@ -3714,6 +3697,9 @@ function savePayment(e) {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🗑️ Delete Invoice — مع إرجاع الكميات
+// ═══════════════════════════════════════════════════════════════
 function openDeleteModal(id) {
     var inv = null;
     for (var i = 0; i < state.invoices.length; i++) {
@@ -3738,6 +3724,7 @@ function confirmDelete() {
     var promise;
     
     if (sb && navigator.onLine && isValidUUID(inv.id)) {
+        // ⚠️ حذف invoice_items الأول - الـ trigger هيرجع الكميات تلقائيًا
         promise = sb.from('invoice_items').delete().eq('invoice_id', inv.id)
             .then(function() {
                 return sb.from('invoices').delete().eq('id', inv.id);
@@ -3762,9 +3749,8 @@ function confirmDelete() {
         showToast('✅ تم حذف الفاتورة وإرجاع القطع للمخزون', 'success');
         document.getElementById('deleteModal').classList.remove('show');
         state.deletingInvoice = null;
-        updateStats();
-        applyFilters();
-        loadData();
+        // ✅ إعادة تحميل لضمان تحديث الكميات
+        return loadData();
     }).catch(function(err) {
         console.error('Delete error:', err);
         showToast('حدث خطأ أثناء الحذف', 'error');
@@ -3774,6 +3760,181 @@ function confirmDelete() {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📤 Share
+// ═══════════════════════════════════════════════════════════════
+function openShareModal(id) {
+    var inv = null;
+    for (var i = 0; i < state.invoices.length; i++) {
+        if (state.invoices[i].id === id) { inv = state.invoices[i]; break; }
+    }
+    if (!inv) return;
+
+    state.viewingInvoice = inv;
+    var customer = getCustomerById(inv.customer_id) || {};
+    var invoiceNumber = inv.invoice_number || 'INV';
+    var total = parseFloat(inv.total) || 0;
+
+    var linkIdentifier = inv.uuid_link || inv.id;
+    var baseUrl = window.location.origin + window.location.pathname.replace('invoices.html', 'invoice-view.html');
+    var invoiceUrl = baseUrl + '?id=' + linkIdentifier;
+
+    var bodyHtml =
+        '<div class="share-header">' +
+            '<div class="share-icon-circle"><i class="fas fa-share-nodes"></i></div>' +
+            '<div class="share-invoice-number">' + escapeHtml(invoiceNumber) + '</div>' +
+            (customer.name ? '<div class="share-customer-name">' + escapeHtml(customer.name) + '</div>' : '') +
+            (customer.phone ? '<div class="share-customer-phone">' + escapeHtml(customer.phone) + '</div>' : '') +
+            '<div class="share-total">' + formatCurrency(total) + '</div>' +
+        '</div>' +
+
+        '<div class="share-qr-wrapper">' +
+            '<div class="share-qr-box" id="shareQrBox"></div>' +
+        '</div>' +
+
+        '<label class="share-link-label">لينك الفاتورة</label>' +
+        '<div class="share-link-row">' +
+            '<input type="text" id="shareLinkInput" class="share-link-input" value="' + escapeHtml(invoiceUrl) + '" readonly>' +
+            '<button type="button" class="share-copy-btn" id="shareCopyBtn" title="نسخ الرابط">' +
+                '<i class="fas fa-copy"></i>' +
+            '</button>' +
+        '</div>' +
+
+        '<div class="share-actions-grid">' +
+            '<a href="https://wa.me/2' + escapeHtml(sanitizePhone(customer.phone || '').replace(/^0/, '')) + '?text=' + encodeURIComponent('مرحباً ' + (customer.name || '') + '،\n\nفاتورتك رقم ' + invoiceNumber + '\nبإجمالي: ' + formatCurrency(total) + '\n\nيمكنك عرض الفاتورة من الرابط:\n' + invoiceUrl) + '" target="_blank" class="share-action-btn whatsapp">' +
+                '<i class="fab fa-whatsapp"></i> واتساب' +
+            '</a>' +
+            '<a href="sms:' + escapeHtml(sanitizePhone(customer.phone || '')) + '?body=' + encodeURIComponent('فاتورتك رقم ' + invoiceNumber + ' - ' + formatCurrency(total) + '\n' + invoiceUrl) + '" class="share-action-btn sms">' +
+                '<i class="fas fa-comment-sms"></i> SMS' +
+            '</a>' +
+            '<a href="' + escapeHtml(invoiceUrl) + '" target="_blank" class="share-action-btn open">' +
+                '<i class="fas fa-external-link-alt"></i> فتح الفاتورة' +
+            '</a>' +
+            '<button type="button" class="share-action-btn download" id="shareDownloadQrBtn">' +
+                '<i class="fas fa-download"></i> تحميل QR' +
+            '</button>' +
+        '</div>';
+
+    document.getElementById('shareModalBody').innerHTML = bodyHtml;
+    document.getElementById('shareModal').classList.add('show');
+
+    setTimeout(function() {
+        generateShareQR(invoiceUrl);
+    }, 100);
+
+    var copyBtn = document.getElementById('shareCopyBtn');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', function() {
+            copyInvoiceLink();
+        });
+    }
+
+    var downloadQrBtn = document.getElementById('shareDownloadQrBtn');
+    if (downloadQrBtn) {
+        downloadQrBtn.addEventListener('click', function() {
+            downloadInvoiceQR(invoiceNumber);
+        });
+    }
+}
+
+function closeShareModal() {
+    var modal = document.getElementById('shareModal');
+    if (modal) modal.classList.remove('show');
+    state.viewingInvoice = null;
+}
+
+function copyInvoiceLink() {
+    var input = document.getElementById('shareLinkInput');
+    var copyBtn = document.getElementById('shareCopyBtn');
+    if (!input) return;
+
+    input.select();
+    input.setSelectionRange(0, 99999);
+
+    var onSuccess = function() {
+        if (copyBtn) {
+            copyBtn.classList.add('copied');
+            copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(function() {
+                copyBtn.classList.remove('copied');
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+            }, 2000);
+        }
+        showToast('✅ تم نسخ الرابط', 'success');
+    };
+
+    try {
+        document.execCommand('copy');
+        onSuccess();
+    } catch (e) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(input.value).then(onSuccess).catch(function() {
+                showToast('فشل نسخ الرابط', 'error');
+            });
+        } else {
+            showToast('فشل نسخ الرابط', 'error');
+        }
+    }
+}
+
+function generateShareQR(text) {
+    var box = document.getElementById('shareQrBox');
+    if (!box) return;
+
+    if (typeof QRCode === 'undefined') {
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js';
+        script.onload = function() { generateShareQR(text); };
+        script.onerror = function() {
+            box.innerHTML = '<i class="fas fa-qrcode" style="font-size: 2rem; color: var(--text-muted);"></i>';
+        };
+        document.head.appendChild(script);
+        return;
+    }
+
+    QRCode.toCanvas(text, {
+        width: 300,
+        margin: 1,
+        color: { dark: '#1d5b8e', light: '#ffffff' },
+        errorCorrectionLevel: 'M'
+    }, function(err, canvas) {
+        if (err) {
+            box.innerHTML = '<i class="fas fa-qrcode" style="font-size: 2rem; color: var(--text-muted);"></i>';
+            return;
+        }
+        box.innerHTML = '';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.borderRadius = '6px';
+        box.appendChild(canvas);
+    });
+}
+
+function downloadInvoiceQR(invoiceNumber) {
+    var canvas = document.querySelector('#shareQrBox canvas');
+    if (!canvas) {
+        showToast('جاري توليد QR...', 'info');
+        setTimeout(function() { downloadInvoiceQR(invoiceNumber); }, 800);
+        return;
+    }
+
+    try {
+        var link = document.createElement('a');
+        link.download = 'invoice_qr_' + (invoiceNumber || 'invoice') + '_' + Date.now() + '.png';
+        link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast('✅ تم تحميل الـ QR', 'success');
+    } catch (e) {
+        console.error('Download QR error:', e);
+        showToast('فشل التحميل', 'error');
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 📤 Export Excel
+// ═══════════════════════════════════════════════════════════════
 function exportExcel() {
     var loadLib = Promise.resolve();
     if (typeof XLSX === 'undefined') {
@@ -3818,6 +3979,9 @@ function exportExcel() {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🔔 Notifications
+// ═══════════════════════════════════════════════════════════════
 function loadNotifications() {
     var session = getSession();
     if (!session) return;
@@ -3880,6 +4044,9 @@ function markAllRead() {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 👤 User UI
+// ═══════════════════════════════════════════════════════════════
 function updateUserUI(user) {
     var initial = ((user.full_name || user.username || 'م') + '').charAt(0).toUpperCase();
     var roleText = user.role === 'admin' ? 'مدير' : 'موظف';
@@ -3911,6 +4078,9 @@ function applyPermissions(user) {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🔗 URL Params
+// ═══════════════════════════════════════════════════════════════
 function handleUrlParams() {
     var action = getUrlParam('action');
     var id = getUrlParam('id');
@@ -3937,6 +4107,9 @@ function handleUrlParams() {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🎬 Init
+// ═══════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', function() {
     
     var session = getSession();
@@ -4170,7 +4343,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     
     startInactivityMonitor();
-    console.log('%c🧾 صفحة الفواتير جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+    console.log('%c🧾 صفحة الفواتير جاهزة - مع فحص الكميات الصارم ✅', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
 });
 
 window.InvoicesApp = {
