@@ -529,6 +529,7 @@ img { max-width: 100%; height: auto; display: block; }
     color: var(--text-primary); margin-bottom: 0.45rem;
 }
 .form-label .required { color: var(--danger); }
+.form-label .optional { color: var(--text-muted); font-weight: 500; font-size: 0.75rem; margin-right: 0.35rem; }
 .form-label i { color: var(--tech-blue); margin-left: 0.35rem; font-size: 0.8rem; }
 .form-input, .form-select, .form-textarea {
     width: 100%; padding: 0.75rem 0.95rem;
@@ -562,6 +563,9 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.72rem; color: var(--text-muted); margin-top: 0.4rem;
     display: flex; align-items: center; gap: 0.35rem; line-height: 1.5;
 }
+.form-hint.warning { color: var(--warning); }
+.form-hint.success { color: var(--success); }
+.form-hint.danger { color: var(--danger); }
 .form-error {
     font-size: 0.75rem; color: var(--danger); margin-top: 0.4rem;
     display: none; align-items: center; gap: 0.35rem; font-weight: 600;
@@ -1100,7 +1104,7 @@ img { max-width: 100%; height: auto; display: block; }
             <div class="modal-body">
                 <div class="form-grid">
                     <div class="form-group full">
-                        <label class="form-label"><i class="fas fa-image"></i> صورة الصنف</label>
+                        <label class="form-label"><i class="fas fa-image"></i> صورة الصنف <span class="optional">(اختياري)</span></label>
                         <div class="image-upload" id="imageUploadWrapper">
                             <img id="imagePreview" class="image-upload-preview" style="display: none;" alt="معاينة">
                             <button type="button" class="image-remove-btn" id="removeImageBtn" style="display: none;" title="إزالة"><i class="fas fa-times"></i></button>
@@ -1115,42 +1119,45 @@ img { max-width: 100%; height: auto; display: block; }
                         </div>
                     </div>
                     <div class="form-group full">
-                        <label class="form-label" for="productName"><i class="fas fa-tag"></i> اسم الصنف <span class="required">*</span></label>
-                        <input type="text" class="form-input" id="productName" placeholder="مثال: شاشة Samsung A50" required maxlength="200">
+                        <label class="form-label" for="productName">
+                            <i class="fas fa-tag"></i> اسم الصنف <span class="required">*</span>
+                        </label>
+                        <input type="text" class="form-input" id="productName" placeholder="مثال: شاشة Samsung A50" required maxlength="200" autocomplete="off">
+                        <div class="form-hint" id="nameHint"><i class="fas fa-info-circle"></i> الحقل الوحيد الإجباري</div>
                         <div class="form-error" id="nameError"><i class="fas fa-circle-exclamation"></i><span>الرجاء إدخال اسم الصنف</span></div>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="productCategory"><i class="fas fa-tags"></i> الفئة</label>
-                        <select class="form-select" id="productCategory"><option value="">-- اختر الفئة --</option></select>
+                        <label class="form-label" for="productCategory"><i class="fas fa-tags"></i> الفئة <span class="optional">(اختياري)</span></label>
+                        <select class="form-select" id="productCategory"><option value="">-- بدون فئة --</option></select>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="productBarcode"><i class="fas fa-barcode"></i> الباركود</label>
+                        <label class="form-label" for="productBarcode"><i class="fas fa-barcode"></i> الباركود <span class="optional">(اختياري)</span></label>
                         <div class="barcode-input-group">
-                            <input type="text" class="form-input" id="productBarcode" placeholder="اتركه فارغًا للتوليد" maxlength="50">
+                            <input type="text" class="form-input" id="productBarcode" placeholder="اتركه فارغًا للتوليد التلقائي" maxlength="50" autocomplete="off">
                             <button type="button" class="barcode-gen-btn" id="genBarcodeBtn" title="توليد تلقائي"><i class="fas fa-wand-magic-sparkles"></i></button>
                             <button type="button" class="barcode-scan-btn" id="scanBarcodeBtn" title="مسح بالكاميرا"><i class="fas fa-camera"></i></button>
                         </div>
-                        <div class="form-hint"><i class="fas fa-info-circle"></i> سيتم توليد ELK-XXXXXX تلقائيًا</div>
+                        <div class="form-hint" id="barcodeHint"><i class="fas fa-info-circle"></i> سيتم توليد ELK-XXXXXX تلقائيًا</div>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="productCostPrice"><i class="fas fa-money-bill-wave"></i> سعر الشراء <span class="required">*</span></label>
-                        <input type="number" class="form-input" id="productCostPrice" placeholder="0" min="0" step="0.01" required>
+                        <label class="form-label" for="productCostPrice"><i class="fas fa-money-bill-wave"></i> سعر الشراء <span class="optional">(اختياري)</span></label>
+                        <input type="number" class="form-input" id="productCostPrice" placeholder="0" min="0" step="0.01" value="0">
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="productSellPrice"><i class="fas fa-dollar-sign"></i> سعر البيع <span class="required">*</span></label>
-                        <input type="number" class="form-input" id="productSellPrice" placeholder="0" min="0" step="0.01" required>
+                        <label class="form-label" for="productSellPrice"><i class="fas fa-dollar-sign"></i> سعر البيع <span class="optional">(اختياري)</span></label>
+                        <input type="number" class="form-input" id="productSellPrice" placeholder="0" min="0" step="0.01" value="0">
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="productQuantity"><i class="fas fa-cubes"></i> الكمية <span class="required">*</span></label>
-                        <input type="number" class="form-input" id="productQuantity" placeholder="0" min="0" step="1" value="0" required>
+                        <label class="form-label" for="productQuantity"><i class="fas fa-cubes"></i> الكمية <span class="optional">(اختياري)</span></label>
+                        <input type="number" class="form-input" id="productQuantity" placeholder="0" min="0" step="1" value="0">
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="productMinQty"><i class="fas fa-bell"></i> حد التنبيه الأدنى</label>
+                        <label class="form-label" for="productMinQty"><i class="fas fa-bell"></i> حد التنبيه الأدنى <span class="optional">(اختياري)</span></label>
                         <input type="number" class="form-input" id="productMinQty" placeholder="5" min="0" step="1" value="5">
                         <div class="form-hint"><i class="fas fa-info-circle"></i> تنبيه عند وصول الكمية لهذا الحد</div>
                     </div>
                     <div class="form-group full">
-                        <label class="form-label" for="productDescription"><i class="fas fa-align-right"></i> الوصف</label>
+                        <label class="form-label" for="productDescription"><i class="fas fa-align-right"></i> الوصف <span class="optional">(اختياري)</span></label>
                         <textarea class="form-textarea" id="productDescription" placeholder="وصف تفصيلي للصنف (اختياري)" maxlength="1000"></textarea>
                     </div>
                 </div>
@@ -1281,7 +1288,6 @@ var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 var BUCKET_NAME = 'product-images';
 var PAGE_SIZE = 24;
 
-// ✅ DB_VERSION = 5 ليتوافق مع stock-in.html
 var DB_NAME = 'electronic_db';
 var DB_VERSION = 5;
 
@@ -1347,37 +1353,140 @@ function getUrlParam(name) {
     catch (e) { return null; }
 }
 
-function generateBarcodeSync() {
-    return 'ELK-' + Math.floor(100000 + Math.random() * 900000);
+function normalizeText(str) {
+    if (!str) return '';
+    return String(str).trim().toLowerCase()
+        .replace(/\s+/g, ' ')
+        .replace(/[أإآ]/g, 'ا')
+        .replace(/ى/g, 'ي')
+        .replace(/ة/g, 'ه');
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🎯 Barcode Generation — محسّن
+// ═══════════════════════════════════════════════════════════════
+function generateBarcodeSync() {
+    // توليد 6 أرقام عشوائية مع ضمان إنه مش مستخدم محليًا
+    var attempts = 0;
+    var code;
+    var used = {};
+    state.products.forEach(function(p) {
+        if (p.barcode) used[p.barcode] = true;
+        if (p.sku) used[p.sku] = true;
+    });
+    do {
+        code = 'ELK-' + Math.floor(100000 + Math.random() * 900000);
+        attempts++;
+        if (attempts > 100) {
+            code = 'ELK-' + String(Date.now()).slice(-6);
+            break;
+        }
+    } while (used[code]);
+    return code;
+}
+
+// فحص فريد من نوعه على السيرفر — مرة واحدة فقط
 function generateUniqueBarcode() {
-    return new Promise(function(resolve) {
-        var sb = getSupabaseClient();
-        var localBarcodes = {};
-        state.products.forEach(function(p) { if (p.barcode) localBarcodes[p.barcode] = true; });
-        
-        var attempts = 0, maxAttempts = 10;
-        function tryGenerate() {
-            if (attempts >= maxAttempts) {
-                resolve('ELK-' + String(Date.now()).slice(-6));
-                return;
+    var sb = getSupabaseClient();
+    var localCode = generateBarcodeSync();
+    
+    if (!sb || !navigator.onLine) {
+        return Promise.resolve(localCode);
+    }
+    
+    // فحص واحد سريع — لو موجود، جرّب تاني محليًا
+    return sb.from('products').select('barcode').eq('barcode', localCode).maybeSingle()
+        .then(function(result) {
+            if (result.data) {
+                // موجود — جرّب واحد تاني (بدون فحص سيرفر إضافي)
+                var retry = generateBarcodeSync();
+                return retry;
             }
-            attempts++;
-            var barcode = generateBarcodeSync();
-            if (localBarcodes[barcode]) { tryGenerate(); return; }
-            if (sb && navigator.onLine) {
-                sb.from('products').select('id').eq('barcode', barcode).maybeSingle()
-                    .then(function(result) {
-                        if (result.data) tryGenerate();
-                        else resolve(barcode);
-                    })
-                    .catch(function() { resolve(barcode); });
-            } else {
-                resolve(barcode);
+            return localCode;
+        })
+        .catch(function() {
+            return localCode;
+        });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// 🔍 Duplicate Check — جديد
+// ═══════════════════════════════════════════════════════════════
+// فحص شامل للتكرار: اسم + باركود
+// editingId: لو بنعمل تعديل، تجاهل الصنف ده
+function checkDuplicate(name, barcode, editingId) {
+    return new Promise(function(resolve) {
+        var normalizedName = normalizeText(name);
+        var trimmedBarcode = (barcode || '').trim();
+        var errors = { name: false, barcode: false, nameConflict: null, barcodeConflict: null };
+        
+        // 1) فحص محلي أولاً (سريع)
+        for (var i = 0; i < state.products.length; i++) {
+            var p = state.products[i];
+            if (editingId && p.id === editingId) continue;
+            
+            if (normalizeText(p.name) === normalizedName) {
+                errors.name = true;
+                errors.nameConflict = p.name;
+            }
+            if (trimmedBarcode && p.barcode === trimmedBarcode) {
+                errors.barcode = true;
+                errors.barcodeConflict = p.barcode;
             }
         }
-        tryGenerate();
+        
+        // لو فيه تعارض محلي، ارجعه فورًا
+        if (errors.name || errors.barcode) {
+            resolve(errors);
+            return;
+        }
+        
+        // 2) فحص السيرفر (احتياطي)
+        var sb = getSupabaseClient();
+        if (!sb || !navigator.onLine) {
+            resolve(errors);
+            return;
+        }
+        
+        var checks = [];
+        
+        // فحص الاسم
+        checks.push(
+            sb.from('products').select('id, name').ilike('name', name.trim()).limit(5)
+                .then(function(r) {
+                    if (r.data && r.data.length) {
+                        for (var j = 0; j < r.data.length; j++) {
+                            if (editingId && r.data[j].id === editingId) continue;
+                            if (normalizeText(r.data[j].name) === normalizedName) {
+                                errors.name = true;
+                                errors.nameConflict = r.data[j].name;
+                                break;
+                            }
+                        }
+                    }
+                }, function() {})
+        );
+        
+        // فحص الباركود
+        if (trimmedBarcode) {
+            checks.push(
+                sb.from('products').select('id, barcode').eq('barcode', trimmedBarcode).limit(5)
+                    .then(function(r) {
+                        if (r.data && r.data.length) {
+                            for (var k = 0; k < r.data.length; k++) {
+                                if (editingId && r.data[k].id === editingId) continue;
+                                errors.barcode = true;
+                                errors.barcodeConflict = r.data[k].barcode;
+                                break;
+                            }
+                        }
+                    }, function() {})
+            );
+        }
+        
+        Promise.allSettled(checks).then(function() {
+            resolve(errors);
+        });
     });
 }
 
@@ -1473,7 +1582,7 @@ function startInactivityMonitor() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📦 IndexedDB v5 مع حماية ضد VersionError
+// 📦 IndexedDB v5
 // ═══════════════════════════════════════════════════════════════
 var dbInstance = null;
 var dbPromise = null;
@@ -1491,22 +1600,16 @@ function openDB() {
     
     dbPromise = new Promise(function(resolve) {
         try {
-            // ✅ أولاً: نكتشف الإصدار الحالي ونستخدمه
             var detectReq = indexedDB.databases ? indexedDB.databases() : null;
-            
             var versionToUse = DB_VERSION;
+            
             var proceed = function(version) {
                 versionToUse = Math.max(version, DB_VERSION);
-                
                 var req;
-                try {
-                    req = indexedDB.open(DB_NAME, versionToUse);
-                } catch (e) {
-                    // لو لسه فيه VersionError، حاول بدون version
+                try { req = indexedDB.open(DB_NAME, versionToUse); }
+                catch (e) {
                     try { req = indexedDB.open(DB_NAME); }
-                    catch (e2) {
-                        dbFailed = true; dbPromise = null; resolve(null); return;
-                    }
+                    catch (e2) { dbFailed = true; dbPromise = null; resolve(null); return; }
                 }
                 
                 req.onupgradeneeded = function(e) {
@@ -1514,7 +1617,7 @@ function openDB() {
                     DB_STORES.forEach(function(name) {
                         if (!db.objectStoreNames.contains(name)) {
                             try { db.createObjectStore(name, { keyPath: 'id' }); }
-                            catch (err) { console.warn('create store failed:', name, err); }
+                            catch (err) {}
                         }
                     });
                     if (!db.objectStoreNames.contains('outbox')) {
@@ -1536,19 +1639,14 @@ function openDB() {
                 };
                 
                 req.onerror = function() {
-                    console.warn('IndexedDB open error:', req.error);
                     dbFailed = true; dbPromise = null; resolve(null);
                 };
                 
                 req.onblocked = function() {
-                    console.warn('IndexedDB blocked');
-                    setTimeout(function() {
-                        dbFailed = true; dbPromise = null; resolve(null);
-                    }, 500);
+                    setTimeout(function() { dbFailed = true; dbPromise = null; resolve(null); }, 500);
                 };
             };
             
-            // لو indexedDB.databases متاح، استخدمه
             if (detectReq && typeof detectReq.then === 'function') {
                 detectReq.then(function(dbs) {
                     var current = 1;
@@ -1557,16 +1655,12 @@ function openDB() {
                             current = Math.max(current, db.version);
                         }
                     });
-                    // ✅ استخدم أعلى إصدار موجود (لتجنب VersionError)
                     proceed(Math.max(current, DB_VERSION));
-                }).catch(function() {
-                    proceed(DB_VERSION);
-                });
+                }).catch(function() { proceed(DB_VERSION); });
             } else {
                 proceed(DB_VERSION);
             }
         } catch (e) {
-            console.warn('IndexedDB not available:', e);
             dbFailed = true; resolve(null);
         }
     });
@@ -1665,7 +1759,8 @@ var state = {
     imageFile: null,
     scanner: null,
     notifications: [],
-    notificationsRefreshTimer: null
+    notificationsRefreshTimer: null,
+    countsRefreshTimer: null
 };
 
 // ═══════════════════════════════════════════════════════════════
@@ -1716,7 +1811,7 @@ function renderCategoryOptions() {
         return '<option value="' + c.id + '">' + escapeHtml(c.name) + '</option>';
     }).join('');
     if (select) select.innerHTML = '<option value="">كل الفئات</option>' + optionsHtml;
-    if (modalSelect) modalSelect.innerHTML = '<option value="">-- اختر الفئة --</option>' + optionsHtml;
+    if (modalSelect) modalSelect.innerHTML = '<option value="">-- بدون فئة --</option>' + optionsHtml;
 }
 
 function loadProducts() {
@@ -1785,7 +1880,7 @@ function saveFavoritesLocal() {
 function hasFavorite(id) { return state.favorites[id] === true; }
 
 // ═══════════════════════════════════════════════════════════════
-// 🎯 Filters & Counts
+// 🎯 Filters & Counts — محسّن
 // ═══════════════════════════════════════════════════════════════
 function applyFilters() {
     var list = state.products.slice();
@@ -1824,16 +1919,38 @@ function applyFilters() {
     render();
 }
 
+// ✅ تحديث دقيق للإحصائيات
 function updateCounts() {
     var all = state.products.length;
-    var fav = state.products.filter(function(p) { return hasFavorite(p.id); }).length;
-    var low = state.products.filter(function(p) { return p.quantity > 0 && p.quantity <= (p.min_quantity || 5); }).length;
-    var out = state.products.filter(function(p) { return p.quantity <= 0; }).length;
+    var fav = 0, low = 0, out = 0;
+    for (var i = 0; i < state.products.length; i++) {
+        var p = state.products[i];
+        if (hasFavorite(p.id)) fav++;
+        var q = parseInt(p.quantity) || 0;
+        var mq = parseInt(p.min_quantity) || 5;
+        if (q <= 0) out++;
+        else if (q <= mq) low++;
+    }
     var setEl = function(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; };
     setEl('countAll', all);
     setEl('countFav', fav);
     setEl('countLow', low);
     setEl('countOut', out);
+    
+    var subtitle = document.getElementById('pageSubtitle');
+    if (subtitle) {
+        subtitle.textContent = all + ' صنف في المخزون' + 
+            (out > 0 ? ' • ' + out + ' نفذ' : '') + 
+            (low > 0 ? ' • ' + low + ' منخفض' : '');
+    }
+}
+
+// جدولة تحديث الإحصائيات (debounced)
+function scheduleCountsUpdate() {
+    if (state.countsRefreshTimer) clearTimeout(state.countsRefreshTimer);
+    state.countsRefreshTimer = setTimeout(function() {
+        updateCounts();
+    }, 150);
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1891,12 +2008,14 @@ function bindEmptyStateBtn() {
 
 function renderProductCard(p) {
     var isFav = hasFavorite(p.id);
-    var qtyClass = p.quantity <= 0 ? 'out' : (p.quantity <= (p.min_quantity || 5) ? 'low' : 'ok');
+    var qty = parseInt(p.quantity) || 0;
+    var minQty = parseInt(p.min_quantity) || 5;
+    var qtyClass = qty <= 0 ? 'out' : (qty <= minQty ? 'low' : 'ok');
     var categoryName = (p.category && p.category.name) || '';
     
     var qtyBadge = '';
-    if (p.quantity <= 0) qtyBadge = '<span class="badge badge-danger"><i class="fas fa-circle-xmark"></i> نفذ</span>';
-    else if (p.quantity <= (p.min_quantity || 5)) qtyBadge = '<span class="badge badge-warning"><i class="fas fa-triangle-exclamation"></i> منخفض</span>';
+    if (qty <= 0) qtyBadge = '<span class="badge badge-danger"><i class="fas fa-circle-xmark"></i> نفذ</span>';
+    else if (qty <= minQty) qtyBadge = '<span class="badge badge-warning"><i class="fas fa-triangle-exclamation"></i> منخفض</span>';
     
     var imageHtml = p.image_url 
         ? '<img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '" class="product-image" loading="lazy" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'block\';"><i class="fas fa-image product-image-placeholder" style="display:none;"></i>'
@@ -1913,7 +2032,7 @@ function renderProductCard(p) {
             '<div class="product-barcode"><i class="fas fa-barcode"></i> ' + escapeHtml(p.barcode || p.sku || '—') + '</div>' +
             '<div class="product-footer">' +
                 '<div class="product-price"><span class="product-price-value">' + formatCurrency(p.sell_price) + '</span><span class="product-price-label">سعر البيع</span></div>' +
-                '<div class="product-qty"><span class="product-qty-value ' + qtyClass + '">' + formatNumber(p.quantity) + '</span><span class="product-qty-label">متوفر</span></div>' +
+                '<div class="product-qty"><span class="product-qty-value ' + qtyClass + '">' + formatNumber(qty) + '</span><span class="product-qty-label">متوفر</span></div>' +
             '</div>' +
         '</div>' +
         '<div class="product-actions">' +
@@ -1924,7 +2043,9 @@ function renderProductCard(p) {
 }
 
 function renderProductListItem(p) {
-    var qtyClass = p.quantity <= 0 ? 'out' : (p.quantity <= (p.min_quantity || 5) ? 'low' : 'ok');
+    var qty = parseInt(p.quantity) || 0;
+    var minQty = parseInt(p.min_quantity) || 5;
+    var qtyClass = qty <= 0 ? 'out' : (qty <= minQty ? 'low' : 'ok');
     var isFav = hasFavorite(p.id);
     var imageHtml = p.image_url 
         ? '<img src="' + escapeHtml(p.image_url) + '" alt="" class="products-list-image" loading="lazy">'
@@ -1934,7 +2055,7 @@ function renderProductListItem(p) {
         '<div class="products-list-info"><h4>' + escapeHtml(p.name) + '</h4><p>' + escapeHtml(p.barcode || p.sku || '—') + '</p></div>' +
         '<div class="products-list-cell"><small>الفئة</small>' + escapeHtml((p.category && p.category.name) || '—') + '</div>' +
         '<div class="products-list-cell"><small>سعر البيع</small>' + formatCurrency(p.sell_price) + '</div>' +
-        '<div class="products-list-cell"><small>الكمية</small><span class="product-qty-value ' + qtyClass + '" style="font-size: 0.85rem;">' + formatNumber(p.quantity) + '</span></div>' +
+        '<div class="products-list-cell"><small>الكمية</small><span class="product-qty-value ' + qtyClass + '" style="font-size: 0.85rem;">' + formatNumber(qty) + '</span></div>' +
         '<div class="products-list-actions">' +
             '<button class="btn btn-sm btn-secondary" data-action="favorite" data-id="' + p.id + '" title="المفضلة"><i class="' + (isFav ? 'fas' : 'far') + ' fa-star" style="' + (isFav ? 'color: var(--warning);' : '') + '"></i></button>' +
             '<button class="btn btn-sm btn-secondary" data-action="edit" data-id="' + p.id + '" title="تعديل"><i class="fas fa-pen"></i></button>' +
@@ -2029,8 +2150,11 @@ function openAddModal() {
     document.getElementById('productForm').reset();
     document.getElementById('productQuantity').value = '0';
     document.getElementById('productMinQty').value = '5';
+    document.getElementById('productCostPrice').value = '0';
+    document.getElementById('productSellPrice').value = '0';
     resetImageUpload();
     clearFormErrors();
+    // توليد باركود تلقائي
     generateUniqueBarcode().then(function(code) {
         var input = document.getElementById('productBarcode');
         if (input && !input.value) input.value = code;
@@ -2099,15 +2223,63 @@ function clearFormErrors() {
     for (var i = 0; i < errors.length; i++) errors[i].classList.remove('show');
     var inputs = document.querySelectorAll('.form-input.error, .form-select.error, .form-textarea.error');
     for (var j = 0; j < inputs.length; j++) inputs[j].classList.remove('error');
+    
+    var nameHint = document.getElementById('nameHint');
+    if (nameHint) {
+        nameHint.className = 'form-hint';
+        nameHint.innerHTML = '<i class="fas fa-info-circle"></i> الحقل الوحيد الإجباري';
+    }
+    var barcodeHint = document.getElementById('barcodeHint');
+    if (barcodeHint) {
+        barcodeHint.className = 'form-hint';
+        barcodeHint.innerHTML = '<i class="fas fa-info-circle"></i> سيتم توليد ELK-XXXXXX تلقائيًا';
+    }
+}
+
+function setNameError(message) {
+    var el = document.getElementById('productName');
+    var err = document.getElementById('nameError');
+    var hint = document.getElementById('nameHint');
+    el.classList.add('error');
+    err.querySelector('span').textContent = message;
+    err.classList.add('show');
+    if (hint) {
+        hint.className = 'form-hint danger';
+        hint.innerHTML = '<i class="fas fa-circle-exclamation"></i> ' + escapeHtml(message);
+    }
+}
+
+function setBarcodeError(message) {
+    var el = document.getElementById('productBarcode');
+    var hint = document.getElementById('barcodeHint');
+    el.classList.add('error');
+    if (hint) {
+        hint.className = 'form-hint danger';
+        hint.innerHTML = '<i class="fas fa-circle-exclamation"></i> ' + escapeHtml(message);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 💾 Save
+// 💾 Save — محسّن بالكامل
 // ═══════════════════════════════════════════════════════════════
 function saveProduct(e) {
     e.preventDefault();
     clearFormErrors();
+    
+    // ✅ اسم الصنف فقط إجباري
     var name = document.getElementById('productName').value.trim();
+    if (!name) {
+        setNameError('الرجاء إدخال اسم الصنف');
+        document.getElementById('productName').focus();
+        return;
+    }
+    if (name.length < 2) {
+        setNameError('اسم الصنف قصير جدًا (حرفين على الأقل)');
+        document.getElementById('productName').focus();
+        return;
+    }
+    
+    // الباقي اختياري مع قيم افتراضية
     var categoryId = document.getElementById('productCategory').value || null;
     var barcode = document.getElementById('productBarcode').value.trim() || null;
     var costPrice = parseFloat(document.getElementById('productCostPrice').value) || 0;
@@ -2116,62 +2288,94 @@ function saveProduct(e) {
     var minQty = parseInt(document.getElementById('productMinQty').value) || 5;
     var description = document.getElementById('productDescription').value.trim() || null;
     
-    if (!name) {
-        document.getElementById('productName').classList.add('error');
-        document.getElementById('nameError').classList.add('show');
-        document.getElementById('productName').focus();
-        return;
-    }
+    // تحقق من صحة القيم
+    if (costPrice < 0) costPrice = 0;
+    if (sellPrice < 0) sellPrice = 0;
+    if (quantity < 0) quantity = 0;
+    if (minQty < 0) minQty = 0;
     
     var btn = document.getElementById('saveProductBtn');
     var spinner = btn.querySelector('.spinner');
     var icon = btn.querySelector('i');
     var text = document.getElementById('saveProductText');
+    var isEditing = !!state.editingProduct;
+    var editingId = isEditing ? state.editingProduct.id : null;
+    
     btn.disabled = true;
     spinner.style.display = 'block';
     icon.style.display = 'none';
-    text.textContent = 'جاري الحفظ...';
+    text.textContent = 'جاري التحقق...';
     
-    var session = getSession();
-    var sb = getSupabaseClient();
-    var isEditing = !!state.editingProduct;
-    
-    var barcodePromise = (!isEditing && !barcode) ? generateUniqueBarcode() : Promise.resolve(barcode);
-    
-    barcodePromise.then(function(finalBarcode) {
-        barcode = finalBarcode;
-        var productData = {
-            name: name, category_id: categoryId, barcode: barcode, sku: barcode,
-            cost_price: costPrice, sell_price: sellPrice, quantity: quantity,
-            min_quantity: minQty, description: description
-        };
-        
-        var imagePromise = Promise.resolve(null);
-        if (state.imageFile && sb && navigator.onLine) {
-            imagePromise = uploadImage(sb, state.imageFile)
-                .then(function(url) { return url; })
-                .catch(function(err) {
-                    console.warn('Image upload failed:', err);
-                    showToast('فشل رفع الصورة، سيتم الحفظ بدونها', 'warning', 3000);
-                    return isEditing && state.editingProduct ? state.editingProduct.image_url : null;
-                });
-        } else if (isEditing && state.editingProduct && state.editingProduct.image_url) {
-            imagePromise = Promise.resolve(state.editingProduct.image_url);
+    // ✅ 1) فحص التكرار أولاً
+    checkDuplicate(name, barcode, editingId).then(function(dupCheck) {
+        if (dupCheck.name) {
+            setNameError('يوجد صنف بنفس الاسم: "' + dupCheck.nameConflict + '"');
+            btn.disabled = false;
+            spinner.style.display = 'none';
+            icon.style.display = '';
+            text.textContent = isEditing ? 'حفظ التعديلات' : 'حفظ';
+            return;
+        }
+        if (dupCheck.barcode) {
+            setBarcodeError('الباركود مستخدم بالفعل: "' + dupCheck.barcodeConflict + '"');
+            btn.disabled = false;
+            spinner.style.display = 'none';
+            icon.style.display = '';
+            text.textContent = isEditing ? 'حفظ التعديلات' : 'حفظ';
+            return;
         }
         
-        return imagePromise.then(function(imageUrl) {
-            if (imageUrl) productData.image_url = imageUrl;
-            if (isEditing) return updateProduct(productData, session, sb);
-            else return insertProduct(productData, session, sb);
+        text.textContent = 'جاري الحفظ...';
+        
+        var session = getSession();
+        var sb = getSupabaseClient();
+        
+        // ✅ 2) توليد باركود لو فارغ
+        var barcodePromise = (!barcode) ? generateUniqueBarcode() : Promise.resolve(barcode);
+        
+        barcodePromise.then(function(finalBarcode) {
+            barcode = finalBarcode;
+            
+            var productData = {
+                name: name,
+                category_id: categoryId,
+                barcode: barcode,
+                sku: barcode,
+                cost_price: costPrice,
+                sell_price: sellPrice,
+                quantity: quantity,
+                min_quantity: minQty,
+                description: description
+            };
+            
+            // ✅ 3) رفع الصورة
+            var imagePromise = Promise.resolve(null);
+            if (state.imageFile && sb && navigator.onLine) {
+                imagePromise = uploadImage(sb, state.imageFile)
+                    .then(function(url) { return url; })
+                    .catch(function(err) {
+                        console.warn('Image upload failed:', err);
+                        showToast('فشل رفع الصورة، سيتم الحفظ بدونها', 'warning', 3000);
+                        return isEditing && state.editingProduct ? state.editingProduct.image_url : null;
+                    });
+            } else if (isEditing && state.editingProduct && state.editingProduct.image_url) {
+                imagePromise = Promise.resolve(state.editingProduct.image_url);
+            }
+            
+            return imagePromise.then(function(imageUrl) {
+                if (imageUrl) productData.image_url = imageUrl;
+                if (isEditing) return updateProduct(productData, session, sb);
+                else return insertProduct(productData, session, sb);
+            });
+        }).catch(function(err) {
+            console.error('Save error:', err);
+            showToast((err && err.message) || 'حدث خطأ أثناء الحفظ', 'error', 4000);
+        }).then(function() {
+            btn.disabled = false;
+            spinner.style.display = 'none';
+            icon.style.display = '';
+            text.textContent = isEditing ? 'حفظ التعديلات' : 'حفظ';
         });
-    }).catch(function(err) {
-        console.error('Save error:', err);
-        showToast((err && err.message) || 'حدث خطأ أثناء الحفظ', 'error', 4000);
-    }).then(function() {
-        btn.disabled = false;
-        spinner.style.display = 'none';
-        icon.style.display = '';
-        text.textContent = isEditing ? 'حفظ التعديلات' : 'حفظ';
     });
 }
 
@@ -2183,6 +2387,7 @@ function updateProduct(productData, session, sb) {
     if (sb && navigator.onLine && editing.id.indexOf('temp_') !== 0) {
         savePromise = sb.from('products').update(productData).eq('id', editing.id).then(function(result) {
             if (result.error) {
+                // ✅ معالجة خطأ التكرار (23505)
                 if (result.error.code === '23505') {
                     return generateUniqueBarcode().then(function(newBarcode) {
                         productData.barcode = newBarcode;
@@ -2244,6 +2449,7 @@ function insertProduct(productData, session, sb) {
         insertPromise = sb.from('products').insert(productData).select('*, category:categories(id, name, icon)').single()
             .then(function(result) {
                 if (result.error) {
+                    // ✅ معالجة خطأ التكرار
                     if (result.error.code === '23505') {
                         showToast('الباركود مستخدم، جاري توليد جديد...', 'warning', 2500);
                         return generateUniqueBarcode().then(function(newBarcode) {
@@ -2514,7 +2720,7 @@ function exportExcel() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🔔 Notifications - نظام محسّن
+// 🔔 Notifications
 // ═══════════════════════════════════════════════════════════════
 function loadNotifications() {
     var session = getSession();
@@ -2522,7 +2728,6 @@ function loadNotifications() {
     var sb = getSupabaseClient();
     
     if (!sb || !navigator.onLine) {
-        // استخدم cache
         return dbGetAll('notifications').then(function(cached) {
             state.notifications = (cached || [])
                 .filter(function(n) { return n.user_id === session.user.id; })
@@ -2539,20 +2744,17 @@ function loadNotifications() {
         .limit(30)
         .then(function(result) {
             if (result.error) {
-                console.warn('Notifications load error:', result.error);
                 return dbGetAll('notifications').then(function(cached) {
                     state.notifications = (cached || []).slice(0, 30);
                     renderNotifications();
                 });
             }
             state.notifications = result.data || [];
-            // Cache
             return dbBulkPut('notifications', state.notifications).then(function() {
                 renderNotifications();
             });
         })
         .catch(function(err) {
-            console.warn('Notifications fetch failed:', err);
             return dbGetAll('notifications').then(function(cached) {
                 state.notifications = (cached || []).slice(0, 30);
                 renderNotifications();
@@ -2604,7 +2806,6 @@ function renderNotifications() {
         '</div>';
     }).join('');
     
-    // Click على إشعار
     list.querySelectorAll('.notification-item').forEach(function(el) {
         el.addEventListener('click', function(e) {
             if (e.target.tagName === 'A') return;
@@ -2624,7 +2825,6 @@ function markNotificationRead(id) {
     if (sb && navigator.onLine) {
         sb.from('notifications').update({ read: true }).eq('id', id)
             .then(function() {
-                // تحديث cache
                 for (var i = 0; i < state.notifications.length; i++) {
                     if (state.notifications[i].id === id) {
                         state.notifications[i].read = true;
@@ -2632,10 +2832,8 @@ function markNotificationRead(id) {
                         break;
                     }
                 }
-            })
-            .catch(function(){});
+            }, function(){});
     } else {
-        // Offline - حفظ في cache فقط
         for (var i = 0; i < state.notifications.length; i++) {
             if (state.notifications[i].id === id) {
                 state.notifications[i].read = true;
@@ -2660,8 +2858,7 @@ function markAllRead() {
                 state.notifications.forEach(function(n) { n.read = true; });
                 renderNotifications();
                 showToast('تم تعيين الكل كمقروء', 'success');
-            })
-            .catch(function() {
+            }, function() {
                 state.notifications.forEach(function(n) { n.read = true; });
                 renderNotifications();
             });
@@ -2670,25 +2867,6 @@ function markAllRead() {
         renderNotifications();
         showToast('تم محليًا', 'info');
     }
-}
-
-// إشعارات داخلية للفعاليات
-function pushLocalNotification(title, message, type, action) {
-    var session = getSession();
-    if (!session) return;
-    var notif = {
-        id: 'temp_' + Date.now(),
-        user_id: session.user.id,
-        type: type || 'info',
-        title: title,
-        message: message,
-        read: false,
-        created_at: new Date().toISOString(),
-        data: action ? { action: action } : null
-    };
-    state.notifications.unshift(notif);
-    dbPut('notifications', notif);
-    renderNotifications();
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -2713,7 +2891,7 @@ function syncOutbox() {
                 return p.then(function() {
                     synced++;
                     return dbDelete('outbox', item.id);
-                }).catch(function(){});
+                }, function(){});
             });
         });
         return chain.then(function() {
@@ -2790,7 +2968,7 @@ function handleUrlParams() {
         var cf = document.getElementById('categoryFilter');
         if (cf) { cf.value = category; state.categoryFilter = category; applyFilters(); }
     }
-    if (action || id) {
+    if (action || id || search || filter || category) {
         try { window.history.replaceState({}, '', window.location.pathname); } catch (e) {}
     }
 }
@@ -3056,12 +3234,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(function() { return loadCategories(); })
         .then(function() { return loadFavorites(); })
         .then(function() { return loadProducts(); })
+        .then(function() { return loadNotifications(); })
         .then(function() {
-            return loadNotifications();
-        })
-        .then(function() {
-            var subtitle = document.getElementById('pageSubtitle');
-            if (subtitle) subtitle.textContent = state.products.length + ' صنف في المخزون';
             handleUrlParams();
         })
         .catch(function(err) {
@@ -3069,13 +3243,12 @@ document.addEventListener('DOMContentLoaded', function() {
             showToast('حدث خطأ في تحميل البيانات', 'error');
         });
     
-    // Refresh notifications كل 60 ثانية
     state.notificationsRefreshTimer = setInterval(function() {
         if (navigator.onLine) loadNotifications();
     }, 60000);
     
     startInactivityMonitor();
-    console.log('%c📦 صفحة المخزون جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+    console.log('%c📦 صفحة المخزون جاهزة - مع منع التكرار ✅', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
 });
 
 window.ProductsApp = {
@@ -3084,7 +3257,8 @@ window.ProductsApp = {
     getSession: getSession,
     formatCurrency: formatCurrency,
     openAddModal: openAddModal,
-    loadNotifications: loadNotifications
+    loadNotifications: loadNotifications,
+    checkDuplicate: checkDuplicate
 };
 
 })();
