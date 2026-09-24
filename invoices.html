@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#1d5b8e">
-<meta name="description" content="الفواتير - اكترونك لصيانة جميع الاجهزه الالكترونيه والكهربائيه">
+<meta name="description" content="الفواتير - إلكترونك لصيانة الأجهزة الإلكترونية">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>الفواتير | إكترونك</title>
+<title>الفواتير | إلكترونك</title>
 
 <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
 <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
@@ -625,7 +625,6 @@ img { max-width: 100%; height: auto; display: block; }
     transition: all var(--transition);
 }
 .part-item:hover { border-color: var(--tech-blue); }
-.part-item.warning { border-color: var(--danger); background: rgba(239,68,68,0.03); }
 .part-item-img {
     width: 44px; height: 44px; border-radius: var(--radius-sm);
     object-fit: cover; background: var(--bg-primary);
@@ -642,15 +641,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .part-item-meta {
     font-size: 0.7rem; color: var(--text-muted);
-    display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;
-}
-.part-item-meta .stock-info {
-    color: var(--text-secondary);
-    font-weight: 700;
-}
-.part-item-meta .stock-info.danger {
-    color: var(--danger);
-    font-weight: 800;
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
 }
 .part-item-qty {
     display: flex; align-items: center; gap: 0.3rem; flex-shrink: 0;
@@ -663,8 +654,6 @@ img { max-width: 100%; height: auto; display: block; }
     transition: all var(--transition-fast);
 }
 .qty-btn:hover { background: var(--tech-blue); color: white; border-color: var(--tech-blue); }
-.qty-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-.qty-btn:disabled:hover { background: var(--bg-primary); color: var(--tech-blue); }
 .qty-value {
     min-width: 32px; text-align: center;
     font-size: 0.9rem; font-weight: 800;
@@ -692,21 +681,6 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 2rem; opacity: 0.3; margin-bottom: 0.5rem; display: block;
     color: var(--tech-blue);
 }
-
-.stock-warning-banner {
-    padding: 0.75rem 1rem;
-    background: rgba(239, 68, 68, 0.08);
-    border: 1.5px solid rgba(239, 68, 68, 0.3);
-    border-radius: var(--radius-md);
-    color: var(--danger);
-    font-size: 0.85rem;
-    font-weight: 700;
-    margin-top: 0.75rem;
-    display: none;
-    align-items: center;
-    gap: 0.5rem;
-}
-.stock-warning-banner.show { display: flex; }
 
 .product-picker-search {
     padding: 0.85rem; border-bottom: 1px solid var(--border-color);
@@ -749,7 +723,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .product-picker-item-meta {
     font-size: 0.7rem; color: var(--text-muted);
-    display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;
+    display: flex; gap: 0.5rem; flex-wrap: wrap;
 }
 .product-picker-item-price {
     font-size: 0.85rem; font-weight: 800; color: var(--tech-blue);
@@ -759,7 +733,6 @@ img { max-width: 100%; height: auto; display: block; }
     padding: 0.15rem 0.5rem; border-radius: var(--radius-full);
     font-size: 0.65rem; font-weight: 700;
     background: rgba(16,185,129,0.15); color: var(--success);
-    display: inline-flex; align-items: center; gap: 0.2rem;
 }
 .stock-badge.low { background: rgba(245,158,11,0.15); color: var(--warning); }
 .stock-badge.out { background: rgba(239,68,68,0.15); color: var(--danger); }
@@ -1331,10 +1304,10 @@ img { max-width: 100%; height: auto; display: block; }
         <i class="fas fa-bars"></i>
     </button>
     <a href="dashboard.html" class="navbar-brand">
-        <img src="logo.png" alt="اكترونك" class="navbar-logo" onerror="this.style.display='none'">
+        <img src="logo.png" alt="إلكترونك" class="navbar-logo" onerror="this.style.display='none'">
         <div class="navbar-brand-text">
-            <strong>اكترونك</strong>
-            <span>لصيانة جميع الاجهزه الالكترونيه والكهربائيه</span>
+            <strong>إلكترونك</strong>
+            <span>لصيانة الأجهزة الإلكترونية</span>
         </div>
     </a>
     <div class="navbar-actions">
@@ -1476,7 +1449,6 @@ img { max-width: 100%; height: auto; display: block; }
     
 </main>
 
-<!-- Invoice Modal -->
 <div class="modal-overlay" id="invoiceModal">
     <div class="modal modal-lg">
         <div class="modal-header">
@@ -1530,10 +1502,6 @@ img { max-width: 100%; height: auto; display: block; }
                         </button>
                     </div>
                     <div class="parts-list" id="partsListContainer"></div>
-                    <div class="stock-warning-banner" id="stockWarningBanner">
-                        <i class="fas fa-triangle-exclamation"></i>
-                        <span id="stockWarningText"></span>
-                    </div>
                 </div>
                 
                 <div class="form-grid" style="margin-top: 1rem;">
@@ -1625,7 +1593,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Product Picker Modal -->
 <div class="modal-overlay" id="productPickerModal">
     <div class="modal modal-lg">
         <div class="modal-header">
@@ -1645,7 +1612,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Details Modal -->
 <div class="modal-overlay" id="detailsModal">
     <div class="modal modal-xl">
         <div class="modal-header">
@@ -1671,7 +1637,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Payment Modal -->
 <div class="modal-overlay" id="paymentModal">
     <div class="modal modal-sm">
         <div class="modal-header">
@@ -1721,7 +1686,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Share Modal -->
 <div class="modal-overlay" id="shareModal">
     <div class="modal modal-sm">
         <div class="modal-header">
@@ -1735,7 +1699,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Delete Modal -->
 <div class="modal-overlay" id="deleteModal">
     <div class="modal modal-sm">
         <div class="modal-header">
@@ -1795,18 +1758,12 @@ img { max-width: 100%; height: auto; display: block; }
 (function() {
 'use strict';
 
-// ═══════════════════════════════════════════════════════════════
-// 🔑 Config
-// ═══════════════════════════════════════════════════════════════
 var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
 var DB_NAME = 'electronic_db';
 var DB_VERSION = 5;
 var PAGE_SIZE = 20;
 
-// ═══════════════════════════════════════════════════════════════
-// 🌐 Supabase
-// ═══════════════════════════════════════════════════════════════
 var supabaseClient = null;
 
 function getSupabaseClient() {
@@ -1820,9 +1777,6 @@ function getSupabaseClient() {
     } catch (e) { return null; }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🧰 Helpers
-// ═══════════════════════════════════════════════════════════════
 function escapeHtml(str) {
     if (str == null) return '';
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -1840,9 +1794,11 @@ function sanitizePhone(phone) {
 }
 
 function generateUUID() {
+    // ✅ UUID v4 حقيقي - بيستخدم crypto.randomUUID لو متاح
     if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
         return crypto.randomUUID();
     }
+    // Fallback for older browsers
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random() * 16 | 0;
         var v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -1931,9 +1887,6 @@ function getPaymentMethodText(method) {
     return map[method] || method;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🎨 Theme
-// ═══════════════════════════════════════════════════════════════
 function initTheme() {
     var saved = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
@@ -1951,9 +1904,6 @@ function toggleTheme() {
     updateThemeIcon(next);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🍞 Toast
-// ═══════════════════════════════════════════════════════════════
 function showToast(message, type, duration) {
     type = type || 'info';
     duration = duration || 3500;
@@ -1973,18 +1923,12 @@ function showToast(message, type, duration) {
     }, duration);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🌐 Online
-// ═══════════════════════════════════════════════════════════════
 function updateOnlineStatus() {
     var dot = document.getElementById('onlineDot');
     if (!dot) return;
     dot.classList.toggle('offline', !navigator.onLine);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🔐 Session
-// ═══════════════════════════════════════════════════════════════
 function getSession() {
     try {
         var raw = localStorage.getItem('session');
@@ -2009,9 +1953,6 @@ function logout(message) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// ⏱️ Inactivity
-// ═══════════════════════════════════════════════════════════════
 var INACTIVITY_TIMEOUT = 30 * 60 * 1000;
 var inactivityTimer = null;
 
@@ -2029,9 +1970,6 @@ function startInactivityMonitor() {
     resetInactivity();
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 📦 IndexedDB
-// ═══════════════════════════════════════════════════════════════
 var dbInstance = null;
 var dbPromise = null;
 var dbFailed = false;
@@ -2149,9 +2087,6 @@ function addToOutbox(action) {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 📊 State
-// ═══════════════════════════════════════════════════════════════
 var state = {
     invoices: [],
     customers: [],
@@ -2172,9 +2107,6 @@ var state = {
     isLoading: true
 };
 
-// ═══════════════════════════════════════════════════════════════
-// 📥 Load Data
-// ═══════════════════════════════════════════════════════════════
 function loadData() {
     state.isLoading = true;
     var sb = getSupabaseClient();
@@ -2240,9 +2172,6 @@ function loadFromCacheInternal() {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 📊 Stats
-// ═══════════════════════════════════════════════════════════════
 function updateStats() {
     var totalInvoices = state.invoices.length;
     var totalSales = 0;
@@ -2275,11 +2204,7 @@ function updateStats() {
     if (subtitle) subtitle.textContent = totalInvoices + ' فاتورة';
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🔍 Lookups
-// ═══════════════════════════════════════════════════════════════
 function getCustomerById(id) {
-    if (!id) return null;
     for (var i = 0; i < state.customers.length; i++) {
         if (state.customers[i].id === id) return state.customers[i];
     }
@@ -2287,7 +2212,6 @@ function getCustomerById(id) {
 }
 
 function getRepairById(id) {
-    if (!id) return null;
     for (var i = 0; i < state.repairs.length; i++) {
         if (state.repairs[i].id === id) return state.repairs[i];
     }
@@ -2295,7 +2219,6 @@ function getRepairById(id) {
 }
 
 function getProductById(id) {
-    if (!id) return null;
     for (var i = 0; i < state.products.length; i++) {
         if (state.products[i].id === id) return state.products[i];
     }
@@ -2310,9 +2233,6 @@ function getItemsForInvoice(invoiceId) {
     return state.invoiceItems.filter(function(item) { return item.invoice_id === invoiceId; });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🎯 Filters & Render
-// ═══════════════════════════════════════════════════════════════
 function applyFilters() {
     var list = state.invoices.slice();
     var q = (state.searchQuery || '').trim().toLowerCase();
@@ -2508,7 +2428,7 @@ function bindInvoiceEvents() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📤 Share
+// 📤 Share Invoice Modal
 // ═══════════════════════════════════════════════════════════════
 function openShareModal(id) {
     var inv = null;
@@ -2522,9 +2442,12 @@ function openShareModal(id) {
     var invoiceNumber = inv.invoice_number || 'INV';
     var total = parseFloat(inv.total) || 0;
 
+    // ✅ استخدم uuid_link أولاً، ثم id كـ fallback
     var linkIdentifier = inv.uuid_link || inv.id;
     var baseUrl = window.location.origin + window.location.pathname.replace('invoices.html', 'invoice-view.html');
     var invoiceUrl = baseUrl + '?id=' + linkIdentifier;
+
+    console.log('📤 Share - using identifier:', linkIdentifier, '(uuid_link:', inv.uuid_link, ')');
 
     var bodyHtml =
         '<div class="share-header">' +
@@ -2565,16 +2488,22 @@ function openShareModal(id) {
     document.getElementById('shareModalBody').innerHTML = bodyHtml;
     document.getElementById('shareModal').classList.add('show');
 
-    setTimeout(function() { generateShareQR(invoiceUrl); }, 100);
+    setTimeout(function() {
+        generateShareQR(invoiceUrl);
+    }, 100);
 
     var copyBtn = document.getElementById('shareCopyBtn');
     if (copyBtn) {
-        copyBtn.addEventListener('click', function() { copyInvoiceLink(); });
+        copyBtn.addEventListener('click', function() {
+            copyInvoiceLink();
+        });
     }
 
     var downloadQrBtn = document.getElementById('shareDownloadQrBtn');
     if (downloadQrBtn) {
-        downloadQrBtn.addEventListener('click', function() { downloadInvoiceQR(invoiceNumber); });
+        downloadQrBtn.addEventListener('click', function() {
+            downloadInvoiceQR(invoiceNumber);
+        });
     }
 }
 
@@ -2634,7 +2563,8 @@ function generateShareQR(text) {
     }
 
     QRCode.toCanvas(text, {
-        width: 300, margin: 1,
+        width: 300,
+        margin: 1,
         color: { dark: '#1d5b8e', light: '#ffffff' },
         errorCorrectionLevel: 'M'
     }, function(err, canvas) {
@@ -2645,6 +2575,7 @@ function generateShareQR(text) {
         box.innerHTML = '';
         canvas.style.width = '100%';
         canvas.style.height = '100%';
+        canvas.style.borderRadius = '6px';
         box.appendChild(canvas);
     });
 }
@@ -2656,6 +2587,7 @@ function downloadInvoiceQR(invoiceNumber) {
         setTimeout(function() { downloadInvoiceQR(invoiceNumber); }, 800);
         return;
     }
+
     try {
         var link = document.createElement('a');
         link.download = 'invoice_qr_' + (invoiceNumber || 'invoice') + '_' + Date.now() + '.png';
@@ -2665,18 +2597,14 @@ function downloadInvoiceQR(invoiceNumber) {
         document.body.removeChild(link);
         showToast('✅ تم تحميل الـ QR', 'success');
     } catch (e) {
+        console.error('Download QR error:', e);
         showToast('فشل التحميل', 'error');
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🧾 Parts Section
-// ═══════════════════════════════════════════════════════════════
 function renderPartsSection() {
     var container = document.getElementById('partsListContainer');
     var badge = document.getElementById('partsCountBadge');
-    var warningBanner = document.getElementById('stockWarningBanner');
-    var warningText = document.getElementById('stockWarningText');
     if (!container) return;
     
     if (badge) badge.textContent = state.currentItems.length;
@@ -2686,14 +2614,10 @@ function renderPartsSection() {
             '<i class="fas fa-box-open"></i><p>لم تضف أي قطع بعد</p>' +
             '<button type="button" class="btn btn-primary btn-sm" id="emptyAddPartBtn" style="margin-top: 0.5rem;">' +
             '<i class="fas fa-plus"></i> إضافة قطعة</button></div>';
-        if (warningBanner) warningBanner.classList.remove('show');
         var emptyBtn = document.getElementById('emptyAddPartBtn');
         if (emptyBtn) emptyBtn.addEventListener('click', openProductPicker);
         return;
     }
-    
-    var hasStockIssue = false;
-    var issuesList = [];
     
     container.innerHTML = state.currentItems.map(function(item, idx) {
         var product = getProductById(item.product_id);
@@ -2702,60 +2626,21 @@ function renderPartsSection() {
             : '<div class="part-item-img placeholder"><i class="fas fa-image"></i></div>';
         
         var lineTotal = (parseFloat(item.unit_price) || 0) * (parseInt(item.quantity) || 0);
-        var availableQty = product ? (parseInt(product.quantity) || 0) : 0;
         
-        if (state.editingInvoice && product) {
-            var originalItems = getItemsForInvoice(state.editingInvoice.id);
-            for (var oi = 0; oi < originalItems.length; oi++) {
-                if (originalItems[oi].product_id === item.product_id) {
-                    availableQty += parseInt(originalItems[oi].quantity) || 0;
-                    break;
-                }
-            }
-        }
-        
-        var exceedsStock = item.quantity > availableQty;
-        
-        if (exceedsStock) {
-            hasStockIssue = true;
-            issuesList.push('"' + (item.product_name || 'قطعة') + '" (متوفر: ' + availableQty + ')');
-        }
-        
-        var stockInfoHtml = '';
-        if (product) {
-            if (exceedsStock) {
-                stockInfoHtml = ' <span class="stock-info danger"><i class="fas fa-triangle-exclamation"></i> متوفر: ' + availableQty + ' فقط</span>';
-            } else {
-                stockInfoHtml = ' <span class="stock-info">متوفر: ' + availableQty + '</span>';
-            }
-        } else {
-            stockInfoHtml = ' <span class="stock-info danger"><i class="fas fa-circle-xmark"></i> الصنف مش موجود</span>';
-            hasStockIssue = true;
-        }
-        
-        return '<div class="part-item ' + (exceedsStock ? 'warning' : '') + '">' + img +
+        return '<div class="part-item">' + img +
             '<div class="part-item-info">' +
                 '<div class="part-item-name">' + escapeHtml(item.product_name || (product && product.name) || 'قطعة') + '</div>' +
-                '<div class="part-item-meta"><span>' + formatCurrency(item.unit_price) + ' × ' + item.quantity + '</span>' + stockInfoHtml + '</div>' +
+                '<div class="part-item-meta"><span>' + formatCurrency(item.unit_price) + ' × ' + item.quantity + '</span></div>' +
             '</div>' +
             '<div class="part-item-qty">' +
                 '<button type="button" class="qty-btn" data-action="decrease" data-idx="' + idx + '"><i class="fas fa-minus"></i></button>' +
                 '<div class="qty-value">' + item.quantity + '</div>' +
-                '<button type="button" class="qty-btn" data-action="increase" data-idx="' + idx + '" ' + (exceedsStock ? 'disabled' : '') + '><i class="fas fa-plus"></i></button>' +
+                '<button type="button" class="qty-btn" data-action="increase" data-idx="' + idx + '"><i class="fas fa-plus"></i></button>' +
             '</div>' +
             '<div class="part-item-price">' + formatCurrencyShort(lineTotal) + '</div>' +
             '<button type="button" class="part-item-remove" data-action="remove" data-idx="' + idx + '"><i class="fas fa-times"></i></button>' +
         '</div>';
     }).join('');
-    
-    if (warningBanner && warningText) {
-        if (hasStockIssue) {
-            warningBanner.classList.add('show');
-            warningText.textContent = 'تحذير: ' + issuesList.slice(0, 2).join('، ');
-        } else {
-            warningBanner.classList.remove('show');
-        }
-    }
     
     container.querySelectorAll('[data-action]').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
@@ -2769,38 +2654,20 @@ function renderPartsSection() {
     });
 }
 
-function getAvailableQtyForItem(item) {
-    var product = getProductById(item.product_id);
-    if (!product) return 0;
-    var availableQty = parseInt(product.quantity) || 0;
-    if (state.editingInvoice) {
-        var originalItems = getItemsForInvoice(state.editingInvoice.id);
-        for (var oi = 0; oi < originalItems.length; oi++) {
-            if (originalItems[oi].product_id === item.product_id) {
-                availableQty += parseInt(originalItems[oi].quantity) || 0;
-                break;
-            }
-        }
-    }
-    return availableQty;
-}
-
 function increasePartQty(idx) {
     var item = state.currentItems[idx];
     if (!item) return;
     var product = getProductById(item.product_id);
-    if (!product) { showToast('⚠️ الصنف غير موجود', 'error'); return; }
+    if (!product) return;
     
-    var availableQty = getAvailableQtyForItem(item);
     var newQty = item.quantity + 1;
-    
-    if (newQty > availableQty) {
-        showToast('⚠️ الكمية المتوفرة من "' + product.name + '" هي ' + availableQty + ' فقط', 'warning', 3500);
+    if (newQty > (parseInt(product.quantity) || 0)) {
+        showToast('الكمية المتوفرة ' + product.quantity + ' فقط', 'warning');
         return;
     }
     
     state.currentItems[idx].quantity = newQty;
-    state.currentItems[idx].total = newQty * (parseFloat(item.unit_price) || 0);
+    state.currentItems[idx].total = newQty * item.unit_price;
     renderPartsSection();
     updateSummary();
 }
@@ -2810,7 +2677,7 @@ function decreasePartQty(idx) {
     if (!item) return;
     if (item.quantity <= 1) { removePart(idx); return; }
     state.currentItems[idx].quantity = item.quantity - 1;
-    state.currentItems[idx].total = (item.quantity - 1) * (parseFloat(item.unit_price) || 0);
+    state.currentItems[idx].total = (item.quantity - 1) * item.unit_price;
     renderPartsSection();
     updateSummary();
 }
@@ -2819,7 +2686,6 @@ function removePart(idx) {
     state.currentItems.splice(idx, 1);
     renderPartsSection();
     updateSummary();
-    showToast('تم إزالة القطعة', 'info', 1500);
 }
 
 function openProductPicker() {
@@ -2853,19 +2719,18 @@ function renderProductPickerList(search) {
         return;
     }
     
-    container.innerHTML = products.slice(0, 200).map(function(p) {
+    container.innerHTML = products.slice(0, 100).map(function(p) {
         var qty = parseInt(p.quantity) || 0;
-        var minQty = parseInt(p.min_quantity) || 5;
         var outOfStock = qty <= 0;
-        var lowStock = qty > 0 && qty <= minQty;
+        var lowStock = qty > 0 && qty <= (p.min_quantity || 5);
         
         var stockBadge = '';
-        if (outOfStock) stockBadge = '<span class="stock-badge out"><i class="fas fa-circle-xmark"></i> نفذ</span>';
-        else if (lowStock) stockBadge = '<span class="stock-badge low"><i class="fas fa-triangle-exclamation"></i> ' + qty + ' متبقي</span>';
-        else stockBadge = '<span class="stock-badge"><i class="fas fa-check"></i> ' + qty + ' متوفر</span>';
+        if (outOfStock) stockBadge = '<span class="stock-badge out">نفذ</span>';
+        else if (lowStock) stockBadge = '<span class="stock-badge low">' + qty + ' متبقي</span>';
+        else stockBadge = '<span class="stock-badge">' + qty + ' متوفر</span>';
         
         var img = p.image_url 
-            ? '<img src="' + escapeHtml(p.image_url) + '" alt="" class="product-picker-item-img" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><div class="product-picker-item-img placeholder" style="display:none;"><i class="fas fa-image"></i></div>'
+            ? '<img src="' + escapeHtml(p.image_url) + '" alt="" class="product-picker-item-img">'
             : '<div class="product-picker-item-img placeholder"><i class="fas fa-image"></i></div>';
         
         return '<div class="product-picker-item ' + (outOfStock ? 'out-of-stock' : '') + '" ' +
@@ -2873,8 +2738,7 @@ function renderProductPickerList(search) {
             '<div class="product-picker-item-info">' +
                 '<div class="product-picker-item-name">' + escapeHtml(p.name) + '</div>' +
                 '<div class="product-picker-item-meta">' +
-                    '<span><i class="fas fa-barcode"></i> ' + escapeHtml(p.barcode || '—') + '</span>' + 
-                    stockBadge +
+                    '<span><i class="fas fa-barcode"></i> ' + escapeHtml(p.barcode || '—') + '</span>' + stockBadge +
                 '</div>' +
             '</div>' +
             '<div class="product-picker-item-price">' + formatCurrency(p.sell_price) + '</div>' +
@@ -2884,7 +2748,7 @@ function renderProductPickerList(search) {
     container.querySelectorAll('.product-picker-item').forEach(function(el) {
         el.addEventListener('click', function() {
             if (el.dataset.disabled === 'true') {
-                showToast('⚠️ الصنف نفذ من المخزون', 'error');
+                showToast('الصنف غير متوفر في المخزون', 'warning');
                 return;
             }
             addProductToInvoice(el.dataset.productId);
@@ -2894,40 +2758,24 @@ function renderProductPickerList(search) {
 
 function addProductToInvoice(productId) {
     var product = getProductById(productId);
-    if (!product) { showToast('الصنف غير موجود', 'error'); return; }
+    if (!product) return;
     
-    var availableQty = parseInt(product.quantity) || 0;
-    
-    if (state.editingInvoice) {
-        var originalItems = getItemsForInvoice(state.editingInvoice.id);
-        for (var oi = 0; oi < originalItems.length; oi++) {
-            if (originalItems[oi].product_id === productId) {
-                availableQty += parseInt(originalItems[oi].quantity) || 0;
-                break;
-            }
-        }
-    }
-    
-    if (availableQty <= 0) {
-        showToast('⚠️ الصنف "' + product.name + '" نفذ من المخزون', 'error', 4000);
-        return;
-    }
+    var qty = parseInt(product.quantity) || 0;
+    if (qty <= 0) { showToast('الصنف غير متوفر', 'warning'); return; }
     
     var existingIdx = -1;
     for (var i = 0; i < state.currentItems.length; i++) {
         if (state.currentItems[i].product_id === productId) { existingIdx = i; break; }
     }
     
-    var totalRequested = existingIdx !== -1 ? state.currentItems[existingIdx].quantity + 1 : 1;
-    
-    if (totalRequested > availableQty) {
-        showToast('⚠️ الكمية المتوفرة من "' + product.name + '" هي ' + availableQty + ' فقط', 'warning', 4000);
-        return;
-    }
-    
     if (existingIdx !== -1) {
-        state.currentItems[existingIdx].quantity = totalRequested;
-        state.currentItems[existingIdx].total = totalRequested * state.currentItems[existingIdx].unit_price;
+        var currentQty = state.currentItems[existingIdx].quantity;
+        if (currentQty + 1 > qty) {
+            showToast('وصلت للحد الأقصى المتوفر (' + qty + ')', 'warning');
+            return;
+        }
+        state.currentItems[existingIdx].quantity = currentQty + 1;
+        state.currentItems[existingIdx].total = (currentQty + 1) * state.currentItems[existingIdx].unit_price;
     } else {
         state.currentItems.push({
             product_id: productId,
@@ -2943,12 +2791,9 @@ function addProductToInvoice(productId) {
     closeProductPicker();
     renderPartsSection();
     updateSummary();
-    showToast('✅ تم إضافة ' + product.name, 'success', 2000);
+    showToast('تم إضافة ' + product.name, 'success', 2000);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🪟 Modals
-// ═══════════════════════════════════════════════════════════════
 function openAddModal() {
     state.editingInvoice = null;
     state.selectedRepair = null;
@@ -2990,17 +2835,9 @@ function openEditModal(id) {
     
     state.currentItems = getItemsForInvoice(inv.id).map(function(item) {
         var product = getProductById(item.product_id);
-        if (!product && item.product_name) {
-            for (var k = 0; k < state.products.length; k++) {
-                if (state.products[k].name === item.product_name) {
-                    product = state.products[k];
-                    break;
-                }
-            }
-        }
         return {
             id: item.id,
-            product_id: product ? product.id : item.product_id,
+            product_id: item.product_id,
             product_name: item.product_name || (product && product.name) || '',
             description: item.description || '',
             quantity: parseInt(item.quantity) || 1,
@@ -3055,9 +2892,6 @@ function clearFormErrors() {
     for (var j = 0; j < inputs.length; j++) inputs[j].classList.remove('error');
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🔧 Repair Picker
-// ═══════════════════════════════════════════════════════════════
 function initRepairPicker() {
     var input = document.getElementById('repairSearch');
     var dropdown = document.getElementById('repairDropdown');
@@ -3220,9 +3054,6 @@ function updateSummary() {
     document.getElementById('summaryTotal').textContent = formatCurrency(total);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 💾 Save Invoice
-// ═══════════════════════════════════════════════════════════════
 function saveInvoice(e) {
     e.preventDefault();
     clearFormErrors();
@@ -3250,41 +3081,6 @@ function saveInvoice(e) {
         return;
     }
     
-    // ✅ فحص صارم للكميات
-    if (state.currentItems.length > 0) {
-        var stockError = null;
-        for (var ci = 0; ci < state.currentItems.length; ci++) {
-            var ci_item = state.currentItems[ci];
-            var ci_product = getProductById(ci_item.product_id);
-            
-            if (!ci_product) {
-                stockError = 'الصنف "' + ci_item.product_name + '" مش موجود';
-                break;
-            }
-            
-            var ci_avail = parseInt(ci_product.quantity) || 0;
-            if (state.editingInvoice) {
-                var originalItems = getItemsForInvoice(state.editingInvoice.id);
-                for (var oi = 0; oi < originalItems.length; oi++) {
-                    if (originalItems[oi].product_id === ci_item.product_id) {
-                        ci_avail += parseInt(originalItems[oi].quantity) || 0;
-                        break;
-                    }
-                }
-            }
-            
-            if (ci_item.quantity > ci_avail) {
-                stockError = 'الكمية المتوفرة من "' + ci_product.name + '" هي ' + ci_avail + ' فقط';
-                break;
-            }
-        }
-        
-        if (stockError) {
-            showToast('⚠️ ' + stockError, 'error', 6000);
-            return;
-        }
-    }
-    
     var subtotal = parts + labor;
     var discountAmount = discountType === 'percent' ? (subtotal * (discountVal / 100)) : discountVal;
     if (discountAmount > subtotal) discountAmount = subtotal;
@@ -3310,13 +3106,14 @@ function saveInvoice(e) {
     
     var invoiceNumber = state.editingInvoice ? state.editingInvoice.invoice_number : generateInvoiceNumber();
     
+    // ✅ uuid_link - دايماً نولّده للفواتير الجديدة
     var uuidLink = isEditing 
         ? (state.editingInvoice.uuid_link || generateUUID())
         : generateUUID();
     
     var invoiceData = {
         invoice_number: invoiceNumber,
-        uuid_link: uuidLink,
+        uuid_link: uuidLink,  // ✅ مهم جداً
         customer_id: customerId,
         repair_order_id: repairId,
         parts_total: parts,
@@ -3331,6 +3128,8 @@ function saveInvoice(e) {
         notes: notes,
         created_by: session && session.user ? session.user.id : null
     };
+    
+    console.log('💾 Saving invoice with uuid_link:', uuidLink);
     
     var savePromise;
     var tempId = 'temp_' + Date.now();
@@ -3427,26 +3226,29 @@ function saveInvoice(e) {
             var finalInvoice = (newData && newData.id) ? Object.assign(newInvoice, newData) : newInvoice;
             state.invoices.unshift(finalInvoice);
             dbPut('invoices', finalInvoice);
+            
+            state.currentItems.forEach(function(item) {
+                for (var k = 0; k < state.products.length; k++) {
+                    if (state.products[k].id === item.product_id) {
+                        state.products[k].quantity = Math.max(0, (state.products[k].quantity || 0) - item.quantity);
+                        dbPut('products', state.products[k]);
+                        break;
+                    }
+                }
+            });
+            
             showToast('✅ تم إنشاء الفاتورة بنجاح', 'success');
         });
     }
     
     savePromise.then(function() {
         closeInvoiceModal();
-        return loadData();
+        loadData();
     }).catch(function(err) {
         console.error('Save error:', err);
         var msg = 'حدث خطأ أثناء الحفظ';
-        if (err.message) {
-            if (err.message.indexOf('الكمية المتوفرة') !== -1) {
-                msg = '⚠️ ' + err.message;
-            } else if (err.code === '23505') {
-                msg = 'رقم الفاتورة مستخدم، حاول مرة أخرى';
-            } else {
-                msg = err.message;
-            }
-        }
-        showToast(msg, 'error', 6000);
+        if (err.message) msg = err.message;
+        showToast(msg, 'error', 5000);
     }).then(function() {
         btn.disabled = false;
         spinner.style.display = 'none';
@@ -3463,9 +3265,6 @@ function generateInvoiceNumber() {
     return 'INV-' + year + month + '-' + random;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 👁️ Details Modal
-// ═══════════════════════════════════════════════════════════════
 function openDetailsModal(id) {
     var inv = null;
     for (var i = 0; i < state.invoices.length; i++) {
@@ -3527,6 +3326,7 @@ function openDetailsModal(id) {
             '<p style="font-size: 0.85rem;">لا توجد دفعات مسجلة</p></div>';
     }
     
+    // ✅ استخدام uuid_link للـ QR والرابط
     var linkIdentifier = inv.uuid_link || inv.id;
     var baseUrl = window.location.origin + window.location.pathname.replace('invoices.html', 'invoice-view.html');
     var invoiceUrl = baseUrl + '?id=' + linkIdentifier;
@@ -3648,9 +3448,6 @@ function generateQR(text) {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🖨️ Print
-// ═══════════════════════════════════════════════════════════════
 function printA4() {
     var inv = state.viewingInvoice;
     if (!inv) return;
@@ -3703,7 +3500,7 @@ function printA4() {
         '</style></head><body>' +
         '<div class="header">' +
             '<div class="brand"><img src="logo.png" onerror="this.style.display=\'none\'">' +
-            '<div><h1>اكترونك</h1><p>لصيانة جميع الاجهزه الالكترونيه والكهربائيه</p></div></div>' +
+            '<div><h1>إلكترونك</h1><p>لصيانة الأجهزة الإلكترونية</p></div></div>' +
             '<div class="invoice-info"><h2>' + escapeHtml(inv.invoice_number || '') + '</h2>' +
             '<p>' + formatDateTime(inv.created_at) + '</p></div>' +
         '</div>' +
@@ -3722,7 +3519,7 @@ function printA4() {
             (remaining > 0 ? '<div class="total-row"><span>المتبقي</span><span style="font-family: monospace; color: #ef4444;">' + formatCurrency(remaining) + '</span></div>' : '') +
             '<div class="total-row grand"><span>الإجمالي</span><span style="font-family: monospace;">' + formatCurrency(total) + '</span></div>' +
         '</div>' +
-        '<div class="footer">شكراً لتعاملكم معنا • اكترونك لصيانة جميع الاجهزه الالكترونيه والكهربائيه</div>' +
+        '<div class="footer">شكراً لتعاملكم معنا • إلكترونك لصيانة الأجهزة الإلكترونية</div>' +
         '<script>window.onload = function() { setTimeout(function() { window.print(); }, 300); };<\/script>' +
         '</body></html>';
     
@@ -3772,7 +3569,7 @@ function printThermal() {
         '.total-row.grand { font-size: 14pt; font-weight: 900; border-top: 1px solid #000; padding-top: 2mm; margin-top: 2mm; }' +
         '.footer { text-align: center; font-size: 8pt; padding-top: 3mm; border-top: 1px dashed #000; margin-top: 3mm; }' +
         '</style></head><body>' +
-        '<div class="header center"><h1>اكترونك</h1><p>لصيانة جميع الاجهزه الالكترونيه والكهربائيه</p></div>' +
+        '<div class="header center"><h1>إلكترونك</h1><p>لصيانة الأجهزة الإلكترونية</p></div>' +
         '<div class="center invoice-num">' + escapeHtml(inv.invoice_number || '') + '</div>' +
         '<div class="center" style="font-size: 9pt; margin-bottom: 3mm;">' + formatDateTime(inv.created_at) + '</div>' +
         '<div class="info">' +
@@ -3800,9 +3597,6 @@ function printThermal() {
     win.document.close();
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 💰 Payment
-// ═══════════════════════════════════════════════════════════════
 function openPaymentModal() {
     var inv = state.viewingInvoice;
     if (!inv) return;
@@ -3920,9 +3714,6 @@ function savePayment(e) {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🗑️ Delete
-// ═══════════════════════════════════════════════════════════════
 function openDeleteModal(id) {
     var inv = null;
     for (var i = 0; i < state.invoices.length; i++) {
@@ -3947,7 +3738,6 @@ function confirmDelete() {
     var promise;
     
     if (sb && navigator.onLine && isValidUUID(inv.id)) {
-        // ✅ احذف invoice_items الأول - الـ trigger هيرجع الكميات
         promise = sb.from('invoice_items').delete().eq('invoice_id', inv.id)
             .then(function() {
                 return sb.from('invoices').delete().eq('id', inv.id);
@@ -3969,22 +3759,21 @@ function confirmDelete() {
         state.payments = state.payments.filter(function(p) { return p.invoice_id !== inv.id; });
         state.invoiceItems = state.invoiceItems.filter(function(item) { return item.invoice_id !== inv.id; });
         dbDelete('invoices', inv.id);
-        showToast('✅ تم حذف الفاتورة', 'success');
+        showToast('✅ تم حذف الفاتورة وإرجاع القطع للمخزون', 'success');
         document.getElementById('deleteModal').classList.remove('show');
         state.deletingInvoice = null;
-        return loadData();
+        updateStats();
+        applyFilters();
+        loadData();
     }).catch(function(err) {
         console.error('Delete error:', err);
-        showToast('حدث خطأ أثناء الحذف: ' + (err.message || ''), 'error', 5000);
+        showToast('حدث خطأ أثناء الحذف', 'error');
     }).then(function() {
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-trash"></i> حذف نهائي';
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 📤 Export Excel
-// ═══════════════════════════════════════════════════════════════
 function exportExcel() {
     var loadLib = Promise.resolve();
     if (typeof XLSX === 'undefined') {
@@ -4029,9 +3818,6 @@ function exportExcel() {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🔔 Notifications
-// ═══════════════════════════════════════════════════════════════
 function loadNotifications() {
     var session = getSession();
     if (!session) return;
@@ -4094,9 +3880,6 @@ function markAllRead() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 👤 User UI
-// ═══════════════════════════════════════════════════════════════
 function updateUserUI(user) {
     var initial = ((user.full_name || user.username || 'م') + '').charAt(0).toUpperCase();
     var roleText = user.role === 'admin' ? 'مدير' : 'موظف';
@@ -4128,9 +3911,6 @@ function applyPermissions(user) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🔗 URL Params
-// ═══════════════════════════════════════════════════════════════
 function handleUrlParams() {
     var action = getUrlParam('action');
     var id = getUrlParam('id');
@@ -4157,9 +3937,6 @@ function handleUrlParams() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🎬 Init
-// ═══════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', function() {
     
     var session = getSession();
@@ -4393,7 +4170,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     
     startInactivityMonitor();
-    console.log('%c🧾 صفحة الفواتير جاهزة - مع فحص الكميات الصارم ✅', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+    console.log('%c🧾 صفحة الفواتير جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
 });
 
 window.InvoicesApp = {
