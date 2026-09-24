@@ -1795,12 +1795,18 @@ img { max-width: 100%; height: auto; display: block; }
 (function() {
 'use strict';
 
+// ═══════════════════════════════════════════════════════════════
+// 🔑 Config
+// ═══════════════════════════════════════════════════════════════
 var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
 var DB_NAME = 'electronic_db';
 var DB_VERSION = 5;
 var PAGE_SIZE = 20;
 
+// ═══════════════════════════════════════════════════════════════
+// 🌐 Supabase
+// ═══════════════════════════════════════════════════════════════
 var supabaseClient = null;
 
 function getSupabaseClient() {
@@ -1814,6 +1820,9 @@ function getSupabaseClient() {
     } catch (e) { return null; }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🧰 Helpers
+// ═══════════════════════════════════════════════════════════════
 function escapeHtml(str) {
     if (str == null) return '';
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -1922,6 +1931,9 @@ function getPaymentMethodText(method) {
     return map[method] || method;
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🎨 Theme
+// ═══════════════════════════════════════════════════════════════
 function initTheme() {
     var saved = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
@@ -1939,6 +1951,9 @@ function toggleTheme() {
     updateThemeIcon(next);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🍞 Toast
+// ═══════════════════════════════════════════════════════════════
 function showToast(message, type, duration) {
     type = type || 'info';
     duration = duration || 3500;
@@ -1958,12 +1973,18 @@ function showToast(message, type, duration) {
     }, duration);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🌐 Online
+// ═══════════════════════════════════════════════════════════════
 function updateOnlineStatus() {
     var dot = document.getElementById('onlineDot');
     if (!dot) return;
     dot.classList.toggle('offline', !navigator.onLine);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🔐 Session
+// ═══════════════════════════════════════════════════════════════
 function getSession() {
     try {
         var raw = localStorage.getItem('session');
@@ -1988,6 +2009,9 @@ function logout(message) {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// ⏱️ Inactivity
+// ═══════════════════════════════════════════════════════════════
 var INACTIVITY_TIMEOUT = 30 * 60 * 1000;
 var inactivityTimer = null;
 
@@ -2005,6 +2029,9 @@ function startInactivityMonitor() {
     resetInactivity();
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📦 IndexedDB
+// ═══════════════════════════════════════════════════════════════
 var dbInstance = null;
 var dbPromise = null;
 var dbFailed = false;
@@ -2122,6 +2149,9 @@ function addToOutbox(action) {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📊 State
+// ═══════════════════════════════════════════════════════════════
 var state = {
     invoices: [],
     customers: [],
@@ -2156,7 +2186,6 @@ function loadData() {
         sb.from('customers').select('id, name, phone').order('name'),
         sb.from('repair_orders').select('id, tracking_code, device_type, device_model, customer_id, status, labor_cost, created_at, customer:customers(id, name, phone)').order('created_at', { ascending: false }).limit(500),
         sb.from('payments').select('*').order('created_at', { ascending: false }).limit(1000),
-        // ✅ نجيب quantity المحدثة من السيرفر
         sb.from('products').select('id, name, barcode, image_url, cost_price, sell_price, quantity, min_quantity').order('name'),
         sb.from('invoice_items').select('*').order('created_at', { ascending: false }).limit(2000)
     ]).then(function(results) {
@@ -2211,6 +2240,9 @@ function loadFromCacheInternal() {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📊 Stats
+// ═══════════════════════════════════════════════════════════════
 function updateStats() {
     var totalInvoices = state.invoices.length;
     var totalSales = 0;
@@ -2243,7 +2275,11 @@ function updateStats() {
     if (subtitle) subtitle.textContent = totalInvoices + ' فاتورة';
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🔍 Lookups
+// ═══════════════════════════════════════════════════════════════
 function getCustomerById(id) {
+    if (!id) return null;
     for (var i = 0; i < state.customers.length; i++) {
         if (state.customers[i].id === id) return state.customers[i];
     }
@@ -2251,6 +2287,7 @@ function getCustomerById(id) {
 }
 
 function getRepairById(id) {
+    if (!id) return null;
     for (var i = 0; i < state.repairs.length; i++) {
         if (state.repairs[i].id === id) return state.repairs[i];
     }
@@ -2258,6 +2295,7 @@ function getRepairById(id) {
 }
 
 function getProductById(id) {
+    if (!id) return null;
     for (var i = 0; i < state.products.length; i++) {
         if (state.products[i].id === id) return state.products[i];
     }
@@ -2272,6 +2310,9 @@ function getItemsForInvoice(invoiceId) {
     return state.invoiceItems.filter(function(item) { return item.invoice_id === invoiceId; });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🎯 Filters & Render
+// ═══════════════════════════════════════════════════════════════
 function applyFilters() {
     var list = state.invoices.slice();
     var q = (state.searchQuery || '').trim().toLowerCase();
@@ -2467,7 +2508,7 @@ function bindInvoiceEvents() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📤 Share Invoice Modal
+// 📤 Share
 // ═══════════════════════════════════════════════════════════════
 function openShareModal(id) {
     var inv = null;
@@ -2524,22 +2565,16 @@ function openShareModal(id) {
     document.getElementById('shareModalBody').innerHTML = bodyHtml;
     document.getElementById('shareModal').classList.add('show');
 
-    setTimeout(function() {
-        generateShareQR(invoiceUrl);
-    }, 100);
+    setTimeout(function() { generateShareQR(invoiceUrl); }, 100);
 
     var copyBtn = document.getElementById('shareCopyBtn');
     if (copyBtn) {
-        copyBtn.addEventListener('click', function() {
-            copyInvoiceLink();
-        });
+        copyBtn.addEventListener('click', function() { copyInvoiceLink(); });
     }
 
     var downloadQrBtn = document.getElementById('shareDownloadQrBtn');
     if (downloadQrBtn) {
-        downloadQrBtn.addEventListener('click', function() {
-            downloadInvoiceQR(invoiceNumber);
-        });
+        downloadQrBtn.addEventListener('click', function() { downloadInvoiceQR(invoiceNumber); });
     }
 }
 
@@ -2599,8 +2634,7 @@ function generateShareQR(text) {
     }
 
     QRCode.toCanvas(text, {
-        width: 300,
-        margin: 1,
+        width: 300, margin: 1,
         color: { dark: '#1d5b8e', light: '#ffffff' },
         errorCorrectionLevel: 'M'
     }, function(err, canvas) {
@@ -2611,7 +2645,6 @@ function generateShareQR(text) {
         box.innerHTML = '';
         canvas.style.width = '100%';
         canvas.style.height = '100%';
-        canvas.style.borderRadius = '6px';
         box.appendChild(canvas);
     });
 }
@@ -2623,7 +2656,6 @@ function downloadInvoiceQR(invoiceNumber) {
         setTimeout(function() { downloadInvoiceQR(invoiceNumber); }, 800);
         return;
     }
-
     try {
         var link = document.createElement('a');
         link.download = 'invoice_qr_' + (invoiceNumber || 'invoice') + '_' + Date.now() + '.png';
@@ -2633,13 +2665,12 @@ function downloadInvoiceQR(invoiceNumber) {
         document.body.removeChild(link);
         showToast('✅ تم تحميل الـ QR', 'success');
     } catch (e) {
-        console.error('Download QR error:', e);
         showToast('فشل التحميل', 'error');
     }
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🧾 Parts Section - مع فحص صارم للكميات
+// 🧾 Parts Section
 // ═══════════════════════════════════════════════════════════════
 function renderPartsSection() {
     var container = document.getElementById('partsListContainer');
@@ -2661,7 +2692,6 @@ function renderPartsSection() {
         return;
     }
     
-    // ✅ فحص عام للكميات
     var hasStockIssue = false;
     var issuesList = [];
     
@@ -2672,11 +2702,8 @@ function renderPartsSection() {
             : '<div class="part-item-img placeholder"><i class="fas fa-image"></i></div>';
         
         var lineTotal = (parseFloat(item.unit_price) || 0) * (parseInt(item.quantity) || 0);
-        
-        // ✅ فحص الكمية المتوفرة
         var availableQty = product ? (parseInt(product.quantity) || 0) : 0;
         
-        // في حالة التعديل، نضيف الكمية الأصلية لأنها هترجع بالـ trigger
         if (state.editingInvoice && product) {
             var originalItems = getItemsForInvoice(state.editingInvoice.id);
             for (var oi = 0; oi < originalItems.length; oi++) {
@@ -2691,7 +2718,7 @@ function renderPartsSection() {
         
         if (exceedsStock) {
             hasStockIssue = true;
-            issuesList.push('"' + (item.product_name || 'قطعة') + '" (متوفر: ' + availableQty + '، مطلوب: ' + item.quantity + ')');
+            issuesList.push('"' + (item.product_name || 'قطعة') + '" (متوفر: ' + availableQty + ')');
         }
         
         var stockInfoHtml = '';
@@ -2721,11 +2748,10 @@ function renderPartsSection() {
         '</div>';
     }).join('');
     
-    // ✅ إظهار بانر التحذير لو فيه مشاكل
     if (warningBanner && warningText) {
         if (hasStockIssue) {
             warningBanner.classList.add('show');
-            warningText.textContent = 'تحذير: بعض القطع تتجاوز الكمية المتوفرة في المخزون — ' + issuesList.slice(0, 2).join('، ');
+            warningText.textContent = 'تحذير: ' + issuesList.slice(0, 2).join('، ');
         } else {
             warningBanner.classList.remove('show');
         }
@@ -2743,21 +2769,10 @@ function renderPartsSection() {
     });
 }
 
-// ✅ زيادة الكمية - مع فحص صارم
-function increasePartQty(idx) {
-    var item = state.currentItems[idx];
-    if (!item) return;
-    
+function getAvailableQtyForItem(item) {
     var product = getProductById(item.product_id);
-    if (!product) {
-        showToast('⚠️ الصنف غير موجود في المخزون', 'error');
-        return;
-    }
-    
-    // ✅ حساب الكمية المتوفرة الفعلية
+    if (!product) return 0;
     var availableQty = parseInt(product.quantity) || 0;
-    
-    // في حالة التعديل، نضيف الكمية الأصلية لأنها هترجع بالـ trigger
     if (state.editingInvoice) {
         var originalItems = getItemsForInvoice(state.editingInvoice.id);
         for (var oi = 0; oi < originalItems.length; oi++) {
@@ -2767,15 +2782,20 @@ function increasePartQty(idx) {
             }
         }
     }
+    return availableQty;
+}
+
+function increasePartQty(idx) {
+    var item = state.currentItems[idx];
+    if (!item) return;
+    var product = getProductById(item.product_id);
+    if (!product) { showToast('⚠️ الصنف غير موجود', 'error'); return; }
     
+    var availableQty = getAvailableQtyForItem(item);
     var newQty = item.quantity + 1;
     
     if (newQty > availableQty) {
-        showToast(
-            '⚠️ الكمية المتوفرة من "' + product.name + '" هي ' + availableQty + ' فقط', 
-            'warning', 
-            3500
-        );
+        showToast('⚠️ الكمية المتوفرة من "' + product.name + '" هي ' + availableQty + ' فقط', 'warning', 3500);
         return;
     }
     
@@ -2814,7 +2834,6 @@ function closeProductPicker() {
     document.getElementById('productPickerModal').classList.remove('show');
 }
 
-// ✅ Product Picker - مع إظهار كمية المخزون بوضوح
 function renderProductPickerList(search) {
     var container = document.getElementById('productPickerList');
     if (!container) return;
@@ -2841,13 +2860,9 @@ function renderProductPickerList(search) {
         var lowStock = qty > 0 && qty <= minQty;
         
         var stockBadge = '';
-        if (outOfStock) {
-            stockBadge = '<span class="stock-badge out"><i class="fas fa-circle-xmark"></i> نفذ</span>';
-        } else if (lowStock) {
-            stockBadge = '<span class="stock-badge low"><i class="fas fa-triangle-exclamation"></i> ' + qty + ' متبقي</span>';
-        } else {
-            stockBadge = '<span class="stock-badge"><i class="fas fa-check"></i> ' + qty + ' متوفر</span>';
-        }
+        if (outOfStock) stockBadge = '<span class="stock-badge out"><i class="fas fa-circle-xmark"></i> نفذ</span>';
+        else if (lowStock) stockBadge = '<span class="stock-badge low"><i class="fas fa-triangle-exclamation"></i> ' + qty + ' متبقي</span>';
+        else stockBadge = '<span class="stock-badge"><i class="fas fa-check"></i> ' + qty + ' متوفر</span>';
         
         var img = p.image_url 
             ? '<img src="' + escapeHtml(p.image_url) + '" alt="" class="product-picker-item-img" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><div class="product-picker-item-img placeholder" style="display:none;"><i class="fas fa-image"></i></div>'
@@ -2877,17 +2892,12 @@ function renderProductPickerList(search) {
     });
 }
 
-// ✅ إضافة منتج - مع فحص صارم
 function addProductToInvoice(productId) {
     var product = getProductById(productId);
-    if (!product) {
-        showToast('الصنف غير موجود', 'error');
-        return;
-    }
+    if (!product) { showToast('الصنف غير موجود', 'error'); return; }
     
     var availableQty = parseInt(product.quantity) || 0;
     
-    // في حالة التعديل، نضيف الكمية الأصلية
     if (state.editingInvoice) {
         var originalItems = getItemsForInvoice(state.editingInvoice.id);
         for (var oi = 0; oi < originalItems.length; oi++) {
@@ -2903,26 +2913,15 @@ function addProductToInvoice(productId) {
         return;
     }
     
-    // فحص لو الصنف مضاف بالفعل
     var existingIdx = -1;
     for (var i = 0; i < state.currentItems.length; i++) {
-        if (state.currentItems[i].product_id === productId) {
-            existingIdx = i;
-            break;
-        }
+        if (state.currentItems[i].product_id === productId) { existingIdx = i; break; }
     }
     
-    var totalRequested = existingIdx !== -1 
-        ? state.currentItems[existingIdx].quantity + 1 
-        : 1;
+    var totalRequested = existingIdx !== -1 ? state.currentItems[existingIdx].quantity + 1 : 1;
     
-    // ✅ فحص صارم ضد تجاوز المخزون
     if (totalRequested > availableQty) {
-        showToast(
-            '⚠️ الكمية المتوفرة من "' + product.name + '" هي ' + availableQty + ' فقط', 
-            'warning', 
-            4000
-        );
+        showToast('⚠️ الكمية المتوفرة من "' + product.name + '" هي ' + availableQty + ' فقط', 'warning', 4000);
         return;
     }
     
@@ -2948,7 +2947,7 @@ function addProductToInvoice(productId) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🪟 Invoice Modal
+// 🪟 Modals
 // ═══════════════════════════════════════════════════════════════
 function openAddModal() {
     state.editingInvoice = null;
@@ -2978,7 +2977,6 @@ function openAddModal() {
     document.getElementById('invoiceModal').classList.add('show');
 }
 
-// ✅ فتح التعديل - مع تحقق من product_id
 function openEditModal(id) {
     var inv = null;
     for (var i = 0; i < state.invoices.length; i++) {
@@ -2990,10 +2988,8 @@ function openEditModal(id) {
     var repair = getRepairById(inv.repair_order_id);
     state.selectedRepair = repair;
     
-    // ✅ تحميل القطع مع التحقق من product_id
     state.currentItems = getItemsForInvoice(inv.id).map(function(item) {
         var product = getProductById(item.product_id);
-        // لو product_id مش موجود، حاول تلاقيه بالاسم
         if (!product && item.product_name) {
             for (var k = 0; k < state.products.length; k++) {
                 if (state.products[k].name === item.product_name) {
@@ -3059,6 +3055,9 @@ function clearFormErrors() {
     for (var j = 0; j < inputs.length; j++) inputs[j].classList.remove('error');
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🔧 Repair Picker
+// ═══════════════════════════════════════════════════════════════
 function initRepairPicker() {
     var input = document.getElementById('repairSearch');
     var dropdown = document.getElementById('repairDropdown');
@@ -3222,7 +3221,7 @@ function updateSummary() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 💾 SAVE INVOICE - مع فحص صارم للكميات (بدون خصم يدوي)
+// 💾 Save Invoice
 // ═══════════════════════════════════════════════════════════════
 function saveInvoice(e) {
     e.preventDefault();
@@ -3251,9 +3250,7 @@ function saveInvoice(e) {
         return;
     }
     
-    // ═══════════════════════════════════════════════════════════
-    // ✅ فحص صارم للكميات قبل الحفظ
-    // ═══════════════════════════════════════════════════════════
+    // ✅ فحص صارم للكميات
     if (state.currentItems.length > 0) {
         var stockError = null;
         for (var ci = 0; ci < state.currentItems.length; ci++) {
@@ -3261,13 +3258,11 @@ function saveInvoice(e) {
             var ci_product = getProductById(ci_item.product_id);
             
             if (!ci_product) {
-                stockError = 'الصنف "' + ci_item.product_name + '" مش موجود في المخزون';
+                stockError = 'الصنف "' + ci_item.product_name + '" مش موجود';
                 break;
             }
             
             var ci_avail = parseInt(ci_product.quantity) || 0;
-            
-            // في حالة التعديل: نضيف الكمية الأصلية لأنها هترجع للمخزون بالـ trigger
             if (state.editingInvoice) {
                 var originalItems = getItemsForInvoice(state.editingInvoice.id);
                 for (var oi = 0; oi < originalItems.length; oi++) {
@@ -3279,7 +3274,7 @@ function saveInvoice(e) {
             }
             
             if (ci_item.quantity > ci_avail) {
-                stockError = 'الكمية المتوفرة من "' + ci_product.name + '" هي ' + ci_avail + ' فقط (المطلوب: ' + ci_item.quantity + ')';
+                stockError = 'الكمية المتوفرة من "' + ci_product.name + '" هي ' + ci_avail + ' فقط';
                 break;
             }
         }
@@ -3346,7 +3341,6 @@ function saveInvoice(e) {
             savePromise = sb.from('invoices').update(invoiceData).eq('id', invoiceId)
                 .then(function(result) {
                     if (result.error) throw result.error;
-                    // ⚠️ حذف القطع القديمة - الـ trigger هيرجع الكميات تلقائياً
                     return sb.from('invoice_items').delete().eq('invoice_id', invoiceId);
                 })
                 .then(function() {
@@ -3363,7 +3357,6 @@ function saveInvoice(e) {
                                 total: item.unit_price * item.quantity
                             };
                         });
-                        // ⚠️ الـ trigger هيخصم الكميات تلقائياً
                         return sb.from('invoice_items').insert(items);
                     }
                 });
@@ -3409,7 +3402,6 @@ function saveInvoice(e) {
                                 total: item.unit_price * item.quantity
                             };
                         });
-                        // ⚠️ الـ trigger هيخصم الكميات تلقائياً
                         return sb.from('invoice_items').insert(items).then(function() { return result.data; });
                     }
                     return result.data;
@@ -3435,21 +3427,18 @@ function saveInvoice(e) {
             var finalInvoice = (newData && newData.id) ? Object.assign(newInvoice, newData) : newInvoice;
             state.invoices.unshift(finalInvoice);
             dbPut('invoices', finalInvoice);
-            
-            // ⚠️ مهم: مفيش خصم يدوي - الـ Trigger في DB بيعمل ده
             showToast('✅ تم إنشاء الفاتورة بنجاح', 'success');
         });
     }
     
     savePromise.then(function() {
         closeInvoiceModal();
-        // ✅ إعادة تحميل من السيرفر لضمان الكميات الصحيحة بعد الـ trigger
         return loadData();
     }).catch(function(err) {
         console.error('Save error:', err);
         var msg = 'حدث خطأ أثناء الحفظ';
         if (err.message) {
-            if (err.message.indexOf('الكمية المتوفرة') !== -1 || err.message.indexOf('insufficient') !== -1) {
+            if (err.message.indexOf('الكمية المتوفرة') !== -1) {
                 msg = '⚠️ ' + err.message;
             } else if (err.code === '23505') {
                 msg = 'رقم الفاتورة مستخدم، حاول مرة أخرى';
@@ -3474,6 +3463,9 @@ function generateInvoiceNumber() {
     return 'INV-' + year + month + '-' + random;
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 👁️ Details Modal
+// ═══════════════════════════════════════════════════════════════
 function openDetailsModal(id) {
     var inv = null;
     for (var i = 0; i < state.invoices.length; i++) {
@@ -3656,6 +3648,9 @@ function generateQR(text) {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🖨️ Print
+// ═══════════════════════════════════════════════════════════════
 function printA4() {
     var inv = state.viewingInvoice;
     if (!inv) return;
@@ -3805,6 +3800,9 @@ function printThermal() {
     win.document.close();
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 💰 Payment
+// ═══════════════════════════════════════════════════════════════
 function openPaymentModal() {
     var inv = state.viewingInvoice;
     if (!inv) return;
@@ -3923,7 +3921,7 @@ function savePayment(e) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🗑️ DELETE INVOICE - مع إرجاع الكميات تلقائياً (عبر trigger)
+// 🗑️ Delete
 // ═══════════════════════════════════════════════════════════════
 function openDeleteModal(id) {
     var inv = null;
@@ -3949,10 +3947,9 @@ function confirmDelete() {
     var promise;
     
     if (sb && navigator.onLine && isValidUUID(inv.id)) {
-        // ⚠️ مهم جداً: احذف invoice_items الأول عشان trigger الإرجاع يشتغل
+        // ✅ احذف invoice_items الأول - الـ trigger هيرجع الكميات
         promise = sb.from('invoice_items').delete().eq('invoice_id', inv.id)
             .then(function() {
-                // ثم احذف الفاتورة نفسها
                 return sb.from('invoices').delete().eq('id', inv.id);
             })
             .then(function(result) {
@@ -3972,20 +3969,22 @@ function confirmDelete() {
         state.payments = state.payments.filter(function(p) { return p.invoice_id !== inv.id; });
         state.invoiceItems = state.invoiceItems.filter(function(item) { return item.invoice_id !== inv.id; });
         dbDelete('invoices', inv.id);
-        showToast('✅ تم حذف الفاتورة وإرجاع القطع للمخزون', 'success');
+        showToast('✅ تم حذف الفاتورة', 'success');
         document.getElementById('deleteModal').classList.remove('show');
         state.deletingInvoice = null;
-        // ✅ إعادة تحميل من السيرفر لضمان الكميات الصحيحة بعد الـ trigger
         return loadData();
     }).catch(function(err) {
         console.error('Delete error:', err);
-        showToast('حدث خطأ أثناء الحذف', 'error');
+        showToast('حدث خطأ أثناء الحذف: ' + (err.message || ''), 'error', 5000);
     }).then(function() {
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-trash"></i> حذف نهائي';
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 📤 Export Excel
+// ═══════════════════════════════════════════════════════════════
 function exportExcel() {
     var loadLib = Promise.resolve();
     if (typeof XLSX === 'undefined') {
@@ -4030,6 +4029,9 @@ function exportExcel() {
     });
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🔔 Notifications
+// ═══════════════════════════════════════════════════════════════
 function loadNotifications() {
     var session = getSession();
     if (!session) return;
@@ -4092,6 +4094,9 @@ function markAllRead() {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 👤 User UI
+// ═══════════════════════════════════════════════════════════════
 function updateUserUI(user) {
     var initial = ((user.full_name || user.username || 'م') + '').charAt(0).toUpperCase();
     var roleText = user.role === 'admin' ? 'مدير' : 'موظف';
@@ -4123,6 +4128,9 @@ function applyPermissions(user) {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 🔗 URL Params
+// ═══════════════════════════════════════════════════════════════
 function handleUrlParams() {
     var action = getUrlParam('action');
     var id = getUrlParam('id');
