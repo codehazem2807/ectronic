@@ -909,9 +909,6 @@ img { max-width: 100%; height: auto; display: block; }
 .tab-content { display: none; }
 .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
 
-/* ═══════════════════════════════════════════════════════════
-   📤 Share Modal Styles
-   ═══════════════════════════════════════════════════════════ */
 .share-header {
     text-align: center;
     margin-bottom: 1.25rem;
@@ -1452,7 +1449,6 @@ img { max-width: 100%; height: auto; display: block; }
     
 </main>
 
-<!-- Add/Edit Invoice Modal -->
 <div class="modal-overlay" id="invoiceModal">
     <div class="modal modal-lg">
         <div class="modal-header">
@@ -1597,7 +1593,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Product Picker Modal -->
 <div class="modal-overlay" id="productPickerModal">
     <div class="modal modal-lg">
         <div class="modal-header">
@@ -1617,7 +1612,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Invoice Details Modal -->
 <div class="modal-overlay" id="detailsModal">
     <div class="modal modal-xl">
         <div class="modal-header">
@@ -1643,7 +1637,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Add Payment Modal -->
 <div class="modal-overlay" id="paymentModal">
     <div class="modal modal-sm">
         <div class="modal-header">
@@ -1693,9 +1686,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     📤 Share Modal - الجديد
-     ═══════════════════════════════════════════════════════════ -->
 <div class="modal-overlay" id="shareModal">
     <div class="modal modal-sm">
         <div class="modal-header">
@@ -1709,7 +1699,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Delete Modal -->
 <div class="modal-overlay" id="deleteModal">
     <div class="modal modal-sm">
         <div class="modal-header">
@@ -1802,6 +1791,19 @@ function isValidUUID(uuid) {
 function sanitizePhone(phone) {
     if (!phone) return '';
     return String(phone).replace(/[^\d+]/g, '');
+}
+
+function generateUUID() {
+    // ✅ UUID v4 حقيقي - بيستخدم crypto.randomUUID لو متاح
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+    // Fallback for older browsers
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0;
+        var v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
 }
 
 function formatCurrency(amount) {
@@ -2440,9 +2442,12 @@ function openShareModal(id) {
     var invoiceNumber = inv.invoice_number || 'INV';
     var total = parseFloat(inv.total) || 0;
 
-    // Build invoice URL
+    // ✅ استخدم uuid_link أولاً، ثم id كـ fallback
+    var linkIdentifier = inv.uuid_link || inv.id;
     var baseUrl = window.location.origin + window.location.pathname.replace('invoices.html', 'invoice-view.html');
-    var invoiceUrl = baseUrl + '?id=' + (inv.uuid_link || inv.id);
+    var invoiceUrl = baseUrl + '?id=' + linkIdentifier;
+
+    console.log('📤 Share - using identifier:', linkIdentifier, '(uuid_link:', inv.uuid_link, ')');
 
     var bodyHtml =
         '<div class="share-header">' +
@@ -2453,12 +2458,10 @@ function openShareModal(id) {
             '<div class="share-total">' + formatCurrency(total) + '</div>' +
         '</div>' +
 
-        // QR
         '<div class="share-qr-wrapper">' +
             '<div class="share-qr-box" id="shareQrBox"></div>' +
         '</div>' +
 
-        // Link
         '<label class="share-link-label">لينك الفاتورة</label>' +
         '<div class="share-link-row">' +
             '<input type="text" id="shareLinkInput" class="share-link-input" value="' + escapeHtml(invoiceUrl) + '" readonly>' +
@@ -2467,7 +2470,6 @@ function openShareModal(id) {
             '</button>' +
         '</div>' +
 
-        // Actions Grid
         '<div class="share-actions-grid">' +
             '<a href="https://wa.me/2' + escapeHtml(sanitizePhone(customer.phone || '').replace(/^0/, '')) + '?text=' + encodeURIComponent('مرحباً ' + (customer.name || '') + '،\n\nفاتورتك رقم ' + invoiceNumber + '\nبإجمالي: ' + formatCurrency(total) + '\n\nيمكنك عرض الفاتورة من الرابط:\n' + invoiceUrl) + '" target="_blank" class="share-action-btn whatsapp">' +
                 '<i class="fab fa-whatsapp"></i> واتساب' +
@@ -2486,12 +2488,10 @@ function openShareModal(id) {
     document.getElementById('shareModalBody').innerHTML = bodyHtml;
     document.getElementById('shareModal').classList.add('show');
 
-    // Generate QR after modal opens
     setTimeout(function() {
         generateShareQR(invoiceUrl);
     }, 100);
 
-    // Bind copy button
     var copyBtn = document.getElementById('shareCopyBtn');
     if (copyBtn) {
         copyBtn.addEventListener('click', function() {
@@ -2499,7 +2499,6 @@ function openShareModal(id) {
         });
     }
 
-    // Bind download QR button
     var downloadQrBtn = document.getElementById('shareDownloadQrBtn');
     if (downloadQrBtn) {
         downloadQrBtn.addEventListener('click', function() {
@@ -2522,40 +2521,30 @@ function copyInvoiceLink() {
     input.select();
     input.setSelectionRange(0, 99999);
 
-    var doCopy = function() {
-        try {
-            document.execCommand('copy');
-            if (copyBtn) {
-                copyBtn.classList.add('copied');
-                copyBtn.innerHTML = '<i class="fas fa-check"></i>';
-                setTimeout(function() {
-                    copyBtn.classList.remove('copied');
-                    copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
-                }, 2000);
-            }
-            showToast('✅ تم نسخ الرابط', 'success');
-        } catch (e) {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(input.value).then(function() {
-                    if (copyBtn) {
-                        copyBtn.classList.add('copied');
-                        copyBtn.innerHTML = '<i class="fas fa-check"></i>';
-                        setTimeout(function() {
-                            copyBtn.classList.remove('copied');
-                            copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
-                        }, 2000);
-                    }
-                    showToast('✅ تم نسخ الرابط', 'success');
-                }).catch(function() {
-                    showToast('فشل نسخ الرابط', 'error');
-                });
-            } else {
-                showToast('فشل نسخ الرابط', 'error');
-            }
+    var onSuccess = function() {
+        if (copyBtn) {
+            copyBtn.classList.add('copied');
+            copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+            setTimeout(function() {
+                copyBtn.classList.remove('copied');
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+            }, 2000);
         }
+        showToast('✅ تم نسخ الرابط', 'success');
     };
 
-    doCopy();
+    try {
+        document.execCommand('copy');
+        onSuccess();
+    } catch (e) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(input.value).then(onSuccess).catch(function() {
+                showToast('فشل نسخ الرابط', 'error');
+            });
+        } else {
+            showToast('فشل نسخ الرابط', 'error');
+        }
+    }
 }
 
 function generateShareQR(text) {
@@ -2563,7 +2552,6 @@ function generateShareQR(text) {
     if (!box) return;
 
     if (typeof QRCode === 'undefined') {
-        // Load qrcode.js dynamically
         var script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js';
         script.onload = function() { generateShareQR(text); };
@@ -2614,9 +2602,6 @@ function downloadInvoiceQR(invoiceNumber) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🧩 Parts Section
-// ═══════════════════════════════════════════════════════════════
 function renderPartsSection() {
     var container = document.getElementById('partsListContainer');
     var badge = document.getElementById('partsCountBadge');
@@ -3121,8 +3106,14 @@ function saveInvoice(e) {
     
     var invoiceNumber = state.editingInvoice ? state.editingInvoice.invoice_number : generateInvoiceNumber();
     
+    // ✅ uuid_link - دايماً نولّده للفواتير الجديدة
+    var uuidLink = isEditing 
+        ? (state.editingInvoice.uuid_link || generateUUID())
+        : generateUUID();
+    
     var invoiceData = {
         invoice_number: invoiceNumber,
+        uuid_link: uuidLink,  // ✅ مهم جداً
         customer_id: customerId,
         repair_order_id: repairId,
         parts_total: parts,
@@ -3137,6 +3128,8 @@ function saveInvoice(e) {
         notes: notes,
         created_by: session && session.user ? session.user.id : null
     };
+    
+    console.log('💾 Saving invoice with uuid_link:', uuidLink);
     
     var savePromise;
     var tempId = 'temp_' + Date.now();
@@ -3184,7 +3177,6 @@ function saveInvoice(e) {
     } else {
         var newInvoice = Object.assign({
             id: tempId,
-            uuid_link: generateUUID(),
             created_at: new Date().toISOString()
         }, invoiceData);
         
@@ -3194,9 +3186,7 @@ function saveInvoice(e) {
                     if (result.error) throw result.error;
                     
                     newInvoice.id = result.data.id;
-                    newInvoice.uuid_link = result.data.uuid_link;
                     newInvoice.created_at = result.data.created_at;
-                    newInvoice.invoice_number = result.data.invoice_number;
                     
                     if (state.currentItems.length) {
                         var items = state.currentItems.map(function(item) {
@@ -3275,14 +3265,6 @@ function generateInvoiceNumber() {
     return 'INV-' + year + month + '-' + random;
 }
 
-function generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0;
-        var v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-}
-
 function openDetailsModal(id) {
     var inv = null;
     for (var i = 0; i < state.invoices.length; i++) {
@@ -3344,8 +3326,10 @@ function openDetailsModal(id) {
             '<p style="font-size: 0.85rem;">لا توجد دفعات مسجلة</p></div>';
     }
     
+    // ✅ استخدام uuid_link للـ QR والرابط
+    var linkIdentifier = inv.uuid_link || inv.id;
     var baseUrl = window.location.origin + window.location.pathname.replace('invoices.html', 'invoice-view.html');
-    var invoiceUrl = baseUrl + '?id=' + (inv.uuid_link || inv.id);
+    var invoiceUrl = baseUrl + '?id=' + linkIdentifier;
     
     document.getElementById('detailsContent').innerHTML =
         '<div class="invoice-details-header">' +
@@ -3977,7 +3961,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateUserUI(session.user);
     applyPermissions(session.user);
     
-    // Sidebar
     var menuBtn = document.getElementById('menuBtn');
     var sidebar = document.getElementById('sidebar');
     var overlay = document.getElementById('sidebarOverlay');
@@ -3990,7 +3973,6 @@ document.addEventListener('DOMContentLoaded', function() {
         overlay.classList.remove('show');
     });
     
-    // User dropdown
     var userBtn = document.getElementById('userBtn');
     var userDropdown = document.getElementById('userDropdown');
     var notifBtn = document.getElementById('notificationsBtn');
@@ -4025,7 +4007,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Search
     var searchTimeout;
     var searchInput = document.getElementById('searchInput');
     if (searchInput) searchInput.addEventListener('input', function(e) {
@@ -4052,7 +4033,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var addBtn = document.getElementById('addInvoiceBtn');
     if (addBtn) addBtn.addEventListener('click', openAddModal);
     
-    // Invoice modal
     var closeInv = document.getElementById('closeInvoiceModal');
     var cancelInv = document.getElementById('cancelInvoiceBtn');
     var form = document.getElementById('invoiceForm');
@@ -4069,7 +4049,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var discountType = document.getElementById('discountType');
     if (discountType) discountType.addEventListener('change', updateSummary);
     
-    // Parts
     var addPartBtn = document.getElementById('addPartBtn');
     if (addPartBtn) addPartBtn.addEventListener('click', openProductPicker);
     var closePP = document.getElementById('closeProductPickerModal');
@@ -4083,7 +4062,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target === this) closeProductPicker();
     });
     
-    // Delete
     var closeDel = document.getElementById('closeDeleteModal');
     var cancelDel = document.getElementById('cancelDeleteBtn');
     var confirmDel = document.getElementById('confirmDeleteBtn');
@@ -4097,7 +4075,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     if (confirmDel) confirmDel.addEventListener('click', confirmDelete);
     
-    // Details
     var closeDet = document.getElementById('closeDetailsModal');
     var closeDetBtn = document.getElementById('closeDetailsBtn');
     if (closeDet) closeDet.addEventListener('click', function() {
@@ -4116,7 +4093,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var addPaymentBtn = document.getElementById('addPaymentBtn');
     if (addPaymentBtn) addPaymentBtn.addEventListener('click', openPaymentModal);
     
-    // Payment
     var closePay = document.getElementById('closePaymentModal');
     var cancelPay = document.getElementById('cancelPaymentBtn');
     var payForm = document.getElementById('paymentForm');
@@ -4124,7 +4100,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (cancelPay) cancelPay.addEventListener('click', closePaymentModal);
     if (payForm) payForm.addEventListener('submit', savePayment);
     
-    // Share Modal
     var closeShare = document.getElementById('closeShareModal');
     if (closeShare) closeShare.addEventListener('click', closeShareModal);
     var shareModal = document.getElementById('shareModal');
@@ -4135,14 +4110,12 @@ document.addEventListener('DOMContentLoaded', function() {
     var expBtn = document.getElementById('exportExcelBtn');
     if (expBtn) expBtn.addEventListener('click', exportExcel);
     
-    // Overlay close
     document.querySelectorAll('.modal-overlay').forEach(function(ov) {
         ov.addEventListener('click', function(e) {
             if (e.target === ov) ov.classList.remove('show');
         });
     });
     
-    // Keyboard
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             document.querySelectorAll('.modal-overlay.show').forEach(function(m) { m.classList.remove('show'); });
@@ -4161,7 +4134,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Scroll
     var progressBar = document.getElementById('readingProgress');
     var scrollTopBtn = document.getElementById('scrollTop');
     window.addEventListener('scroll', function() {
@@ -4184,7 +4156,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (addBtn2) addBtn2.style.display = 'none';
     }
     
-    // Load
     openDB()
         .then(function() { return loadData(); })
         .then(function() {
