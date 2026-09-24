@@ -9,6 +9,7 @@
 <meta name="format-detection" content="telephone=no">
 <meta name="color-scheme" content="light dark">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="إلكترونك">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="إلكترونك">
@@ -201,7 +202,7 @@ img { max-width: 100%; height: auto; display: block; }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Invoice Header */
+/* Header */
 .invoice-header {
     background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
     color: white;
@@ -312,7 +313,7 @@ img { max-width: 100%; height: auto; display: block; }
     border-color: rgba(239, 68, 68, 0.5);
 }
 
-/* Invoice Body */
+/* Body */
 .invoice-body {
     padding: 1.75rem 1.5rem;
 }
@@ -593,7 +594,7 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.9rem;
 }
 
-/* Invoice Footer */
+/* Footer */
 .invoice-footer {
     padding: 1.5rem;
     background: var(--bg-primary);
@@ -655,7 +656,7 @@ img { max-width: 100%; height: auto; display: block; }
     font-weight: 700;
 }
 
-/* Action Bar */
+/* Actions */
 .action-bar {
     max-width: 900px;
     margin: 1.25rem auto 0;
@@ -708,7 +709,7 @@ img { max-width: 100%; height: auto; display: block; }
     background: #128c7e;
 }
 
-/* Loading State */
+/* Loading */
 .loading-state {
     max-width: 900px;
     margin: 0 auto;
@@ -745,7 +746,7 @@ img { max-width: 100%; height: auto; display: block; }
     color: var(--text-muted);
 }
 
-/* Error State */
+/* Error */
 .error-state {
     max-width: 600px;
     margin: 0 auto;
@@ -991,7 +992,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- Top Bar -->
 <div class="top-bar">
     <div class="top-brand">
         <img src="logo.png" alt="إلكترونك" class="top-logo" onerror="this.style.display='none'">
@@ -1013,7 +1013,6 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Debug Panel -->
 <div class="debug-panel" id="debugPanel">
     <div id="debugContent">
         <strong>🔍 وضع التشخيص</strong><br>
@@ -1024,14 +1023,12 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Loading -->
 <div class="loading-state" id="loadingState">
     <div class="loading-spinner"></div>
     <h3>جاري تحميل الفاتورة...</h3>
     <p>يرجى الانتظار قليلاً</p>
 </div>
 
-<!-- Error -->
 <div class="error-state" id="errorState" style="display: none;">
     <div class="error-icon">
         <i class="fas fa-file-circle-xmark"></i>
@@ -1047,7 +1044,6 @@ img { max-width: 100%; height: auto; display: block; }
     </a>
 </div>
 
-<!-- Invoice -->
 <div class="invoice-wrapper" id="invoiceWrapper" style="display: none;">
     <div class="invoice-card" id="invoiceCard">
 
@@ -1236,9 +1232,6 @@ img { max-width: 100%; height: auto; display: block; }
 (function() {
 'use strict';
 
-// ═══════════════════════════════════════════════════════════════
-// 🔑 Config
-// ═══════════════════════════════════════════════════════════════
 var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
 
@@ -1263,9 +1256,6 @@ function getSupabaseClient() {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🧰 Helpers
-// ═══════════════════════════════════════════════════════════════
 function escapeHtml(str) {
     if (str == null) return '';
     return String(str)
@@ -1300,6 +1290,20 @@ function formatDate(date) {
     }
 }
 
+function formatDateTime(date) {
+    if (!date) return '—';
+    var d = new Date(date);
+    if (isNaN(d.getTime())) return '—';
+    try {
+        return d.toLocaleDateString('ar-EG', {
+            year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        });
+    } catch (e) {
+        return '—';
+    }
+}
+
 function getUrlParam(name) {
     try {
         return new URLSearchParams(window.location.search).get(name);
@@ -1308,6 +1312,7 @@ function getUrlParam(name) {
     }
 }
 
+// ✅ التحقق من UUID بشكل صحيح
 function isValidUUID(uuid) {
     if (!uuid || typeof uuid !== 'string') return false;
     return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uuid);
@@ -1317,15 +1322,14 @@ function getPaymentMethodText(method) {
     var map = {
         'cash': 'كاش',
         'card': 'فيزا',
+        'visa': 'فيزا',
         'wallet': 'محفظة إلكترونية',
-        'transfer': 'تحويل بنكي'
+        'transfer': 'تحويل بنكي',
+        'credit': 'آجل'
     };
     return map[method] || 'كاش';
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🎨 Theme
-// ═══════════════════════════════════════════════════════════════
 function initTheme() {
     var saved = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', saved);
@@ -1345,9 +1349,6 @@ function toggleTheme() {
     updateThemeIcon(next);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🐛 Debug
-// ═══════════════════════════════════════════════════════════════
 function updateDebug() {
     var el;
     el = document.getElementById('debugUrl');
@@ -1365,9 +1366,6 @@ function toggleDebug() {
     if (panel) panel.classList.toggle('show');
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🍞 Toast
-// ═══════════════════════════════════════════════════════════════
 function showToast(message, type, duration) {
     type = type || 'info';
     duration = duration || 3500;
@@ -1404,13 +1402,22 @@ function loadInvoice() {
     debugInfo.strategy = 'starting';
     updateDebug();
 
-    console.log('📥 Loading invoice:', identifier);
+    console.log('📥 Loading invoice with identifier:', identifier);
 
     if (!identifier) {
         debugInfo.status = 'no-identifier';
         updateDebug();
         showError('لم يتم تحديد فاتورة. تأكد من فتح الرابط الصحيح.');
         return;
+    }
+
+    // ✅ تأكد إن الـ identifier UUID صحيح (uuid_link النوع uuid)
+    if (!isValidUUID(identifier)) {
+        debugInfo.status = 'invalid-uuid';
+        debugInfo.strategy = 'validation-failed';
+        updateDebug();
+        console.warn('⚠️ Identifier is not a valid UUID:', identifier);
+        // لسه بنحاول، ممكن يكون uuid_link قديم بنص
     }
 
     var sb = getSupabaseClient();
@@ -1489,111 +1496,109 @@ function loadInvoice() {
 // ═══════════════════════════════════════════════════════════════
 function tryLoadWithJoin(sb, identifier) {
     var selectStr = '*, customer:customers(id, name, phone, address), repair:repair_orders(id, tracking_code, device_type, device_model, serial_number, status)';
-    var query;
 
-    if (isValidUUID(identifier)) {
-        query = sb.from('invoices').select(selectStr).eq('id', identifier);
-    } else {
-        query = sb.from('invoices').select(selectStr).eq('uuid_link', identifier);
-    }
+    // ✅ جرّب في id الأول (لو UUID صحيح)
+    if (!isValidUUID(identifier)) return Promise.resolve(null);
 
-    return query.maybeSingle().then(function(result) {
-        if (result.error) {
-            console.warn('Join query error:', result.error.message);
+    return sb.from('invoices').select(selectStr).eq('id', identifier).maybeSingle()
+        .then(function(result) {
+            if (result.error) {
+                console.warn('Join query error (id):', result.error.message);
+                return null;
+            }
+            return result.data || null;
+        })
+        .catch(function(err) {
+            console.warn('Join query failed (id):', err.message);
             return null;
-        }
-        return result.data || null;
-    }).catch(function(err) {
-        console.warn('Join query failed:', err.message);
-        return null;
-    });
+        });
 }
 
 // ═══════════════════════════════════════════════════════════════
-// Strategy 2: No Join
+// Strategy 2: No Join — بـ id ثم uuid_link
 // ═══════════════════════════════════════════════════════════════
 function tryLoadNoJoin(sb, identifier) {
-    var query;
-    if (isValidUUID(identifier)) {
-        query = sb.from('invoices').select('*').eq('id', identifier);
-    } else {
-        query = sb.from('invoices').select('*').eq('uuid_link', identifier);
-    }
+    if (!isValidUUID(identifier)) return Promise.resolve(null);
 
-    return query.maybeSingle().then(function(result) {
-        if (result.error) {
-            console.warn('No-join error:', result.error.message);
+    // 1) جرّب id
+    return sb.from('invoices').select('*').eq('id', identifier).maybeSingle()
+        .then(function(result) {
+            if (result.error) {
+                console.warn('No-join error (id):', result.error.message);
+                return null;
+            }
+            if (result.data) return result.data;
+
+            // 2) جرّب uuid_link (UUID النوع نفسه)
+            return sb.from('invoices').select('*').eq('uuid_link', identifier).maybeSingle()
+                .then(function(r2) {
+                    if (r2.error) {
+                        console.warn('No-join error (uuid_link):', r2.error.message);
+                        return null;
+                    }
+                    return r2.data || null;
+                })
+                .catch(function() { return null; });
+        })
+        .catch(function(err) {
+            console.warn('No-join failed:', err.message);
             return null;
-        }
-        return result.data || null;
-    }).catch(function(err) {
-        console.warn('No-join failed:', err.message);
-        return null;
-    });
+        });
 }
 
 // ═══════════════════════════════════════════════════════════════
-// Strategy 3: Separate Queries + Manual Merge
+// Strategy 3: Separate Queries
 // ═══════════════════════════════════════════════════════════════
 function tryLoadSeparate(sb, identifier) {
-    var invoiceQuery;
-    if (isValidUUID(identifier)) {
-        invoiceQuery = sb.from('invoices').select('*').eq('id', identifier);
-    } else {
-        invoiceQuery = sb.from('invoices').select('*').eq('uuid_link', identifier);
-    }
+    if (!isValidUUID(identifier)) return Promise.resolve(null);
 
-    return invoiceQuery.maybeSingle().then(function(result) {
-        if (result.error || !result.data) return null;
+    // 1) اجلب الفاتورة بـ id
+    return sb.from('invoices').select('*').eq('id', identifier).maybeSingle()
+        .then(function(r1) {
+            if (r1.data) return r1.data;
+            // 2) جرّب uuid_link
+            return sb.from('invoices').select('*').eq('uuid_link', identifier).maybeSingle()
+                .then(function(r2) { return r2.data || null; })
+                .catch(function() { return null; });
+        })
+        .then(function(invoice) {
+            if (!invoice) return null;
 
-        var invoice = result.data;
-        var promises = [];
+            var promises = [];
 
-        // Customer
-        if (invoice.customer_id) {
-            promises.push(
-                sb.from('customers')
-                    .select('id, name, phone, address')
-                    .eq('id', invoice.customer_id)
-                    .maybeSingle()
-                    .then(function(r) {
-                        invoice.customer = r.data || null;
-                    })
-                    .catch(function() {
-                        invoice.customer = null;
-                    })
-            );
-        } else {
-            invoice.customer = null;
-            promises.push(Promise.resolve());
-        }
+            if (invoice.customer_id && isValidUUID(invoice.customer_id)) {
+                promises.push(
+                    sb.from('customers').select('id, name, phone, address')
+                        .eq('id', invoice.customer_id).maybeSingle()
+                        .then(function(r) { invoice.customer = r.data || null; })
+                        .catch(function() { invoice.customer = null; })
+                );
+            } else {
+                invoice.customer = null;
+                promises.push(Promise.resolve());
+            }
 
-        // Repair Order
-        if (invoice.repair_order_id) {
-            promises.push(
-                sb.from('repair_orders')
-                    .select('id, tracking_code, device_type, device_model, serial_number, status')
-                    .eq('id', invoice.repair_order_id)
-                    .maybeSingle()
-                    .then(function(r) {
-                        invoice.repair = r.data || null;
-                    })
-                    .catch(function() {
-                        invoice.repair = null;
-                    })
-            );
-        } else {
-            invoice.repair = null;
-            promises.push(Promise.resolve());
-        }
+            if (invoice.repair_order_id && isValidUUID(invoice.repair_order_id)) {
+                promises.push(
+                    sb.from('repair_orders')
+                        .select('id, tracking_code, device_type, device_model, serial_number, status')
+                        .eq('id', invoice.repair_order_id).maybeSingle()
+                        .then(function(r) { invoice.repair = r.data || null; })
+                        .catch(function() { invoice.repair = null; })
+                );
+            } else {
+                invoice.repair = null;
+                promises.push(Promise.resolve());
+            }
 
-        return Promise.all(promises).then(function() {
-            return invoice;
+            return Promise.all(promises).then(function() {
+                return invoice;
+            });
+        })
+        .catch(function(err) {
+            console.warn('Separate failed:', err.message);
+            return null;
         });
-    }).catch(function(err) {
-        console.warn('Separate failed:', err.message);
-        return null;
-    });
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1602,17 +1607,16 @@ function tryLoadSeparate(sb, identifier) {
 function finalizeInvoice(sb, invoice) {
     console.log('📄 Invoice loaded:', invoice);
 
-    // Try to load items from invoice_items
     return sb.from('invoice_items')
         .select('*')
         .eq('invoice_id', invoice.id)
         .then(function(itemsResult) {
             var items = itemsResult.data || [];
 
-            // If we have product_id, load products separately
+            // اجلب المنتجات منفصلة لو موجودة
             var productIds = [];
             items.forEach(function(item) {
-                if (item.product_id && productIds.indexOf(item.product_id) === -1) {
+                if (item.product_id && isValidUUID(item.product_id) && productIds.indexOf(item.product_id) === -1) {
                     productIds.push(item.product_id);
                 }
             });
@@ -1622,7 +1626,6 @@ function finalizeInvoice(sb, invoice) {
                 return invoice;
             }
 
-            // Load products
             return sb.from('products')
                 .select('id, name, barcode')
                 .in('id', productIds)
@@ -1666,15 +1669,12 @@ function renderInvoice(invoice) {
     var customer = invoice.customer || {};
     var repair = invoice.repair || {};
 
-    // Header
     document.getElementById('invoiceNumber').textContent =
-        invoice.invoice_number || ('INV-' + invoice.id.substring(0, 8).toUpperCase());
+        invoice.invoice_number || ('INV-' + String(invoice.id).substring(0, 8).toUpperCase());
     document.getElementById('invoiceDate').textContent = formatDate(invoice.created_at);
 
-    // Status
     document.getElementById('statusBannerContainer').innerHTML = getStatusBanner(invoice);
 
-    // Customer
     document.getElementById('customerName').textContent = customer.name || 'عميل';
     document.getElementById('customerPhone').textContent = customer.phone ? '📱 ' + customer.phone : '';
     document.getElementById('customerAddress').textContent = customer.address || '';
@@ -1683,7 +1683,6 @@ function renderInvoice(invoice) {
         document.getElementById('customerInfoBox').style.display = 'none';
     }
 
-    // Device
     var deviceType = repair.device_type || '';
     var deviceModel = repair.device_model || '';
     var trackingCode = repair.tracking_code || '';
@@ -1700,7 +1699,6 @@ function renderInvoice(invoice) {
         document.getElementById('deviceInfoBox').style.display = 'none';
     }
 
-    // Payment
     document.getElementById('paymentMethod').textContent = getPaymentMethodText(invoice.payment_method);
 
     var paidAmount = parseFloat(invoice.paid_amount) || 0;
@@ -1720,10 +1718,8 @@ function renderInvoice(invoice) {
         statusTextEl.style.color = 'var(--danger)';
     }
 
-    // Items
     renderItems(invoice.items || []);
 
-    // Summary
     var partsTotal = parseFloat(invoice.parts_total) || 0;
     var laborCost = parseFloat(invoice.labor_cost) || 0;
     var discount = parseFloat(invoice.discount) || 0;
@@ -1732,7 +1728,7 @@ function renderInvoice(invoice) {
     document.getElementById('laborCost').textContent = formatCurrency(laborCost);
 
     if (discount > 0) {
-        var discountText = invoice.discount_type === 'percentage'
+        var discountText = invoice.discount_type === 'percent'
             ? discount + '%'
             : formatCurrency(discount);
         document.getElementById('discount').textContent = '- ' + discountText;
@@ -1759,16 +1755,13 @@ function renderInvoice(invoice) {
         document.getElementById('remainingRow').style.display = 'none';
     }
 
-    // Notes
     if (invoice.notes) {
         document.getElementById('notesText').textContent = invoice.notes;
         document.getElementById('notesBox').style.display = 'block';
     }
 
-    // QR
     renderQRCode(invoice.id);
 
-    // Rating (if delivered)
     if (repair.status === 'delivered' && repair.id) {
         document.getElementById('ratingPrompt').style.display = 'block';
         var rateBtn = document.getElementById('rateBtn');
@@ -1809,7 +1802,7 @@ function renderItems(items) {
     var html = '';
     items.forEach(function(item) {
         var product = item.product || {};
-        var productName = product.name || item.description || 'بند';
+        var productName = product.name || item.product_name || item.description || 'بند';
         var barcode = product.barcode || '';
         var qty = parseInt(item.quantity) || 0;
         var unitPrice = parseFloat(item.unit_price) || 0;
@@ -2017,45 +2010,32 @@ function fallbackCopy(text) {
 document.addEventListener('DOMContentLoaded', function() {
     initTheme();
 
-    // Theme
     var themeToggle = document.getElementById('themeToggle');
     if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
 
-    // Debug
     var debugToggle = document.getElementById('debugToggle');
     if (debugToggle) debugToggle.addEventListener('click', toggleDebug);
 
-    // Print
     var printBtn = document.getElementById('printBtn');
     if (printBtn) printBtn.addEventListener('click', printInvoice);
     var printActionBtn = document.getElementById('printActionBtn');
     if (printActionBtn) printActionBtn.addEventListener('click', printInvoice);
 
-    // PDF
     var pdfActionBtn = document.getElementById('pdfActionBtn');
     if (pdfActionBtn) pdfActionBtn.addEventListener('click', downloadPDF);
 
-    // WhatsApp
     var shareWhatsappBtn = document.getElementById('shareWhatsappBtn');
     if (shareWhatsappBtn) shareWhatsappBtn.addEventListener('click', shareWhatsApp);
 
-    // Copy
     var copyLinkBtn = document.getElementById('copyLinkBtn');
     if (copyLinkBtn) copyLinkBtn.addEventListener('click', copyLink);
 
-    // Load
     loadInvoice();
 });
 
-// Global error handler
 window.addEventListener('error', function(e) {
     console.error('Global error:', e.error);
 });
-
-window.InvoiceViewApp = {
-    getSupabaseClient: getSupabaseClient,
-    loadInvoice: loadInvoice
-};
 
 })();
 </script>
