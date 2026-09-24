@@ -4,14 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="theme-color" content="#1d5b8e">
-<meta name="description" content="إلكترونك - لصيانة الأجهزة الإلكترونية | نظام إدارة متكامل">
-<meta name="format-detection" content="telephone=no">
-<meta name="color-scheme" content="light dark">
+
+<!-- ═══════════ SEO الأساسي ═══════════ -->
+<title>إلكترونك محمد طة | صيانة الأجهزة الإلكترونية</title>
+<meta name="description" content="إلكترونك محمد طة - خبراء صيانة الأجهزة الإلكترونية. صيانة موبايلات، لابتوبات، شاشات، وأجهزة منزلية بأعلى جودة وأفضل الأسعار. اتصل بنا الآن.">
+<meta name="keywords" content="إلكترونك, محمد طة, إلكترونك محمد طة, صيانة أجهزة إلكترونية, صيانة موبايلات, صيانة لابتوب, صيانة شاشات">
+<meta name="author" content="إلكترونك محمد طة">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ectronic.vercel.app/">
+
+<!-- ═══════════ Open Graph (فيسبوك/واتساب) ═══════════ -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="إلكترونك محمد طة | صيانة الأجهزة الإلكترونية">
+<meta property="og:description" content="خبراء صيانة الأجهزة الإلكترونية بجودة عالية وأسعار منافسة">
+<meta property="og:image" content="https://ectronic.vercel.app/logo.png">
+<meta property="og:url" content="https://ectronic.vercel.app/">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:site_name" content="إلكترونك محمد طة">
+
+<!-- ═══════════ Twitter Card ═══════════ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="إلكترونك محمد طة">
+<meta name="twitter:description" content="خبراء صيانة الأجهزة الإلكترونية">
+<meta name="twitter:image" content="https://ectronic.vercel.app/logo.png">
+
+<!-- ═══════════ PWA ═══════════ -->
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="application-name" content="إلكترونك">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="إلكترونك">
-<title>تسجيل الدخول | إلكترونك - لصيانة الأجهزة الإلكترونية</title>
+<meta name="application-name" content="إلكترونك">
+<meta name="format-detection" content="telephone=no">
 
 <link rel="icon" type="image/png" sizes="32x32" href="logo.png">
 <link rel="icon" type="image/png" sizes="16x16" href="logo.png">
@@ -21,11 +44,52 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
 
-<!-- Supabase UMD محمّل مسبقاً -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+<!-- ═══════════ Schema Markup (النشاط المحلي) ═══════════ -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "إلكترونك محمد طة",
+    "alternateName": "Electronic Mohamed Taha",
+    "description": "صيانة الأجهزة الإلكترونية - موبايلات، لابتوبات، شاشات، وأجهزة منزلية",
+    "image": "https://ectronic.vercel.app/logo.png",
+    "logo": "https://ectronic.vercel.app/logo.png",
+    "url": "https://ectronic.vercel.app",
+    "telephone": "+201234567890",
+    "priceRange": "$$",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "شارع الجمهورية",
+        "addressLocality": "القاهرة",
+        "addressRegion": "القاهرة",
+        "addressCountry": "EG"
+    },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "30.0444",
+        "longitude": "31.2357"
+    },
+    "openingHoursSpecification": [
+        {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
+            "opens": "09:00",
+            "closes": "22:00"
+        }
+    ],
+    "sameAs": [
+        "https://www.facebook.com/",
+        "https://www.instagram.com/"
+    ],
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "150"
+    }
+}
+</script>
 
 <style>
 :root {
@@ -34,14 +98,8 @@
     --tech-blue-light: #2d7ab8;
     --tech-black: #0a1f33;
     --tech-black-soft: #142f4a;
-    --gray-light: #f6f8fb;
-    --gray-mid: #e1e8f0;
-    --gray-dark: #94a3b8;
     --success: #10b981;
-    --danger: #ef4444;
     --warning: #f59e0b;
-    --info: #3b82f6;
-    
     --bg-primary: #f6f8fb;
     --bg-secondary: #ffffff;
     --bg-card: #ffffff;
@@ -53,21 +111,14 @@
     --shadow-md: 0 4px 12px rgba(10, 31, 51, 0.08);
     --shadow-lg: 0 12px 32px rgba(10, 31, 51, 0.12);
     --shadow-xl: 0 24px 48px rgba(10, 31, 51, 0.16);
-    
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 16px;
     --radius-xl: 24px;
     --radius-full: 9999px;
-    
-    --transition-fast: 0.15s ease;
     --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    
     --safe-top: env(safe-area-inset-top, 0);
     --safe-bottom: env(safe-area-inset-bottom, 0);
-    --safe-left: env(safe-area-inset-left, 0);
-    --safe-right: env(safe-area-inset-right, 0);
 }
 
 [data-theme="dark"] {
@@ -78,10 +129,6 @@
     --text-secondary: #cbd5e1;
     --text-muted: #64748b;
     --border-color: #1e3a5f;
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
-    --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.6);
 }
 
 *, *::before, *::after {
@@ -91,84 +138,133 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-html {
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
-}
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
     font-family: 'Cairo', system-ui, -apple-system, sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     min-height: 100vh;
-    min-height: 100dvh;
-    line-height: 1.6;
+    line-height: 1.7;
     overflow-x: hidden;
     transition: background var(--transition), color var(--transition);
-    padding-top: var(--safe-top);
-    padding-bottom: var(--safe-bottom);
-    padding-left: var(--safe-left);
-    padding-right: var(--safe-right);
 }
 
-button, input, select, textarea {
-    font-family: inherit;
-    font-size: inherit;
-    color: inherit;
-}
+button, input { font-family: inherit; font-size: inherit; color: inherit; }
+button { cursor: pointer; border: none; background: none; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
 
-button {
-    cursor: pointer;
-    border: none;
-    background: none;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
-.reading-progress {
-    position: fixed;
+/* ═══════════ Header ═══════════ */
+.header {
+    position: sticky;
     top: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--tech-blue), var(--tech-blue-light), var(--success));
-    width: 0%;
-    z-index: 9999;
-    transition: width 0.1s linear;
-    box-shadow: 0 0 10px rgba(29, 91, 142, 0.6);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000;
+    transition: all var(--transition);
+    padding-top: var(--safe-top);
 }
 
-/* Login Wrapper */
-.login-wrapper {
-    min-height: 100vh;
-    min-height: 100dvh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    position: relative;
-    overflow: hidden;
+[data-theme="dark"] .header {
+    background: rgba(15, 32, 53, 0.95);
 }
 
-.login-brand {
-    background: linear-gradient(135deg, var(--tech-black) 0%, var(--tech-blue-dark) 50%, var(--tech-blue) 100%);
+.header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    padding: 3rem;
-    position: relative;
-    overflow: hidden;
-    color: white;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
-.login-brand::before {
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    padding: 6px;
+}
+
+.header-brand-text h1 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.header-brand-text span {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-login {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all var(--transition);
+    box-shadow: 0 4px 12px rgba(29, 91, 142, 0.25);
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(29, 91, 142, 0.35);
+}
+
+.theme-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: all var(--transition);
+}
+
+.theme-btn:hover {
+    color: var(--tech-blue);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ═══════════ Hero ═══════════ */
+.hero {
+    padding: 5rem 1.5rem 4rem;
+    background: linear-gradient(135deg, var(--tech-black) 0%, var(--tech-blue-dark) 60%, var(--tech-blue) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.hero::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -178,7 +274,7 @@ img {
     pointer-events: none;
 }
 
-.login-brand::after {
+.hero::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -189,26 +285,25 @@ img {
     pointer-events: none;
 }
 
-.brand-content {
+.hero-content {
     position: relative;
     z-index: 2;
-    text-align: center;
-    max-width: 480px;
+    max-width: 800px;
+    margin: 0 auto;
     animation: fadeInUp 0.8s ease;
 }
 
-.brand-logo {
-    width: 120px;
-    height: 120px;
+.hero-logo {
+    width: 110px;
+    height: 110px;
     object-fit: contain;
     margin: 0 auto 1.5rem;
-    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
-    animation: float 4s ease-in-out infinite;
     background: rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-xl);
     padding: 12px;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    animation: float 4s ease-in-out infinite;
 }
 
 @keyframes float {
@@ -216,894 +311,351 @@ img {
     50% { transform: translateY(-10px); }
 }
 
-.brand-title {
-    font-size: 2.25rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #ffffff, #cbd5e1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.brand-subtitle {
-    font-size: 1.1rem;
-    font-weight: 400;
-    opacity: 0.85;
-    margin-bottom: 2.5rem;
-}
-
-.brand-features {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    text-align: right;
-}
-
-.brand-feature {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-md);
-    backdrop-filter: blur(10px);
-    transition: all var(--transition);
-    animation: fadeInRight 0.6s ease backwards;
-}
-
-.brand-feature:nth-child(1) { animation-delay: 0.2s; }
-.brand-feature:nth-child(2) { animation-delay: 0.3s; }
-.brand-feature:nth-child(3) { animation-delay: 0.4s; }
-.brand-feature:nth-child(4) { animation-delay: 0.5s; }
-
-.brand-feature:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(-6px);
-}
-
-.brand-feature i {
-    font-size: 1.5rem;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(45, 122, 184, 0.3);
-    border-radius: var(--radius-md);
-    color: #93c5fd;
-    flex-shrink: 0;
-}
-
-.brand-feature-text strong {
-    display: block;
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin-bottom: 0.15rem;
-}
-
-.brand-feature-text span {
-    font-size: 0.8rem;
-    opacity: 0.7;
-}
-
-.login-form-side {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 3rem 2rem;
-    background: var(--bg-primary);
-    position: relative;
-}
-
-.login-form-container {
-    width: 100%;
-    max-width: 440px;
-    animation: fadeInUp 0.6s ease 0.1s backwards;
-}
-
-.form-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.form-logo-mobile {
-    display: none;
-    width: 72px;
-    height: 72px;
-    object-fit: contain;
-    margin: 0 auto 1rem;
-    padding: 8px;
-    background: var(--bg-card);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-color);
-}
-
-.form-title {
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-}
-
-.form-subtitle {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-}
-
-.login-form {
-    background: var(--bg-card);
-    padding: 2rem;
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--border-color);
-    transition: all var(--transition);
-}
-
-.form-group {
-    margin-bottom: 1.25rem;
-    position: relative;
-}
-
-.form-label {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-}
-
-.form-label i {
-    color: var(--tech-blue);
-    margin-left: 0.4rem;
-    font-size: 0.85rem;
-}
-
-.input-wrapper {
-    position: relative;
-}
-
-.form-input {
-    width: 100%;
-    padding: 0.85rem 1rem;
-    padding-left: 3rem;
-    background: var(--bg-primary);
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius-md);
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    transition: all var(--transition);
-    outline: none;
-}
-
-[dir="rtl"] .form-input {
-    padding-left: 3rem;
-    padding-right: 1rem;
-}
-
-.form-input::placeholder {
-    color: var(--text-muted);
-    font-weight: 400;
-}
-
-.form-input:focus {
-    border-color: var(--tech-blue);
-    background: var(--bg-card);
-    box-shadow: 0 0 0 4px rgba(29, 91, 142, 0.12);
-}
-
-.form-input.error {
-    border-color: var(--danger);
-    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
-    animation: shake 0.4s ease;
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    75% { transform: translateX(6px); }
-}
-
-.input-icon {
-    position: absolute;
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-muted);
-    font-size: 1rem;
-    pointer-events: none;
-    transition: color var(--transition);
-}
-
-[dir="rtl"] .input-icon {
-    left: 1rem;
-    right: auto;
-}
-
-.form-input:focus ~ .input-icon {
-    color: var(--tech-blue);
-}
-
-.toggle-password {
-    position: absolute;
-    left: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-muted);
-    font-size: 1rem;
-    padding: 0.5rem;
-    border-radius: var(--radius-sm);
-    transition: all var(--transition);
-    z-index: 2;
-}
-
-[dir="rtl"] .toggle-password {
-    left: 0.75rem;
-    right: auto;
-}
-
-.toggle-password:hover {
-    color: var(--tech-blue);
-    background: rgba(29, 91, 142, 0.1);
-}
-
-.form-options {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-}
-
-.checkbox-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    user-select: none;
-}
-
-.checkbox-wrapper input[type="checkbox"] {
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    transition: all var(--transition);
-    background: var(--bg-primary);
-    flex-shrink: 0;
-}
-
-.checkbox-wrapper input[type="checkbox"]:checked {
-    background: var(--tech-blue);
-    border-color: var(--tech-blue);
-}
-
-.checkbox-wrapper input[type="checkbox"]:checked::after {
-    content: '\f00c';
-    font-family: 'Font Awesome 6 Free';
+.hero h2 {
+    font-size: 2.5rem;
     font-weight: 900;
-    color: white;
-    font-size: 0.7rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.5px;
+    line-height: 1.3;
 }
 
-.checkbox-wrapper label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    cursor: pointer;
+.hero-subtitle {
+    font-size: 1.15rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    font-weight: 400;
 }
 
-.btn-submit {
-    width: 100%;
-    padding: 0.95rem 1.5rem;
-    background: linear-gradient(135deg, var(--tech-blue) 0%, var(--tech-blue-dark) 100%);
-    color: white;
-    font-size: 1.05rem;
-    font-weight: 700;
-    border-radius: var(--radius-md);
+.hero-actions {
     display: flex;
-    align-items: center;
+    gap: 1rem;
     justify-content: center;
-    gap: 0.6rem;
-    transition: all var(--transition);
-    box-shadow: 0 4px 16px rgba(29, 91, 142, 0.3);
-    position: relative;
-    overflow: hidden;
+    flex-wrap: wrap;
 }
 
-.btn-submit::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.6s ease;
-}
-
-.btn-submit:hover:not(:disabled)::before {
-    left: 100%;
-}
-
-.btn-submit:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(29, 91, 142, 0.4);
-}
-
-.btn-submit:active:not(:disabled) {
-    transform: translateY(0);
-}
-
-.btn-submit:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
-
-.btn-submit.loading {
-    pointer-events: none;
-}
-
-.btn-submit .spinner {
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: white;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    display: none;
-}
-
-.btn-submit.loading .spinner {
-    display: block;
-}
-
-.btn-submit.loading .btn-text,
-.btn-submit.loading > i {
-    display: none;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-.error-message {
-    display: none;
-    padding: 0.85rem 1rem;
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    border-radius: var(--radius-md);
-    color: var(--danger);
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    align-items: center;
-    gap: 0.6rem;
-    animation: fadeInUp 0.3s ease;
-}
-
-.error-message.show {
-    display: flex;
-}
-
-.error-message i {
-    font-size: 1.1rem;
-}
-
-.login-footer {
-    text-align: center;
-    margin-top: 1.5rem;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-.login-footer a {
-    color: var(--tech-blue);
-    font-weight: 600;
-    transition: color var(--transition);
-}
-
-.login-footer a:hover {
-    color: var(--tech-blue-light);
-    text-decoration: underline;
-}
-
-.top-controls {
-    position: fixed;
-    top: calc(1rem + var(--safe-top));
-    left: calc(1rem + var(--safe-left));
-    display: flex;
-    gap: 0.5rem;
-    z-index: 100;
-}
-
-.control-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-md);
-    background: var(--bg-card);
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-color);
-    transition: all var(--transition);
-    position: relative;
-}
-
-.control-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-    color: var(--tech-blue);
-}
-
-.online-indicator {
-    position: fixed;
-    top: calc(1rem + var(--safe-top));
-    right: calc(1rem + var(--safe-right));
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-full);
-    font-size: 0.8rem;
-    font-weight: 600;
-    box-shadow: var(--shadow-md);
-    z-index: 100;
-    transition: all var(--transition);
-}
-
-.online-indicator .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--success);
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-    animation: pulse 2s infinite;
-}
-
-.online-indicator.offline .dot {
-    background: var(--danger);
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
-}
-
-.online-indicator.offline .status-text {
-    color: var(--danger);
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-.toast-container {
-    position: fixed;
-    top: calc(1rem + var(--safe-top));
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10000;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    pointer-events: none;
-    max-width: 90vw;
-    width: 400px;
-}
-
-.toast {
-    background: var(--bg-card);
-    color: var(--text-primary);
-    padding: 1rem 1.25rem;
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-xl);
-    border: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.9rem;
-    font-weight: 500;
-    pointer-events: auto;
-    animation: toastIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    border-right: 4px solid var(--info);
-}
-
-.toast.success { border-right-color: var(--success); }
-.toast.error { border-right-color: var(--danger); }
-.toast.warning { border-right-color: var(--warning); }
-.toast.info { border-right-color: var(--info); }
-
-.toast i {
-    font-size: 1.2rem;
-    flex-shrink: 0;
-}
-
-.toast.success i { color: var(--success); }
-.toast.error i { color: var(--danger); }
-.toast.warning i { color: var(--warning); }
-.toast.info i { color: var(--info); }
-
-.toast.hide {
-    animation: toastOut 0.3s ease forwards;
-}
-
-@keyframes toastIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-@keyframes toastOut {
-    to {
-        opacity: 0;
-        transform: translateY(-20px) scale(0.95);
-    }
-}
-
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(10, 31, 51, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    padding: 1rem;
-    animation: fadeIn 0.3s ease;
-}
-
-.modal-overlay.show {
-    display: flex;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.modal {
-    background: var(--bg-card);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
-    max-width: 480px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    animation: modalIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    border: 1px solid var(--border-color);
-}
-
-@keyframes modalIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9) translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
-}
-
-.modal-header {
-    padding: 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.modal-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-}
-
-.modal-title i {
-    color: var(--tech-blue);
-}
-
-.modal-close {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-muted);
-    transition: all var(--transition);
-}
-
-.modal-close:hover {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--danger);
-}
-
-.modal-body {
-    padding: 1.5rem;
-}
-
-.modal-footer {
-    padding: 1rem 1.5rem;
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    gap: 0.75rem;
-    justify-content: flex-end;
-}
-
-.btn {
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius-md);
-    font-size: 0.95rem;
-    font-weight: 600;
-    transition: all var(--transition);
+.btn-hero {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1.75rem;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all var(--transition);
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+.btn-hero.primary {
+    background: white;
+    color: var(--tech-blue);
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
+}
+
+.btn-hero.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(255, 255, 255, 0.35);
+}
+
+.btn-hero.secondary {
+    background: rgba(255, 255, 255, 0.1);
     color: white;
-    box-shadow: 0 4px 12px rgba(29, 91, 142, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
 }
 
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(29, 91, 142, 0.4);
+.btn-hero.secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
 }
 
-.btn-secondary {
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-}
-
-.btn-secondary:hover {
-    background: var(--border-color);
-}
-
-.install-banner {
-    position: fixed;
-    bottom: calc(1rem + var(--safe-bottom));
-    left: 1rem;
-    right: 1rem;
-    background: var(--bg-card);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-xl);
-    padding: 1rem 1.25rem;
-    display: none;
-    align-items: center;
-    gap: 1rem;
-    z-index: 9998;
-    border: 1px solid var(--border-color);
-    animation: slideUp 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    max-width: 500px;
+/* ═══════════ Sections ═══════════ */
+.section {
+    padding: 4rem 1.5rem;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-.install-banner.show {
-    display: flex;
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
 }
 
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(100px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
 }
 
-.install-banner-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: var(--radius-md);
-    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+.section-subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.service-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: all var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--tech-blue);
+}
+
+.service-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    border-radius: var(--radius-lg);
     color: white;
+    font-size: 1.75rem;
+    box-shadow: 0 8px 20px rgba(29, 91, 142, 0.25);
+}
+
+.service-card h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--text-primary);
+}
+
+.service-card p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ═══════════ Features ═══════════ */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition);
+}
+
+.feature-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.feature-item i {
     font-size: 1.5rem;
+    color: var(--tech-blue);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(29, 91, 142, 0.1);
+    border-radius: var(--radius-md);
     flex-shrink: 0;
-    overflow: hidden;
 }
 
-.install-banner-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.feature-item h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
 }
 
-.install-banner-text {
-    flex: 1;
-    min-width: 0;
+.feature-item p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
 }
 
-.install-banner-text strong {
+/* ═══════════ Contact ═══════════ */
+.contact {
+    background: var(--bg-card);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.contact-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition);
+}
+
+.contact-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.contact-card i {
+    font-size: 1.5rem;
+    color: var(--tech-blue);
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+    color: white;
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+}
+
+.contact-card strong {
     display: block;
     font-size: 0.95rem;
     font-weight: 700;
     margin-bottom: 0.15rem;
 }
 
-.install-banner-text span {
-    font-size: 0.8rem;
+.contact-card span {
+    font-size: 0.85rem;
     color: var(--text-secondary);
 }
 
-.install-banner-actions {
-    display: flex;
-    gap: 0.5rem;
-    flex-shrink: 0;
-}
-
-.install-btn {
-    padding: 0.6rem 1rem;
-    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
+/* ═══════════ CTA ═══════════ */
+.cta {
+    padding: 4rem 1.5rem;
+    text-align: center;
+    background: linear-gradient(135deg, var(--tech-blue) 0%, var(--tech-blue-dark) 100%);
     color: white;
-    border-radius: var(--radius-md);
-    font-size: 0.85rem;
-    font-weight: 700;
-    transition: all var(--transition);
-    white-space: nowrap;
 }
 
-.install-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(29, 91, 142, 0.4);
+.cta h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
 }
 
-.install-dismiss {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-muted);
-    transition: all var(--transition);
+.cta p {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
 }
 
-.install-dismiss:hover {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--danger);
+/* ═══════════ Footer ═══════════ */
+.footer {
+    background: var(--tech-black);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    padding-bottom: calc(2rem + var(--safe-bottom));
 }
 
-.scroll-top {
-    position: fixed;
-    bottom: calc(1rem + var(--safe-bottom));
-    left: calc(1rem + var(--safe-left));
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark));
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-brand {
     font-size: 1.1rem;
-    box-shadow: var(--shadow-lg);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
-    transition: all var(--transition);
-    z-index: 9997;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 0.5rem;
 }
 
-.scroll-top.show {
+.footer-text {
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+.footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 1rem 0;
+}
+
+.footer-social a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-md);
+    color: white;
+    transition: all var(--transition);
+}
+
+.footer-social a:hover {
+    background: var(--tech-blue);
+    transform: translateY(-3px);
+}
+
+/* ═══════════ Animations ═══════════ */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
     opacity: 1;
-    visibility: visible;
     transform: translateY(0);
 }
 
-.scroll-top:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(29, 91, 142, 0.5);
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInRight {
-    from {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@media (max-width: 968px) {
-    .login-wrapper {
-        grid-template-columns: 1fr;
-    }
-    
-    .login-brand {
-        display: none;
-    }
-    
-    .login-form-side {
-        padding: 2rem 1.25rem;
-    }
-    
-    .form-logo-mobile {
-        display: block;
-    }
-    
-    .form-title {
-        font-size: 1.5rem;
-    }
+/* ═══════════ Responsive ═══════════ */
+@media (max-width: 768px) {
+    .header-brand-text h1 { font-size: 1rem; }
+    .header-brand-text span { font-size: 0.7rem; }
+    .header-logo { width: 40px; height: 40px; }
+    .hero { padding: 3.5rem 1rem 3rem; }
+    .hero h2 { font-size: 1.75rem; }
+    .hero-subtitle { font-size: 1rem; }
+    .section { padding: 3rem 1rem; }
+    .section-title { font-size: 1.5rem; }
+    .btn-login { padding: 0.5rem 0.9rem; font-size: 0.85rem; }
+    .btn-hero { padding: 0.8rem 1.25rem; font-size: 0.9rem; }
 }
 
 @media (max-width: 480px) {
-    .login-form {
-        padding: 1.5rem;
-    }
-    
-    .form-title {
-        font-size: 1.35rem;
-    }
-    
-    .top-controls {
-        top: calc(0.75rem + var(--safe-top));
-        left: calc(0.75rem + var(--safe-left));
-    }
-    
-    .online-indicator {
-        top: calc(0.75rem + var(--safe-top));
-        right: calc(0.75rem + var(--safe-right));
-        padding: 0.4rem 0.75rem;
-        font-size: 0.75rem;
-    }
-    
-    .control-btn {
-        width: 40px;
-        height: 40px;
-    }
+    .header-inner { padding: 0.75rem 1rem; }
+    .hero h2 { font-size: 1.5rem; }
+    .hero-logo { width: 80px; height: 80px; }
+    .cta h2 { font-size: 1.35rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
 }
@@ -1111,276 +663,214 @@ img {
 </head>
 <body>
 
-<div class="reading-progress" id="readingProgress"></div>
-
-<div class="top-controls">
-    <button class="control-btn" id="themeToggle" title="تبديل الوضع" aria-label="تبديل الوضع">
-        <i class="fas fa-moon"></i>
-    </button>
-</div>
-
-<div class="online-indicator" id="onlineIndicator">
-    <span class="dot"></span>
-    <span class="status-text" id="statusText">متصل</span>
-</div>
-
-<div class="toast-container" id="toastContainer"></div>
-
-<div class="login-wrapper">
-    
-    <div class="login-brand">
-        <div class="brand-content">
-            <img src="logo.png" alt="إلكترونك" class="brand-logo" onerror="this.style.display='none'">
-            <h1 class="brand-title">إلكترونك</h1>
-            <p class="brand-subtitle">لصيانة الأجهزة الإلكترونية</p>
-            
-            <div class="brand-features">
-                <div class="brand-feature">
-                    <i class="fas fa-toolbox"></i>
-                    <div class="brand-feature-text">
-                        <strong>إدارة صيانة متكاملة</strong>
-                        <span>تتبع كل جهاز من الاستلام للتسليم</span>
-                    </div>
-                </div>
-                <div class="brand-feature">
-                    <i class="fas fa-boxes-stacked"></i>
-                    <div class="brand-feature-text">
-                        <strong>مخزون ذكي</strong>
-                        <span>تنبيهات تلقائية واقتراحات شراء</span>
-                    </div>
-                </div>
-                <div class="brand-feature">
-                    <i class="fas fa-chart-line"></i>
-                    <div class="brand-feature-text">
-                        <strong>تقارير احترافية</strong>
-                        <span>أرباح، مبيعات، وتقييمات</span>
-                    </div>
-                </div>
-                <div class="brand-feature">
-                    <i class="fas fa-wifi"></i>
-                    <div class="brand-feature-text">
-                        <strong>يعمل بدون إنترنت</strong>
-                        <span>Offline First مع مزامنة تلقائية</span>
-                    </div>
-                </div>
+<!-- ═══════════ Header ═══════════ -->
+<header class="header">
+    <div class="header-inner">
+        <div class="header-brand">
+            <img src="logo.png" alt="إلكترونك محمد طة - شعار" class="header-logo" onerror="this.style.display='none'">
+            <div class="header-brand-text">
+                <h1>إلكترونك محمد طة</h1>
+                <span>لصيانة الأجهزة الإلكترونية</span>
             </div>
         </div>
-    </div>
-    
-    <div class="login-form-side">
-        <div class="login-form-container">
-            
-            <div class="form-header">
-                <img src="logo.png" alt="إلكترونك" class="form-logo-mobile" onerror="this.style.display='none'">
-                <h2 class="form-title">أهلاً بك 👋</h2>
-                <p class="form-subtitle">سجّل دخولك للمتابعة إلى النظام</p>
-            </div>
-            
-            <form class="login-form" id="loginForm" autocomplete="on">
-                
-                <div class="error-message" id="errorMessage">
-                    <i class="fas fa-circle-exclamation"></i>
-                    <span id="errorText">بيانات الدخول غير صحيحة</span>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="username">
-                        <i class="fas fa-user"></i>
-                        اسم المستخدم
-                    </label>
-                    <div class="input-wrapper">
-                        <input 
-                            type="text" 
-                            id="username" 
-                            name="username" 
-                            class="form-input" 
-                            placeholder="أدخل اسم المستخدم"
-                            autocomplete="username"
-                            required
-                            autofocus
-                        >
-                        <i class="fas fa-user input-icon"></i>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="password">
-                        <i class="fas fa-lock"></i>
-                        كلمة السر
-                    </label>
-                    <div class="input-wrapper">
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            class="form-input" 
-                            placeholder="أدخل كلمة السر"
-                            autocomplete="current-password"
-                            required
-                        >
-                        <i class="fas fa-lock input-icon"></i>
-                        <button type="button" class="toggle-password" id="togglePassword" aria-label="إظهار كلمة السر">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="form-options">
-                    <label class="checkbox-wrapper">
-                        <input type="checkbox" id="rememberMe" checked>
-                        <label for="rememberMe">تذكرني</label>
-                    </label>
-                </div>
-                
-                <button type="submit" class="btn-submit" id="submitBtn">
-                    <span class="spinner"></span>
-                    <i class="fas fa-right-to-bracket"></i>
-                    <span class="btn-text">تسجيل الدخول</span>
-                </button>
-                
-            </form>
-            
-            <div class="login-footer">
-                <p>© <span id="year"></span> إلكترونك - جميع الحقوق محفوظة</p>
-            </div>
-            
-        </div>
-    </div>
-    
-</div>
-
-<div class="modal-overlay" id="changePasswordModal">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 class="modal-title">
-                <i class="fas fa-key"></i>
-                تغيير كلمة السر
-            </h3>
-        </div>
-        <div class="modal-body">
-            <p style="color: var(--text-secondary); margin-bottom: 1.25rem; font-size: 0.9rem;">
-                <i class="fas fa-info-circle" style="color: var(--info);"></i>
-                لأمان حسابك، يجب تغيير كلمة السر عند أول تسجيل دخول.
-            </p>
-            
-            <div class="form-group">
-                <label class="form-label">كلمة السر الجديدة</label>
-                <div class="input-wrapper">
-                    <input type="password" id="newPassword" class="form-input" placeholder="6 أحرف على الأقل" minlength="6">
-                    <i class="fas fa-lock input-icon"></i>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="form-label">تأكيد كلمة السر</label>
-                <div class="input-wrapper">
-                    <input type="password" id="confirmPassword" class="form-input" placeholder="أعد كتابة كلمة السر" minlength="6">
-                    <i class="fas fa-lock input-icon"></i>
-                </div>
-            </div>
-            
-            <div class="error-message" id="changePassError">
-                <i class="fas fa-circle-exclamation"></i>
-                <span id="changePassErrorText"></span>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" id="savePasswordBtn">
-                <i class="fas fa-check"></i>
-                حفظ ومتابعة
+        <div class="header-actions">
+            <button class="theme-btn" id="themeToggle" aria-label="تبديل الوضع">
+                <i class="fas fa-moon"></i>
             </button>
+            <a href="login.html" class="btn-login">
+                <i class="fas fa-right-to-bracket"></i>
+                <span>تسجيل الدخول</span>
+            </a>
         </div>
     </div>
-</div>
+</header>
 
-<div class="install-banner" id="installBanner">
-    <div class="install-banner-icon">
-        <img src="logo.png" alt="إلكترونك" onerror="this.parentElement.innerHTML='<i class=\'fas fa-bolt\'></i>'">
+<!-- ═══════════ Hero ═══════════ -->
+<section class="hero">
+    <div class="hero-content">
+        <img src="logo.png" alt="إلكترونك محمد طة" class="hero-logo" onerror="this.style.display='none'">
+        <h2>إلكترونك محمد طة</h2>
+        <p class="hero-subtitle">خبراء صيانة الأجهزة الإلكترونية بجودة عالية وأسعار منافسة</p>
+        <div class="hero-actions">
+            <a href="login.html" class="btn-hero primary">
+                <i class="fas fa-right-to-bracket"></i>
+                <span>تسجيل الدخول للنظام</span>
+            </a>
+            <a href="#services" class="btn-hero secondary">
+                <i class="fas fa-tools"></i>
+                <span>خدماتنا</span>
+            </a>
+        </div>
     </div>
-    <div class="install-banner-text">
-        <strong>ثبّت التطبيق</strong>
-        <span>للوصول السريع والعمل بدون إنترنت</span>
-    </div>
-    <div class="install-banner-actions">
-        <button class="install-btn" id="installBannerBtn">تثبيت</button>
-        <button class="install-dismiss" id="installDismissBtn" aria-label="إغلاق">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
-</div>
+</section>
 
-<button class="scroll-top" id="scrollTop" aria-label="العودة للأعلى">
-    <i class="fas fa-arrow-up"></i>
-</button>
+<!-- ═══════════ Services ═══════════ -->
+<section class="section" id="services">
+    <div class="section-header fade-in">
+        <h2 class="section-title">خدماتنا</h2>
+        <p class="section-subtitle">نقدم خدمات صيانة شاملة لجميع الأجهزة الإلكترونية بأحدث المعدات وأمهر الفنيين</p>
+    </div>
+    
+    <div class="services-grid">
+        <article class="service-card fade-in">
+            <div class="service-icon"><i class="fas fa-mobile-screen-button"></i></div>
+            <h3>صيانة الموبايلات</h3>
+            <p>صيانة جميع أنواع الهواتف الذكية - شاشات، بطاريات، شواحن، ولوحات أم</p>
+        </article>
+        
+        <article class="service-card fade-in">
+            <div class="service-icon"><i class="fas fa-laptop"></i></div>
+            <h3>صيانة اللابتوبات</h3>
+            <p>إصلاح اللابتوبات بجميع ماركاتها - هارد، رام، شاشة، ولوحة مفاتيح</p>
+        </article>
+        
+        <article class="service-card fade-in">
+            <div class="service-icon"><i class="fas fa-tv"></i></div>
+            <h3>صيانة الشاشات</h3>
+            <p>صيانة شاشات التلفزيون والكمبيوتر بجميع الأحجام والماركات</p>
+        </article>
+        
+        <article class="service-card fade-in">
+            <div class="service-icon"><i class="fas fa-plug"></i></div>
+            <h3>الأجهزة المنزلية</h3>
+            <p>صيانة الأجهزة الكهربائية المنزلية - غسالات، ثلاجات، ومكيفات</p>
+        </article>
+        
+        <article class="service-card fade-in">
+            <div class="service-icon"><i class="fas fa-microchip"></i></div>
+            <h3>قطع غيار أصلية</h3>
+            <p>نوفر قطع غيار أصلية ومعتمدة لجميع الأجهزة الإلكترونية</p>
+        </article>
+        
+        <article class="service-card fade-in">
+            <div class="service-icon"><i class="fas fa-shield-halved"></i></div>
+            <h3>ضمان على الخدمة</h3>
+            <p>نقدم ضمان على جميع أعمال الصيانة وقطع الغيار المستبدلة</p>
+        </article>
+    </div>
+</section>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     📦 db-config.js — ملف مشترك لقاعدة البيانات (يجب أن يكون قبل السكريبت الرئيسي)
-     ═══════════════════════════════════════════════════════════════ -->
-<script src="db-config.js"></script>
+<!-- ═══════════ Features ═══════════ -->
+<section class="section" style="background: var(--bg-secondary); border-radius: var(--radius-xl);">
+    <div class="section-header fade-in">
+        <h2 class="section-title">لماذا إلكترونك محمد طة؟</h2>
+        <p class="section-subtitle">مميزات تجعلنا الخيار الأول لعملائنا</p>
+    </div>
+    
+    <div class="features-grid">
+        <div class="feature-item fade-in">
+            <i class="fas fa-user-gear"></i>
+            <div>
+                <h4>فنيون متخصصون</h4>
+                <p>فريق من أمهر الفنيين ذوي الخبرة الطويلة</p>
+            </div>
+        </div>
+        <div class="feature-item fade-in">
+            <i class="fas fa-clock"></i>
+            <div>
+                <h4>سرعة في التنفيذ</h4>
+                <p>ننجز أعمال الصيانة في أسرع وقت ممكن</p>
+            </div>
+        </div>
+        <div class="feature-item fade-in">
+            <i class="fas fa-hand-holding-dollar"></i>
+            <div>
+                <h4>أسعار منافسة</h4>
+                <p>أفضل الأسعار مع أعلى جودة خدمة</p>
+            </div>
+        </div>
+        <div class="feature-item fade-in">
+            <i class="fas fa-award"></i>
+            <div>
+                <h4>خبرة طويلة</h4>
+                <p>سنوات من الخبرة في مجال صيانة الإلكترونيات</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ Contact ═══════════ -->
+<section class="section contact" id="contact">
+    <div class="section-header fade-in">
+        <h2 class="section-title">تواصل معنا</h2>
+        <p class="section-subtitle">نحن هنا لخدمتك، تواصل معنا في أي وقت</p>
+    </div>
+    
+    <div class="contact-grid">
+        <a href="tel:+201234567890" class="contact-card fade-in">
+            <i class="fas fa-phone"></i>
+            <div>
+                <strong>اتصل بنا</strong>
+                <span>+20 123 456 7890</span>
+            </div>
+        </a>
+        
+        <a href="https://wa.me/201234567890" class="contact-card fade-in" target="_blank" rel="noopener">
+            <i class="fab fa-whatsapp"></i>
+            <div>
+                <strong>واتساب</strong>
+                <span>تواصل عبر واتساب</span>
+            </div>
+        </a>
+        
+        <div class="contact-card fade-in">
+            <i class="fas fa-location-dot"></i>
+            <div>
+                <strong>العنوان</strong>
+                <span>شارع الجمهورية - القاهرة</span>
+            </div>
+        </div>
+        
+        <div class="contact-card fade-in">
+            <i class="fas fa-clock"></i>
+            <div>
+                <strong>ساعات العمل</strong>
+                <span>السبت - الخميس: 9ص - 10م</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ CTA ═══════════ -->
+<section class="cta">
+    <h2>هل لديك جهاز يحتاج للصيانة؟</h2>
+    <p>تواصل معنا الآن واحصل على خدمة صيانة احترافية بأفضل الأسعار</p>
+    <a href="login.html" class="btn-hero primary">
+        <i class="fas fa-right-to-bracket"></i>
+        <span>تسجيل الدخول للنظام</span>
+    </a>
+</section>
+
+<!-- ═══════════ Footer ═══════════ -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">إلكترونك محمد طة</div>
+        <div class="footer-social">
+            <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="فيسبوك">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="انستجرام">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://wa.me/201234567890" target="_blank" rel="noopener" aria-label="واتساب">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>
+        <p class="footer-text">© <span id="year"></span> إلكترونك محمد طة - جميع الحقوق محفوظة</p>
+    </div>
+</footer>
 
 <script>
-// ═══════════════════════════════════════════════════════════════
-// 🔑 Supabase Config
-// ═══════════════════════════════════════════════════════════════
-var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
-var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
-
-var supabaseClient = null;
-
-function getSupabase() {
-    if (supabaseClient) return supabaseClient;
-    if (typeof window.supabase === 'undefined' || !window.supabase.createClient) {
-        console.warn('Supabase library not loaded');
-        return null;
-    }
-    try {
-        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-            auth: { persistSession: false, autoRefreshToken: false }
-        });
-        return supabaseClient;
-    } catch (err) {
-        console.warn('فشل تهيئة Supabase:', err);
-        return null;
-    }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// 🧰 Helpers
-// ═══════════════════════════════════════════════════════════════
-function escapeHtml(str) {
-    if (str == null) return '';
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-}
-
-function isValidUUID(uuid) {
-    if (!uuid) return false;
-    return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uuid);
-}
-
-function sanitizePhone(phone) {
-    if (!phone) return '';
-    return String(phone).replace(/[^\d+]/g, '');
-}
-
-// ═══════════════════════════════════════════════════════════════
-// 🎨 Theme
-// ═══════════════════════════════════════════════════════════════
+// ═══════════ Theme ═══════════
 function initTheme() {
-    var savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeIcon(savedTheme);
+    var saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    updateThemeIcon(saved);
 }
 
 function updateThemeIcon(theme) {
     var icon = document.querySelector('#themeToggle i');
-    if (icon) {
-        icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-    }
+    if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
 }
 
 function toggleTheme() {
@@ -1391,580 +881,35 @@ function toggleTheme() {
     updateThemeIcon(newTheme);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🍞 Toast
-// ═══════════════════════════════════════════════════════════════
-function showToast(message, type, duration) {
-    type = type || 'info';
-    duration = duration || 3500;
-    var container = document.getElementById('toastContainer');
-    if (!container) return;
-    
-    var icons = {
-        success: 'fa-circle-check',
-        error: 'fa-circle-xmark',
-        warning: 'fa-triangle-exclamation',
-        info: 'fa-circle-info'
-    };
-    
-    var toast = document.createElement('div');
-    toast.className = 'toast ' + type;
-    toast.innerHTML = '<i class="fas ' + (icons[type] || icons.info) + '"></i><span>' + escapeHtml(message) + '</span>';
-    
-    container.appendChild(toast);
-    
-    setTimeout(function() {
-        toast.classList.add('hide');
-        setTimeout(function() { toast.remove(); }, 300);
-    }, duration);
-}
-
-// ═══════════════════════════════════════════════════════════════
-// 🌐 Online Status
-// ═══════════════════════════════════════════════════════════════
-function updateOnlineStatus() {
-    var indicator = document.getElementById('onlineIndicator');
-    var statusText = document.getElementById('statusText');
-    if (!indicator || !statusText) return;
-    
-    if (navigator.onLine) {
-        indicator.classList.remove('offline');
-        statusText.textContent = 'متصل';
-    } else {
-        indicator.classList.add('offline');
-        statusText.textContent = 'غير متصل';
-    }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// ⏱️ Auto Logout
-// ═══════════════════════════════════════════════════════════════
-var INACTIVITY_TIMEOUT = 30 * 60 * 1000;
-var inactivityTimer = null;
-
-function resetInactivityTimer() {
-    if (inactivityTimer) clearTimeout(inactivityTimer);
-    var session = getSession();
-    if (!session) return;
-    inactivityTimer = setTimeout(function() {
-        logout('تم تسجيل خروجك تلقائيًا بسبب عدم النشاط');
-    }, INACTIVITY_TIMEOUT);
-}
-
-function startInactivityMonitor() {
-    ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'].forEach(function(evt) {
-        document.addEventListener(evt, resetInactivityTimer, { passive: true });
-    });
-    resetInactivityTimer();
-}
-
-function stopInactivityMonitor() {
-    if (inactivityTimer) {
-        clearTimeout(inactivityTimer);
-        inactivityTimer = null;
-    }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// 🔐 Session
-// ═══════════════════════════════════════════════════════════════
-function getSession() {
-    try {
-        var raw = localStorage.getItem('session');
-        if (!raw) return null;
-        var session = JSON.parse(raw);
-        if (!session || !session.user) return null;
-        if (session.expiresAt && Date.now() > session.expiresAt) {
-            localStorage.removeItem('session');
-            return null;
-        }
-        return session;
-    } catch (e) {
-        return null;
-    }
-}
-
-function saveSession(user, remember) {
-    var duration = remember ? 7 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
-    var session = {
-        user: {
-            id: user.id,
-            username: user.username,
-            full_name: user.full_name,
-            role: user.role,
-            permissions: user.permissions,
-            must_change_password: user.must_change_password
-        },
-        expiresAt: Date.now() + duration,
-        loginAt: Date.now()
-    };
-    localStorage.setItem('session', JSON.stringify(session));
-}
-
-function logout(message) {
-    localStorage.removeItem('session');
-    stopInactivityMonitor();
-    if (message) {
-        showToast(message, 'info');
-        setTimeout(function() {
-            window.location.href = 'index.html';
-        }, 1200);
-    } else {
-        window.location.href = 'index.html';
-    }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// 🔑 Login Logic
-// ═══════════════════════════════════════════════════════════════
-async function login(username, password) {
-    // 1) حاول من السيرفر لو متصل
-    if (navigator.onLine) {
-        try {
-            var sb = getSupabase();
-            if (sb) {
-                var result = await sb
-                    .from('accounts')
-                    .select('*')
-                    .eq('username', username.trim().toLowerCase())
-                    .eq('is_active', true)
-                    .maybeSingle();
-                
-                if (result.error) throw result.error;
-                
-                if (result.data && result.data.password === password) {
-                    try {
-                        await ElectronicDB.put('accounts', {
-                            id: result.data.id,
-                            username: result.data.username,
-                            password: result.data.password,
-                            full_name: result.data.full_name,
-                            role: result.data.role,
-                            permissions: result.data.permissions,
-                            is_active: result.data.is_active,
-                            must_change_password: result.data.must_change_password,
-                            cached_at: Date.now()
-                        });
-                    } catch (e) {}
-                    return { success: true, user: result.data };
-                }
-                
-                var cached = await findCachedAccount(username, password);
-                if (cached) return { success: true, user: cached, fromCache: true };
-                
-                return { success: false, error: 'اسم المستخدم أو كلمة السر غير صحيحة' };
-            }
-        } catch (err) {
-            console.warn('خطأ في الاتصال بالسيرفر:', err);
-        }
-    }
-    
-    // 2) Offline
-    var cachedAcc = await findCachedAccount(username, password);
-    if (cachedAcc) {
-        return { success: true, user: cachedAcc, fromCache: true };
-    }
-    
-    return { 
-        success: false, 
-        error: navigator.onLine 
-            ? 'اسم المستخدم أو كلمة السر غير صحيحة' 
-            : 'لا يوجد اتصال بالإنترنت ولا توجد بيانات محفوظة لهذا الحساب' 
-    };
-}
-
-async function findCachedAccount(username, password) {
-    try {
-        var accounts = await ElectronicDB.getAll('accounts');
-        var user = accounts.find(function(a) {
-            return a.username === username.trim().toLowerCase() && 
-                   a.password === password &&
-                   a.is_active !== false;
-        });
-        return user || null;
-    } catch (e) {
-        return null;
-    }
-}
-
-async function refreshAccountsCache() {
-    if (!navigator.onLine) return;
-    try {
-        var sb = getSupabase();
-        if (!sb) return;
-        var result = await sb.from('accounts').select('*').eq('is_active', true);
-        if (result.error) throw result.error;
-        
-        if (result.data && result.data.length) {
-            for (var i = 0; i < result.data.length; i++) {
-                var acc = result.data[i];
-                await ElectronicDB.put('accounts', Object.assign({}, acc, { cached_at: Date.now() }));
-            }
-            console.log('✅ تم تحديث كاش ' + result.data.length + ' حساب');
-        }
-    } catch (err) {
-        console.warn('فشل تحديث كاش الحسابات:', err);
-    }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// 🎬 Init
-// ═══════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', async function() {
-    
-    var yearEl = document.getElementById('year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
+// ═══════════ Init ═══════════
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('year').textContent = new Date().getFullYear();
     
     initTheme();
-    var themeBtn = document.getElementById('themeToggle');
-    if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
     
-    updateOnlineStatus();
-    window.addEventListener('online', function() {
-        updateOnlineStatus();
-        showToast('تم استعادة الاتصال بالإنترنت', 'success');
-        refreshAccountsCache();
+    // Scroll animations
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.fade-in').forEach(function(el) {
+        observer.observe(el);
     });
-    window.addEventListener('offline', function() {
-        updateOnlineStatus();
-        showToast('انقطع الاتصال - التطبيق يعمل Offline', 'warning');
-    });
-    
-    // 🧹 تأكد من نسخة قاعدة البيانات قبل أي استخدام
-    try {
-        await ElectronicDB.ensureDBVersion();
-    } catch (e) {
-        console.warn('تعذر التحقق من نسخة DB:', e);
-    }
-    
-    // Check existing session
-    var existingSession = getSession();
-    if (existingSession) {
-        if (existingSession.user.must_change_password) {
-            openChangePasswordModal(existingSession.user);
-        } else {
-            window.location.href = 'dashboard.html';
-            return;
-        }
-    }
-    
-    // Toggle Password
-    var togglePassword = document.getElementById('togglePassword');
-    var passwordInput = document.getElementById('password');
-    if (togglePassword && passwordInput) {
-        togglePassword.addEventListener('click', function() {
-            var type = passwordInput.type === 'password' ? 'text' : 'password';
-            passwordInput.type = type;
-            togglePassword.innerHTML = '<i class="fas fa-eye' + (type === 'password' ? '' : '-slash') + '"></i>';
-        });
-    }
-    
-    // Login Form
-    var loginForm = document.getElementById('loginForm');
-    var submitBtn = document.getElementById('submitBtn');
-    var errorMessage = document.getElementById('errorMessage');
-    var errorText = document.getElementById('errorText');
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            var username = document.getElementById('username').value.trim();
-            var password = document.getElementById('password').value;
-            var remember = document.getElementById('rememberMe').checked;
-            
-            errorMessage.classList.remove('show');
-            document.getElementById('username').classList.remove('error');
-            document.getElementById('password').classList.remove('error');
-            
-            if (!username) {
-                document.getElementById('username').classList.add('error');
-                errorText.textContent = 'من فضلك أدخل اسم المستخدم';
-                errorMessage.classList.add('show');
-                return;
-            }
-            
-            if (!password) {
-                document.getElementById('password').classList.add('error');
-                errorText.textContent = 'من فضلك أدخل كلمة السر';
-                errorMessage.classList.add('show');
-                return;
-            }
-            
-            submitBtn.classList.add('loading');
-            submitBtn.disabled = true;
-            
-            try {
-                var result = await login(username, password);
-                
-                if (result.success) {
-                    saveSession(result.user, remember);
-                    
-                    if (result.fromCache) {
-                        showToast('تم الدخول من البيانات المحفوظة (Offline)', 'warning');
-                    } else {
-                        showToast('أهلاً بك ' + result.user.full_name + ' 👋', 'success');
-                    }
-                    
-                    refreshAccountsCache().catch(function() {});
-                    
-                    if (result.user.must_change_password) {
-                        setTimeout(function() { openChangePasswordModal(result.user); }, 600);
-                        submitBtn.classList.remove('loading');
-                        submitBtn.disabled = false;
-                        return;
-                    }
-                    
-                    setTimeout(function() {
-                        window.location.href = 'dashboard.html';
-                    }, 800);
-                } else {
-                    errorText.textContent = result.error;
-                    errorMessage.classList.add('show');
-                    document.getElementById('username').classList.add('error');
-                    document.getElementById('password').classList.add('error');
-                    submitBtn.classList.remove('loading');
-                    submitBtn.disabled = false;
-                }
-            } catch (err) {
-                console.error(err);
-                errorText.textContent = 'حدث خطأ غير متوقع. حاول مرة أخرى.';
-                errorMessage.classList.add('show');
-                submitBtn.classList.remove('loading');
-                submitBtn.disabled = false;
-            }
-        });
-    }
-    
-    if (existingSession) startInactivityMonitor();
-    
-    // Reading Progress
-    var progressBar = document.getElementById('readingProgress');
-    window.addEventListener('scroll', function() {
-        var winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-        var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        var scrolled = height > 0 ? (winScroll / height) * 100 : 0;
-        if (progressBar) progressBar.style.width = scrolled + '%';
-    }, { passive: true });
-    
-    // Scroll to Top
-    var scrollTopBtn = document.getElementById('scrollTop');
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 300) {
-            if (scrollTopBtn) scrollTopBtn.classList.add('show');
-        } else {
-            if (scrollTopBtn) scrollTopBtn.classList.remove('show');
-        }
-    }, { passive: true });
-    
-    if (scrollTopBtn) {
-        scrollTopBtn.addEventListener('click', function() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    }
-    
-    if (navigator.onLine) {
-        refreshAccountsCache().catch(function() {});
-    }
-    
-    initPWAInstall();
-    registerServiceWorker();
 });
 
-// ═══════════════════════════════════════════════════════════════
-// 🔑 Change Password Modal
-// ═══════════════════════════════════════════════════════════════
-var currentUserForPasswordChange = null;
-
-function openChangePasswordModal(user) {
-    currentUserForPasswordChange = user;
-    var modal = document.getElementById('changePasswordModal');
-    if (!modal) return;
-    modal.classList.add('show');
-    document.getElementById('newPassword').value = '';
-    document.getElementById('confirmPassword').value = '';
-    document.getElementById('changePassError').classList.remove('show');
-    setTimeout(function() {
-        var el = document.getElementById('newPassword');
-        if (el) el.focus();
-    }, 300);
-}
-
-var savePasswordBtn = document.getElementById('savePasswordBtn');
-if (savePasswordBtn) {
-    savePasswordBtn.addEventListener('click', async function() {
-        var newPass = document.getElementById('newPassword').value;
-        var confirmPass = document.getElementById('confirmPassword').value;
-        var errorEl = document.getElementById('changePassError');
-        var errorTextEl = document.getElementById('changePassErrorText');
-        
-        errorEl.classList.remove('show');
-        
-        if (!newPass || newPass.length < 6) {
-            errorTextEl.textContent = 'كلمة السر يجب أن تكون 6 أحرف على الأقل';
-            errorEl.classList.add('show');
-            return;
-        }
-        
-        if (newPass !== confirmPass) {
-            errorTextEl.textContent = 'كلمتا السر غير متطابقتين';
-            errorEl.classList.add('show');
-            return;
-        }
-        
-        if (!currentUserForPasswordChange) return;
-        
-        var btn = document.getElementById('savePasswordBtn');
-        var originalHTML = btn.innerHTML;
-        btn.disabled = true;
-        btn.innerHTML = '<span style="display:block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;"></span>';
-        
-        try {
-            if (navigator.onLine) {
-                var sb = getSupabase();
-                if (sb) {
-                    var result = await sb
-                        .from('accounts')
-                        .update({
-                            password: newPass,
-                            must_change_password: false
-                        })
-                        .eq('id', currentUserForPasswordChange.id);
-                    
-                    if (result.error) throw result.error;
-                }
-            }
-            
-            var cachedAccount = await ElectronicDB.get('accounts', currentUserForPasswordChange.id);
-            if (cachedAccount) {
-                cachedAccount.password = newPass;
-                cachedAccount.must_change_password = false;
-                await ElectronicDB.put('accounts', cachedAccount);
-            }
-            
-            var session = getSession();
-            if (session) {
-                session.user.must_change_password = false;
-                localStorage.setItem('session', JSON.stringify(session));
-            }
-            
-            showToast('✅ تم تغيير كلمة السر بنجاح', 'success');
-            document.getElementById('changePasswordModal').classList.remove('show');
-            
-            setTimeout(function() {
-                window.location.href = 'dashboard.html';
-            }, 900);
-            
-        } catch (err) {
-            console.error(err);
-            errorTextEl.textContent = 'فشل تغيير كلمة السر. حاول مرة أخرى.';
-            errorEl.classList.add('show');
-        } finally {
-            btn.disabled = false;
-            btn.innerHTML = originalHTML;
-        }
-    });
-}
-
-// ═══════════════════════════════════════════════════════════════
-// 📱 PWA Install
-// ═══════════════════════════════════════════════════════════════
-var deferredPrompt = null;
-
-function initPWAInstall() {
-    var banner = document.getElementById('installBanner');
-    var installBtn = document.getElementById('installBannerBtn');
-    var dismissBtn = document.getElementById('installDismissBtn');
-    
-    if (localStorage.getItem('pwa_install_dismissed') === 'true') return;
-    
-    window.addEventListener('beforeinstallprompt', function(e) {
-        e.preventDefault();
-        deferredPrompt = e;
-        if (banner) banner.classList.add('show');
-    });
-    
-    if (installBtn) {
-        installBtn.addEventListener('click', async function() {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            var choice = await deferredPrompt.userChoice;
-            if (choice.outcome === 'accepted') {
-                showToast('تم تثبيت التطبيق بنجاح 🎉', 'success');
-            }
-            deferredPrompt = null;
-            if (banner) banner.classList.remove('show');
-        });
-    }
-    
-    if (dismissBtn) {
-        dismissBtn.addEventListener('click', function() {
-            localStorage.setItem('pwa_install_dismissed', 'true');
-            if (banner) banner.classList.remove('show');
-        });
-    }
-    
-    window.addEventListener('appinstalled', function() {
-        showToast('تم تثبيت التطبيق بنجاح 🎉', 'success');
-        if (banner) banner.classList.remove('show');
-        deferredPrompt = null;
-    });
-}
-
-// ═══════════════════════════════════════════════════════════════
-// ⚙️ Service Worker — تسجيل هادئ
-// ═══════════════════════════════════════════════════════════════
-function registerServiceWorker() {
-    if (!('serviceWorker' in navigator)) return;
-    
-    window.addEventListener('load', function() {
-        var swPath = './sw.js';
-        
-        navigator.serviceWorker.register(swPath, { scope: './' })
-            .then(function(reg) {
-                console.log('✅ SW registered:', reg.scope);
-                
-                reg.addEventListener('updatefound', function() {
-                    console.log('ℹ️ SW update found');
-                });
-            })
-            .catch(function(err) {
-                if (err && err.message && err.message.indexOf('404') !== -1) {
-                    console.info('ℹ️ sw.js not found - PWA caching disabled (هذا ليس خطأ)');
-                } else {
-                    console.info('ℹ️ Service Worker not available:', err.message || err);
-                }
-            });
-    });
-}
-
-// ═══════════════════════════════════════════════════════════════
-// ⌨️ Keyboard Shortcuts
-// ═══════════════════════════════════════════════════════════════
+// ═══════════ Keyboard shortcut ═══════════
 document.addEventListener('keydown', function(e) {
     if (e.ctrlKey && e.key === 'd') {
         e.preventDefault();
         toggleTheme();
     }
-    if (e.key === 'Escape') {
-        var m = document.getElementById('changePasswordModal');
-        if (m) m.classList.remove('show');
-    }
 });
-
-window.ElectronicApp = {
-    showToast: showToast,
-    logout: logout,
-    getSession: getSession,
-    escapeHtml: escapeHtml,
-    isValidUUID: isValidUUID,
-    sanitizePhone: sanitizePhone
-};
-
-console.log('%c⚡ إلكترونك - نظام إدارة صيانة الأجهزة الإلكترونية', 
-    'color: #1d5b8e; font-size: 16px; font-weight: bold;');
-console.log('%c🔐 صفحة تسجيل الدخول جاهزة', 
-    'color: #10b981; font-size: 12px;');
 </script>
 
 </body>
