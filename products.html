@@ -350,6 +350,8 @@ img { max-width: 100%; height: auto; display: block; }
     transition: all var(--transition);
     animation: fadeInUp 0.4s ease backwards;
     position: relative; display: flex; flex-direction: column;
+    user-select: none;
+    -webkit-user-select: none;
 }
 .product-card:hover {
     transform: translateY(-4px);
@@ -367,7 +369,14 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .product-card:hover .product-image { transform: scale(1.08); }
 .product-image-placeholder {
-    font-size: 3rem; color: var(--text-muted); opacity: 0.4;
+    font-size: 4rem;
+    color: var(--tech-blue);
+    opacity: 0.35;
+    transition: all var(--transition);
+}
+.product-card:hover .product-image-placeholder {
+    opacity: 0.6;
+    transform: scale(1.1);
 }
 .product-badges {
     position: absolute; top: 0.5rem; right: 0.5rem;
@@ -433,11 +442,13 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .products-list-item {
     display: grid;
-    grid-template-columns: 60px 1fr 130px 110px 90px 130px;
+    grid-template-columns: 60px 1fr 130px 110px 90px 160px;
     gap: 1rem; align-items: center;
     padding: 0.85rem 1rem;
     border-bottom: 1px solid var(--border-color);
     transition: all var(--transition-fast);
+    user-select: none;
+    -webkit-user-select: none;
 }
 .products-list-item:last-child { border-bottom: none; }
 .products-list-item:hover { background: var(--bg-hover); }
@@ -907,7 +918,7 @@ img { max-width: 100%; height: auto; display: block; }
     .navbar-user-info { display: none; }
     .navbar-user { padding: 0.35rem; }
     .products-list-item {
-        grid-template-columns: 50px 1fr 100px 100px;
+        grid-template-columns: 50px 1fr 100px 160px;
         gap: 0.65rem;
     }
     .products-list-item > *:nth-child(4),
@@ -922,6 +933,7 @@ img { max-width: 100%; height: auto; display: block; }
     .product-title { font-size: 0.85rem; }
     .product-price-value { font-size: 0.95rem; }
     .product-qty-value { font-size: 0.9rem; }
+    .product-image-placeholder { font-size: 3rem; }
     .product-actions { padding: 0.5rem; gap: 0.25rem; }
     .product-actions .btn { font-size: 0.7rem; padding: 0.4rem; }
     .form-grid { grid-template-columns: 1fr; }
@@ -933,7 +945,7 @@ img { max-width: 100%; height: auto; display: block; }
     .toolbar-select { flex: 1; min-width: 0; }
     .view-toggle { display: none; }
     .products-list-item {
-        grid-template-columns: 50px 1fr 80px;
+        grid-template-columns: 50px 1fr 100px;
         padding: 0.65rem 0.75rem;
     }
     .products-list-image { width: 50px; height: 50px; }
@@ -1408,13 +1420,6 @@ function generateUniqueBarcode() {
 // ═══════════════════════════════════════════════════════════════
 // 🔍 Duplicate Check - منع تكرار الاسم داخل نفس الفئة فقط
 // ═══════════════════════════════════════════════════════════════
-/**
- * فحص التكرار:
- * - نفس الاسم في نفس الفئة → ممنوع
- * - نفس الاسم في فئة مختلفة → مسموح
- * - نفس الباركود (أي فئة) → ممنوع (الباركود فريد عالميًا)
- * - null === null → ممنوع (يعني نفس "بدون فئة")
- */
 function checkDuplicate(name, barcode, categoryId, editingId) {
     return new Promise(function(resolve) {
         var normalizedName = normalizeText(name);
@@ -1422,32 +1427,27 @@ function checkDuplicate(name, barcode, categoryId, editingId) {
         var targetCategory = categoryId || null;
         var errors = { name: false, barcode: false, nameConflict: null, barcodeConflict: null };
         
-        // 1) فحص محلي أولاً
         for (var i = 0; i < state.products.length; i++) {
             var p = state.products[i];
             if (editingId && p.id === editingId) continue;
             
-            // ✅ فحص الاسم: نفس الاسم + نفس الفئة
             var pCategory = p.category_id || null;
             if (normalizeText(p.name) === normalizedName && pCategory === targetCategory) {
                 errors.name = true;
                 errors.nameConflict = p.name;
             }
             
-            // ✅ فحص الباركود: أي فئة
             if (trimmedBarcode && p.barcode === trimmedBarcode) {
                 errors.barcode = true;
                 errors.barcodeConflict = p.barcode;
             }
         }
         
-        // لو فيه تعارض محلي، ارجعه فورًا
         if (errors.name || errors.barcode) {
             resolve(errors);
             return;
         }
         
-        // 2) فحص السيرفر
         var sb = getSupabaseClient();
         if (!sb || !navigator.onLine) {
             resolve(errors);
@@ -1456,7 +1456,6 @@ function checkDuplicate(name, barcode, categoryId, editingId) {
         
         var checks = [];
         
-        // فحص الاسم - نجيب كل الأصناف بنفس الاسم، وندقق الفئة محليًا
         checks.push(
             sb.from('products')
                 .select('id, name, category_id')
@@ -1477,7 +1476,6 @@ function checkDuplicate(name, barcode, categoryId, editingId) {
                 }, function() {})
         );
         
-        // فحص الباركود (عالمي - أي فئة)
         if (trimmedBarcode) {
             checks.push(
                 sb.from('products')
@@ -2023,22 +2021,22 @@ function renderProductCard(p) {
     var minQty = parseInt(p.min_quantity) || 5;
     var qtyClass = qty <= 0 ? 'out' : (qty <= minQty ? 'low' : 'ok');
     var categoryName = (p.category && p.category.name) || '';
+    var categoryIcon = (p.category && p.category.icon) || 'fa-microchip';
     
     var qtyBadge = '';
     if (qty <= 0) qtyBadge = '<span class="badge badge-danger"><i class="fas fa-circle-xmark"></i> نفذ</span>';
     else if (qty <= minQty) qtyBadge = '<span class="badge badge-warning"><i class="fas fa-triangle-exclamation"></i> منخفض</span>';
     
-    var imageHtml = p.image_url 
-        ? '<img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '" class="product-image" loading="lazy" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'block\';"><i class="fas fa-image product-image-placeholder" style="display:none;"></i>'
-        : '<i class="fas fa-image product-image-placeholder"></i>';
+    // ✅ أيقونة الفئة بدلاً من الصورة
+    var iconHtml = '<i class="fas ' + escapeHtml(categoryIcon) + ' product-image-placeholder"></i>';
     
-    return '<div class="product-card" data-id="' + p.id + '">' +
-        '<div class="product-image-wrapper">' + imageHtml +
+    return '<div class="product-card" data-id="' + p.id + '" data-view-id="' + p.id + '">' +
+        '<div class="product-image-wrapper">' + iconHtml +
             '<div class="product-badges">' + qtyBadge + '</div>' +
             '<button class="product-favorite ' + (isFav ? 'active' : '') + '" data-action="favorite" data-id="' + p.id + '" title="المفضلة"><i class="' + (isFav ? 'fas' : 'far') + ' fa-star"></i></button>' +
         '</div>' +
         '<div class="product-body">' +
-            (categoryName ? '<div class="product-category"><i class="fas ' + escapeHtml((p.category && p.category.icon) || 'fa-tag') + '"></i>' + escapeHtml(categoryName) + '</div>' : '') +
+            (categoryName ? '<div class="product-category"><i class="fas ' + escapeHtml(categoryIcon) + '"></i>' + escapeHtml(categoryName) + '</div>' : '') +
             '<h3 class="product-title">' + escapeHtml(p.name) + '</h3>' +
             '<div class="product-barcode"><i class="fas fa-barcode"></i> ' + escapeHtml(p.barcode || p.sku || '—') + '</div>' +
             '<div class="product-footer">' +
@@ -2047,7 +2045,8 @@ function renderProductCard(p) {
             '</div>' +
         '</div>' +
         '<div class="product-actions">' +
-            '<button class="btn btn-secondary btn-sm" data-action="edit" data-id="' + p.id + '"><i class="fas fa-pen"></i> تعديل</button>' +
+            '<button class="btn btn-secondary btn-sm" data-action="view" data-id="' + p.id + '"><i class="fas fa-eye"></i> عرض</button>' +
+            '<button class="btn btn-secondary btn-sm" data-action="edit" data-id="' + p.id + '"><i class="fas fa-pen"></i></button>' +
             '<button class="btn btn-danger btn-sm" data-action="delete" data-id="' + p.id + '"><i class="fas fa-trash"></i></button>' +
         '</div>' +
     '</div>';
@@ -2058,16 +2057,17 @@ function renderProductListItem(p) {
     var minQty = parseInt(p.min_quantity) || 5;
     var qtyClass = qty <= 0 ? 'out' : (qty <= minQty ? 'low' : 'ok');
     var isFav = hasFavorite(p.id);
-    var imageHtml = p.image_url 
-        ? '<img src="' + escapeHtml(p.image_url) + '" alt="" class="products-list-image" loading="lazy">'
-        : '<div class="products-list-image" style="display:flex;align-items:center;justify-content:center;color:var(--text-muted);"><i class="fas fa-image"></i></div>';
+    var categoryIcon = (p.category && p.category.icon) || 'fa-microchip';
     
-    return '<div class="products-list-item" data-id="' + p.id + '">' + imageHtml +
+    var iconHtml = '<div class="products-list-image" style="display:flex;align-items:center;justify-content:center;color:var(--tech-blue);background:linear-gradient(135deg, var(--bg-primary), var(--bg-hover));"><i class="fas ' + escapeHtml(categoryIcon) + '" style="font-size:1.5rem;"></i></div>';
+    
+    return '<div class="products-list-item" data-id="' + p.id + '" data-view-id="' + p.id + '">' + iconHtml +
         '<div class="products-list-info"><h4>' + escapeHtml(p.name) + '</h4><p>' + escapeHtml(p.barcode || p.sku || '—') + '</p></div>' +
         '<div class="products-list-cell"><small>الفئة</small>' + escapeHtml((p.category && p.category.name) || '—') + '</div>' +
         '<div class="products-list-cell"><small>سعر البيع</small>' + formatCurrency(p.sell_price) + '</div>' +
         '<div class="products-list-cell"><small>الكمية</small><span class="product-qty-value ' + qtyClass + '" style="font-size: 0.85rem;">' + formatNumber(qty) + '</span></div>' +
         '<div class="products-list-actions">' +
+            '<button class="btn btn-sm btn-secondary" data-action="view" data-id="' + p.id + '" title="عرض"><i class="fas fa-eye"></i></button>' +
             '<button class="btn btn-sm btn-secondary" data-action="favorite" data-id="' + p.id + '" title="المفضلة"><i class="' + (isFav ? 'fas' : 'far') + ' fa-star" style="' + (isFav ? 'color: var(--warning);' : '') + '"></i></button>' +
             '<button class="btn btn-sm btn-secondary" data-action="edit" data-id="' + p.id + '" title="تعديل"><i class="fas fa-pen"></i></button>' +
             '<button class="btn btn-sm btn-danger" data-action="delete" data-id="' + p.id + '" title="حذف"><i class="fas fa-trash"></i></button>' +
@@ -2121,11 +2121,24 @@ function bindProductEvents() {
                 e.stopPropagation();
                 var action = el.dataset.action;
                 var id = el.dataset.id;
-                if (action === 'favorite') toggleFavorite(id);
+                if (action === 'view') openViewModal(id);
+                else if (action === 'favorite') toggleFavorite(id);
                 else if (action === 'edit') openEditModal(id);
                 else if (action === 'delete') openDeleteModal(id);
             });
         })(els[i]);
+    }
+    
+    // ✅ الضغط على الكارت كامل يفتح التفاصيل
+    var cards = document.querySelectorAll('[data-view-id]');
+    for (var j = 0; j < cards.length; j++) {
+        (function(card) {
+            card.addEventListener('click', function(e) {
+                if (e.target.closest('button') || e.target.closest('[data-action]')) return;
+                var id = card.dataset.viewId;
+                if (id) openViewModal(id);
+            });
+        })(cards[j]);
     }
 }
 
@@ -2150,6 +2163,140 @@ function toggleFavorite(productId) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// 👁️ View Product Details Modal
+// ═══════════════════════════════════════════════════════════════
+function openViewModal(id) {
+    var p = null;
+    for (var i = 0; i < state.products.length; i++) {
+        if (state.products[i].id === id) { p = state.products[i]; break; }
+    }
+    if (!p) return;
+    
+    // إزالة أي modal قديم
+    var old = document.getElementById('viewProductModal');
+    if (old) old.remove();
+    
+    var qty = parseInt(p.quantity) || 0;
+    var minQty = parseInt(p.min_quantity) || 5;
+    var qtyClass = qty <= 0 ? 'out' : (qty <= minQty ? 'low' : 'ok');
+    var qtyText = qty <= 0 ? 'نفذ من المخزون' : (qty <= minQty ? 'كمية منخفضة' : 'متوفر');
+    var qtyIcon = qty <= 0 ? 'fa-circle-xmark' : (qty <= minQty ? 'fa-triangle-exclamation' : 'fa-circle-check');
+    var categoryName = (p.category && p.category.name) || 'بدون فئة';
+    var categoryIcon = (p.category && p.category.icon) || 'fa-microchip';
+    var isFav = hasFavorite(p.id);
+    
+    // ✅ صورة الصنف تظهر هنا فقط
+    var imageSection;
+    if (p.image_url) {
+        imageSection = '<img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '" style="width:100%;max-height:340px;object-fit:contain;background:var(--bg-primary);border-radius:var(--radius-md);border:1px solid var(--border-color);" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';"><div style="display:none;width:100%;height:240px;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg-primary),var(--bg-hover));border-radius:var(--radius-md);border:1px solid var(--border-color);"><i class="fas ' + escapeHtml(categoryIcon) + '" style="font-size:5rem;color:var(--tech-blue);opacity:0.4;"></i></div>';
+    } else {
+        imageSection = '<div style="width:100%;height:240px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg-primary),var(--bg-hover));border-radius:var(--radius-md);border:1px solid var(--border-color);"><i class="fas ' + escapeHtml(categoryIcon) + '" style="font-size:5rem;color:var(--tech-blue);opacity:0.4;"></i></div>';
+    }
+    
+    var html = '' +
+        '<div style="display:grid;gap:1.15rem;">' +
+            '<div style="position:relative;">' + imageSection + 
+                '<button class="product-favorite ' + (isFav ? 'active' : '') + '" id="viewFavBtn" style="top:0.75rem;left:0.75rem;width:44px;height:44px;font-size:1.1rem;"><i class="' + (isFav ? 'fas' : 'far') + ' fa-star"></i></button>' +
+            '</div>' +
+            
+            '<div>' +
+                '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;flex-wrap:wrap;">' +
+                    '<span class="badge badge-info"><i class="fas ' + escapeHtml(categoryIcon) + '"></i> ' + escapeHtml(categoryName) + '</span>' +
+                    '<span class="badge badge-' + (qtyClass === 'ok' ? 'success' : qtyClass === 'low' ? 'warning' : 'danger') + '"><i class="fas ' + qtyIcon + '"></i> ' + qtyText + '</span>' +
+                '</div>' +
+                '<h2 style="font-size:1.35rem;font-weight:800;line-height:1.35;">' + escapeHtml(p.name) + '</h2>' +
+            '</div>' +
+            
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">' +
+                '<div style="background:linear-gradient(135deg,rgba(29,91,142,0.08),rgba(45,122,184,0.04));padding:1rem;border-radius:var(--radius-md);border:1px solid var(--border-color);">' +
+                    '<div style="font-size:0.7rem;color:var(--text-muted);font-weight:700;margin-bottom:0.35rem;"><i class="fas fa-dollar-sign"></i> سعر البيع</div>' +
+                    '<div style="font-size:1.35rem;font-weight:800;color:var(--tech-blue);">' + formatCurrency(p.sell_price) + '</div>' +
+                '</div>' +
+                '<div style="background:var(--bg-primary);padding:1rem;border-radius:var(--radius-md);border:1px solid var(--border-color);">' +
+                    '<div style="font-size:0.7rem;color:var(--text-muted);font-weight:700;margin-bottom:0.35rem;"><i class="fas fa-money-bill-wave"></i> سعر الشراء</div>' +
+                    '<div style="font-size:1.35rem;font-weight:800;color:var(--text-secondary);">' + formatCurrency(p.cost_price) + '</div>' +
+                '</div>' +
+            '</div>' +
+            
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">' +
+                '<div style="background:var(--bg-primary);padding:1rem;border-radius:var(--radius-md);border:1px solid var(--border-color);">' +
+                    '<div style="font-size:0.7rem;color:var(--text-muted);font-weight:700;margin-bottom:0.35rem;"><i class="fas fa-cubes"></i> الكمية المتوفرة</div>' +
+                    '<div style="font-size:1.35rem;font-weight:800;" class="product-qty-value ' + qtyClass + '">' + formatNumber(qty) + '</div>' +
+                '</div>' +
+                '<div style="background:var(--bg-primary);padding:1rem;border-radius:var(--radius-md);border:1px solid var(--border-color);">' +
+                    '<div style="font-size:0.7rem;color:var(--text-muted);font-weight:700;margin-bottom:0.35rem;"><i class="fas fa-bell"></i> حد التنبيه</div>' +
+                    '<div style="font-size:1.35rem;font-weight:800;color:var(--warning);">' + formatNumber(minQty) + '</div>' +
+                '</div>' +
+            '</div>' +
+            
+            '<div style="background:var(--bg-primary);padding:1rem;border-radius:var(--radius-md);border:1px solid var(--border-color);">' +
+                '<div style="font-size:0.7rem;color:var(--text-muted);font-weight:700;margin-bottom:0.35rem;"><i class="fas fa-barcode"></i> الباركود</div>' +
+                '<div style="font-family:Courier New,monospace;font-size:1rem;font-weight:800;letter-spacing:1px;color:var(--text-primary);">' + escapeHtml(p.barcode || p.sku || '—') + '</div>' +
+            '</div>' +
+            
+            (p.description ? 
+                '<div style="background:var(--bg-primary);padding:1rem;border-radius:var(--radius-md);border:1px solid var(--border-color);">' +
+                    '<div style="font-size:0.7rem;color:var(--text-muted);font-weight:700;margin-bottom:0.5rem;"><i class="fas fa-align-right"></i> الوصف</div>' +
+                    '<div style="font-size:0.9rem;line-height:1.7;color:var(--text-secondary);">' + escapeHtml(p.description) + '</div>' +
+                '</div>' 
+            : '') +
+            
+            '<div style="font-size:0.75rem;color:var(--text-muted);text-align:center;padding-top:0.25rem;">' +
+                '<i class="fas fa-calendar"></i> أُضيف في ' + formatDate(p.created_at) +
+            '</div>' +
+        '</div>';
+    
+    var overlay = document.createElement('div');
+    overlay.className = 'modal-overlay show';
+    overlay.id = 'viewProductModal';
+    overlay.innerHTML = 
+        '<div class="modal modal-lg">' +
+            '<div class="modal-header">' +
+                '<h3 class="modal-title"><i class="fas fa-box-open"></i> تفاصيل الصنف</h3>' +
+                '<button class="modal-close" id="closeViewModal"><i class="fas fa-times"></i></button>' +
+            '</div>' +
+            '<div class="modal-body">' + html + '</div>' +
+            '<div class="modal-footer">' +
+                '<button class="btn btn-secondary" id="viewCloseBtn"><i class="fas fa-times"></i> إغلاق</button>' +
+                '<button class="btn btn-primary" id="viewEditBtn"><i class="fas fa-pen"></i> تعديل</button>' +
+            '</div>' +
+        '</div>';
+    
+    document.body.appendChild(overlay);
+    
+    var closeModal = function() {
+        overlay.classList.remove('show');
+        setTimeout(function() { if (overlay.parentNode) overlay.remove(); }, 300);
+        document.removeEventListener('keydown', escHandler);
+    };
+    
+    var escHandler = function(e) {
+        if (e.key === 'Escape') closeModal();
+    };
+    
+    overlay.querySelector('#closeViewModal').addEventListener('click', closeModal);
+    overlay.querySelector('#viewCloseBtn').addEventListener('click', closeModal);
+    overlay.querySelector('#viewEditBtn').addEventListener('click', function() {
+        closeModal();
+        setTimeout(function() { openEditModal(id); }, 250);
+    });
+    overlay.querySelector('#viewFavBtn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleFavorite(id);
+        var btn = overlay.querySelector('#viewFavBtn');
+        var isNowFav = hasFavorite(id);
+        btn.classList.toggle('active', isNowFav);
+        btn.querySelector('i').className = (isNowFav ? 'fas' : 'far') + ' fa-star';
+    });
+    
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) closeModal();
+    });
+    
+    document.addEventListener('keydown', escHandler);
+}
+
+// ═══════════════════════════════════════════════════════════════
 // 🪟 Modal
 // ═══════════════════════════════════════════════════════════════
 function openAddModal() {
@@ -2165,7 +2312,6 @@ function openAddModal() {
     document.getElementById('productSellPrice').value = '0';
     resetImageUpload();
     clearFormErrors();
-    // توليد باركود تلقائي
     generateUniqueBarcode().then(function(code) {
         var input = document.getElementById('productBarcode');
         if (input && !input.value) input.value = code;
@@ -2282,7 +2428,6 @@ function saveProduct(e) {
     e.preventDefault();
     clearFormErrors();
     
-    // ✅ اسم الصنف فقط إجباري
     var name = document.getElementById('productName').value.trim();
     if (!name) {
         setNameError('الرجاء إدخال اسم الصنف');
@@ -2295,7 +2440,6 @@ function saveProduct(e) {
         return;
     }
     
-    // ✅ الفئة والبيانات الاختيارية
     var categoryId = document.getElementById('productCategory').value || null;
     var barcode = document.getElementById('productBarcode').value.trim() || null;
     var costPrice = parseFloat(document.getElementById('productCostPrice').value) || 0;
@@ -2321,7 +2465,6 @@ function saveProduct(e) {
     icon.style.display = 'none';
     text.textContent = 'جاري التحقق...';
     
-    // ✅ 1) فحص التكرار (اسم + فئة + باركود)
     checkDuplicate(name, barcode, categoryId, editingId).then(function(dupCheck) {
         if (dupCheck.name) {
             var categoryName = '';
@@ -2357,7 +2500,6 @@ function saveProduct(e) {
         var session = getSession();
         var sb = getSupabaseClient();
         
-        // ✅ 2) توليد باركود لو فارغ
         var barcodePromise = (!barcode) ? generateUniqueBarcode() : Promise.resolve(barcode);
         
         barcodePromise.then(function(finalBarcode) {
@@ -2375,7 +2517,6 @@ function saveProduct(e) {
                 description: description
             };
             
-            // ✅ 3) رفع الصورة
             var imagePromise = Promise.resolve(null);
             if (state.imageFile && sb && navigator.onLine) {
                 imagePromise = uploadImage(sb, state.imageFile)
@@ -2973,7 +3114,7 @@ function handleUrlParams() {
     if (id) {
         setTimeout(function() {
             var exists = state.products.some(function(p) { return p.id === id; });
-            if (exists) openEditModal(id);
+            if (exists) openViewModal(id);
         }, 700);
     }
     if (search) {
@@ -3273,7 +3414,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 60000);
     
     startInactivityMonitor();
-    console.log('%c📦 صفحة المخزون جاهزة - منع التكرار داخل نفس الفئة ✅', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+    console.log('%c📦 صفحة المخزون جاهزة - عرض التفاصيل عند الضغط ✅', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
 });
 
 window.ProductsApp = {
@@ -3282,6 +3423,7 @@ window.ProductsApp = {
     getSession: getSession,
     formatCurrency: formatCurrency,
     openAddModal: openAddModal,
+    openViewModal: openViewModal,
     loadNotifications: loadNotifications,
     checkDuplicate: checkDuplicate
 };
