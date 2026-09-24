@@ -334,11 +334,12 @@ img { max-width: 100%; height: auto; display: block; }
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
-    padding: 1.15rem;
     transition: all var(--transition);
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
 }
 .repair-card::before {
     content: ''; position: absolute; top: 0; right: 0;
@@ -354,6 +355,56 @@ img { max-width: 100%; height: auto; display: block; }
     border-color: var(--status-color, var(--tech-blue));
 }
 .repair-card:hover::before { opacity: 0.15; }
+
+/* ═══ صورة الجهاز في البطاقة ═══ */
+.repair-device-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--bg-primary), var(--bg-hover));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border-color);
+}
+.repair-device-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.repair-card:hover .repair-device-image { transform: scale(1.05); }
+.repair-device-image-placeholder {
+    font-size: 3rem;
+    color: var(--text-muted);
+    opacity: 0.35;
+}
+.repair-image-zoom-hint {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-full);
+    font-size: 0.65rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+.repair-card:hover .repair-image-zoom-hint { opacity: 1; }
+
+.repair-card-body {
+    padding: 1rem 1.15rem 1.15rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
 
 .repair-card-header {
     display: flex; align-items: flex-start; justify-content: space-between;
@@ -557,34 +608,157 @@ img { max-width: 100%; height: auto; display: block; }
     display: flex; align-items: center; gap: 0.35rem; line-height: 1.5;
 }
 
-/* Device Type Suggestions */
-.device-input-wrapper { position: relative; }
-
-.device-suggestions {
-    display: flex; gap: 0.35rem; flex-wrap: wrap;
-    margin-top: 0.65rem;
-}
-.device-suggestion-chip {
-    padding: 0.35rem 0.75rem;
-    border-radius: var(--radius-full);
-    font-size: 0.75rem;
-    font-weight: 700;
-    background: var(--bg-primary);
-    color: var(--text-secondary);
-    border: 1.5px solid var(--border-color);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    display: inline-flex;
+/* ═══ Image Upload ═══ */
+.image-upload-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.35rem;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    background: var(--bg-primary);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition);
+    min-height: 200px;
+    overflow: hidden;
 }
-.device-suggestion-chip:hover {
-    background: var(--tech-blue);
-    color: white;
+.image-upload-box:hover {
     border-color: var(--tech-blue);
-    transform: translateY(-1px);
+    background: var(--bg-hover);
 }
-.device-suggestion-chip i { font-size: 0.7rem; }
+.image-upload-box input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+.image-upload-preview {
+    width: 100%;
+    max-width: 280px;
+    max-height: 240px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+}
+.image-upload-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--tech-blue);
+    border: 2px solid var(--border-color);
+}
+.image-upload-text { text-align: center; }
+.image-upload-text strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+.image-upload-text span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+.image-remove-btn {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--danger);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition);
+    z-index: 3;
+}
+.image-remove-btn:hover { transform: scale(1.1); background: #dc2626; }
+.image-upload-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(0,0,0,0.1);
+    display: none;
+}
+.image-upload-progress.show { display: block; }
+.image-upload-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--tech-blue), var(--tech-blue-light));
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* ═══ صورة الجهاز في التفاصيل ═══ */
+.device-image-large {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: var(--radius-lg);
+    background: var(--bg-primary);
+    border: 2px solid var(--border-color);
+    margin-bottom: 1.25rem;
+    cursor: pointer;
+    transition: all var(--transition);
+    box-shadow: var(--shadow-md);
+}
+.device-image-large:hover { transform: scale(1.01); box-shadow: var(--shadow-lg); }
+
+/* Lightbox */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 1rem;
+    animation: fadeIn 0.3s ease;
+}
+.lightbox.show { display: flex; }
+.lightbox img {
+    max-width: 95%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.8);
+}
+.lightbox-close {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: all var(--transition);
+    cursor: pointer;
+}
+.lightbox-close:hover { background: rgba(255,255,255,0.3); transform: rotate(90deg); }
 
 .picker { position: relative; }
 .picker-input {
@@ -681,6 +855,32 @@ img { max-width: 100%; height: auto; display: block; }
     flex-shrink: 0;
 }
 .selected-chip-remove:hover { background: rgba(239,68,68,0.1); color: var(--danger); }
+
+.device-suggestions {
+    display: flex; gap: 0.35rem; flex-wrap: wrap;
+    margin-top: 0.65rem;
+}
+.device-suggestion-chip {
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    border: 1.5px solid var(--border-color);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+.device-suggestion-chip:hover {
+    background: var(--tech-blue);
+    color: white;
+    border-color: var(--tech-blue);
+    transform: translateY(-1px);
+}
+.device-suggestion-chip i { font-size: 0.7rem; }
 
 .timeline { position: relative; padding-right: 2rem; }
 .timeline::before {
@@ -798,6 +998,7 @@ img { max-width: 100%; height: auto; display: block; }
     display: flex; align-items: center; gap: 0.75rem;
     font-size: 0.9rem; font-weight: 500; pointer-events: auto;
     border-right: 4px solid var(--info);
+    animation: toastIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 .toast.success { border-right-color: var(--success); }
 .toast.error { border-right-color: var(--danger); }
@@ -807,6 +1008,11 @@ img { max-width: 100%; height: auto; display: block; }
 .toast.error i { color: var(--danger); }
 .toast.warning i { color: var(--warning); }
 .toast.info i { color: var(--info); }
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .skeleton {
     background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border-color) 50%, var(--bg-hover) 75%);
@@ -818,7 +1024,7 @@ img { max-width: 100%; height: auto; display: block; }
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
 }
-.skeleton-card { height: 280px; }
+.skeleton-card { height: 380px; }
 
 .empty-state {
     padding: 4rem 1rem; text-align: center; color: var(--text-muted);
@@ -979,6 +1185,7 @@ img { max-width: 100%; height: auto; display: block; }
     .repair-details-header { padding: 1rem; }
     .repair-details-icon { width: 48px; height: 48px; font-size: 1.25rem; }
     .repair-details-info h2 { font-size: 1rem; }
+    .repair-device-image-wrapper { height: 150px; }
 }
 @media (max-width: 400px) {
     .stats-bar { grid-template-columns: 1fr; }
@@ -1179,6 +1386,32 @@ img { max-width: 100%; height: auto; display: block; }
             <div class="modal-body">
                 <div class="form-grid">
                     
+                    <!-- ═══ صورة الجهاز ═══ -->
+                    <div class="form-group full">
+                        <label class="form-label">
+                            <i class="fas fa-camera"></i> صورة الجهاز
+                        </label>
+                        <div class="image-upload-box" id="deviceImageBox">
+                            <img id="deviceImagePreview" class="image-upload-preview" style="display: none;" alt="معاينة">
+                            <button type="button" class="image-remove-btn" id="removeDeviceImageBtn" style="display: none;" title="إزالة الصورة">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <div id="deviceImagePlaceholder">
+                                <div class="image-upload-icon" style="margin: 0 auto 0.75rem;">
+                                    <i class="fas fa-cloud-arrow-up"></i>
+                                </div>
+                                <div class="image-upload-text">
+                                    <strong>اضغط لرفع صورة الجهاز</strong>
+                                    <span>PNG, JPG - حتى 5 ميجا</span>
+                                </div>
+                            </div>
+                            <input type="file" id="deviceImageInput" accept="image/*">
+                            <div class="image-upload-progress" id="deviceImageProgress">
+                                <div class="image-upload-progress-bar" id="deviceImageProgressBar"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- Customer Picker -->
                     <div class="form-group full">
                         <label class="form-label">
@@ -1204,16 +1437,14 @@ img { max-width: 100%; height: auto; display: block; }
                         <div class="form-error" id="customerError"><i class="fas fa-circle-exclamation"></i><span>الرجاء اختيار عميل</span></div>
                     </div>
                     
-                    <!-- Device Type (يدوي) -->
+                    <!-- Device Type -->
                     <div class="form-group">
                         <label class="form-label" for="deviceType">
                             <i class="fas fa-mobile-screen"></i> نوع الجهاز <span class="required">*</span>
                         </label>
-                        <div class="device-input-wrapper">
-                            <input type="text" class="form-input" id="deviceType"
-                                placeholder="اكتب نوع الجهاز (مثال: موبايل، ريسيفر، ساعة ذكية...)"
-                                maxlength="100" required autocomplete="off">
-                        </div>
+                        <input type="text" class="form-input" id="deviceType"
+                            placeholder="اكتب نوع الجهاز (مثال: موبايل، ريسيفر، ساعة ذكية...)"
+                            maxlength="100" required autocomplete="off">
                         <div class="device-suggestions" id="deviceSuggestions"></div>
                         <div class="form-hint">
                             <i class="fas fa-info-circle"></i>
@@ -1434,6 +1665,12 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose"><i class="fas fa-times"></i></button>
+    <img id="lightboxImage" src="" alt="صورة الجهاز">
+</div>
+
 <!-- Notifications -->
 <div class="notifications-panel" id="notificationsPanel">
     <div class="notifications-header">
@@ -1469,13 +1706,11 @@ img { max-width: 100%; height: auto; display: block; }
 
 var SUPABASE_URL = 'https://zguajkmjeujhuimnmdde.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpndWFqa21qZXVqaHVpbW5tZGRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAxNzc5MjksImV4cCI6MjEwNTc1MzkyOX0.0jg8FqHVgN_DG84SGzRKuvHpXJtJVMxN8KhnTNxvy6o';
+var BUCKET_NAME = 'product-images';
 var DB_NAME = 'electronic_db';
 var DB_VERSION = 5;
 var PAGE_SIZE = 24;
 
-// ═══════════════════════════════════════════════════════════════
-// 🗄️ Supabase Client
-// ═══════════════════════════════════════════════════════════════
 var supabaseClient = null;
 
 function getSupabaseClient() {
@@ -1486,9 +1721,7 @@ function getSupabaseClient() {
             auth: { persistSession: false, autoRefreshToken: false }
         });
         return supabaseClient;
-    } catch (e) {
-        return null;
-    }
+    } catch (e) { return null; }
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -1496,8 +1729,7 @@ function getSupabaseClient() {
 // ═══════════════════════════════════════════════════════════════
 function escapeHtml(str) {
     if (str == null) return '';
-    return String(str)
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
 
@@ -1576,50 +1808,40 @@ function getStatusInfo(status) {
     return map[status] || { text: status || '—', icon: 'fa-circle', cls: 'received', color: '#64748b' };
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🔧 Device Icon — يدعم أنواع مخصصة
-// ═══════════════════════════════════════════════════════════════
 function getDeviceIcon(deviceType) {
     if (!deviceType) return 'fa-microchip';
     var t = String(deviceType).toLowerCase();
-
-    // قائمة الكلمات المفتاحية مع أيقوناتها
     var keywords = [
         { keys: ['موبايل', 'هاتف', 'phone', 'mobile', 'ايفون', 'سامسونج'], icon: 'fa-mobile-screen' },
         { keys: ['تابلت', 'tablet', 'ايباد', 'ipad'], icon: 'fa-tablet-screen-button' },
         { keys: ['لابتوب', 'laptop', 'نوت بوك', 'notebook', 'ماك بوك', 'macbook'], icon: 'fa-laptop' },
         { keys: ['شاشة', 'monitor', 'screen', 'display', 'تلفزيون', 'tv'], icon: 'fa-tv' },
-        { keys: ['كمبيوتر', 'computer', 'pc', 'desktop', 'مكتب'], icon: 'fa-desktop' },
+        { keys: ['كمبيوتر', 'computer', 'pc', 'desktop'], icon: 'fa-desktop' },
         { keys: ['طابعة', 'printer'], icon: 'fa-print' },
         { keys: ['سماعة', 'سماعات', 'headphone', 'headset', 'airpods'], icon: 'fa-headphones' },
         { keys: ['شاحن', 'charger', 'adapter', 'محول'], icon: 'fa-plug' },
         { keys: ['باور', 'power', 'bank', 'بطارية', 'battery'], icon: 'fa-battery-full' },
         { keys: ['ماوس', 'mouse'], icon: 'fa-mouse' },
-        { keys: ['كيبورد', 'keyboard', 'لوحة مفاتيح'], icon: 'fa-keyboard' },
-        { keys: ['راوتر', 'router', 'واي فاي', 'wifi', 'مودم', 'modem'], icon: 'fa-wifi' },
-        { keys: ['كاميرا', 'camera', 'كاميرة'], icon: 'fa-camera' },
+        { keys: ['كيبورد', 'keyboard'], icon: 'fa-keyboard' },
+        { keys: ['راوتر', 'router', 'wifi', 'مودم', 'modem'], icon: 'fa-wifi' },
+        { keys: ['كاميرا', 'camera'], icon: 'fa-camera' },
         { keys: ['ريسيفر', 'receiver', 'رسيفر', 'دش', 'dish'], icon: 'fa-satellite-dish' },
-        { keys: ['ساعة', 'watch', 'smartwatch', 'smart watch'], icon: 'fa-clock' },
+        { keys: ['ساعة', 'watch', 'smartwatch'], icon: 'fa-clock' },
         { keys: ['مروحة', 'fan'], icon: 'fa-fan' },
         { keys: ['ثلاجة', 'refrigerator', 'fridge'], icon: 'fa-box' },
         { keys: ['غسالة', 'washing', 'washer'], icon: 'fa-soap' },
-        { keys: ['مكيف', 'air conditioner', 'ac', 'تكييف'], icon: 'fa-snowflake' },
+        { keys: ['مكيف', 'air conditioner', 'تكييف'], icon: 'fa-snowflake' },
         { keys: ['ميكروويف', 'microwave'], icon: 'fa-fire' },
         { keys: ['مكواة', 'iron'], icon: 'fa-shirt' },
-        { keys: ['مكنسة', 'vacuum', 'hoover'], icon: 'fa-broom' },
-        { keys: ['ريسيفر', 'استقبال'], icon: 'fa-satellite-dish' },
+        { keys: ['مكنسة', 'vacuum'], icon: 'fa-broom' },
         { keys: ['بلوتوث', 'bluetooth', 'سبيكر', 'speaker'], icon: 'fa-volume-high' },
-        { keys: ['شاشة سيارة', 'car screen'], icon: 'fa-car' },
         { keys: ['درون', 'drone'], icon: 'fa-plane' },
-        { keys: ['بلايستيشن', 'playstation', 'ps4', 'ps5', 'xbox'], icon: 'fa-gamepad' },
-        { keys: ['تابلت', 'قلم'], icon: 'fa-pen' },
+        { keys: ['بلايستيشن', 'playstation', 'ps4', 'ps5', 'xbox', 'gamepad'], icon: 'fa-gamepad' },
         { keys: ['فلاشة', 'usb', 'flash'], icon: 'fa-usb' },
-        { keys: ['hard', 'هارد', 'ssd', 'hdd', 'قرص'], icon: 'fa-hard-drive' },
-        { keys: ['sim', 'سيم', 'شريحة'], icon: 'fa-sim-card' },
-        { keys: ['sd', 'memory', 'ميموري', 'ذاكرة'], icon: 'fa-sd-card' },
-        { keys: ['بلايستيشن', 'نيتندو', 'switch'], icon: 'fa-gamepad' }
+        { keys: ['hard', 'هارد', 'ssd', 'hdd'], icon: 'fa-hard-drive' },
+        { keys: ['sim', 'سيم'], icon: 'fa-sim-card' },
+        { keys: ['sd', 'memory', 'ميموري'], icon: 'fa-sd-card' }
     ];
-
     for (var i = 0; i < keywords.length; i++) {
         for (var j = 0; j < keywords[i].keys.length; j++) {
             if (t.indexOf(keywords[i].keys[j]) !== -1) {
@@ -1627,7 +1849,6 @@ function getDeviceIcon(deviceType) {
             }
         }
     }
-
     return 'fa-microchip';
 }
 
@@ -1867,7 +2088,7 @@ var state = {
     repairs: [],
     customers: [],
     timeline: [],
-    deviceTypes: [],       // أنواع الأجهزة المستخدمة (للاقتراحات)
+    deviceTypes: [],
     filtered: [],
     searchQuery: '',
     statusFilter: 'all',
@@ -1877,8 +2098,81 @@ var state = {
     deletingRepair: null,
     viewingRepair: null,
     selectedCustomer: null,
+    imageFile: null,
+    uploadedImageUrl: null,
     isLoading: true
 };
+
+// ═══════════════════════════════════════════════════════════════
+// 📸 Upload Device Image
+// ═══════════════════════════════════════════════════════════════
+function uploadDeviceImage(sb, file) {
+    return new Promise(function(resolve, reject) {
+        var fileExt = file.name.split('.').pop().toLowerCase();
+        var fileName = 'repairs/' + Date.now() + '-' + Math.random().toString(36).substring(7) + '.' + fileExt;
+
+        // Progress bar
+        var progressEl = document.getElementById('deviceImageProgress');
+        var progressBar = document.getElementById('deviceImageProgressBar');
+        if (progressEl) progressEl.classList.add('show');
+        if (progressBar) progressBar.style.width = '30%';
+
+        sb.storage.from(BUCKET_NAME).upload(fileName, file, {
+            cacheControl: '3600',
+            upsert: false,
+            contentType: file.type || 'image/jpeg'
+        }).then(function(result) {
+            if (progressBar) progressBar.style.width = '80%';
+
+            if (result.error) {
+                console.error('❌ Upload error:', result.error);
+                if (progressEl) progressEl.classList.remove('show');
+                reject(result.error);
+                return;
+            }
+
+            var urlResult = sb.storage.from(BUCKET_NAME).getPublicUrl(fileName);
+            if (progressBar) progressBar.style.width = '100%';
+            setTimeout(function() {
+                if (progressEl) progressEl.classList.remove('show');
+                if (progressBar) progressBar.style.width = '0%';
+            }, 500);
+
+            resolve(urlResult.data.publicUrl);
+        }).catch(function(err) {
+            if (progressEl) progressEl.classList.remove('show');
+            reject(err);
+        });
+    });
+}
+
+function resetDeviceImage() {
+    state.imageFile = null;
+    state.uploadedImageUrl = null;
+    var preview = document.getElementById('deviceImagePreview');
+    if (preview) {
+        preview.style.display = 'none';
+        preview.src = '';
+    }
+    var placeholder = document.getElementById('deviceImagePlaceholder');
+    if (placeholder) placeholder.style.display = 'block';
+    var removeBtn = document.getElementById('removeDeviceImageBtn');
+    if (removeBtn) removeBtn.style.display = 'none';
+    var input = document.getElementById('deviceImageInput');
+    if (input) input.value = '';
+}
+
+function showDeviceImagePreview(url) {
+    var preview = document.getElementById('deviceImagePreview');
+    if (preview) {
+        preview.src = url;
+        preview.style.display = 'block';
+    }
+    var placeholder = document.getElementById('deviceImagePlaceholder');
+    if (placeholder) placeholder.style.display = 'none';
+    var removeBtn = document.getElementById('removeDeviceImageBtn');
+    if (removeBtn) removeBtn.style.display = 'flex';
+}
 
 // ═══════════════════════════════════════════════════════════════
 // 📥 Load Data
@@ -1942,33 +2236,19 @@ function loadFromCache() {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🔧 Build Device Types (للاقتراحات)
-// ═══════════════════════════════════════════════════════════════
 function buildDeviceTypesFromRepairs() {
     var counts = {};
-
     state.repairs.forEach(function(r) {
         var t = (r.device_type || '').trim();
         if (!t) return;
-        // خزّن بصيغة موحدة للبحث لكن احتفظ بالأصل
-        var key = t;
-        if (!counts[key]) {
-            counts[key] = { name: t, count: 0 };
-        }
-        counts[key].count += 1;
+        if (!counts[t]) counts[t] = { name: t, count: 0 };
+        counts[t].count += 1;
     });
-
-    // رتّب حسب الأكثر استخداماً
     var arr = Object.keys(counts).map(function(k) { return counts[k]; });
     arr.sort(function(a, b) { return b.count - a.count; });
-
-    state.deviceTypes = arr.slice(0, 12); // أعلى 12 نوع
+    state.deviceTypes = arr.slice(0, 12);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 📊 Stats
-// ═══════════════════════════════════════════════════════════════
 function updateStats() {
     var total = state.repairs.length;
     var counts = { received: 0, repairing: 0, ready: 0, delivered: 0, cancelled: 0 };
@@ -1987,7 +2267,6 @@ function updateStats() {
     setEl('repairingCount', counts.repairing);
     setEl('readyCount', counts.ready);
     setEl('deliveredCount', counts.delivered);
-
     setEl('countAll', total);
     setEl('countReceived', counts.received);
     setEl('countRepairing', counts.repairing);
@@ -1999,9 +2278,6 @@ function updateStats() {
     if (subtitle) subtitle.textContent = total + ' أمر صيانة';
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🎯 Filters
-// ═══════════════════════════════════════════════════════════════
 function applyFilters() {
     var list = state.repairs.slice();
     var q = (state.searchQuery || '').trim().toLowerCase();
@@ -2052,10 +2328,7 @@ function render() {
 
     if (state.isLoading) {
         container.innerHTML = '<div class="repairs-grid">' +
-            '<div class="skeleton skeleton-card"></div>' +
-            '<div class="skeleton skeleton-card"></div>' +
-            '<div class="skeleton skeleton-card"></div>' +
-        '</div>';
+            '<div class="skeleton skeleton-card"></div>'.repeat(3) + '</div>';
         if (pagination) pagination.style.display = 'none';
         return;
     }
@@ -2072,9 +2345,7 @@ function render() {
     var pageItems = state.filtered.slice(start, start + PAGE_SIZE);
 
     var html = '<div class="repairs-grid">';
-    pageItems.forEach(function(r) {
-        html += renderRepairCard(r);
-    });
+    pageItems.forEach(function(r) { html += renderRepairCard(r); });
     html += '</div>';
     container.innerHTML = html;
 
@@ -2117,29 +2388,33 @@ function renderRepairCard(r) {
     var deviceName = (r.device_type || '') + (r.device_model ? ' - ' + r.device_model : '');
     if (!deviceName) deviceName = 'جهاز';
 
+    // ═══ Image ═══
+    var imageHtml = '';
+    if (r.device_image_url) {
+        imageHtml = '<img src="' + escapeHtml(r.device_image_url) + '" alt="' + escapeHtml(deviceName) + '" class="repair-device-image" loading="lazy" data-action="zoom-image" data-url="' + escapeHtml(r.device_image_url) + '">' +
+            '<div class="repair-image-zoom-hint"><i class="fas fa-search-plus"></i> عرض</div>';
+    } else {
+        imageHtml = '<i class="fas ' + deviceIcon + ' repair-device-image-placeholder"></i>';
+    }
+
     var html = '<div class="repair-card status-' + statusInfo.cls + '" data-id="' + r.id + '">';
 
+    // Image wrapper
+    html += '<div class="repair-device-image-wrapper">' + imageHtml + '</div>';
+
+    html += '<div class="repair-card-body">';
+
     html += '<div class="repair-card-header">';
-    html += '<div class="repair-tracking">';
-    html += '<i class="fas fa-barcode"></i> ' + escapeHtml(r.tracking_code || '—');
-    html += '</div>';
+    html += '<div class="repair-tracking"><i class="fas fa-barcode"></i> ' + escapeHtml(r.tracking_code || '—') + '</div>';
     html += '<div class="repair-card-menu">';
-    html += '<button class="repair-menu-btn" data-action="status" data-id="' + r.id + '" title="تحديث الحالة">';
-    html += '<i class="fas fa-circle-dot"></i>';
-    html += '</button>';
-    html += '<button class="repair-menu-btn" data-action="edit" data-id="' + r.id + '" title="تعديل">';
-    html += '<i class="fas fa-pen"></i>';
-    html += '</button>';
-    html += '<button class="repair-menu-btn danger" data-action="delete" data-id="' + r.id + '" title="حذف">';
-    html += '<i class="fas fa-trash"></i>';
-    html += '</button>';
+    html += '<button class="repair-menu-btn" data-action="status" data-id="' + r.id + '" title="تحديث الحالة"><i class="fas fa-circle-dot"></i></button>';
+    html += '<button class="repair-menu-btn" data-action="edit" data-id="' + r.id + '" title="تعديل"><i class="fas fa-pen"></i></button>';
+    html += '<button class="repair-menu-btn danger" data-action="delete" data-id="' + r.id + '" title="حذف"><i class="fas fa-trash"></i></button>';
     html += '</div>';
     html += '</div>';
 
     html += '<div class="repair-device">';
-    html += '<div class="repair-device-icon">';
-    html += '<i class="fas ' + deviceIcon + '"></i>';
-    html += '</div>';
+    html += '<div class="repair-device-icon"><i class="fas ' + deviceIcon + '"></i></div>';
     html += '<div class="repair-device-info">';
     html += '<div class="repair-device-name">' + escapeHtml(deviceName) + '</div>';
     if (r.serial_number) {
@@ -2168,9 +2443,7 @@ function renderRepairCard(r) {
     html += '</div>';
 
     if (r.problem) {
-        html += '<div class="repair-problem">';
-        html += '<i class="fas fa-exclamation-circle"></i> ' + escapeHtml(r.problem);
-        html += '</div>';
+        html += '<div class="repair-problem"><i class="fas fa-exclamation-circle"></i> ' + escapeHtml(r.problem) + '</div>';
     }
 
     html += '<div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;">';
@@ -2182,7 +2455,8 @@ function renderRepairCard(r) {
     }
     html += '</div>';
 
-    html += '</div>';
+    html += '</div>'; // end card body
+    html += '</div>'; // end card
     return html;
 }
 
@@ -2236,6 +2510,7 @@ function bindRepairEvents() {
                     if (action === 'edit') openEditModal(id);
                     else if (action === 'delete') openDeleteModal(id);
                     else if (action === 'status') openStatusModal(id);
+                    else if (action === 'zoom-image') openLightbox(target.dataset.url);
                     return;
                 }
                 target = target.parentElement;
@@ -2246,11 +2521,29 @@ function bindRepairEvents() {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// 🔍 Lightbox
+// ═══════════════════════════════════════════════════════════════
+function openLightbox(url) {
+    if (!url) return;
+    var lightbox = document.getElementById('lightbox');
+    var img = document.getElementById('lightboxImage');
+    if (!lightbox || !img) return;
+    img.src = url;
+    lightbox.classList.add('show');
+}
+
+function closeLightbox() {
+    var lightbox = document.getElementById('lightbox');
+    if (lightbox) lightbox.classList.remove('show');
+}
+
+// ═══════════════════════════════════════════════════════════════
 // 🪟 Add/Edit Modal
 // ═══════════════════════════════════════════════════════════════
 function openAddModal() {
     state.editingRepair = null;
     state.selectedCustomer = null;
+    resetDeviceImage();
 
     document.getElementById('repairModalTitle').textContent = 'استلام جهاز جديد';
     document.getElementById('repairModalIcon').className = 'fas fa-plus';
@@ -2279,6 +2572,7 @@ function openEditModal(id) {
     if (!r) return;
 
     state.editingRepair = r;
+    state.uploadedImageUrl = r.device_image_url || null;
 
     var customer = null;
     if (r.customer_id) {
@@ -2300,6 +2594,12 @@ function openEditModal(id) {
     document.getElementById('status').value = r.status || 'received';
     document.getElementById('repairNotes').value = r.notes || '';
 
+    // ═══ Image ═══
+    resetDeviceImage();
+    if (r.device_image_url) {
+        showDeviceImagePreview(r.device_image_url);
+    }
+
     if (customer) {
         document.getElementById('customerSearch').value = customer.name + ' - ' + (customer.phone || '');
         renderSelectedCustomer(customer);
@@ -2318,6 +2618,7 @@ function closeRepairModal() {
     document.getElementById('customerDropdown').classList.remove('show');
     state.editingRepair = null;
     state.selectedCustomer = null;
+    resetDeviceImage();
 }
 
 function clearFormErrors() {
@@ -2327,46 +2628,27 @@ function clearFormErrors() {
     for (var j = 0; j < inputs.length; j++) inputs[j].classList.remove('error');
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🔧 Device Suggestions
-// ═══════════════════════════════════════════════════════════════
 function renderDeviceSuggestions() {
     var container = document.getElementById('deviceSuggestions');
     if (!container) return;
-
-    // لو مفيش اقتراحات، اخفي القسم
     if (!state.deviceTypes.length) {
         container.innerHTML = '';
         return;
     }
-
     var currentValue = (document.getElementById('deviceType').value || '').trim().toLowerCase();
-
-    // اقتراحات من أنواع الأجهزة المستخدمة سابقاً
     var html = '';
     state.deviceTypes.forEach(function(dt) {
-        // متعرضش النوع الحالي لو مكتوب في الحقل
         if (dt.name.toLowerCase() === currentValue) return;
         html += '<button type="button" class="device-suggestion-chip" data-device-type="' + escapeHtml(dt.name) + '">';
-        html += '<i class="fas ' + getDeviceIcon(dt.name) + '"></i> ';
-        html += escapeHtml(dt.name);
-        if (dt.count > 1) {
-            html += ' <span style="opacity: 0.6; font-size: 0.7em;">(' + dt.count + ')</span>';
-        }
+        html += '<i class="fas ' + getDeviceIcon(dt.name) + '"></i> ' + escapeHtml(dt.name);
+        if (dt.count > 1) html += ' <span style="opacity: 0.6; font-size: 0.7em;">(' + dt.count + ')</span>';
         html += '</button>';
     });
-
     container.innerHTML = html;
-
-    // Bind clicks
     container.querySelectorAll('.device-suggestion-chip').forEach(function(chip) {
         chip.addEventListener('click', function() {
-            var deviceType = chip.dataset.deviceType;
-            if (deviceType) {
-                document.getElementById('deviceType').value = deviceType;
-                document.getElementById('deviceType').focus();
-                renderDeviceSuggestions();
-            }
+            document.getElementById('deviceType').value = chip.dataset.deviceType;
+            renderDeviceSuggestions();
         });
     });
 }
@@ -2383,25 +2665,16 @@ function initCustomerPicker() {
         input.addEventListener('click', function() {
             dropdown.classList.add('show');
             renderCustomerOptions('');
-            setTimeout(function() {
-                if (searchInput) searchInput.focus();
-            }, 100);
+            setTimeout(function() { if (searchInput) searchInput.focus(); }, 100);
         });
     }
-
     if (searchInput) {
-        searchInput.addEventListener('input', function(e) {
-            renderCustomerOptions(e.target.value);
-        });
+        searchInput.addEventListener('input', function(e) { renderCustomerOptions(e.target.value); });
     }
-
     document.addEventListener('click', function(e) {
         if (!dropdown || !input) return;
-        if (!dropdown.contains(e.target) && !input.contains(e.target)) {
-            dropdown.classList.remove('show');
-        }
+        if (!dropdown.contains(e.target) && !input.contains(e.target)) dropdown.classList.remove('show');
     });
-
     var newBtn = document.getElementById('newCustomerBtn');
     if (newBtn) {
         newBtn.addEventListener('click', function(e) {
@@ -2415,22 +2688,18 @@ function initCustomerPicker() {
 function renderCustomerOptions(search) {
     var list = document.getElementById('customerOptionsList');
     if (!list) return;
-
     var q = (search || '').trim().toLowerCase();
     var customers = state.customers;
-
     if (q) {
         customers = customers.filter(function(c) {
             return (c.name || '').toLowerCase().indexOf(q) !== -1 ||
                    (c.phone || '').toLowerCase().indexOf(q) !== -1;
         });
     }
-
     if (!customers.length) {
         list.innerHTML = '<div class="picker-empty"><i class="fas fa-user-slash"></i><p>لا يوجد عملاء</p></div>';
         return;
     }
-
     var html = '';
     customers.slice(0, 30).forEach(function(c) {
         var initials = getInitials(c.name);
@@ -2438,18 +2707,13 @@ function renderCustomerOptions(search) {
         html += '<div class="picker-option-avatar">' + escapeHtml(initials) + '</div>';
         html += '<div class="picker-option-info">';
         html += '<div class="picker-option-name">' + escapeHtml(c.name) + '</div>';
-        html += '<div class="picker-option-meta">';
-        html += '<span><i class="fas fa-phone"></i> ' + escapeHtml(c.phone || '—') + '</span>';
-        html += '</div>';
+        html += '<div class="picker-option-meta"><span><i class="fas fa-phone"></i> ' + escapeHtml(c.phone || '—') + '</span></div>';
         html += '</div>';
         html += '</div>';
     });
     list.innerHTML = html;
-
     list.querySelectorAll('.picker-option').forEach(function(el) {
-        el.addEventListener('click', function() {
-            selectCustomer(el.dataset.customerId);
-        });
+        el.addEventListener('click', function() { selectCustomer(el.dataset.customerId); });
     });
 }
 
@@ -2459,7 +2723,6 @@ function selectCustomer(id) {
         if (state.customers[i].id === id) { c = state.customers[i]; break; }
     }
     if (!c) return;
-
     state.selectedCustomer = c;
     document.getElementById('customerDropdown').classList.remove('show');
     document.getElementById('customerSearch').value = c.name + ' - ' + (c.phone || '');
@@ -2470,24 +2733,16 @@ function selectCustomer(id) {
 function renderSelectedCustomer(c) {
     var container = document.getElementById('selectedCustomerContainer');
     if (!container) return;
-
     var initials = getInitials(c.name);
-
     var html = '<div class="selected-chip">';
     html += '<div class="selected-chip-icon">' + escapeHtml(initials) + '</div>';
     html += '<div class="selected-chip-info">';
     html += '<div class="selected-chip-name">' + escapeHtml(c.name) + '</div>';
-    html += '<div class="selected-chip-meta">';
-    html += '<i class="fas fa-phone"></i> ' + escapeHtml(c.phone || '—');
+    html += '<div class="selected-chip-meta"><i class="fas fa-phone"></i> ' + escapeHtml(c.phone || '—') + '</div>';
     html += '</div>';
+    html += '<button type="button" class="selected-chip-remove" id="removeSelectedCustomer"><i class="fas fa-times"></i></button>';
     html += '</div>';
-    html += '<button type="button" class="selected-chip-remove" id="removeSelectedCustomer">';
-    html += '<i class="fas fa-times"></i>';
-    html += '</button>';
-    html += '</div>';
-
     container.innerHTML = html;
-
     var removeBtn = document.getElementById('removeSelectedCustomer');
     if (removeBtn) {
         removeBtn.addEventListener('click', function() {
@@ -2505,9 +2760,7 @@ function openNewCustomerModal() {
     document.getElementById('newCustomerForm').reset();
     document.getElementById('newCustomerPhoneError').classList.remove('show');
     document.getElementById('newCustomerModal').classList.add('show');
-    setTimeout(function() {
-        document.getElementById('newCustomerName').focus();
-    }, 300);
+    setTimeout(function() { document.getElementById('newCustomerName').focus(); }, 300);
 }
 
 function closeNewCustomerModal() {
@@ -2516,27 +2769,22 @@ function closeNewCustomerModal() {
 
 function saveNewCustomer(e) {
     e.preventDefault();
-
     var name = document.getElementById('newCustomerName').value.trim();
     var phone = document.getElementById('newCustomerPhone').value.trim();
     var cleanPhone = sanitizePhone(phone);
-
     if (!name) {
         document.getElementById('newCustomerName').classList.add('error');
         return;
     }
-
     if (!cleanPhone || cleanPhone.length < 8) {
         document.getElementById('newCustomerPhone').classList.add('error');
         document.getElementById('newCustomerPhoneError').classList.add('show');
         return;
     }
-
     var btn = document.getElementById('saveNewCustomerBtn');
     var spinner = btn.querySelector('.spinner');
     var icon = btn.querySelector('i');
     var text = document.getElementById('saveNewCustomerText');
-
     btn.disabled = true;
     spinner.style.display = 'inline-block';
     icon.style.display = 'none';
@@ -2544,13 +2792,8 @@ function saveNewCustomer(e) {
 
     var sb = getSupabaseClient();
     var customerData = { name: name, phone: phone };
-    var newCustomer = Object.assign({
-        id: 'temp_' + Date.now(),
-        created_at: new Date().toISOString()
-    }, customerData);
-
+    var newCustomer = Object.assign({ id: 'temp_' + Date.now(), created_at: new Date().toISOString() }, customerData);
     var promise;
-
     if (sb && navigator.onLine) {
         promise = sb.from('customers').insert(customerData).select().single()
             .then(function(result) {
@@ -2559,11 +2802,8 @@ function saveNewCustomer(e) {
                 newCustomer.created_at = result.data.created_at;
             });
     } else {
-        promise = addToOutbox({
-            type: 'insert', table: 'customers', tempId: newCustomer.id, data: customerData
-        });
+        promise = addToOutbox({ type: 'insert', table: 'customers', tempId: newCustomer.id, data: customerData });
     }
-
     promise.then(function() {
         state.customers.push(newCustomer);
         dbPut('customers', newCustomer);
@@ -2598,24 +2838,20 @@ function saveRepair(e) {
     var notes = document.getElementById('repairNotes').value.trim() || null;
 
     var hasError = false;
-
     if (!customerId || !isValidUUID(customerId)) {
         document.getElementById('customerError').classList.add('show');
         hasError = true;
     }
-
     if (!deviceType) {
         document.getElementById('deviceType').classList.add('error');
         document.getElementById('deviceTypeError').classList.add('show');
         hasError = true;
     }
-
     if (!problem) {
         document.getElementById('problem').classList.add('error');
         document.getElementById('problemError').classList.add('show');
         hasError = true;
     }
-
     if (hasError) return;
 
     var btn = document.getElementById('saveRepairBtn');
@@ -2632,95 +2868,108 @@ function saveRepair(e) {
     var sb = getSupabaseClient();
     var isEditing = !!state.editingRepair;
 
-    var repairData = {
-        customer_id: customerId,
-        device_type: deviceType,
-        device_model: deviceModel,
-        serial_number: serialNumber,
-        problem: problem,
-        labor_cost: laborCost,
-        status: status,
-        notes: notes,
-        created_by: session && session.user ? session.user.id : null
-    };
+    // ═══ Upload image first if new one selected ═══
+    var imagePromise = Promise.resolve(state.uploadedImageUrl || (state.editingRepair ? state.editingRepair.device_image_url : null));
 
-    var tempId = 'temp_' + Date.now();
-    var savePromise;
-
-    if (isEditing) {
-        var editingId = state.editingRepair.id;
-        var oldStatus = state.editingRepair.status;
-
-        if (sb && navigator.onLine && isValidUUID(editingId)) {
-            savePromise = sb.from('repair_orders').update(repairData).eq('id', editingId)
-                .then(function(result) {
-                    if (result.error) throw result.error;
-
-                    if (oldStatus !== status) {
-                        return sb.from('repair_timeline').insert({
-                            repair_order_id: editingId,
-                            status: status,
-                            note: 'تم التحديث من ' + getStatusInfo(oldStatus).text + ' إلى ' + getStatusInfo(status).text,
-                            created_by: session && session.user ? session.user.id : null
-                        });
-                    }
-                });
-        } else {
-            savePromise = addToOutbox({
-                type: 'update', table: 'repair_orders', id: editingId, data: repairData
+    if (state.imageFile && sb && navigator.onLine) {
+        imagePromise = uploadDeviceImage(sb, state.imageFile)
+            .then(function(url) {
+                console.log('✅ تم رفع الصورة:', url);
+                return url;
+            })
+            .catch(function(err) {
+                console.error('❌ فشل رفع الصورة:', err);
+                showToast('فشل رفع الصورة، سيتم الحفظ بدونها', 'warning', 4000);
+                return state.editingRepair ? state.editingRepair.device_image_url : null;
             });
-        }
-
-        savePromise = savePromise.then(function() {
-            for (var i = 0; i < state.repairs.length; i++) {
-                if (state.repairs[i].id === editingId) {
-                    state.repairs[i] = Object.assign({}, state.repairs[i], repairData);
-                    state.repairs[i].customer = state.selectedCustomer;
-                    dbPut('repairs', state.repairs[i]);
-                    break;
-                }
-            }
-            showToast('تم تحديث أمر الصيانة', 'success');
-        });
-
-    } else {
-        var newRepair = Object.assign({
-            id: tempId,
-            tracking_code: generateTrackingCode(),
-            created_at: new Date().toISOString(),
-            customer: state.selectedCustomer
-        }, repairData);
-
-        if (sb && navigator.onLine) {
-            savePromise = sb.from('repair_orders').insert(repairData).select('*, customer:customers(id, name, phone)').single()
-                .then(function(result) {
-                    if (result.error) throw result.error;
-                    newRepair.id = result.data.id;
-                    newRepair.tracking_code = result.data.tracking_code;
-                    newRepair.created_at = result.data.created_at;
-                    newRepair.customer = result.data.customer;
-
-                    return sb.from('repair_timeline').insert({
-                        repair_order_id: result.data.id,
-                        status: 'received',
-                        note: 'تم استلام الجهاز',
-                        created_by: session && session.user ? session.user.id : null
-                    }).then(function() { return result.data; });
-                });
-        } else {
-            savePromise = addToOutbox({
-                type: 'insert', table: 'repair_orders', tempId: tempId, data: repairData
-            });
-        }
-
-        savePromise = savePromise.then(function() {
-            state.repairs.unshift(newRepair);
-            dbPut('repairs', newRepair);
-            showToast('تم استلام الجهاز بنجاح', 'success');
-        });
     }
 
-    savePromise.then(function() {
+    imagePromise.then(function(imageUrl) {
+        var repairData = {
+            customer_id: customerId,
+            device_type: deviceType,
+            device_model: deviceModel,
+            serial_number: serialNumber,
+            problem: problem,
+            labor_cost: laborCost,
+            status: status,
+            notes: notes,
+            device_image_url: imageUrl,
+            created_by: session && session.user ? session.user.id : null
+        };
+
+        var tempId = 'temp_' + Date.now();
+        var savePromise;
+
+        if (isEditing) {
+            var editingId = state.editingRepair.id;
+            var oldStatus = state.editingRepair.status;
+
+            if (sb && navigator.onLine && isValidUUID(editingId)) {
+                savePromise = sb.from('repair_orders').update(repairData).eq('id', editingId)
+                    .then(function(result) {
+                        if (result.error) throw result.error;
+                        if (oldStatus !== status) {
+                            return sb.from('repair_timeline').insert({
+                                repair_order_id: editingId,
+                                status: status,
+                                note: 'تم التحديث من ' + getStatusInfo(oldStatus).text + ' إلى ' + getStatusInfo(status).text,
+                                created_by: session && session.user ? session.user.id : null
+                            });
+                        }
+                    });
+            } else {
+                savePromise = addToOutbox({ type: 'update', table: 'repair_orders', id: editingId, data: repairData });
+            }
+
+            savePromise = savePromise.then(function() {
+                for (var i = 0; i < state.repairs.length; i++) {
+                    if (state.repairs[i].id === editingId) {
+                        state.repairs[i] = Object.assign({}, state.repairs[i], repairData);
+                        state.repairs[i].customer = state.selectedCustomer;
+                        dbPut('repairs', state.repairs[i]);
+                        break;
+                    }
+                }
+                showToast('تم تحديث أمر الصيانة', 'success');
+            });
+
+        } else {
+            var newRepair = Object.assign({
+                id: tempId,
+                tracking_code: generateTrackingCode(),
+                created_at: new Date().toISOString(),
+                customer: state.selectedCustomer
+            }, repairData);
+
+            if (sb && navigator.onLine) {
+                savePromise = sb.from('repair_orders').insert(repairData).select('*, customer:customers(id, name, phone)').single()
+                    .then(function(result) {
+                        if (result.error) throw result.error;
+                        newRepair.id = result.data.id;
+                        newRepair.tracking_code = result.data.tracking_code;
+                        newRepair.created_at = result.data.created_at;
+                        newRepair.customer = result.data.customer;
+                        return sb.from('repair_timeline').insert({
+                            repair_order_id: result.data.id,
+                            status: 'received',
+                            note: 'تم استلام الجهاز',
+                            created_by: session && session.user ? session.user.id : null
+                        }).then(function() { return result.data; });
+                    });
+            } else {
+                savePromise = addToOutbox({ type: 'insert', table: 'repair_orders', tempId: tempId, data: repairData });
+            }
+
+            savePromise = savePromise.then(function() {
+                state.repairs.unshift(newRepair);
+                dbPut('repairs', newRepair);
+                showToast('تم استلام الجهاز بنجاح', 'success');
+            });
+        }
+
+        return savePromise;
+    }).then(function() {
         closeRepairModal();
         buildDeviceTypesFromRepairs();
         updateStats();
@@ -2776,12 +3025,9 @@ function openDetailsModal(id) {
             var tStatus = getStatusInfo(t.status);
             timelineHtml += '<div class="timeline-item ' + (isLast ? 'current' : '') + '">';
             timelineHtml += '<div class="timeline-status">';
-            timelineHtml += '<i class="fas ' + tStatus.icon + '" style="color: ' + tStatus.color + ';"></i> ';
-            timelineHtml += tStatus.text;
+            timelineHtml += '<i class="fas ' + tStatus.icon + '" style="color: ' + tStatus.color + ';"></i> ' + tStatus.text;
             timelineHtml += '</div>';
-            if (t.note) {
-                timelineHtml += '<div class="timeline-note">' + escapeHtml(t.note) + '</div>';
-            }
+            if (t.note) timelineHtml += '<div class="timeline-note">' + escapeHtml(t.note) + '</div>';
             timelineHtml += '<div class="timeline-time"><i class="fas fa-clock"></i> ' + formatDateTime(t.created_at) + '</div>';
             timelineHtml += '</div>';
         });
@@ -2789,14 +3035,19 @@ function openDetailsModal(id) {
     } else {
         timelineHtml = '<div style="padding: 2rem; text-align: center; color: var(--text-muted); background: var(--bg-primary); border-radius: var(--radius-md); border: 2px dashed var(--border-color);">' +
             '<i class="fas fa-clock" style="font-size: 2rem; opacity: 0.3; display: block; margin-bottom: 0.5rem;"></i>' +
-            '<p style="font-size: 0.85rem;">لا يوجد سجل بعد</p>' +
-        '</div>';
+            '<p style="font-size: 0.85rem;">لا يوجد سجل بعد</p></div>';
     }
 
     var baseUrl = window.location.origin + window.location.pathname.replace('repairs.html', 'track.html');
     var trackUrl = baseUrl + '?code=' + encodeURIComponent(r.tracking_code || '');
 
     var html = '';
+
+    // ═══ Image ═══
+    if (r.device_image_url) {
+        html += '<img src="' + escapeHtml(r.device_image_url) + '" alt="' + escapeHtml(deviceName) + '" class="device-image-large" data-action="zoom-image" data-url="' + escapeHtml(r.device_image_url) + '">';
+    }
+
     html += '<div class="repair-details-header">';
     html += '<div class="repair-details-icon"><i class="fas ' + deviceIcon + '"></i></div>';
     html += '<div class="repair-details-info">';
@@ -2805,11 +3056,8 @@ function openDetailsModal(id) {
     if (customer.name) html += '<span><i class="fas fa-user"></i> ' + escapeHtml(customer.name) + '</span>';
     if (customer.phone) html += '<span><i class="fas fa-phone"></i> ' + escapeHtml(customer.phone) + '</span>';
     html += '<span><i class="fas fa-calendar"></i> ' + formatDate(r.created_at) + '</span>';
-    html += '</div>';
-    html += '</div>';
-    html += '<div class="repair-details-tracking">';
-    html += '<i class="fas fa-barcode"></i> ' + escapeHtml(r.tracking_code || '—');
-    html += '</div>';
+    html += '</div></div>';
+    html += '<div class="repair-details-tracking"><i class="fas fa-barcode"></i> ' + escapeHtml(r.tracking_code || '—') + '</div>';
     html += '</div>';
 
     html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">';
@@ -2852,8 +3100,7 @@ function openDetailsModal(id) {
         html += '<div style="font-size: 0.9rem; line-height: 1.7;">' + escapeHtml(r.notes) + '</div>';
         html += '</div>';
     }
-    html += '</div>';
-    html += '</div>';
+    html += '</div></div>';
 
     html += '<div class="tab-content" data-tab-content="timeline">' + timelineHtml + '</div>';
 
@@ -2871,15 +3118,21 @@ function openDetailsModal(id) {
     var waMsg = 'مرحباً ' + (customer.name || '') + '،\nجهازك ' + deviceName + ' برقم تتبع: ' + (r.tracking_code || '') + '\nيمكنك متابعة حالة الجهاز من هنا: ' + trackUrl;
     html += '<a href="https://wa.me/' + escapeHtml(waPhone) + '?text=' + encodeURIComponent(waMsg) + '" target="_blank" class="btn btn-success btn-sm"><i class="fab fa-whatsapp"></i> واتساب</a>';
     html += '<a href="sms:' + escapeHtml(sanitizePhone(customer.phone || '')) + '?body=' + encodeURIComponent('جهازك برقم ' + (r.tracking_code || '') + ' - تابع من: ' + trackUrl) + '" class="btn btn-info btn-sm"><i class="fas fa-comment-sms"></i> SMS</a>';
-    html += '</div>';
-    html += '</div>';
-    html += '</div>';
+    html += '</div></div></div>';
 
     document.getElementById('detailsContent').innerHTML = html;
     document.getElementById('detailsModal').classList.add('show');
     bindDetailsTabEvents();
-
+    bindDetailsImageEvents();
     setTimeout(function() { generateRepairQR(trackUrl); }, 100);
+}
+
+function bindDetailsImageEvents() {
+    document.querySelectorAll('#detailsModal [data-action="zoom-image"]').forEach(function(img) {
+        img.addEventListener('click', function() {
+            openLightbox(img.dataset.url);
+        });
+    });
 }
 
 function bindDetailsTabEvents() {
@@ -2894,7 +3147,6 @@ function bindDetailsTabEvents() {
             });
         });
     });
-
     var copyBtn = document.getElementById('copyTrackUrlBtn');
     if (copyBtn) {
         copyBtn.addEventListener('click', function() {
@@ -2918,7 +3170,6 @@ function bindDetailsTabEvents() {
 function generateRepairQR(text) {
     var qrBox = document.getElementById('qrRepairBox');
     if (!qrBox) return;
-
     if (typeof QRCode === 'undefined') {
         var script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js';
@@ -2929,7 +3180,6 @@ function generateRepairQR(text) {
         document.head.appendChild(script);
         return;
     }
-
     QRCode.toCanvas(text, { width: 200, margin: 1, color: { dark: '#1d5b8e', light: '#ffffff' } }, function(err, canvas) {
         if (err) {
             qrBox.innerHTML = '<i class="fas fa-qrcode" style="font-size: 2rem; color: var(--text-muted);"></i>';
@@ -2943,7 +3193,7 @@ function generateRepairQR(text) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🔄 Status Update
+// 🔄 Status Update / Delete / Print / Share
 // ═══════════════════════════════════════════════════════════════
 function openStatusModal(id) {
     var r = null;
@@ -2951,7 +3201,6 @@ function openStatusModal(id) {
         if (state.repairs[i].id === id) { r = state.repairs[i]; break; }
     }
     if (!r) return;
-
     state.editingRepair = r;
     document.getElementById('newStatus').value = r.status || 'received';
     document.getElementById('statusNote').value = '';
@@ -2965,23 +3214,18 @@ function closeStatusModal() {
 
 function saveStatus(e) {
     e.preventDefault();
-
     var r = state.editingRepair;
     if (!r) return;
-
     var newStatus = document.getElementById('newStatus').value;
     var note = document.getElementById('statusNote').value.trim() || null;
-
     if (newStatus === r.status && !note) {
         showToast('لم يتم تغيير الحالة', 'warning');
         return;
     }
-
     var btn = document.getElementById('saveStatusBtn');
     var spinner = btn.querySelector('.spinner');
     var icon = btn.querySelector('i');
     var text = document.getElementById('saveStatusText');
-
     btn.disabled = true;
     spinner.style.display = 'inline-block';
     icon.style.display = 'none';
@@ -2991,22 +3235,17 @@ function saveStatus(e) {
     var sb = getSupabaseClient();
     var oldStatus = r.status;
     var isStatusChanged = newStatus !== oldStatus;
-
     var promise;
 
     if (sb && navigator.onLine && isValidUUID(r.id)) {
         promise = Promise.resolve();
-
         if (isStatusChanged) {
             promise = promise.then(function() {
                 var updateData = { status: newStatus };
-                if (newStatus === 'delivered') {
-                    updateData.delivered_at = new Date().toISOString();
-                }
+                if (newStatus === 'delivered') updateData.delivered_at = new Date().toISOString();
                 return sb.from('repair_orders').update(updateData).eq('id', r.id);
             });
         }
-
         promise = promise.then(function() {
             return sb.from('repair_timeline').insert({
                 repair_order_id: r.id,
@@ -3016,46 +3255,24 @@ function saveStatus(e) {
             });
         });
     } else {
-        promise = addToOutbox({
-            type: 'update',
-            table: 'repair_orders',
-            id: r.id,
-            data: { status: newStatus }
-        }).then(function() {
-            return addToOutbox({
-                type: 'insert',
-                table: 'repair_timeline',
-                data: {
-                    repair_order_id: r.id,
-                    status: newStatus,
-                    note: note || 'تحديث الحالة'
-                }
+        promise = addToOutbox({ type: 'update', table: 'repair_orders', id: r.id, data: { status: newStatus } })
+            .then(function() {
+                return addToOutbox({ type: 'insert', table: 'repair_timeline', data: { repair_order_id: r.id, status: newStatus, note: note || 'تحديث الحالة' } });
             });
-        });
     }
 
     promise.then(function() {
         for (var i = 0; i < state.repairs.length; i++) {
             if (state.repairs[i].id === r.id) {
                 state.repairs[i].status = newStatus;
-                if (newStatus === 'delivered') {
-                    state.repairs[i].delivered_at = new Date().toISOString();
-                }
+                if (newStatus === 'delivered') state.repairs[i].delivered_at = new Date().toISOString();
                 dbPut('repairs', state.repairs[i]);
                 break;
             }
         }
-
-        var newTimeline = {
-            id: 'temp_' + Date.now(),
-            repair_order_id: r.id,
-            status: newStatus,
-            note: note,
-            created_at: new Date().toISOString()
-        };
+        var newTimeline = { id: 'temp_' + Date.now(), repair_order_id: r.id, status: newStatus, note: note, created_at: new Date().toISOString() };
         state.timeline.push(newTimeline);
         dbPut('repair_timeline', newTimeline);
-
         showToast('تم تحديث الحالة بنجاح', 'success');
         closeStatusModal();
         updateStats();
@@ -3071,16 +3288,12 @@ function saveStatus(e) {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🗑️ Delete
-// ═══════════════════════════════════════════════════════════════
 function openDeleteModal(id) {
     var r = null;
     for (var i = 0; i < state.repairs.length; i++) {
         if (state.repairs[i].id === id) { r = state.repairs[i]; break; }
     }
     if (!r) return;
-
     state.deletingRepair = r;
     document.getElementById('deleteRepairCode').textContent = r.tracking_code || '';
     document.getElementById('deleteModal').classList.add('show');
@@ -3089,31 +3302,24 @@ function openDeleteModal(id) {
 function confirmDelete() {
     var r = state.deletingRepair;
     if (!r) return;
-
     var btn = document.getElementById('confirmDeleteBtn');
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner" style="display:block;width:16px;height:16px;"></span>';
-
     var session = getSession();
     var sb = getSupabaseClient();
     var promise;
-
     if (sb && navigator.onLine && isValidUUID(r.id)) {
-        promise = sb.from('repair_orders').delete().eq('id', r.id)
-            .then(function(result) {
-                if (result.error) throw result.error;
-                sb.from('audit_log').insert({
-                    user_id: session && session.user ? session.user.id : null,
-                    action: 'DELETE',
-                    table_name: 'repair_orders',
-                    record_id: r.id,
-                    old_data: r
-                }).then(function(){}, function(){});
-            });
+        promise = sb.from('repair_orders').delete().eq('id', r.id).then(function(result) {
+            if (result.error) throw result.error;
+            sb.from('audit_log').insert({
+                user_id: session && session.user ? session.user.id : null,
+                action: 'DELETE', table_name: 'repair_orders',
+                record_id: r.id, old_data: r
+            }).then(function(){}, function(){});
+        });
     } else {
         promise = addToOutbox({ type: 'delete', table: 'repair_orders', id: r.id });
     }
-
     promise.then(function() {
         state.repairs = state.repairs.filter(function(x) { return x.id !== r.id; });
         state.timeline = state.timeline.filter(function(t) { return t.repair_order_id !== r.id; });
@@ -3133,15 +3339,15 @@ function confirmDelete() {
     });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 🖨️ Print
-// ═══════════════════════════════════════════════════════════════
 function printRepair() {
     var r = state.viewingRepair;
     if (!r) return;
-
     var customer = r.customer || {};
     var statusInfo = getStatusInfo(r.status);
+
+    var imageHtml = r.device_image_url 
+        ? '<div style="text-align:center; margin-bottom: 8mm;"><img src="' + escapeHtml(r.device_image_url) + '" style="max-width: 100%; max-height: 80mm; border-radius: 3mm; border: 1px solid #e1e8f0;"></div>'
+        : '';
 
     var html = '<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>أمر صيانة ' + escapeHtml(r.tracking_code) + '</title>' +
         '<style>' +
@@ -3172,39 +3378,21 @@ function printRepair() {
                 '<img src="logo.png" alt="إلكترونك" onerror="this.style.display=\'none\'">' +
                 '<div><h1>إلكترونك</h1><p>لصيانة الأجهزة الإلكترونية</p></div>' +
             '</div>' +
-            '<div class="tracking">' +
-                '<h2>' + escapeHtml(r.tracking_code || '') + '</h2>' +
-                '<p>' + formatDateTime(r.created_at) + '</p>' +
-            '</div>' +
+            '<div class="tracking"><h2>' + escapeHtml(r.tracking_code || '') + '</h2><p>' + formatDateTime(r.created_at) + '</p></div>' +
         '</div>' +
         '<div class="status"><h3>' + statusInfo.text + '</h3></div>' +
+        imageHtml +
         '<div class="info-grid">' +
-            '<div class="info-box">' +
-                '<h3>العميل</h3>' +
-                '<p>' + escapeHtml(customer.name || '—') + '</p>' +
-                '<p style="font-family: monospace; direction: ltr; text-align: right;">' + escapeHtml(customer.phone || '') + '</p>' +
-            '</div>' +
-            '<div class="info-box">' +
-                '<h3>الجهاز</h3>' +
-                '<p>' + escapeHtml(r.device_type || '—') + '</p>' +
-                (r.device_model ? '<p style="font-size: 10pt;">' + escapeHtml(r.device_model) + '</p>' : '') +
-            '</div>' +
+            '<div class="info-box"><h3>العميل</h3><p>' + escapeHtml(customer.name || '—') + '</p><p style="font-family: monospace; direction: ltr; text-align: right;">' + escapeHtml(customer.phone || '') + '</p></div>' +
+            '<div class="info-box"><h3>الجهاز</h3><p>' + escapeHtml(r.device_type || '—') + '</p>' + (r.device_model ? '<p style="font-size: 10pt;">' + escapeHtml(r.device_model) + '</p>' : '') + '</div>' +
         '</div>' +
-        '<div class="problem-box">' +
-            '<h3>وصف العطل</h3>' +
-            '<p>' + escapeHtml(r.problem || '—') + '</p>' +
-        '</div>' +
-        '<div class="footer">' +
-            '<p>شكراً لتعاملكم معنا</p>' +
-        '</div>' +
-        '<script>window.onload = function() { setTimeout(function() { window.print(); }, 300); };<\/script>' +
+        '<div class="problem-box"><h3>وصف العطل</h3><p>' + escapeHtml(r.problem || '—') + '</p></div>' +
+        '<div class="footer"><p>شكراً لتعاملكم معنا</p></div>' +
+        '<script>window.onload = function() { setTimeout(function() { window.print(); }, 500); };<\/script>' +
         '</body></html>';
 
     var win = window.open('', '_blank');
-    if (!win) {
-        showToast('يرجى السماح بالنوافذ المنبثقة', 'error');
-        return;
-    }
+    if (!win) { showToast('يرجى السماح بالنوافذ المنبثقة', 'error'); return; }
     win.document.open();
     win.document.write(html);
     win.document.close();
@@ -3214,9 +3402,7 @@ function shareRepair() {
     var tabs = document.querySelectorAll('#detailsModal .tab-btn');
     var contents = document.querySelectorAll('#detailsModal .tab-content');
     tabs.forEach(function(t) { t.classList.toggle('active', t.dataset.tab === 'share'); });
-    contents.forEach(function(c) {
-        c.classList.toggle('active', c.dataset.tabContent === 'share');
-    });
+    contents.forEach(function(c) { c.classList.toggle('active', c.dataset.tabContent === 'share'); });
 }
 
 function createInvoiceFromRepair() {
@@ -3225,9 +3411,6 @@ function createInvoiceFromRepair() {
     window.location.href = 'invoices.html?action=add&repair_id=' + r.id;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 📤 Export Excel
-// ═══════════════════════════════════════════════════════════════
 function exportExcel() {
     var loadLib = Promise.resolve();
     if (typeof XLSX === 'undefined') {
@@ -3239,7 +3422,6 @@ function exportExcel() {
             document.head.appendChild(script);
         });
     }
-
     loadLib.then(function() {
         var data = state.filtered.map(function(r) {
             var customer = r.customer || {};
@@ -3255,10 +3437,9 @@ function exportExcel() {
                 'العطل': r.problem || '',
                 'الحالة': statusInfo.text,
                 'تكلفة المصنعية': parseFloat(r.labor_cost) || 0,
-                'تاريخ التسليم': r.delivered_at ? formatDate(r.delivered_at) : ''
+                'صورة الجهاز': r.device_image_url || ''
             };
         });
-
         var ws = XLSX.utils.json_to_sheet(data);
         var wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'أوامر الصيانة');
@@ -3278,15 +3459,9 @@ function loadNotifications() {
     if (!session) return;
     var sb = getSupabaseClient();
     if (!sb || !navigator.onLine) return;
-
-    sb.from('notifications')
-        .select('*')
-        .eq('user_id', session.user.id)
-        .order('created_at', { ascending: false })
-        .limit(20)
-        .then(function(result) {
-            renderNotifications(result.data || []);
-        })
+    sb.from('notifications').select('*').eq('user_id', session.user.id)
+        .order('created_at', { ascending: false }).limit(20)
+        .then(function(result) { renderNotifications(result.data || []); })
         .catch(function(){});
 }
 
@@ -3294,24 +3469,15 @@ function renderNotifications(notifications) {
     var list = document.getElementById('notificationsList');
     var badge = document.getElementById('notifBadge');
     if (!list || !badge) return;
-
-    var unread = 0;
-    for (var i = 0; i < notifications.length; i++) {
-        if (!notifications[i].read) unread++;
-    }
-
+    var unread = notifications.filter(function(n) { return !n.read; }).length;
     if (unread > 0) {
         badge.textContent = unread > 99 ? '99+' : unread;
         badge.style.display = 'flex';
-    } else {
-        badge.style.display = 'none';
-    }
-
+    } else badge.style.display = 'none';
     if (!notifications.length) {
         list.innerHTML = '<div class="notifications-empty"><i class="fas fa-bell-slash"></i><p>لا توجد إشعارات</p></div>';
         return;
     }
-
     var typeMap = {
         'new_repair': { icon: 'fa-screwdriver-wrench', cls: 'info' },
         'ready_repair': { icon: 'fa-circle-check', cls: 'success' },
@@ -3319,7 +3485,6 @@ function renderNotifications(notifications) {
         'low_stock': { icon: 'fa-triangle-exclamation', cls: 'warning' },
         'info': { icon: 'fa-circle-info', cls: 'info' }
     };
-
     var html = '';
     notifications.forEach(function(n) {
         var t = typeMap[n.type] || typeMap.info;
@@ -3329,8 +3494,7 @@ function renderNotifications(notifications) {
         html += '<div class="notification-item-title">' + escapeHtml(n.title) + '</div>';
         html += '<div class="notification-item-message">' + escapeHtml(n.message || '') + '</div>';
         html += '<div class="notification-item-time"><i class="fas fa-clock"></i> ' + formatTimeAgo(n.created_at) + '</div>';
-        html += '</div>';
-        html += '</div>';
+        html += '</div></div>';
     });
     list.innerHTML = html;
 }
@@ -3341,10 +3505,8 @@ function markAllRead() {
     var sb = getSupabaseClient();
     if (sb && navigator.onLine) {
         sb.from('notifications').update({ read: true }).eq('user_id', session.user.id).eq('read', false)
-            .then(function() {
-                loadNotifications();
-                showToast('تم تعيين الكل كمقروء', 'success');
-            }).catch(function(){});
+            .then(function() { loadNotifications(); showToast('تم تعيين الكل كمقروء', 'success'); })
+            .catch(function(){});
     }
 }
 
@@ -3354,7 +3516,6 @@ function markAllRead() {
 function updateUserUI(user) {
     var initial = ((user.full_name || user.username || 'م') + '').charAt(0).toUpperCase();
     var roleText = user.role === 'admin' ? 'مدير' : 'موظف';
-
     ['userAvatar', 'dropdownAvatar'].forEach(function(id) {
         var el = document.getElementById(id);
         if (el) el.textContent = initial;
@@ -3372,11 +3533,9 @@ function updateUserUI(user) {
 function applyPermissions(user) {
     var perms = user.permissions || {};
     var isAdmin = user.role === 'admin';
-
     document.querySelectorAll('.sidebar-link[data-perm]').forEach(function(link) {
         if (!isAdmin && !perms[link.dataset.perm]) link.style.display = 'none';
     });
-
     if (isAdmin) {
         var al = document.getElementById('adminLink');
         var dal = document.getElementById('dropdownAdminLink');
@@ -3402,25 +3561,20 @@ function handleUrlParams() {
             }
         }, 500);
     }
-
     if (id) {
         setTimeout(function() {
             var exists = state.repairs.some(function(r) { return r.id === id; });
             if (exists) openDetailsModal(id);
         }, 700);
     }
-
     if (tracking) {
         setTimeout(function() {
             var repair = state.repairs.find(function(r) { return r.tracking_code === tracking; });
             if (repair) openDetailsModal(repair.id);
         }, 700);
     }
-
     if (action || id) {
-        try {
-            window.history.replaceState({}, '', window.location.pathname);
-        } catch (e) {}
+        try { window.history.replaceState({}, '', window.location.pathname); } catch (e) {}
     }
 }
 
@@ -3428,14 +3582,12 @@ function handleUrlParams() {
 // 🎬 Init
 // ═══════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', function() {
-
     var session = getSession();
     if (!session) { window.location.href = 'index.html'; return; }
     if (session.user.must_change_password) { window.location.href = 'index.html'; return; }
 
     initTheme();
-    var themeToggle = document.getElementById('themeToggle');
-    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+    document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
 
     updateOnlineStatus();
     window.addEventListener('online', function() {
@@ -3452,16 +3604,13 @@ document.addEventListener('DOMContentLoaded', function() {
     applyPermissions(session.user);
 
     // Sidebar
-    var menuBtn = document.getElementById('menuBtn');
-    var sidebar = document.getElementById('sidebar');
-    var overlay = document.getElementById('sidebarOverlay');
-    if (menuBtn) menuBtn.addEventListener('click', function() {
-        if (sidebar) sidebar.classList.toggle('show');
-        if (overlay) overlay.classList.toggle('show');
+    document.getElementById('menuBtn')?.addEventListener('click', function() {
+        document.getElementById('sidebar')?.classList.toggle('show');
+        document.getElementById('sidebarOverlay')?.classList.toggle('show');
     });
-    if (overlay) overlay.addEventListener('click', function() {
-        if (sidebar) sidebar.classList.remove('show');
-        if (overlay) overlay.classList.remove('show');
+    document.getElementById('sidebarOverlay')?.addEventListener('click', function() {
+        document.getElementById('sidebar')?.classList.remove('show');
+        document.getElementById('sidebarOverlay')?.classList.remove('show');
     });
 
     // User dropdown
@@ -3470,25 +3619,20 @@ document.addEventListener('DOMContentLoaded', function() {
     var notifBtn = document.getElementById('notificationsBtn');
     var notifPanel = document.getElementById('notificationsPanel');
 
-    if (userBtn) userBtn.addEventListener('click', function(e) {
+    userBtn?.addEventListener('click', function(e) {
         e.stopPropagation();
-        if (userDropdown) userDropdown.classList.toggle('show');
-        if (notifPanel) notifPanel.classList.remove('show');
+        userDropdown?.classList.toggle('show');
+        notifPanel?.classList.remove('show');
     });
-
-    var logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) logoutBtn.addEventListener('click', function() {
+    document.getElementById('logoutBtn')?.addEventListener('click', function() {
         if (confirm('هل أنت متأكد من تسجيل الخروج؟')) logout();
     });
-
-    if (notifBtn) notifBtn.addEventListener('click', function(e) {
+    notifBtn?.addEventListener('click', function(e) {
         e.stopPropagation();
-        if (notifPanel) notifPanel.classList.toggle('show');
-        if (userDropdown) userDropdown.classList.remove('show');
+        notifPanel?.classList.toggle('show');
+        userDropdown?.classList.remove('show');
     });
-
-    var markAllBtn = document.getElementById('markAllReadBtn');
-    if (markAllBtn) markAllBtn.addEventListener('click', markAllRead);
+    document.getElementById('markAllReadBtn')?.addEventListener('click', markAllRead);
 
     document.addEventListener('click', function(e) {
         if (userDropdown && !userDropdown.contains(e.target) && userBtn && !userBtn.contains(e.target)) {
@@ -3501,8 +3645,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Search
     var searchTimeout;
-    var searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.addEventListener('input', function(e) {
+    document.getElementById('searchInput')?.addEventListener('input', function(e) {
         clearTimeout(searchTimeout);
         var val = e.target.value;
         searchTimeout = setTimeout(function() {
@@ -3521,39 +3664,66 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Sort
-    var sortFilter = document.getElementById('sortFilter');
-    if (sortFilter) sortFilter.addEventListener('change', function(e) {
+    document.getElementById('sortFilter')?.addEventListener('change', function(e) {
         state.sortFilter = e.target.value;
         applyFilters();
     });
 
-    // Add
-    var addBtn = document.getElementById('addRepairBtn');
-    if (addBtn) addBtn.addEventListener('click', openAddModal);
+    document.getElementById('addRepairBtn')?.addEventListener('click', openAddModal);
 
     // Repair modal
-    var closeP = document.getElementById('closeRepairModal');
-    var cancelP = document.getElementById('cancelRepairBtn');
-    var form = document.getElementById('repairForm');
-    if (closeP) closeP.addEventListener('click', closeRepairModal);
-    if (cancelP) cancelP.addEventListener('click', closeRepairModal);
-    if (form) form.addEventListener('submit', saveRepair);
+    document.getElementById('closeRepairModal')?.addEventListener('click', closeRepairModal);
+    document.getElementById('cancelRepairBtn')?.addEventListener('click', closeRepairModal);
+    document.getElementById('repairForm')?.addEventListener('submit', saveRepair);
 
-    // Device type input → إعادة رسم الاقتراحات
+    // ═══ Image Upload Events ═══
+    var deviceImageInput = document.getElementById('deviceImageInput');
+    if (deviceImageInput) {
+        deviceImageInput.addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('حجم الصورة أكبر من 5 ميجا', 'error');
+                e.target.value = '';
+                return;
+            }
+            if (!file.type.startsWith('image/')) {
+                showToast('الملف ليس صورة', 'error');
+                e.target.value = '';
+                return;
+            }
+
+            state.imageFile = file;
+
+            var reader = new FileReader();
+            reader.onload = function(ev) {
+                showDeviceImagePreview(ev.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    var removeDeviceImageBtn = document.getElementById('removeDeviceImageBtn');
+    if (removeDeviceImageBtn) {
+        removeDeviceImageBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            resetDeviceImage();
+        });
+    }
+
+    // Device type suggestions
     var deviceTypeInput = document.getElementById('deviceType');
     if (deviceTypeInput) {
         deviceTypeInput.addEventListener('input', function() {
             renderDeviceSuggestions();
-            // إخفاء خطأ الحقل لو المستخدم بدأ يكتب
             if (deviceTypeInput.value.trim()) {
                 deviceTypeInput.classList.remove('error');
-                var errEl = document.getElementById('deviceTypeError');
-                if (errEl) errEl.classList.remove('show');
+                document.getElementById('deviceTypeError')?.classList.remove('show');
             }
         });
         deviceTypeInput.addEventListener('blur', function() {
-            // أعِد بناء الاقتراحات بدون النوع الحالي
             renderDeviceSuggestions();
         });
     }
@@ -3562,58 +3732,46 @@ document.addEventListener('DOMContentLoaded', function() {
     initCustomerPicker();
 
     // New customer modal
-    var closeNC = document.getElementById('closeNewCustomerModal');
-    var cancelNC = document.getElementById('cancelNewCustomerBtn');
-    var ncForm = document.getElementById('newCustomerForm');
-    if (closeNC) closeNC.addEventListener('click', closeNewCustomerModal);
-    if (cancelNC) cancelNC.addEventListener('click', closeNewCustomerModal);
-    if (ncForm) ncForm.addEventListener('submit', saveNewCustomer);
+    document.getElementById('closeNewCustomerModal')?.addEventListener('click', closeNewCustomerModal);
+    document.getElementById('cancelNewCustomerBtn')?.addEventListener('click', closeNewCustomerModal);
+    document.getElementById('newCustomerForm')?.addEventListener('submit', saveNewCustomer);
 
     // Details modal
-    var closeDetails = document.getElementById('closeDetailsModal');
-    var closeDetailsBtn = document.getElementById('closeDetailsBtn');
-    if (closeDetails) closeDetails.addEventListener('click', function() {
+    document.getElementById('closeDetailsModal')?.addEventListener('click', function() {
         document.getElementById('detailsModal').classList.remove('show');
         state.viewingRepair = null;
     });
-    if (closeDetailsBtn) closeDetailsBtn.addEventListener('click', function() {
+    document.getElementById('closeDetailsBtn')?.addEventListener('click', function() {
         document.getElementById('detailsModal').classList.remove('show');
         state.viewingRepair = null;
     });
-
-    // Print / Share / Invoice
-    var printBtn = document.getElementById('printRepairBtn');
-    var shareBtn = document.getElementById('shareRepairBtn');
-    var invoiceBtn = document.getElementById('invoiceFromRepairBtn');
-    if (printBtn) printBtn.addEventListener('click', printRepair);
-    if (shareBtn) shareBtn.addEventListener('click', shareRepair);
-    if (invoiceBtn) invoiceBtn.addEventListener('click', createInvoiceFromRepair);
+    document.getElementById('printRepairBtn')?.addEventListener('click', printRepair);
+    document.getElementById('shareRepairBtn')?.addEventListener('click', shareRepair);
+    document.getElementById('invoiceFromRepairBtn')?.addEventListener('click', createInvoiceFromRepair);
 
     // Status modal
-    var closeStatus = document.getElementById('closeStatusModal');
-    var cancelStatus = document.getElementById('cancelStatusBtn');
-    var statusForm = document.getElementById('statusForm');
-    if (closeStatus) closeStatus.addEventListener('click', closeStatusModal);
-    if (cancelStatus) cancelStatus.addEventListener('click', closeStatusModal);
-    if (statusForm) statusForm.addEventListener('submit', saveStatus);
+    document.getElementById('closeStatusModal')?.addEventListener('click', closeStatusModal);
+    document.getElementById('cancelStatusBtn')?.addEventListener('click', closeStatusModal);
+    document.getElementById('statusForm')?.addEventListener('submit', saveStatus);
 
     // Delete modal
-    var closeDel = document.getElementById('closeDeleteModal');
-    var cancelDel = document.getElementById('cancelDeleteBtn');
-    var confirmDel = document.getElementById('confirmDeleteBtn');
-    if (closeDel) closeDel.addEventListener('click', function() {
+    document.getElementById('closeDeleteModal')?.addEventListener('click', function() {
         document.getElementById('deleteModal').classList.remove('show');
         state.deletingRepair = null;
     });
-    if (cancelDel) cancelDel.addEventListener('click', function() {
+    document.getElementById('cancelDeleteBtn')?.addEventListener('click', function() {
         document.getElementById('deleteModal').classList.remove('show');
         state.deletingRepair = null;
     });
-    if (confirmDel) confirmDel.addEventListener('click', confirmDelete);
+    document.getElementById('confirmDeleteBtn')?.addEventListener('click', confirmDelete);
 
-    // Export
-    var expBtn = document.getElementById('exportExcelBtn');
-    if (expBtn) expBtn.addEventListener('click', exportExcel);
+    document.getElementById('exportExcelBtn')?.addEventListener('click', exportExcel);
+
+    // Lightbox
+    document.getElementById('lightboxClose')?.addEventListener('click', closeLightbox);
+    document.getElementById('lightbox')?.addEventListener('click', function(e) {
+        if (e.target === this) closeLightbox();
+    });
 
     // Overlay close
     document.querySelectorAll('.modal-overlay').forEach(function(ov) {
@@ -3626,13 +3784,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             document.querySelectorAll('.modal-overlay.show').forEach(function(m) { m.classList.remove('show'); });
-            var cd = document.getElementById('customerDropdown');
-            if (cd) cd.classList.remove('show');
+            closeLightbox();
+            document.getElementById('customerDropdown')?.classList.remove('show');
         }
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
-            var si = document.getElementById('searchInput');
-            if (si) si.focus();
+            document.getElementById('searchInput')?.focus();
         }
         if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
             e.preventDefault();
@@ -3648,17 +3805,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         var scrolled = height > 0 ? (winScroll / height) * 100 : 0;
         if (progressBar) progressBar.style.width = scrolled + '%';
-        if (winScroll > 300) {
-            if (scrollTopBtn) scrollTopBtn.classList.add('show');
-        } else {
-            if (scrollTopBtn) scrollTopBtn.classList.remove('show');
-        }
+        if (winScroll > 300) scrollTopBtn?.classList.add('show');
+        else scrollTopBtn?.classList.remove('show');
     }, { passive: true });
-    if (scrollTopBtn) scrollTopBtn.addEventListener('click', function() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    scrollTopBtn?.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
-    // Permissions
     if (session.user.role !== 'admin' && (!session.user.permissions || !session.user.permissions.can_edit_repairs)) {
         var addBtn2 = document.getElementById('addRepairBtn');
         if (addBtn2) addBtn2.style.display = 'none';
