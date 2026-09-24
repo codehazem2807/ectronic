@@ -305,6 +305,7 @@ img { max-width: 100%; height: auto; display: block; }
     display: flex; background: var(--bg-primary);
     border: 1.5px solid var(--border-color); border-radius: var(--radius-md);
     padding: 0.2rem; gap: 0.15rem;
+    flex: 0 0 auto;
 }
 .view-toggle-btn {
     width: 36px; height: 32px; border-radius: var(--radius-sm);
@@ -943,7 +944,10 @@ img { max-width: 100%; height: auto; display: block; }
     .toolbar-row { gap: 0.5rem; }
     .toolbar-search { min-width: 0; flex: 1 1 100%; }
     .toolbar-select { flex: 1; min-width: 0; }
-    .view-toggle { display: none; }
+    .view-toggle {
+        display: flex;
+        flex: 0 0 auto;
+    }
     .products-list-item {
         grid-template-columns: 50px 1fr 100px;
         padding: 0.65rem 0.75rem;
@@ -961,6 +965,10 @@ img { max-width: 100%; height: auto; display: block; }
 
 @media (max-width: 400px) {
     .products-grid { grid-template-columns: 1fr; }
+    .toolbar-row { flex-wrap: wrap; }
+    .toolbar-search { flex: 1 1 100%; }
+    .toolbar-select { flex: 1 1 calc(50% - 0.25rem); }
+    .view-toggle { flex: 0 0 auto; margin-right: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2129,7 +2137,6 @@ function bindProductEvents() {
         })(els[i]);
     }
     
-    // ✅ الضغط على الكارت كامل يفتح التفاصيل
     var cards = document.querySelectorAll('[data-view-id]');
     for (var j = 0; j < cards.length; j++) {
         (function(card) {
@@ -2172,7 +2179,6 @@ function openViewModal(id) {
     }
     if (!p) return;
     
-    // إزالة أي modal قديم
     var old = document.getElementById('viewProductModal');
     if (old) old.remove();
     
@@ -2185,7 +2191,6 @@ function openViewModal(id) {
     var categoryIcon = (p.category && p.category.icon) || 'fa-microchip';
     var isFav = hasFavorite(p.id);
     
-    // ✅ صورة الصنف تظهر هنا فقط
     var imageSection;
     if (p.image_url) {
         imageSection = '<img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '" style="width:100%;max-height:340px;object-fit:contain;background:var(--bg-primary);border-radius:var(--radius-md);border:1px solid var(--border-color);" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';"><div style="display:none;width:100%;height:240px;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg-primary),var(--bg-hover));border-radius:var(--radius-md);border:1px solid var(--border-color);"><i class="fas ' + escapeHtml(categoryIcon) + '" style="font-size:5rem;color:var(--tech-blue);opacity:0.4;"></i></div>';
