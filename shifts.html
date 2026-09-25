@@ -1089,10 +1089,8 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
     </div>
     
-    <!-- Current Shift / No Shift -->
     <div id="shiftBannerContainer"></div>
     
-    <!-- Stats -->
     <div class="stats-bar">
         <div class="stat-item">
             <div class="stat-item-icon"><i class="fas fa-clock"></i></div>
@@ -1124,7 +1122,6 @@ img { max-width: 100%; height: auto; display: block; }
         </div>
     </div>
     
-    <!-- Toolbar -->
     <div class="toolbar">
         <div class="toolbar-search">
             <input type="text" class="toolbar-search-input" id="searchInput" placeholder="ابحث باسم الموظف..." autocomplete="off">
@@ -1142,7 +1139,6 @@ img { max-width: 100%; height: auto; display: block; }
         <input type="date" class="toolbar-date" id="dateTo" title="إلى تاريخ">
     </div>
     
-    <!-- Shifts List -->
     <div class="shifts-list" id="shiftsList">
         <div class="skeleton skeleton-card"></div>
         <div class="skeleton skeleton-card"></div>
@@ -1248,7 +1244,6 @@ img { max-width: 100%; height: auto; display: block; }
                     <textarea class="form-textarea" id="closeShiftNotes" placeholder="سبب الفرق إن وُجد..." maxlength="500"></textarea>
                 </div>
                 
-                <!-- Live Diff Preview -->
                 <div class="summary-box" id="diffPreviewBox" style="display: none;">
                     <h4><i class="fas fa-calculator"></i> معاينة الفرق</h4>
                     <div class="summary-row">
@@ -1693,7 +1688,6 @@ function loadData() {
     return Promise.all([
         sb.from('shifts').select('*').order('start_time', { ascending: false }).limit(500),
         sb.from('accounts').select('id, full_name, username, role'),
-        // ✅ جلب كل الفواتير مع الحقول المطلوبة
         sb.from('invoices').select('id, total, paid_amount, paid, created_at, created_by, payment_method'),
         sb.from('payments').select('id, amount, method, created_at, created_by, invoice_id')
     ]).then(function(results) {
@@ -1708,7 +1702,6 @@ function loadData() {
             payments: state.payments.length
         });
         
-        // Enrich shifts with employee names
         var empMap = {};
         state.employees.forEach(function(e) { empMap[e.id] = e; });
         state.shifts = state.shifts.map(function(s) {
@@ -1718,7 +1711,6 @@ function loadData() {
             return s;
         });
         
-        // Find current active shift for this user
         var session = getSession();
         if (session && session.user) {
             for (var i = 0; i < state.shifts.length; i++) {
@@ -1853,7 +1845,7 @@ function populateEmployeeFilter() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🎨 Render Shift Banner (Current/No Shift)
+// 🎨 Render Shift Banner
 // ═══════════════════════════════════════════════════════════════
 function renderShiftBanner() {
     var container = document.getElementById('shiftBannerContainer');
@@ -1875,8 +1867,6 @@ function renderCurrentShiftBanner(shift) {
                   (session && session.user.username) || 'المستخدم';
     
     var elapsed = Math.floor((Date.now() - new Date(shift.start_time).getTime()) / 1000);
-    
-    // ✅ حساب مباشر بدون حفظ
     var liveStats = calculateShiftStats(shift);
     
     return '<div class="current-shift-banner">' +
@@ -1955,45 +1945,40 @@ function bindNoShiftEvents() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🎯 حساب إحصائيات الوردية (الحساب الصحيح 100%)
+// 🎯 حساب إحصائيات الوردية
 // ═══════════════════════════════════════════════════════════════
-//
-// 📌 طريقة الحساب:
-// 1. المبيعات = مجموع كل الفواتير (total) خلال فترة الوردية
-// 2. المحصّل = مجموع paid_amount من كل فاتورة
-// 3. المديونيات = المبيعات - المحصّل
-// 4. الكاش المتوقع = بداية الكاش + المحصّل
-//
+// 📌 القاعدة:
+//   المبيعات = مجموع total من كل الفواتير
+//   المحصّل = مجموع paid_amount
+//   المديونيات = المبيعات - المحصّل
+//   الكاش المتوقع = بداية الكاش + المحصّل
 // ═══════════════════════════════════════════════════════════════
 function calculateShiftStats(shift) {
     var startTime = new Date(shift.start_time).getTime();
     var endTime = shift.end_time ? new Date(shift.end_time).getTime() : Date.now();
     
-    // 1. فلترة الفواتير في فترة الوردية
+    // فلترة الفواتير في فترة الوردية
     var shiftInvoices = state.invoices.filter(function(inv) {
         var invTime = new Date(inv.created_at).getTime();
         return invTime >= startTime && invTime <= endTime;
     });
     
-    // 2. حساب الإجماليات
-    var totalSales = 0;         // إجمالي المبيعات (كل الفواتير)
-    var collectedAmount = 0;    // المحصّل فعلاً (paid_amount)
-    var debtsAmount = 0;        // المديونيات
+    var totalSales = 0;
+    var collectedAmount = 0;
+    var debtsAmount = 0;
     var invoiceCount = shiftInvoices.length;
     
     shiftInvoices.forEach(function(inv) {
         var total = parseFloat(inv.total) || 0;
         var paidAmount = parseFloat(inv.paid_amount) || 0;
         
-        // التأكد من paid_amount
         if (isNaN(paidAmount)) paidAmount = 0;
         
-        // لو paid boolean = true، يبقى الفاتورة مدفوعة بالكامل
+        // لو paid = true يبقى مدفوعة بالكامل
         if (inv.paid === true && paidAmount < total) {
             paidAmount = total;
         }
         
-        // التأكد من عدم تجاوز الإجمالي
         if (paidAmount > total) paidAmount = total;
         if (paidAmount < 0) paidAmount = 0;
         
@@ -2005,30 +1990,19 @@ function calculateShiftStats(shift) {
         debtsAmount += debt;
     });
     
-    // 3. لو الوردية مغلقة، نستخدم القيم المحفوظة (للدقة التاريخية)
+    // لو الوردية مغلقة، نستخدم القيم المحفوظة للأمان
     if (shift.end_time) {
         var storedSales = parseFloat(shift.sales_total);
         var storedPayments = parseFloat(shift.payments_total);
+        var storedDebts = parseFloat(shift.debts_total);
         
-        if (!isNaN(storedSales) && storedSales >= 0) {
-            // نستخدم القيم المحفوظة فقط لو هي أكبر من الصفر
-            // وإلا نستخدم المحسوبة
-            if (storedSales > 0 || totalSales === 0) {
-                totalSales = storedSales;
-            }
-        }
-        
-        if (!isNaN(storedPayments) && storedPayments >= 0) {
-            if (storedPayments > 0 || collectedAmount === 0) {
-                collectedAmount = storedPayments;
-            }
-        }
-        
-        // المديونيات = المبيعات - المحصّل
-        debtsAmount = Math.max(0, totalSales - collectedAmount);
+        if (!isNaN(storedSales) && storedSales > 0) totalSales = storedSales;
+        if (!isNaN(storedPayments) && storedPayments > 0) collectedAmount = storedPayments;
+        if (!isNaN(storedDebts) && storedDebts >= 0) debtsAmount = storedDebts;
+        else debtsAmount = Math.max(0, totalSales - collectedAmount);
     }
     
-    // 4. الكاش المتوقع = بداية الكاش + المحصّل    var openingCash = parseFloat(shift.opening_cash) || 0;
+    var openingCash = parseFloat(shift.opening_cash) || 0;
     var expectedCash = openingCash + collectedAmount;
     
     return {
@@ -2195,6 +2169,10 @@ function renderShiftCard(shift) {
             '<div class="shift-stat">' +
                 '<div class="shift-stat-label">مبيعات</div>' +
                 '<div class="shift-stat-value success">' + formatCurrencyShort(salesTotal) + '</div>' +
+            '</div>' +
+            '<div class="shift-stat">' +
+                '<div class="shift-stat-label">محصّل</div>' +
+                '<div class="shift-stat-value info">' + formatCurrencyShort(paymentsTotal) + '</div>' +
             '</div>' +
             '<div class="shift-stat">' +
                 '<div class="shift-stat-label">مديونيات</div>' +
@@ -2440,7 +2418,7 @@ function openCloseShiftModal() {
             (stats.debts_total > 0 ? 
                 '<div class="summary-row debt">' +
                     '<span class="summary-row-label"><i class="fas fa-hand-holding-dollar"></i> مديونيات الوردية</span>' +
-                    '<span class="summary-row-value">- ' + formatCurrency(stats.debts_total) + '</span>' +
+                    '<span class="summary-row-value">' + formatCurrency(stats.debts_total) + '</span>' +
                 '</div>'
                 : '') +
             '<div class="summary-row total">' +
@@ -2517,6 +2495,7 @@ function saveCloseShift(e) {
     var expectedCash = stats.expected_cash;
     var salesTotal = stats.sales_total;
     var paymentsTotal = stats.payments_total;
+    var debtsTotal = stats.debts_total;
     var difference = closingCash - expectedCash;
     
     var btn = document.getElementById('saveCloseShiftBtn');
@@ -2541,12 +2520,28 @@ function saveCloseShift(e) {
         notes: notes
     };
     
+    // ✅ إضافة المديونيات لو العمود موجود
+    try {
+        updateData.debts_total = debtsTotal;
+    } catch (e) {}
+    
     var promise;
     
     if (sb && navigator.onLine && isValidUUID(shift.id)) {
         promise = sb.from('shifts').update(updateData).eq('id', shift.id)
             .then(function(result) {
-                if (result.error) throw result.error;
+                if (result.error) {
+                    // لو العمود مش موجود، نحاول من غير debts_total
+                    if (result.error.message && result.error.message.indexOf('debts_total') !== -1) {
+                        delete updateData.debts_total;
+                        return sb.from('shifts').update(updateData).eq('id', shift.id)
+                            .then(function(r2) {
+                                if (r2.error) throw r2.error;
+                                return Object.assign({}, shift, updateData);
+                            });
+                    }
+                    throw result.error;
+                }
                 return Object.assign({}, shift, updateData);
             });
     } else {
@@ -2557,7 +2552,6 @@ function saveCloseShift(e) {
     }
     
     promise.then(function(updatedShift) {
-        // Check for difference
         if (Math.abs(difference) >= 1) {
             var msg = difference > 0 
                 ? '⚠️ زيادة في الكاش: ' + formatCurrency(difference) 
@@ -2581,7 +2575,7 @@ function saveCloseShift(e) {
         loadData();
     }).catch(function(err) {
         console.error('Close shift error:', err);
-        showToast('حدث خطأ في إغلاق الوردية', 'error');
+        showToast('حدث خطأ في إغلاق الوردية: ' + (err.message || ''), 'error', 5000);
     }).then(function() {
         btn.disabled = false;
         spinner.style.display = 'none';
@@ -2806,7 +2800,7 @@ function printShift() {
                 '<tr><td>بداية الكاش</td><td class="value">' + formatCurrency(stats.opening_cash) + '</td></tr>' +
                 '<tr><td>إجمالي المبيعات</td><td class="value">' + formatCurrency(stats.sales_total) + '</td></tr>' +
                 '<tr><td>المحصّل فعلاً</td><td class="value" style="color:#16a34a;">+ ' + formatCurrency(stats.payments_total) + '</td></tr>' +
-                (stats.debts_total > 0 ? '<tr><td>مديونيات الوردية</td><td class="value" style="color:#dc2626;">- ' + formatCurrency(stats.debts_total) + '</td></tr>' : '') +
+                (stats.debts_total > 0 ? '<tr><td>مديونيات الوردية</td><td class="value" style="color:#dc2626;">' + formatCurrency(stats.debts_total) + '</td></tr>' : '') +
                 '<tr><td style="background:#f1f5f9; font-weight:900;">💰 الكاش المتوقع</td><td class="value" style="background:#f1f5f9; color:#1d5b8e;">' + formatCurrency(stats.expected_cash) + '</td></tr>' +
                 (shift.end_time ? '<tr><td>الكاش الفعلي</td><td class="value">' + formatCurrency(closingCash) + '</td></tr>' : '') +
             '</tbody>' +
@@ -3180,9 +3174,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     
     startInactivityMonitor();
-    console.log('%c⏰ صفحة الورديات جاهزة - الحسابات المحسّنة ✅', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+    console.log('%c⏰ صفحة الورديات جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
     console.log('%c💰 الكاش المتوقع = بداية الكاش + المحصّل فعلاً', 'color: #10b981; font-size: 12px;');
-    console.log('%c📊 المديونيات = إجمالي المبيعات - المحصّل فعلاً', 'color: #f59e0b; font-size: 12px;');
+    console.log('%c📊 المديونيات = إجمالي المبيعات - المحصّل', 'color: #f59e0b; font-size: 12px;');
 });
 
 window.ShiftsApp = {
