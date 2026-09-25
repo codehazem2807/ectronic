@@ -369,16 +369,45 @@ img { max-width: 100%; height: auto; display: block; }
     transition: transform 0.5s ease;
 }
 .product-card:hover .product-image { transform: scale(1.08); }
+
+/* ✅ دعم أيقونات SVG داخل الكارت */
+.product-icon-svg {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tech-blue);
+    opacity: 0.4;
+    transition: all var(--transition);
+    padding: 22%;
+}
+.product-icon-svg svg {
+    width: 100%;
+    height: 100%;
+    max-width: 110px;
+    max-height: 110px;
+    display: block;
+}
+.product-icon-svg i {
+    font-size: 4rem;
+    color: var(--tech-blue);
+}
+.product-card:hover .product-icon-svg {
+    opacity: 0.75;
+    transform: scale(1.08);
+}
 .product-image-placeholder {
     font-size: 4rem;
     color: var(--tech-blue);
-    opacity: 0.35;
+    opacity: 0.4;
     transition: all var(--transition);
 }
 .product-card:hover .product-image-placeholder {
-    opacity: 0.6;
+    opacity: 0.7;
     transform: scale(1.1);
 }
+
 .product-badges {
     position: absolute; top: 0.5rem; right: 0.5rem;
     display: flex; flex-direction: column; gap: 0.35rem; z-index: 2;
@@ -404,6 +433,12 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 0.7rem; font-weight: 700; color: var(--tech-blue);
     text-transform: uppercase; letter-spacing: 0.3px;
     display: flex; align-items: center; gap: 0.3rem;
+}
+.product-category svg {
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    vertical-align: middle;
 }
 .product-title {
     font-size: 0.95rem; font-weight: 700; color: var(--text-primary);
@@ -457,6 +492,23 @@ img { max-width: 100%; height: auto; display: block; }
     width: 60px; height: 60px; border-radius: var(--radius-md);
     object-fit: cover; background: var(--bg-primary);
     border: 1px solid var(--border-color);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+}
+.products-list-image-svg {
+    background: linear-gradient(135deg, var(--bg-primary), var(--bg-hover));
+}
+.products-list-image .product-icon-svg {
+    padding: 6px;
+    opacity: 0.85;
+}
+.products-list-image .product-icon-svg svg {
+    max-width: 44px;
+    max-height: 44px;
+}
+.products-list-image .product-icon-svg i {
+    font-size: 1.5rem;
+    color: var(--tech-blue);
 }
 .products-list-info h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.15rem; }
 .products-list-info p { font-size: 0.72rem; color: var(--text-muted); font-family: 'Courier New', monospace; }
@@ -474,6 +526,38 @@ img { max-width: 100%; height: auto; display: block; }
 .badge-danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
 .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
 .badge-info { background: rgba(59, 130, 246, 0.15); color: var(--info); }
+.badge-info svg {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* ✅ أيقونة SVG في modal التفاصيل */
+.category-icon-svg-large {
+    width: 100%;
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--bg-primary), var(--bg-hover));
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    padding: 3rem;
+}
+.category-icon-svg-large svg {
+    width: 100%;
+    height: 100%;
+    max-width: 180px;
+    max-height: 180px;
+    color: var(--tech-blue);
+    opacity: 0.65;
+}
+.category-icon-svg-large i {
+    font-size: 5rem;
+    color: var(--tech-blue);
+    opacity: 0.5;
+}
 
 /* Modal */
 .modal-overlay {
@@ -934,6 +1018,9 @@ img { max-width: 100%; height: auto; display: block; }
     .product-title { font-size: 0.85rem; }
     .product-price-value { font-size: 0.95rem; }
     .product-qty-value { font-size: 0.9rem; }
+    .product-icon-svg { padding: 18%; }
+    .product-icon-svg svg { max-width: 70px; max-height: 70px; }
+    .product-icon-svg i { font-size: 3rem; }
     .product-image-placeholder { font-size: 3rem; }
     .product-actions { padding: 0.5rem; gap: 0.25rem; }
     .product-actions .btn { font-size: 0.7rem; padding: 0.4rem; }
@@ -961,6 +1048,9 @@ img { max-width: 100%; height: auto; display: block; }
     .modal-footer { padding: 0.85rem 1.25rem; gap: 0.5rem; }
     .image-upload { min-height: 160px; padding: 1rem; }
     .image-upload-preview { width: 110px; height: 110px; }
+    .category-icon-svg-large { height: 180px; padding: 2rem; }
+    .category-icon-svg-large svg { max-width: 120px; max-height: 120px; }
+    .category-icon-svg-large i { font-size: 3.5rem; }
 }
 
 @media (max-width: 400px) {
@@ -1331,6 +1421,193 @@ function getSupabaseClient() {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// ⚡ SVG ICONS - مكتبة الرموز الإلكترونية (نفس مكتبة صفحة الفئات)
+// ═══════════════════════════════════════════════════════════════
+var SVG_ICONS = {
+    // ═══ مقاومات ═══
+    'resistor': {
+        name: 'مقاومة',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 20 20 L 25 10 L 35 30 L 45 10 L 55 30 L 65 10 L 75 30 L 80 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    },
+    'resistor-box': {
+        name: 'مقاومة (مستطيل)',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 20 20 M 80 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="20" y="10" width="60" height="20" fill="none" stroke="currentColor" stroke-width="4" rx="2"/></svg>'
+    },
+    'variable-resistor': {
+        name: 'مقاومة متغيرة',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 20 20 M 80 20 L 95 20 M 50 5 L 60 25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="20" y="12" width="60" height="16" fill="none" stroke="currentColor" stroke-width="4" rx="2"/><polyline points="45,5 50,5 60,25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    },
+    'thermistor': {
+        name: 'ثيرمستور',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 15 20 M 85 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="15" y="10" width="70" height="20" fill="none" stroke="currentColor" stroke-width="4"/><line x1="15" y1="32" x2="85" y2="38" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'
+    },
+    'varistor': {
+        name: 'فاريستور',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 15 20 M 85 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="15" y="10" width="70" height="20" fill="none" stroke="currentColor" stroke-width="4"/><polyline points="15,32 35,32 45,38 55,32 85,32" fill="none" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    'potentiometer': {
+        name: 'بوتنسيومتر',
+        svg: '<svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg"><path d="M 5 25 L 20 25 M 80 25 L 95 25 M 50 5 L 50 15" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="20" y="17" width="60" height="16" fill="none" stroke="currentColor" stroke-width="4" rx="2"/><polyline points="45,15 50,5 55,15" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><polygon points="50,15 47,22 53,22" fill="currentColor"/></svg>'
+    },
+    
+    // ═══ مكثفات ═══
+    'capacitor': {
+        name: 'مكثف',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 40 20 M 60 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="40" y1="5" x2="40" y2="35" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="60" y1="5" x2="60" y2="35" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'
+    },
+    'electrolytic-capacitor': {
+        name: 'مكثف إلكتروليتي',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 40 20 M 65 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="40" y1="5" x2="40" y2="35" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M 55 5 Q 65 20 55 35" fill="none" stroke="currentColor" stroke-width="4"/><path d="M 62 5 Q 72 20 62 35" fill="none" stroke="currentColor" stroke-width="4"/></svg>'
+    },
+    'variable-capacitor': {
+        name: 'مكثف متغير',
+        svg: '<svg viewBox="0 0 100 45" xmlns="http://www.w3.org/2000/svg"><path d="M 5 25 L 40 25 M 60 25 L 95 25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="40" y1="10" x2="40" y2="40" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="60" y1="10" x2="60" y2="40" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="60" y1="10" x2="90" y2="2" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><polygon points="90,2 82,4 86,10" fill="currentColor"/></svg>'
+    },
+    'polarized-capacitor': {
+        name: 'مكثف مستقطب',
+        svg: '<svg viewBox="0 0 100 45" xmlns="http://www.w3.org/2000/svg"><path d="M 5 25 L 40 25 M 60 25 L 95 25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="40" y1="10" x2="40" y2="40" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="60" y1="10" x2="60" y2="40" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><text x="28" y="18" font-size="14" font-weight="900" fill="currentColor">+</text></svg>'
+    },
+    
+    // ═══ دايودات ═══
+    'diode': {
+        name: 'دايود',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 35 20 M 65 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><polygon points="35,8 65,20 35,32" fill="currentColor"/><line x1="65" y1="8" x2="65" y2="32" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'
+    },
+    'zener-diode': {
+        name: 'دايود زنر',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 35 20 M 65 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><polygon points="35,8 65,20 35,32" fill="currentColor"/><polyline points="60,8 65,8 65,32 70,32" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    },
+    'schottky-diode': {
+        name: 'دايود شوتكي',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 35 20 M 65 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><polygon points="35,8 65,20 35,32" fill="currentColor"/><polyline points="58,8 65,8 65,32 58,32" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="65,8 72,8 72,32 65,32" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    },
+    'led': {
+        name: 'LED',
+        svg: '<svg viewBox="0 0 100 45" xmlns="http://www.w3.org/2000/svg"><path d="M 5 25 L 35 25 M 65 25 L 95 25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><polygon points="35,13 65,25 35,37" fill="currentColor"/><line x1="65" y1="13" x2="65" y2="37" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="42" y1="5" x2="55" y2="15" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><line x1="50" y1="2" x2="63" y2="12" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'
+    },
+    'photodiode': {
+        name: 'فوتو دايود',
+        svg: '<svg viewBox="0 0 100 45" xmlns="http://www.w3.org/2000/svg"><path d="M 5 25 L 35 25 M 65 25 L 95 25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><polygon points="35,13 65,25 35,37" fill="currentColor"/><line x1="65" y1="13" x2="65" y2="37" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="42" y1="10" x2="55" y2="5" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><line x1="45" y1="18" x2="58" y2="13" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'
+    },
+    'bridge-rectifier': {
+        name: 'قنطرة تقويم',
+        svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="15" y="15" width="70" height="70" fill="none" stroke="currentColor" stroke-width="4"/><polygon points="30,30 45,40 30,50" fill="currentColor"/><line x1="45" y1="30" x2="45" y2="50" stroke="currentColor" stroke-width="3"/><polygon points="55,50 70,60 55,70" fill="currentColor"/><line x1="55" y1="50" x2="55" y2="70" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    
+    // ═══ فيوزات ═══
+    'fuse': {
+        name: 'فيوز',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 20 20 M 80 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="20" y="12" width="60" height="16" fill="none" stroke="currentColor" stroke-width="3" rx="8"/><path d="M 25 20 Q 40 8 50 20 T 75 20" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>'
+    },
+    'fuse-box': {
+        name: 'فيوز (مربع)',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 20 20 M 80 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="20" y="10" width="60" height="20" fill="none" stroke="currentColor" stroke-width="4"/><line x1="20" y1="20" x2="80" y2="20" stroke="currentColor" stroke-width="2.5"/></svg>'
+    },
+    'circuit-breaker': {
+        name: 'قاطع كهربائي',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 25 20 M 75 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="25" y="10" width="50" height="20" fill="none" stroke="currentColor" stroke-width="4"/><line x1="35" y1="30" x2="65" y2="10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="35" cy="30" r="2.5" fill="currentColor"/><circle cx="65" cy="10" r="2.5" fill="currentColor"/></svg>'
+    },
+    
+    // ═══ ترانزستورات ═══
+    'transistor-npn': {
+        name: 'ترانزستور NPN',
+        svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><line x1="30" y1="25" x2="30" y2="75" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><line x1="30" y1="40" x2="70" y2="20" stroke="currentColor" stroke-width="3"/><line x1="30" y1="60" x2="70" y2="80" stroke="currentColor" stroke-width="3"/><line x1="70" y1="20" x2="70" y2="10" stroke="currentColor" stroke-width="3"/><line x1="70" y1="80" x2="70" y2="90" stroke="currentColor" stroke-width="3"/><polygon points="70,80 60,72 65,82" fill="currentColor"/></svg>'
+    },
+    'transistor-pnp': {
+        name: 'ترانزستور PNP',
+        svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><line x1="30" y1="25" x2="30" y2="75" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><line x1="30" y1="40" x2="70" y2="20" stroke="currentColor" stroke-width="3"/><line x1="30" y1="60" x2="70" y2="80" stroke="currentColor" stroke-width="3"/><line x1="70" y1="20" x2="70" y2="10" stroke="currentColor" stroke-width="3"/><line x1="70" y1="80" x2="70" y2="90" stroke="currentColor" stroke-width="3"/><polygon points="40,52 30,60 40,68" fill="currentColor"/></svg>'
+    },
+    'mosfet': {
+        name: 'MOSFET',
+        svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><line x1="30" y1="20" x2="30" y2="80" stroke="currentColor" stroke-width="4"/><line x1="42" y1="20" x2="42" y2="35" stroke="currentColor" stroke-width="6"/><line x1="42" y1="42" x2="42" y2="58" stroke="currentColor" stroke-width="6"/><line x1="42" y1="65" x2="42" y2="80" stroke="currentColor" stroke-width="6"/><line x1="42" y1="28" x2="75" y2="10" stroke="currentColor" stroke-width="3"/><line x1="42" y1="50" x2="75" y2="50" stroke="currentColor" stroke-width="3"/><line x1="42" y1="72" x2="75" y2="90" stroke="currentColor" stroke-width="3"/><line x1="75" y1="10" x2="75" y2="0" stroke="currentColor" stroke-width="3"/><line x1="75" y1="50" x2="75" y2="40" stroke="currentColor" stroke-width="3"/><line x1="75" y1="90" x2="75" y2="100" stroke="currentColor" stroke-width="3"/><polygon points="75,50 65,44 65,56" fill="currentColor"/></svg>'
+    },
+    
+    // ═══ ملفات ومحولات ═══
+    'inductor': {
+        name: 'ملف (Inductor)',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 25 L 20 25 M 80 25 L 95 25" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M 20 25 Q 25 10 30 25 Q 35 10 40 25 Q 45 10 50 25 Q 55 10 60 25 Q 65 10 70 25 Q 75 10 80 25" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg>'
+    },
+    'transformer': {
+        name: 'محول (Transformer)',
+        svg: '<svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg"><line x1="5" y1="20" x2="25" y2="20" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><line x1="5" y1="40" x2="25" y2="40" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><path d="M 25 10 Q 35 15 25 20 Q 35 25 25 30 Q 35 35 25 40 Q 35 45 25 50" fill="none" stroke="currentColor" stroke-width="3"/><line x1="50" y1="5" x2="50" y2="55" stroke="currentColor" stroke-width="3"/><line x1="50" y1="5" x2="50" y2="55" stroke="currentColor" stroke-width="3" transform="translate(6,0)"/><path d="M 75 10 Q 65 15 75 20 Q 65 25 75 30 Q 65 35 75 40 Q 65 45 75 50" fill="none" stroke="currentColor" stroke-width="3"/><line x1="75" y1="20" x2="95" y2="20" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><line x1="75" y1="40" x2="95" y2="40" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg>'
+    },
+    'coil': {
+        name: 'كويل / ملف',
+        svg: '<svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg"><path d="M 5 30 L 20 30 M 80 30 L 95 30" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><ellipse cx="30" cy="30" rx="10" ry="15" fill="none" stroke="currentColor" stroke-width="3"/><ellipse cx="50" cy="30" rx="10" ry="15" fill="none" stroke="currentColor" stroke-width="3"/><ellipse cx="70" cy="30" rx="10" ry="15" fill="none" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    
+    // ═══ مفاتيح وأزرار ═══
+    'switch': {
+        name: 'مفتاح',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><line x1="5" y1="25" x2="35" y2="25" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="65" y1="25" x2="95" y2="25" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="35" cy="25" r="3" fill="currentColor"/><circle cx="65" cy="25" r="3" fill="currentColor"/><line x1="35" y1="25" x2="65" y2="10" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/></svg>'
+    },
+    'push-button': {
+        name: 'زر ضغط',
+        svg: '<svg viewBox="0 0 100 45" xmlns="http://www.w3.org/2000/svg"><line x1="5" y1="30" x2="30" y2="30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="70" y1="30" x2="95" y2="30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="30" cy="30" r="3" fill="currentColor"/><circle cx="70" cy="30" r="3" fill="currentColor"/><line x1="30" y1="30" x2="70" y2="30" stroke="currentColor" stroke-width="3"/><rect x="42" y="12" width="16" height="8" fill="currentColor" rx="2"/></svg>'
+    },
+    'relay': {
+        name: 'ريلاي',
+        svg: '<svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="10" width="80" height="40" fill="none" stroke="currentColor" stroke-width="3" rx="4"/><path d="M 20 30 L 35 30 L 40 22 L 45 38 L 50 22 L 55 38 L 60 30 L 75 30" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><line x1="85" y1="20" x2="95" y2="20" stroke="currentColor" stroke-width="3"/><line x1="85" y1="40" x2="95" y2="40" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    
+    // ═══ موصلات ═══
+    'ground': {
+        name: 'أرضي',
+        svg: '<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><line x1="30" y1="5" x2="30" y2="30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="10" y1="30" x2="50" y2="30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="18" y1="40" x2="42" y2="40" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="24" y1="50" x2="36" y2="50" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'
+    },
+    'battery-cell': {
+        name: 'بطارية',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 30 20 M 70 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="30" y1="5" x2="30" y2="35" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><line x1="45" y1="12" x2="45" y2="28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><line x1="55" y1="5" x2="55" y2="35" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><line x1="70" y1="12" x2="70" y2="28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'
+    },
+    'crystal-oscillator': {
+        name: 'كريستالة',
+        svg: '<svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg"><path d="M 5 20 L 30 20 M 70 20 L 95 20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="30" y="8" width="40" height="24" fill="none" stroke="currentColor" stroke-width="3"/><line x1="35" y1="15" x2="65" y2="15" stroke="currentColor" stroke-width="3"/><line x1="35" y1="25" x2="65" y2="25" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    'ic-chip': {
+        name: 'دائرة متكاملة IC',
+        svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="20" width="60" height="60" fill="none" stroke="currentColor" stroke-width="4" rx="4"/><circle cx="35" cy="35" r="4" fill="none" stroke="currentColor" stroke-width="2.5"/><line x1="20" y1="35" x2="10" y2="35" stroke="currentColor" stroke-width="3"/><line x1="20" y1="50" x2="10" y2="50" stroke="currentColor" stroke-width="3"/><line x1="20" y1="65" x2="10" y2="65" stroke="currentColor" stroke-width="3"/><line x1="80" y1="35" x2="90" y2="35" stroke="currentColor" stroke-width="3"/><line x1="80" y1="50" x2="90" y2="50" stroke="currentColor" stroke-width="3"/><line x1="80" y1="65" x2="90" y2="65" stroke="currentColor" stroke-width="3"/><line x1="35" y1="20" x2="35" y2="10" stroke="currentColor" stroke-width="3"/><line x1="50" y1="20" x2="50" y2="10" stroke="currentColor" stroke-width="3"/><line x1="65" y1="20" x2="65" y2="10" stroke="currentColor" stroke-width="3"/><line x1="35" y1="80" x2="35" y2="90" stroke="currentColor" stroke-width="3"/><line x1="50" y1="80" x2="50" y2="90" stroke="currentColor" stroke-width="3"/><line x1="65" y1="80" x2="65" y2="90" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    'antenna': {
+        name: 'هوائي',
+        svg: '<svg viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg"><line x1="30" y1="10" x2="30" y2="70" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="10" y1="70" x2="50" y2="70" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="15" y1="80" x2="45" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><line x1="20" y1="90" x2="40" y2="90" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M 30 10 Q 15 5 10 15 M 30 10 Q 45 5 50 15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>'
+    },
+    'lamp': {
+        name: 'مصباح',
+        svg: '<svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg"><line x1="5" y1="30" x2="35" y2="30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="65" y1="30" x2="95" y2="30" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="30" r="15" fill="none" stroke="currentColor" stroke-width="4"/><line x1="35" y1="20" x2="65" y2="40" stroke="currentColor" stroke-width="3"/><line x1="35" y1="40" x2="65" y2="20" stroke="currentColor" stroke-width="3"/></svg>'
+    },
+    'speaker': {
+        name: 'مكبر صوت',
+        svg: '<svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg"><path d="M 20 20 L 35 20 L 50 5 L 50 55 L 35 40 L 20 40 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M 58 20 Q 70 30 58 40" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M 68 15 Q 82 30 68 45" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'
+    },
+    'motor': {
+        name: 'موتور',
+        svg: '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" stroke-width="4"/><text x="50" y="60" font-size="28" font-weight="900" fill="currentColor" text-anchor="middle" font-family="Arial">M</text></svg>'
+    },
+    'microphone-svg': {
+        name: 'ميكروفون',
+        svg: '<svg viewBox="0 0 60 100" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="10" width="16" height="40" rx="8" fill="none" stroke="currentColor" stroke-width="4"/><path d="M 12 45 Q 12 65 30 65 Q 48 65 48 45" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="30" y1="65" x2="30" y2="85" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><line x1="18" y1="85" x2="42" y2="85" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>'
+    }
+};
+
+// ═══════════════════════════════════════════════════════════════
+// 🎨 دالة عرض الأيقونة - تتعرف على SVG و FA
+// ═══════════════════════════════════════════════════════════════
+function renderIconHTML(iconValue) {
+    // ✅ لو الأيقونة SVG
+    if (iconValue && iconValue.indexOf('svg:') === 0) {
+        var svgKey = iconValue.substring(4);
+        var svgData = SVG_ICONS[svgKey];
+        if (svgData) {
+            return '<div class="svg-icon-wrap">' + svgData.svg + '</div>';
+        }
+        // fallback
+        return '<i class="fas fa-microchip"></i>';
+    }
+    // FontAwesome
+    return '<i class="fas ' + escapeHtml(iconValue || 'fa-microchip') + '"></i>';
+}
+
+// ═══════════════════════════════════════════════════════════════
 // 🧰 Helpers
 // ═══════════════════════════════════════════════════════════════
 function escapeHtml(str) {
@@ -1426,7 +1703,7 @@ function generateUniqueBarcode() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🔍 Duplicate Check - منع تكرار الاسم داخل نفس الفئة فقط
+// 🔍 Duplicate Check
 // ═══════════════════════════════════════════════════════════════
 function checkDuplicate(name, barcode, categoryId, editingId) {
     return new Promise(function(resolve) {
@@ -1839,7 +2116,7 @@ function loadProducts() {
     
     if (sb && navigator.onLine) {
         promise = sb.from('products')
-            .select('*, category:categories(id, name, icon)')
+            .select('*, category:categories(id, name, icon, color)')
             .order('created_at', { ascending: false })
             .then(function(result) {
                 if (result.error) throw result.error;
@@ -2035,8 +2312,8 @@ function renderProductCard(p) {
     if (qty <= 0) qtyBadge = '<span class="badge badge-danger"><i class="fas fa-circle-xmark"></i> نفذ</span>';
     else if (qty <= minQty) qtyBadge = '<span class="badge badge-warning"><i class="fas fa-triangle-exclamation"></i> منخفض</span>';
     
-    // ✅ أيقونة الفئة بدلاً من الصورة
-    var iconHtml = '<i class="fas ' + escapeHtml(categoryIcon) + ' product-image-placeholder"></i>';
+    // ✅ عرض أيقونة الفئة (SVG أو FA)
+    var iconHtml = '<div class="product-icon-svg">' + renderIconHTML(categoryIcon) + '</div>';
     
     return '<div class="product-card" data-id="' + p.id + '" data-view-id="' + p.id + '">' +
         '<div class="product-image-wrapper">' + iconHtml +
@@ -2044,7 +2321,7 @@ function renderProductCard(p) {
             '<button class="product-favorite ' + (isFav ? 'active' : '') + '" data-action="favorite" data-id="' + p.id + '" title="المفضلة"><i class="' + (isFav ? 'fas' : 'far') + ' fa-star"></i></button>' +
         '</div>' +
         '<div class="product-body">' +
-            (categoryName ? '<div class="product-category"><i class="fas ' + escapeHtml(categoryIcon) + '"></i>' + escapeHtml(categoryName) + '</div>' : '') +
+            (categoryName ? '<div class="product-category">' + renderIconHTML(categoryIcon) + escapeHtml(categoryName) + '</div>' : '') +
             '<h3 class="product-title">' + escapeHtml(p.name) + '</h3>' +
             '<div class="product-barcode"><i class="fas fa-barcode"></i> ' + escapeHtml(p.barcode || p.sku || '—') + '</div>' +
             '<div class="product-footer">' +
@@ -2067,7 +2344,8 @@ function renderProductListItem(p) {
     var isFav = hasFavorite(p.id);
     var categoryIcon = (p.category && p.category.icon) || 'fa-microchip';
     
-    var iconHtml = '<div class="products-list-image" style="display:flex;align-items:center;justify-content:center;color:var(--tech-blue);background:linear-gradient(135deg, var(--bg-primary), var(--bg-hover));"><i class="fas ' + escapeHtml(categoryIcon) + '" style="font-size:1.5rem;"></i></div>';
+    // ✅ عرض أيقونة الفئة (SVG أو FA)
+    var iconHtml = '<div class="products-list-image products-list-image-svg"><div class="product-icon-svg">' + renderIconHTML(categoryIcon) + '</div></div>';
     
     return '<div class="products-list-item" data-id="' + p.id + '" data-view-id="' + p.id + '">' + iconHtml +
         '<div class="products-list-info"><h4>' + escapeHtml(p.name) + '</h4><p>' + escapeHtml(p.barcode || p.sku || '—') + '</p></div>' +
@@ -2191,11 +2469,12 @@ function openViewModal(id) {
     var categoryIcon = (p.category && p.category.icon) || 'fa-microchip';
     var isFav = hasFavorite(p.id);
     
+    // ✅ صورة الصنف تظهر هنا فقط - أو أيقونة الفئة SVG
     var imageSection;
     if (p.image_url) {
-        imageSection = '<img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '" style="width:100%;max-height:340px;object-fit:contain;background:var(--bg-primary);border-radius:var(--radius-md);border:1px solid var(--border-color);" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';"><div style="display:none;width:100%;height:240px;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg-primary),var(--bg-hover));border-radius:var(--radius-md);border:1px solid var(--border-color);"><i class="fas ' + escapeHtml(categoryIcon) + '" style="font-size:5rem;color:var(--tech-blue);opacity:0.4;"></i></div>';
+        imageSection = '<img src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '" style="width:100%;max-height:340px;object-fit:contain;background:var(--bg-primary);border-radius:var(--radius-md);border:1px solid var(--border-color);" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';"><div class="category-icon-svg-large" style="display:none;">' + renderIconHTML(categoryIcon) + '</div>';
     } else {
-        imageSection = '<div style="width:100%;height:240px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg-primary),var(--bg-hover));border-radius:var(--radius-md);border:1px solid var(--border-color);"><i class="fas ' + escapeHtml(categoryIcon) + '" style="font-size:5rem;color:var(--tech-blue);opacity:0.4;"></i></div>';
+        imageSection = '<div class="category-icon-svg-large">' + renderIconHTML(categoryIcon) + '</div>';
     }
     
     var html = '' +
@@ -2206,7 +2485,7 @@ function openViewModal(id) {
             
             '<div>' +
                 '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;flex-wrap:wrap;">' +
-                    '<span class="badge badge-info"><i class="fas ' + escapeHtml(categoryIcon) + '"></i> ' + escapeHtml(categoryName) + '</span>' +
+                    '<span class="badge badge-info">' + renderIconHTML(categoryIcon) + ' ' + escapeHtml(categoryName) + '</span>' +
                     '<span class="badge badge-' + (qtyClass === 'ok' ? 'success' : qtyClass === 'low' ? 'warning' : 'danger') + '"><i class="fas ' + qtyIcon + '"></i> ' + qtyText + '</span>' +
                 '</div>' +
                 '<h2 style="font-size:1.35rem;font-weight:800;line-height:1.35;">' + escapeHtml(p.name) + '</h2>' +
@@ -2618,7 +2897,7 @@ function insertProduct(productData, session, sb) {
     
     var insertPromise;
     if (sb && navigator.onLine) {
-        insertPromise = sb.from('products').insert(productData).select('*, category:categories(id, name, icon)').single()
+        insertPromise = sb.from('products').insert(productData).select('*, category:categories(id, name, icon, color)').single()
             .then(function(result) {
                 if (result.error) {
                     if (result.error.code === '23505') {
@@ -2626,7 +2905,7 @@ function insertProduct(productData, session, sb) {
                         return generateUniqueBarcode().then(function(newBarcode) {
                             productData.barcode = newBarcode;
                             productData.sku = newBarcode;
-                            return sb.from('products').insert(productData).select('*, category:categories(id, name, icon)').single()
+                            return sb.from('products').insert(productData).select('*, category:categories(id, name, icon, color)').single()
                                 .then(function(r2) {
                                     if (r2.error) throw r2.error;
                                     return r2.data;
@@ -3419,7 +3698,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 60000);
     
     startInactivityMonitor();
-    console.log('%c📦 صفحة المخزون جاهزة - عرض التفاصيل عند الضغط ✅', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+    console.log('%c📦 صفحة المخزون جاهزة - مع دعم SVG Icons ✅', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+    console.log('%c⚡ ' + Object.keys(SVG_ICONS).length + ' رمز إلكتروني SVG (مقاومة، مكثف، دايود، ترانزستور، MOSFET وغيرها)', 'color: #10b981; font-size: 12px;');
 });
 
 window.ProductsApp = {
@@ -3430,7 +3710,9 @@ window.ProductsApp = {
     openAddModal: openAddModal,
     openViewModal: openViewModal,
     loadNotifications: loadNotifications,
-    checkDuplicate: checkDuplicate
+    checkDuplicate: checkDuplicate,
+    SVG_ICONS: SVG_ICONS,
+    renderIconHTML: renderIconHTML
 };
 
 })();
