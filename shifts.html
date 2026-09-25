@@ -310,6 +310,8 @@ img { max-width: 100%; height: auto; display: block; }
     font-size: 1.15rem; font-weight: 800;
     font-family: 'Courier New', monospace;
 }
+.shift-banner-stat-value.warning { color: #fde68a; }
+.shift-banner-stat-value.danger { color: #fecaca; }
 .shift-banner-actions {
     display: flex; gap: 0.5rem;
     position: relative; z-index: 1;
@@ -506,7 +508,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .shift-card-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
     gap: 0.65rem;
     margin-bottom: 1rem;
     position: relative; z-index: 1;
@@ -532,6 +534,7 @@ img { max-width: 100%; height: auto; display: block; }
 .shift-stat-value.danger { color: var(--danger); }
 .shift-stat-value.warning { color: var(--warning); }
 .shift-stat-value.tech { color: var(--tech-blue); }
+.shift-stat-value.info { color: var(--info); }
 
 .shift-diff-indicator {
     display: flex; align-items: center; gap: 0.5rem;
@@ -696,6 +699,20 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .summary-row.diff.success .summary-row-value { color: var(--success); }
 .summary-row.diff.danger .summary-row-value { color: var(--danger); }
+.summary-row.debt .summary-row-value { color: var(--danger); }
+.summary-row.collected .summary-row-value { color: var(--success); }
+.summary-row.section-header {
+    padding: 0.65rem 0 0.35rem;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 0.25rem;
+}
+.summary-row.section-header .summary-row-label {
+    font-size: 0.8rem;
+    color: var(--tech-blue);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
 
 /* Info box */
 .info-badge {
@@ -716,6 +733,44 @@ img { max-width: 100%; height: auto; display: block; }
 .info-badge.success {
     background: rgba(16,185,129,0.1); color: var(--success);
     border: 1px solid rgba(16,185,129,0.2);
+}
+.info-badge.danger {
+    background: rgba(239,68,68,0.1); color: var(--danger);
+    border: 1px solid rgba(239,68,68,0.2);
+}
+
+/* Detail Cards Grid */
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+.detail-card {
+    padding: 1rem;
+    background: var(--bg-primary);
+    border-radius: var(--radius-md);
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+.detail-card-label {
+    font-size: 0.7rem; color: var(--text-muted);
+    font-weight: 700; margin-bottom: 0.35rem;
+    text-transform: uppercase;
+}
+.detail-card-value {
+    font-size: 1.15rem; font-weight: 800;
+    font-family: 'Courier New', monospace;
+    color: var(--text-primary);
+}
+.detail-card-value.success { color: var(--success); }
+.detail-card-value.danger { color: var(--danger); }
+.detail-card-value.warning { color: var(--warning); }
+.detail-card-value.tech { color: var(--tech-blue); }
+.detail-card-value.info { color: var(--info); }
+.detail-card.highlight {
+    background: linear-gradient(135deg, rgba(29,91,142,0.08), rgba(45,122,184,0.04));
+    border-color: var(--tech-blue);
 }
 
 /* Empty state */
@@ -932,6 +987,7 @@ img { max-width: 100%; height: auto; display: block; }
     .shift-banner-actions { flex-direction: column; }
     .shift-banner-actions .btn { width: 100%; }
     .shift-card-stats { grid-template-columns: repeat(2, 1fr); }
+    .shift-banner-stats { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 400px) {
     .stats-bar { grid-template-columns: 1fr; }
@@ -1053,17 +1109,17 @@ img { max-width: 100%; height: auto; display: block; }
             </div>
         </div>
         <div class="stat-item">
+            <div class="stat-item-icon danger"><i class="fas fa-hand-holding-dollar"></i></div>
+            <div class="stat-item-content">
+                <div class="stat-item-value" id="totalDebts">0 <small>ج.م</small></div>
+                <div class="stat-item-label">إجمالي المديونيات</div>
+            </div>
+        </div>
+        <div class="stat-item">
             <div class="stat-item-icon warning"><i class="fas fa-scale-balanced"></i></div>
             <div class="stat-item-content">
                 <div class="stat-item-value" id="totalDifference">0 <small>ج.م</small></div>
                 <div class="stat-item-label">إجمالي فرق الكاش</div>
-            </div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-item-icon danger"><i class="fas fa-triangle-exclamation"></i></div>
-            <div class="stat-item-content">
-                <div class="stat-item-value" id="shiftsWithDiff">0</div>
-                <div class="stat-item-label">ورديات بفرق</div>
             </div>
         </div>
     </div>
@@ -1196,11 +1252,11 @@ img { max-width: 100%; height: auto; display: block; }
                 <div class="summary-box" id="diffPreviewBox" style="display: none;">
                     <h4><i class="fas fa-calculator"></i> معاينة الفرق</h4>
                     <div class="summary-row">
-                        <span class="summary-row-label">المتوقع</span>
+                        <span class="summary-row-label">المتوقع في الدرج</span>
                         <span class="summary-row-value" id="previewExpected">0.00 ج.م</span>
                     </div>
                     <div class="summary-row">
-                        <span class="summary-row-label">الفعلي</span>
+                        <span class="summary-row-label">الفعلي في الدرج</span>
                         <span class="summary-row-value" id="previewActual">0.00 ج.م</span>
                     </div>
                     <div class="summary-row total" id="previewDiffRow">
@@ -1637,8 +1693,8 @@ function loadData() {
     return Promise.all([
         sb.from('shifts').select('*').order('start_time', { ascending: false }).limit(500),
         sb.from('accounts').select('id, full_name, username, role'),
-        sb.from('invoices').select('id, total, created_at, created_by, payment_method'),
-        sb.from('payments').select('id, amount, method, created_at, created_by')
+        sb.from('invoices').select('id, total, paid_amount, paid, created_at, created_by, payment_method, payment_status, status'),
+        sb.from('payments').select('id, amount, method, created_at, created_by, invoice_id')
     ]).then(function(results) {
         state.shifts = results[0].data || [];
         state.employees = results[1].data || [];
@@ -1670,7 +1726,8 @@ function loadData() {
         
         return Promise.all([
             dbBulkPut('shifts', state.shifts),
-            dbBulkPut('accounts', state.employees)
+            dbBulkPut('accounts', state.employees),
+            dbBulkPut('invoices', state.invoices)
         ]);
     }).catch(function(err) {
         console.warn('Load failed:', err);
@@ -1712,6 +1769,19 @@ function loadFromCacheInternal() {
             }
             return s;
         });
+        
+        // Find current shift
+        var session = getSession();
+        if (session && session.user) {
+            for (var i = 0; i < state.shifts.length; i++) {
+                if (state.shifts[i].is_active !== false && 
+                    state.shifts[i].employee_id === session.user.id && 
+                    !state.shifts[i].end_time) {
+                    state.currentShift = state.shifts[i];
+                    break;
+                }
+            }
+        }
     });
 }
 
@@ -1721,15 +1791,16 @@ function loadFromCacheInternal() {
 function updateStats() {
     var totalShifts = state.shifts.length;
     var totalSales = 0;
+    var totalDebts = 0;
     var totalDiff = 0;
-    var shiftsWithDiff = 0;
     
     state.shifts.forEach(function(s) {
         var sales = parseFloat(s.sales_total) || 0;
+        var debts = parseFloat(s.debts_total) || 0;
         var diff = parseFloat(s.difference) || 0;
         totalSales += sales;
+        totalDebts += debts;
         totalDiff += diff;
-        if (Math.abs(diff) >= 1) shiftsWithDiff++;
     });
     
     var setEl = function(id, html) {
@@ -1740,13 +1811,17 @@ function updateStats() {
     setEl('totalShifts', formatNumber(totalShifts));
     setEl('totalSalesAll', formatCurrencyShort(totalSales) + ' <small>ج.م</small>');
     
+    var debtsEl = document.getElementById('totalDebts');
+    if (debtsEl) {
+        var debtsColor = totalDebts > 0 ? 'style="color: var(--danger);"' : '';
+        debtsEl.innerHTML = '<span ' + debtsColor + '>' + formatCurrencyShort(totalDebts) + '</span> <small>ج.م</small>';
+    }
+    
     var diffEl = document.getElementById('totalDifference');
     if (diffEl) {
         var diffColor = Math.abs(totalDiff) < 1 ? '' : (totalDiff > 0 ? 'style="color: var(--success);"' : 'style="color: var(--danger);"');
         diffEl.innerHTML = '<span ' + diffColor + '>' + formatCurrencyShort(totalDiff) + '</span> <small>ج.م</small>';
     }
-    
-    setEl('shiftsWithDiff', formatNumber(shiftsWithDiff));
     
     var subtitle = document.getElementById('pageSubtitle');
     if (subtitle) subtitle.textContent = totalShifts + ' وردية مسجلة';
@@ -1790,9 +1865,8 @@ function renderCurrentShiftBanner(shift) {
                   (session && session.user.username) || 'المستخدم';
     
     var elapsed = Math.floor((Date.now() - new Date(shift.start_time).getTime()) / 1000);
-    var openingCash = parseFloat(shift.opening_cash) || 0;
     
-    // Calculate live stats
+    // ✅ استخدام الدالة المحسّنة
     var liveStats = calculateShiftStats(shift);
     
     return '<div class="current-shift-banner">' +
@@ -1813,18 +1887,26 @@ function renderCurrentShiftBanner(shift) {
         '<div class="shift-banner-stats">' +
             '<div class="shift-banner-stat">' +
                 '<div class="shift-banner-stat-label">بداية الكاش</div>' +
-                '<div class="shift-banner-stat-value">' + formatCurrencyShort(openingCash) + '</div>' +
+                '<div class="shift-banner-stat-value">' + formatCurrencyShort(liveStats.opening_cash) + '</div>' +
             '</div>' +
             '<div class="shift-banner-stat">' +
-                '<div class="shift-banner-stat-label">مبيعات الوردية</div>' +
+                '<div class="shift-banner-stat-label">إجمالي المبيعات</div>' +
                 '<div class="shift-banner-stat-value">' + formatCurrencyShort(liveStats.sales_total) + '</div>' +
+            '</div>' +
+            '<div class="shift-banner-stat">' +
+                '<div class="shift-banner-stat-label">المحصّل فعلاً</div>' +
+                '<div class="shift-banner-stat-value">' + formatCurrencyShort(liveStats.collected_amount) + '</div>' +
+            '</div>' +
+            '<div class="shift-banner-stat">' +
+                '<div class="shift-banner-stat-label">مديونيات الوردية</div>' +
+                '<div class="shift-banner-stat-value warning">' + formatCurrencyShort(liveStats.debts_amount) + '</div>' +
             '</div>' +
             '<div class="shift-banner-stat">' +
                 '<div class="shift-banner-stat-label">عدد الفواتير</div>' +
                 '<div class="shift-banner-stat-value">' + formatNumber(liveStats.invoice_count) + '</div>' +
             '</div>' +
             '<div class="shift-banner-stat">' +
-                '<div class="shift-banner-stat-label">الكاش المتوقع</div>' +
+                '<div class="shift-banner-stat-label">💰 الكاش المتوقع</div>' +
                 '<div class="shift-banner-stat-value">' + formatCurrencyShort(liveStats.expected_cash) + '</div>' +
             '</div>' +
         '</div>' +
@@ -1863,43 +1945,79 @@ function bindNoShiftEvents() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 📊 Calculate Shift Stats
+// 📊 Calculate Shift Stats (محسّن - يحسب المديونيات)
 // ═══════════════════════════════════════════════════════════════
 function calculateShiftStats(shift) {
     var startTime = new Date(shift.start_time).getTime();
     var endTime = shift.end_time ? new Date(shift.end_time).getTime() : Date.now();
     
-    // Filter invoices in this shift period
+    // 1. فلترة الفواتير في فترة الوردية
     var shiftInvoices = state.invoices.filter(function(inv) {
         var invTime = new Date(inv.created_at).getTime();
         return invTime >= startTime && invTime <= endTime;
     });
     
-    // Calculate cash sales (only cash payments, not credit/visa)
-    var cashSales = 0;
-    var allSales = 0;
+    // 2. حساب الإجماليات
+    var totalSales = 0;          // إجمالي المبيعات (كل الفواتير)
+    var collectedAmount = 0;     // المحصّل فعلاً (paid_amount)
+    var debtsAmount = 0;         // المديونيات (total - paid_amount)
+    var cashCollected = 0;       // كاش + فيزا (المدفوع فعلاً)
+    var invoiceCount = shiftInvoices.length;
+    
     shiftInvoices.forEach(function(inv) {
         var total = parseFloat(inv.total) || 0;
-        allSales += total;
-        var method = inv.payment_method || 'cash';
-        if (method === 'cash') {
-            cashSales += total;
+        var paidAmount = parseFloat(inv.paid_amount) || 0;
+        
+        // لو paid_amount مش موجود، نشوف paid boolean
+        if (isNaN(paidAmount) || paidAmount === 0) {
+            if (inv.paid === true) {
+                paidAmount = total;
+            } else {
+                paidAmount = 0;
+            }
         }
+        
+        // التأكد من عدم تجاوز الإجمالي
+        if (paidAmount > total) paidAmount = total;
+        
+        var debt = total - paidAmount;
+        if (debt < 0) debt = 0;
+        
+        totalSales += total;
+        collectedAmount += paidAmount;
+        debtsAmount += debt;
+        cashCollected += paidAmount;
     });
     
-    // If shift has stored stats, use them
-    var storedSales = parseFloat(shift.sales_total);
-    var salesTotal = !isNaN(storedSales) && storedSales > 0 ? storedSales : allSales;
+    // 3. لو الوردية محفوظة بـ values سابقة، نستخدمها (للوارد المغلقة)
+    if (shift.end_time) {
+        var storedSales = parseFloat(shift.sales_total);
+        var storedDebts = parseFloat(shift.debts_total);
+        
+        if (!isNaN(storedSales) && storedSales > 0) totalSales = storedSales;
+        if (!isNaN(storedDebts) && storedDebts >= 0) debtsAmount = storedDebts;
+        
+        // نستخدم collected_amount لو موجودة
+        var storedCollected = parseFloat(shift.collected_amount);
+        if (!isNaN(storedCollected) && storedCollected > 0) {
+            collectedAmount = storedCollected;
+        } else if (totalSales > 0) {
+            collectedAmount = totalSales - debtsAmount;
+        }
+    }
     
+    // 4. الكاش المتوقع = بداية الكاش + المحصّل فعلاً
     var openingCash = parseFloat(shift.opening_cash) || 0;
-    var expectedCash = openingCash + (cashSales > 0 ? cashSales : salesTotal);
+    var expectedCash = openingCash + collectedAmount;
     
     return {
-        sales_total: salesTotal,
-        cash_sales: cashSales,
-        invoice_count: shiftInvoices.length,
+        opening_cash: openingCash,
+        sales_total: totalSales,
+        collected_amount: collectedAmount,
+        debts_amount: debtsAmount,
+        invoice_count: invoiceCount,
         expected_cash: expectedCash,
-        opening_cash: openingCash
+        shift_invoices: shiftInvoices
     };
 }
 
@@ -2006,12 +2124,12 @@ function renderShiftCard(shift) {
     var empName = (shift.employee && shift.employee.full_name) || 
                   (shift.employee && shift.employee.username) || 
                   'موظف غير معروف';
-    var initial = getInitials(empName);
     
     var openingCash = parseFloat(shift.opening_cash) || 0;
     var closingCash = parseFloat(shift.closing_cash) || 0;
     var salesTotal = parseFloat(shift.sales_total) || 0;
-    var expectedCash = parseFloat(shift.expected_cash) || (openingCash + salesTotal);
+    var debtsTotal = parseFloat(shift.debts_total) || 0;
+    var expectedCash = parseFloat(shift.expected_cash) || (openingCash + (salesTotal - debtsTotal));
     var difference = parseFloat(shift.difference) || 0;
     
     var duration = shift.end_time 
@@ -2053,8 +2171,12 @@ function renderShiftCard(shift) {
                 '<div class="shift-stat-value success">' + formatCurrencyShort(salesTotal) + '</div>' +
             '</div>' +
             '<div class="shift-stat">' +
+                '<div class="shift-stat-label">مديونيات</div>' +
+                '<div class="shift-stat-value ' + (debtsTotal > 0 ? 'danger' : '') + '">' + formatCurrencyShort(debtsTotal) + '</div>' +
+            '</div>' +
+            '<div class="shift-stat">' +
                 '<div class="shift-stat-label">متوقع</div>' +
-                '<div class="shift-stat-value">' + formatCurrencyShort(expectedCash) + '</div>' +
+                '<div class="shift-stat-value info">' + formatCurrencyShort(expectedCash) + '</div>' +
             '</div>' +
             (shift.end_time ? 
                 '<div class="shift-stat">' +
@@ -2203,6 +2325,8 @@ function saveOpenShift(e) {
         closing_cash: 0,
         expected_cash: 0,
         sales_total: 0,
+        debts_total: 0,
+        collected_amount: 0,
         difference: 0,
         notes: notes,
         is_active: true
@@ -2252,13 +2376,10 @@ function openCloseShiftModal() {
     var shift = state.currentShift;
     var stats = calculateShiftStats(shift);
     
-    var openingCash = stats.opening_cash;
-    var salesTotal = stats.sales_total;
-    var expectedCash = stats.expected_cash;
-    
     document.getElementById('closeShiftSummary').innerHTML = 
         '<div class="summary-box" style="margin-bottom: 1rem;">' +
             '<h4><i class="fas fa-chart-simple"></i> ملخص الوردية</h4>' +
+            
             '<div class="summary-row">' +
                 '<span class="summary-row-label"><i class="fas fa-clock"></i> بدأت في</span>' +
                 '<span class="summary-row-value" style="font-size: 0.9rem;">' + formatDateTime(shift.start_time) + '</span>' +
@@ -2270,16 +2391,36 @@ function openCloseShiftModal() {
                 '</span>' +
             '</div>' +
             '<div class="summary-row">' +
+                '<span class="summary-row-label"><i class="fas fa-receipt"></i> عدد الفواتير</span>' +
+                '<span class="summary-row-value">' + formatNumber(stats.invoice_count) + '</span>' +
+            '</div>' +
+            
+            '<div class="summary-row section-header">' +
+                '<span class="summary-row-label"><i class="fas fa-calculator"></i> تفصيل الحساب</span>' +
+                '<span></span>' +
+            '</div>' +
+            
+            '<div class="summary-row">' +
                 '<span class="summary-row-label"><i class="fas fa-money-bill-wave"></i> بداية الكاش</span>' +
-                '<span class="summary-row-value">' + formatCurrency(openingCash) + '</span>' +
+                '<span class="summary-row-value">' + formatCurrency(stats.opening_cash) + '</span>' +
             '</div>' +
             '<div class="summary-row">' +
-                '<span class="summary-row-label"><i class="fas fa-shopping-cart"></i> المبيعات الكاش</span>' +
-                '<span class="summary-row-value">' + formatCurrency(salesTotal) + '</span>' +
+                '<span class="summary-row-label"><i class="fas fa-shopping-cart"></i> إجمالي المبيعات</span>' +
+                '<span class="summary-row-value">' + formatCurrency(stats.sales_total) + '</span>' +
             '</div>' +
+            '<div class="summary-row collected">' +
+                '<span class="summary-row-label"><i class="fas fa-check-circle"></i> المحصّل فعلاً</span>' +
+                '<span class="summary-row-value">+ ' + formatCurrency(stats.collected_amount) + '</span>' +
+            '</div>' +
+            (stats.debts_amount > 0 ? 
+                '<div class="summary-row debt">' +
+                    '<span class="summary-row-label"><i class="fas fa-hand-holding-dollar"></i> مديونيات الوردية</span>' +
+                    '<span class="summary-row-value">- ' + formatCurrency(stats.debts_amount) + '</span>' +
+                '</div>'
+                : '') +
             '<div class="summary-row total">' +
-                '<span class="summary-row-label"><i class="fas fa-calculator"></i> المتوقع في الدرج</span>' +
-                '<span class="summary-row-value">' + formatCurrency(expectedCash) + '</span>' +
+                '<span class="summary-row-label"><i class="fas fa-cash-register"></i> المتوقع في الدرج</span>' +
+                '<span class="summary-row-value">' + formatCurrency(stats.expected_cash) + '</span>' +
             '</div>' +
         '</div>';
     
@@ -2347,8 +2488,11 @@ function saveCloseShift(e) {
     var notes = document.getElementById('closeShiftNotes').value.trim() || null;
     var shift = state.currentShift;
     var stats = calculateShiftStats(shift);
+    
     var expectedCash = stats.expected_cash;
     var salesTotal = stats.sales_total;
+    var debtsTotal = stats.debts_amount;
+    var collectedAmount = stats.collected_amount;
     var difference = closingCash - expectedCash;
     
     var btn = document.getElementById('saveCloseShiftBtn');
@@ -2367,6 +2511,8 @@ function saveCloseShift(e) {
         closing_cash: closingCash,
         expected_cash: expectedCash,
         sales_total: salesTotal,
+        debts_total: debtsTotal,
+        collected_amount: collectedAmount,
         difference: difference,
         is_active: false,
         notes: notes
@@ -2395,7 +2541,6 @@ function saveCloseShift(e) {
                 : '⚠️ نقص في الكاش: ' + formatCurrency(Math.abs(difference));
             showToast(msg, 'warning', 6000);
             
-            // Create notification
             if (sb && navigator.onLine) {
                 sb.from('notifications').insert({
                     user_id: shift.employee_id,
@@ -2440,29 +2585,22 @@ function openDetailsModal(id) {
                   'موظف غير معروف';
     var empInitial = getInitials(empName);
     
-    var openingCash = parseFloat(shift.opening_cash) || 0;
-    var closingCash = parseFloat(shift.closing_cash) || 0;
-    var salesTotal = parseFloat(shift.sales_total) || 0;
-    var expectedCash = parseFloat(shift.expected_cash) || 0;
-    var difference = parseFloat(shift.difference) || 0;
+    var stats = calculateShiftStats(shift);
     
     var duration = shift.end_time 
         ? Math.floor((new Date(shift.end_time).getTime() - new Date(shift.start_time).getTime()) / 1000)
         : Math.floor((Date.now() - new Date(shift.start_time).getTime()) / 1000);
     
-    // Get invoices in this shift
-    var startTime = new Date(shift.start_time).getTime();
-    var endTime = shift.end_time ? new Date(shift.end_time).getTime() : Date.now();
-    var shiftInvoices = state.invoices.filter(function(inv) {
-        var invTime = new Date(inv.created_at).getTime();
-        return invTime >= startTime && invTime <= endTime;
-    });
+    var difference = parseFloat(shift.difference) || 0;
+    var closingCash = parseFloat(shift.closing_cash) || 0;
     
     var diffCls = Math.abs(difference) < 1 ? 'balanced' : (difference > 0 ? 'success' : 'danger');
     var diffIcon = Math.abs(difference) < 1 ? 'fa-check-circle' : (difference > 0 ? 'fa-arrow-up' : 'fa-arrow-down');
     var diffText = Math.abs(difference) < 1 
         ? 'متوازن تمامًا' 
         : (difference > 0 ? 'زيادة ' + formatCurrency(difference) : 'نقص ' + formatCurrency(Math.abs(difference)));
+    
+    var shiftInvoices = stats.shift_invoices;
     
     document.getElementById('detailsContent').innerHTML =
         '<div style="background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark)); color: white; padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.25rem; position: relative; overflow: hidden;">' +
@@ -2484,25 +2622,41 @@ function openDetailsModal(id) {
             '</div>' +
         '</div>' +
         
-        '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem;">' +
-            '<div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">' +
-                '<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem; text-transform: uppercase;">بداية الكاش</div>' +
-                '<div style="font-size: 1.15rem; font-weight: 800; color: var(--tech-blue); font-family: monospace;">' + formatCurrency(openingCash) + '</div>' +
+        '<h4 style="font-size: 0.95rem; font-weight: 800; margin-bottom: 0.65rem; display: flex; align-items: center; gap: 0.4rem;">' +
+            '<i class="fas fa-calculator" style="color: var(--tech-blue);"></i> تفصيل الحسابات' +
+        '</h4>' +
+        
+        '<div class="detail-grid">' +
+            '<div class="detail-card">' +
+                '<div class="detail-card-label">بداية الكاش</div>' +
+                '<div class="detail-card-value tech">' + formatCurrency(stats.opening_cash) + '</div>' +
             '</div>' +
-            '<div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">' +
-                '<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem; text-transform: uppercase;">المبيعات</div>' +
-                '<div style="font-size: 1.15rem; font-weight: 800; color: var(--success); font-family: monospace;">' + formatCurrency(salesTotal) + '</div>' +
+            '<div class="detail-card">' +
+                '<div class="detail-card-label">إجمالي المبيعات</div>' +
+                '<div class="detail-card-value success">' + formatCurrency(stats.sales_total) + '</div>' +
             '</div>' +
-            '<div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">' +
-                '<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem; text-transform: uppercase;">الكاش المتوقع</div>' +
-                '<div style="font-size: 1.15rem; font-weight: 800; font-family: monospace;">' + formatCurrency(expectedCash) + '</div>' +
+            '<div class="detail-card">' +
+                '<div class="detail-card-label">المحصّل فعلاً</div>' +
+                '<div class="detail-card-value success">' + formatCurrency(stats.collected_amount) + '</div>' +
+            '</div>' +
+            '<div class="detail-card">' +
+                '<div class="detail-card-label">مديونيات الوردية</div>' +
+                '<div class="detail-card-value ' + (stats.debts_amount > 0 ? 'danger' : '') + '">' + formatCurrency(stats.debts_amount) + '</div>' +
+            '</div>' +
+            '<div class="detail-card highlight">' +
+                '<div class="detail-card-label">💰 الكاش المتوقع</div>' +
+                '<div class="detail-card-value tech">' + formatCurrency(stats.expected_cash) + '</div>' +
             '</div>' +
             (shift.end_time ? 
-                '<div style="padding: 1rem; background: var(--bg-primary); border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-color);">' +
-                    '<div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.35rem; text-transform: uppercase;">الكاش الفعلي</div>' +
-                    '<div style="font-size: 1.15rem; font-weight: 800; font-family: monospace;">' + formatCurrency(closingCash) + '</div>' +
+                '<div class="detail-card">' +
+                    '<div class="detail-card-label">الكاش الفعلي</div>' +
+                    '<div class="detail-card-value info">' + formatCurrency(closingCash) + '</div>' +
                 '</div>'
                 : '') +
+            '<div class="detail-card">' +
+                '<div class="detail-card-label">عدد الفواتير</div>' +
+                '<div class="detail-card-value">' + formatNumber(stats.invoice_count) + '</div>' +
+            '</div>' +
         '</div>' +
         
         (shift.end_time ? 
@@ -2521,15 +2675,34 @@ function openDetailsModal(id) {
                 shiftInvoices.map(function(inv) {
                     var methodText = { 'cash': 'كاش', 'visa': 'فيزا', 'credit': 'آجل' }[inv.payment_method] || 'كاش';
                     var methodIcon = { 'cash': 'fa-money-bill-wave', 'visa': 'fa-credit-card', 'credit': 'fa-file-invoice' }[inv.payment_method] || 'fa-money-bill-wave';
+                    
+                    var total = parseFloat(inv.total) || 0;
+                    var paidAmount = parseFloat(inv.paid_amount) || 0;
+                    if (isNaN(paidAmount) || paidAmount === 0) {
+                        if (inv.paid === true) paidAmount = total;
+                        else paidAmount = 0;
+                    }
+                    if (paidAmount > total) paidAmount = total;
+                    var debt = total - paidAmount;
+                    
+                    var statusBadge = debt <= 0 
+                        ? '<span style="display:inline-flex; padding: 0.2rem 0.5rem; border-radius: 9999px; font-size: 0.65rem; font-weight: 700; background: rgba(16,185,129,0.12); color: var(--success);">مسدد</span>'
+                        : '<span style="display:inline-flex; padding: 0.2rem 0.5rem; border-radius: 9999px; font-size: 0.65rem; font-weight: 700; background: rgba(239,68,68,0.12); color: var(--danger);">دين ' + formatCurrencyShort(debt) + '</span>';
+                    
                     return '<div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 0.85rem; border-bottom: 1px solid var(--border-color);">' +
                         '<div style="width: 36px; height: 36px; border-radius: var(--radius-sm); background: var(--bg-primary); display: flex; align-items: center; justify-content: center; color: var(--tech-blue);">' +
                             '<i class="fas ' + methodIcon + '"></i>' +
                         '</div>' +
                         '<div style="flex: 1; min-width: 0;">' +
-                            '<div style="font-size: 0.85rem; font-weight: 700;">' + methodText + '</div>' +
+                            '<div style="font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">' +
+                                methodText + ' ' + statusBadge +
+                            '</div>' +
                             '<div style="font-size: 0.7rem; color: var(--text-muted);">' + formatDateTime(inv.created_at) + '</div>' +
                         '</div>' +
-                        '<div style="font-size: 0.95rem; font-weight: 800; color: var(--tech-blue); font-family: monospace;">' + formatCurrency(inv.total) + '</div>' +
+                        '<div style="text-align: left;">' +
+                            '<div style="font-size: 0.95rem; font-weight: 800; color: var(--tech-blue); font-family: monospace;">' + formatCurrency(total) + '</div>' +
+                            (debt > 0 ? '<div style="font-size: 0.7rem; color: var(--success); font-weight: 700;">مدفوع: ' + formatCurrencyShort(paidAmount) + '</div>' : '') +
+                        '</div>' +
                     '</div>';
                 }).join('') +
             '</div>'
@@ -2563,15 +2736,14 @@ function printShift() {
     if (!shift) return;
     
     var empName = (shift.employee && shift.employee.full_name) || 'موظف';
-    var openingCash = parseFloat(shift.opening_cash) || 0;
-    var closingCash = parseFloat(shift.closing_cash) || 0;
-    var salesTotal = parseFloat(shift.sales_total) || 0;
-    var expectedCash = parseFloat(shift.expected_cash) || 0;
-    var difference = parseFloat(shift.difference) || 0;
+    var stats = calculateShiftStats(shift);
     
     var duration = shift.end_time 
         ? Math.floor((new Date(shift.end_time).getTime() - new Date(shift.start_time).getTime()) / 1000)
         : 0;
+    
+    var difference = parseFloat(shift.difference) || 0;
+    var closingCash = parseFloat(shift.closing_cash) || 0;
     
     var html = '<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>تقرير وردية</title>' +
         '<style>' +
@@ -2579,11 +2751,8 @@ function printShift() {
         '* { margin: 0; padding: 0; box-sizing: border-box; }' +
         'body { font-family: "Cairo", sans-serif; padding: 15mm; background: white; color: #0a1f33; }' +
         '.header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #1d5b8e; padding-bottom: 5mm; margin-bottom: 8mm; }' +
-        '.brand { display: flex; align-items: center; gap: 4mm; }' +
-        '.brand img { width: 60px; height: 60px; object-fit: contain; }' +
         '.brand h1 { font-size: 22pt; font-weight: 900; color: #1d5b8e; }' +
         '.brand p { font-size: 10pt; color: #64748b; }' +
-        '.title { text-align: left; }' +
         '.title h2 { font-size: 24pt; font-weight: 900; color: #1d5b8e; }' +
         '.title p { font-size: 10pt; color: #64748b; }' +
         '.info { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin-bottom: 8mm; }' +
@@ -2601,8 +2770,7 @@ function printShift() {
         '.footer { text-align: center; font-size: 10pt; color: #64748b; padding-top: 5mm; border-top: 1px solid #e1e8f0; }' +
         '</style></head><body>' +
         '<div class="header">' +
-            '<div class="brand"><img src="logo.png" onerror="this.style.display=\'none\'">' +
-            '<div><h1>إلكترونك</h1><p>لصيانة الأجهزة الإلكترونية</p></div></div>' +
+            '<div class="brand"><h1>إلكترونك</h1><p>لصيانة الأجهزة الإلكترونية</p></div>' +
             '<div class="title"><h2>تقرير وردية</h2><p>' + formatDateTime(shift.start_time) + '</p></div>' +
         '</div>' +
         
@@ -2614,9 +2782,11 @@ function printShift() {
         '<table class="stats-table">' +
             '<thead><tr><th>البند</th><th style="text-align:left;">المبلغ</th></tr></thead>' +
             '<tbody>' +
-                '<tr><td>بداية الكاش</td><td class="value">' + formatCurrency(openingCash) + '</td></tr>' +
-                '<tr><td>إجمالي المبيعات</td><td class="value">' + formatCurrency(salesTotal) + '</td></tr>' +
-                '<tr><td>الكاش المتوقع</td><td class="value">' + formatCurrency(expectedCash) + '</td></tr>' +
+                '<tr><td>بداية الكاش</td><td class="value">' + formatCurrency(stats.opening_cash) + '</td></tr>' +
+                '<tr><td>إجمالي المبيعات</td><td class="value">' + formatCurrency(stats.sales_total) + '</td></tr>' +
+                '<tr><td>المحصّل فعلاً</td><td class="value" style="color:#16a34a;">+ ' + formatCurrency(stats.collected_amount) + '</td></tr>' +
+                (stats.debts_amount > 0 ? '<tr><td>مديونيات الوردية</td><td class="value" style="color:#dc2626;">- ' + formatCurrency(stats.debts_amount) + '</td></tr>' : '') +
+                '<tr><td style="background:#f1f5f9; font-weight:900;">💰 الكاش المتوقع</td><td class="value" style="background:#f1f5f9; color:#1d5b8e;">' + formatCurrency(stats.expected_cash) + '</td></tr>' +
                 (shift.end_time ? '<tr><td>الكاش الفعلي</td><td class="value">' + formatCurrency(closingCash) + '</td></tr>' : '') +
             '</tbody>' +
         '</table>' +
@@ -2725,7 +2895,9 @@ function exportData() {
                 'نهاية الوردية': s.end_time ? formatDateTime(s.end_time) : 'نشطة',
                 'المدة': formatDuration(duration),
                 'بداية الكاش': parseFloat(s.opening_cash) || 0,
-                'المبيعات': parseFloat(s.sales_total) || 0,
+                'إجمالي المبيعات': parseFloat(s.sales_total) || 0,
+                'المديونيات': parseFloat(s.debts_total) || 0,
+                'المحصّل فعلاً': parseFloat(s.collected_amount) || (parseFloat(s.sales_total) - parseFloat(s.debts_total)) || 0,
                 'الكاش المتوقع': parseFloat(s.expected_cash) || 0,
                 'الكاش الفعلي': parseFloat(s.closing_cash) || 0,
                 'الفرق': parseFloat(s.difference) || 0,
@@ -2981,11 +3153,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { passive: true });
     scrollTopBtn?.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
     
-    // Permissions
-    if (session.user.role !== 'admin' && (!session.user.permissions || !session.user.permissions.can_manage_shifts)) {
-        // Still can open their own shift
-    }
-    
     // Load
     openDB()
         .then(function() { return loadData(); })
@@ -3000,7 +3167,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     
     startInactivityMonitor();
-    console.log('%c⏰ صفحة الورديات جاهزة', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+    console.log('%c⏰ صفحة الورديات جاهزة - مع حسابات المديونيات ✅', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+    console.log('%c💰 الكاش المتوقع = بداية الكاش + المحصّل فعلاً (بعد خصم المديونيات)', 'color: #10b981; font-size: 12px;');
 });
 
 window.ShiftsApp = {
