@@ -751,27 +751,87 @@ img { max-width: 100%; height: auto; display: block; }
 .scanner-frame::before { top: -4px; right: -4px; border-left: none; border-bottom: none; }
 .scanner-frame::after { bottom: -4px; left: -4px; border-right: none; border-top: none; }
 
-.barcode-list-item {
-    display: flex; align-items: center; gap: 0.75rem;
-    padding: 0.75rem 1rem;
+/* ═══ Barcode Print - احترافي ═══ */
+.barcode-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
     border-bottom: 1px solid var(--border-color);
-    cursor: pointer; transition: all var(--transition-fast);
+    cursor: pointer;
+    transition: all var(--transition-fast);
 }
-.barcode-list-item:hover { background: var(--bg-hover); }
-.barcode-list-item:last-child { border-bottom: none; }
-.barcode-list-item input[type="checkbox"] {
-    width: 20px; height: 20px; accent-color: var(--tech-blue);
-    cursor: pointer; flex-shrink: 0;
+.barcode-item:hover { background: var(--bg-hover); }
+.barcode-item.selected {
+    background: rgba(29, 91, 142, 0.06);
+    border-right: 3px solid var(--tech-blue);
 }
-.barcode-list-info { flex: 1; min-width: 0; }
-.barcode-list-info strong {
-    display: block; font-size: 0.9rem; font-weight: 700;
+.barcode-item:last-child { border-bottom: none; }
+
+.barcode-item-checkbox {
+    width: 22px;
+    height: 22px;
+    accent-color: var(--tech-blue);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.barcode-item-info {
+    flex: 1;
+    min-width: 0;
+}
+.barcode-item-info strong {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 700;
     margin-bottom: 0.15rem;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
-.barcode-list-info span {
-    font-size: 0.72rem; color: var(--text-muted);
+.barcode-item-info span {
+    font-size: 0.72rem;
+    color: var(--text-muted);
     font-family: 'Courier New', monospace;
+}
+
+.barcode-item-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.2rem;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+}
+.barcode-item-meta .qty-badge {
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.68rem;
+}
+.barcode-item-meta .qty-badge.ok { background: rgba(16,185,129,0.15); color: var(--success); }
+.barcode-item-meta .qty-badge.low { background: rgba(245,158,11,0.15); color: var(--warning); }
+.barcode-item-meta .qty-badge.out { background: rgba(239,68,68,0.15); color: var(--danger); }
+.barcode-item-meta .price-badge {
+    color: var(--tech-blue);
+    font-weight: 800;
+    font-size: 0.72rem;
+}
+
+.barcode-item-qty-input {
+    width: 60px;
+    padding: 0.35rem 0.5rem;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.78rem;
+    text-align: center;
+    font-weight: 700;
+    outline: none;
+}
+.barcode-item-qty-input:focus {
+    border-color: var(--tech-blue);
+    box-shadow: 0 0 0 3px rgba(29,91,142,0.12);
 }
 
 /* Toast */
@@ -1051,6 +1111,7 @@ img { max-width: 100%; height: auto; display: block; }
     .category-icon-svg-large { height: 180px; padding: 2rem; }
     .category-icon-svg-large svg { max-width: 120px; max-height: 120px; }
     .category-icon-svg-large i { font-size: 3.5rem; }
+    .barcode-item-qty-input { width: 50px; }
 }
 
 @media (max-width: 400px) {
@@ -1329,23 +1390,101 @@ img { max-width: 100%; height: auto; display: block; }
     </div>
 </div>
 
-<!-- Barcode Print Modal -->
+<!-- Barcode Print Modal - احترافي -->
 <div class="modal-overlay" id="barcodePrintModal">
-    <div class="modal modal-lg">
+    <div class="modal modal-lg" style="max-width: 960px;">
         <div class="modal-header">
             <h3 class="modal-title"><i class="fas fa-barcode"></i> طباعة ملصقات الباركود</h3>
             <button class="modal-close" id="closeBarcodeModal"><i class="fas fa-times"></i></button>
         </div>
-        <div class="modal-body">
-            <div class="form-group" style="margin-bottom: 1rem;">
-                <label class="form-label"><i class="fas fa-search"></i> ابحث عن الصنف</label>
-                <input type="text" class="form-input" id="barcodeSearch" placeholder="اكتب اسم الصنف أو الباركود...">
+        <div class="modal-body" style="padding: 0;">
+            
+            <!-- Toolbar -->
+            <div style="padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color); background: var(--bg-primary); position: sticky; top: 0; z-index: 5;">
+                <!-- Search + Filter row -->
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+                    <div class="toolbar-search" style="flex: 1; min-width: 200px;">
+                        <input type="text" class="toolbar-search-input" id="barcodeSearch" placeholder="ابحث بالاسم أو الباركود..." autocomplete="off">
+                        <i class="fas fa-magnifying-glass toolbar-search-icon"></i>
+                    </div>
+                    <select class="toolbar-select" id="barcodeFilterSelect" style="min-width: 170px;">
+                        <option value="all">📦 كل الأصناف</option>
+                        <option value="available">✅ المتوفرة فقط</option>
+                        <option value="low">⚠️ منخفضة المخزون</option>
+                        <option value="out">❌ نفذت من المخزون</option>
+                        <option value="recent">🆕 الأحدث (وارد حديث)</option>
+                        <option value="expensive">💰 الأغلى سعراً</option>
+                    </select>
+                    <select class="toolbar-select" id="barcodeCategorySelect" style="min-width: 170px;">
+                        <option value="">🏷️ كل الفئات</option>
+                    </select>
+                </div>
+                
+                <!-- Stats + Actions row -->
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
+                    <div style="display: flex; gap: 0.35rem; flex: 1; flex-wrap: wrap;">
+                        <button type="button" class="btn btn-sm btn-secondary" id="selectAllBarcodesBtn">
+                            <i class="fas fa-check-double"></i> تحديد الكل
+                        </button>
+                        <button type="button" class="btn btn-sm btn-secondary" id="clearAllBarcodesBtn">
+                            <i class="fas fa-eraser"></i> إلغاء الكل
+                        </button>
+                        <button type="button" class="btn btn-sm btn-secondary" id="selectVisibleBarcodesBtn">
+                            <i class="fas fa-eye"></i> تحديد المعروض
+                        </button>
+                    </div>
+                    <div id="barcodeSelectionInfo" style="padding: 0.4rem 0.85rem; background: linear-gradient(135deg, var(--tech-blue), var(--tech-blue-dark)); color: white; border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 700; box-shadow: 0 4px 12px rgba(29,91,142,0.3);">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="barcodeSelectedCount">0</span> محدد
+                    </div>
+                </div>
             </div>
-            <div id="barcodeProductsList" style="max-height: 320px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-primary);"></div>
+            
+            <!-- Products List -->
+            <div id="barcodeProductsList" style="max-height: 380px; overflow-y: auto; background: var(--bg-card);"></div>
+            
+            <!-- Print Options -->
+            <div style="padding: 1rem 1.25rem; border-top: 1px solid var(--border-color); background: var(--bg-primary);">
+                <div style="font-size: 0.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-sliders" style="color: var(--tech-blue);"></i>
+                    خيارات الطباعة
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.65rem;">
+                    <div>
+                        <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.35rem;">عدد الملصقات</label>
+                        <input type="number" class="form-input" id="barcodeLabelCount" value="1" min="1" max="50" style="padding: 0.5rem; font-size: 0.85rem;">
+                    </div>
+                    <div>
+                        <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.35rem;">حجم الملصق</label>
+                        <select class="form-select" id="barcodeLabelSize" style="padding: 0.5rem; font-size: 0.85rem;">
+                            <option value="small">صغير (35×20)</option>
+                            <option value="medium" selected>متوسط (50×30)</option>
+                            <option value="large">كبير (70×40)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label" style="font-size: 0.72rem; margin-bottom: 0.35rem;">خيارات إضافية</label>
+                        <div style="display: flex; gap: 0.4rem; flex-wrap: wrap; padding: 0.5rem; background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: var(--radius-md);">
+                            <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; font-weight: 600; cursor: pointer;">
+                                <input type="checkbox" id="barcodeShowPrice" checked style="accent-color: var(--tech-blue);"> السعر
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; font-weight: 600; cursor: pointer;">
+                                <input type="checkbox" id="barcodeShowName" checked style="accent-color: var(--tech-blue);"> الاسم
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; font-weight: 600; cursor: pointer;">
+                                <input type="checkbox" id="barcodeShowCategory" style="accent-color: var(--tech-blue);"> الفئة
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" id="cancelBarcodeBtn">إلغاء</button>
-            <button type="button" class="btn btn-primary" id="doPrintBarcodes"><i class="fas fa-print"></i> طباعة</button>
+            <button type="button" class="btn btn-primary" id="doPrintBarcodes">
+                <i class="fas fa-print"></i> طباعة <span id="printCountLabel"></span>
+            </button>
         </div>
     </div>
 </div>
@@ -2057,6 +2196,18 @@ var state = {
     notifications: [],
     notificationsRefreshTimer: null,
     countsRefreshTimer: null
+};
+
+// ═══════════════════════════════════════════════════════════════
+// 🖨️ Barcode Print State - احترافي
+// ═══════════════════════════════════════════════════════════════
+var barcodePrintState = {
+    selectedIds: {},
+    itemCounts: {},
+    currentFilter: 'all',
+    currentCategory: '',
+    currentSearch: '',
+    visibleProducts: []
 };
 
 // ═══════════════════════════════════════════════════════════════
@@ -3048,71 +3199,354 @@ function closeScanner() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// 🖨️ Barcode Print
+// 🖨️ Barcode Print - نظام احترافي
 // ═══════════════════════════════════════════════════════════════
 function openBarcodePrintModal() {
+    // Reset state
+    barcodePrintState = {
+        selectedIds: {},
+        itemCounts: {},
+        currentFilter: 'all',
+        currentCategory: '',
+        currentSearch: '',
+        visibleProducts: []
+    };
+    
     document.getElementById('barcodePrintModal').classList.add('show');
-    renderBarcodeList('');
     document.getElementById('barcodeSearch').value = '';
+    document.getElementById('barcodeFilterSelect').value = 'all';
+    document.getElementById('barcodeCategorySelect').value = '';
+    document.getElementById('barcodeLabelCount').value = 1;
+    document.getElementById('barcodeLabelSize').value = 'medium';
+    document.getElementById('barcodeShowPrice').checked = true;
+    document.getElementById('barcodeShowName').checked = true;
+    document.getElementById('barcodeShowCategory').checked = false;
+    
+    // املأ قائمة الفئات
+    var catSelect = document.getElementById('barcodeCategorySelect');
+    var catOptions = '<option value="">🏷️ كل الفئات</option>';
+    state.categories.forEach(function(c) {
+        catOptions += '<option value="' + c.id + '">' + escapeHtml(c.name) + '</option>';
+    });
+    catSelect.innerHTML = catOptions;
+    
+    renderBarcodeList();
+    
     setTimeout(function() {
         var el = document.getElementById('barcodeSearch');
         if (el) el.focus();
     }, 300);
 }
 
-function renderBarcodeList(search) {
-    var container = document.getElementById('barcodeProductsList');
-    var list = state.products;
+function getFilteredBarcodeProducts() {
+    var list = state.products.slice();
+    var filter = barcodePrintState.currentFilter;
+    var categoryId = barcodePrintState.currentCategory;
+    var search = (barcodePrintState.currentSearch || '').toLowerCase().trim();
+    
+    // فلترة بالفئة
+    if (categoryId) {
+        list = list.filter(function(p) { return p.category_id === categoryId; });
+    }
+    
+    // فلترة بالبحث
     if (search) {
-        var q = search.toLowerCase();
         list = list.filter(function(p) {
-            return (p.name || '').toLowerCase().indexOf(q) !== -1 ||
-                   (p.barcode || '').toLowerCase().indexOf(q) !== -1;
+            return (p.name || '').toLowerCase().indexOf(search) !== -1 ||
+                   (p.barcode || '').toLowerCase().indexOf(search) !== -1;
         });
     }
+    
+    // فلترة بالنوع
+    switch (filter) {
+        case 'available':
+            list = list.filter(function(p) { return (parseInt(p.quantity) || 0) > 0; });
+            break;
+        case 'low':
+            list = list.filter(function(p) {
+                var q = parseInt(p.quantity) || 0;
+                return q > 0 && q <= (parseInt(p.min_quantity) || 5);
+            });
+            break;
+        case 'out':
+            list = list.filter(function(p) { return (parseInt(p.quantity) || 0) <= 0; });
+            break;
+        case 'recent':
+            // الأحدث: آخر 30 يوم
+            var cutoff = Date.now() - (30 * 24 * 60 * 60 * 1000);
+            list = list.filter(function(p) {
+                return p.created_at && new Date(p.created_at).getTime() > cutoff;
+            });
+            // ترتيب من الأحدث
+            list.sort(function(a, b) {
+                return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+            });
+            break;
+        case 'expensive':
+            list.sort(function(a, b) {
+                return (parseFloat(b.sell_price) || 0) - (parseFloat(a.sell_price) || 0);
+            });
+            break;
+    }
+    
+    return list;
+}
+
+function renderBarcodeList() {
+    var container = document.getElementById('barcodeProductsList');
+    var list = getFilteredBarcodeProducts();
+    barcodePrintState.visibleProducts = list;
+    
     if (!list.length) {
-        container.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-muted);"><i class="fas fa-box-open" style="font-size: 2rem; opacity: 0.3; display: block; margin-bottom: 0.5rem;"></i><p>لا توجد أصناف</p></div>';
+        container.innerHTML =
+            '<div style="padding: 3rem 1rem; text-align: center; color: var(--text-muted);">' +
+                '<i class="fas fa-box-open" style="font-size: 2.5rem; opacity: 0.3; display: block; margin-bottom: 0.75rem;"></i>' +
+                '<p style="font-size: 0.85rem; font-weight: 600;">لا توجد أصناف تطابق الفلتر الحالي</p>' +
+                '<p style="font-size: 0.75rem; margin-top: 0.35rem; opacity: 0.7;">جرب تغيير الفلتر أو البحث</p>' +
+            '</div>';
+        updateBarcodeSelectionInfo();
         return;
     }
-    container.innerHTML = list.slice(0, 100).map(function(p) {
-        return '<label class="barcode-list-item">' +
-            '<input type="checkbox" value="' + p.id + '" class="barcode-checkbox">' +
-            '<div class="barcode-list-info"><strong>' + escapeHtml(p.name) + '</strong><span>' + escapeHtml(p.barcode || p.sku || '—') + '</span></div>' +
-        '</label>';
+    
+    container.innerHTML = list.map(function(p) {
+        var isSelected = !!barcodePrintState.selectedIds[p.id];
+        var qty = parseInt(p.quantity) || 0;
+        var minQty = parseInt(p.min_quantity) || 5;
+        var qtyClass = qty <= 0 ? 'out' : (qty <= minQty ? 'low' : 'ok');
+        var qtyText = qty <= 0 ? 'نفذ' : (qty <= minQty ? 'منخفض' : qty + ' متوفر');
+        var itemCount = barcodePrintState.itemCounts[p.id] || 1;
+        
+        return '<div class="barcode-item ' + (isSelected ? 'selected' : '') + '" data-id="' + p.id + '">' +
+            '<input type="checkbox" class="barcode-item-checkbox" ' + (isSelected ? 'checked' : '') + ' data-id="' + p.id + '">' +
+            '<div class="barcode-item-info">' +
+                '<strong>' + escapeHtml(p.name) + '</strong>' +
+                '<span>' + escapeHtml(p.barcode || p.sku || '—') + '</span>' +
+            '</div>' +
+            '<div class="barcode-item-meta">' +
+                '<span class="qty-badge ' + qtyClass + '">' + qtyText + '</span>' +
+                '<span class="price-badge">' + formatCurrency(p.sell_price) + '</span>' +
+            '</div>' +
+            (isSelected ?
+                '<input type="number" class="barcode-item-qty-input" value="' + itemCount + '" min="1" max="99" data-qty-id="' + p.id + '" title="عدد الملصقات">'
+            : '') +
+        '</div>';
     }).join('');
+    
+    bindBarcodeListEvents();
+    updateBarcodeSelectionInfo();
+}
+
+function bindBarcodeListEvents() {
+    // Checkbox click
+    document.querySelectorAll('.barcode-item-checkbox').forEach(function(cb) {
+        cb.addEventListener('change', function(e) {
+            e.stopPropagation();
+            var id = cb.dataset.id;
+            if (cb.checked) {
+                barcodePrintState.selectedIds[id] = true;
+                if (!barcodePrintState.itemCounts[id]) barcodePrintState.itemCounts[id] = 1;
+            } else {
+                delete barcodePrintState.selectedIds[id];
+            }
+            renderBarcodeList();
+        });
+    });
+    
+    // Row click (toggle)
+    document.querySelectorAll('.barcode-item').forEach(function(row) {
+        row.addEventListener('click', function(e) {
+            if (e.target.closest('input')) return;
+            var id = row.dataset.id;
+            if (barcodePrintState.selectedIds[id]) {
+                delete barcodePrintState.selectedIds[id];
+            } else {
+                barcodePrintState.selectedIds[id] = true;
+                if (!barcodePrintState.itemCounts[id]) barcodePrintState.itemCounts[id] = 1;
+            }
+            renderBarcodeList();
+        });
+    });
+    
+    // Qty input
+    document.querySelectorAll('.barcode-item-qty-input').forEach(function(inp) {
+        inp.addEventListener('click', function(e) { e.stopPropagation(); });
+        inp.addEventListener('change', function(e) {
+            e.stopPropagation();
+            var id = inp.dataset.qtyId;
+            var val = parseInt(inp.value) || 1;
+            if (val < 1) val = 1;
+            if (val > 99) val = 99;
+            barcodePrintState.itemCounts[id] = val;
+            inp.value = val;
+            updateBarcodeSelectionInfo();
+        });
+    });
+}
+
+function updateBarcodeSelectionInfo() {
+    var count = Object.keys(barcodePrintState.selectedIds).length;
+    var totalLabels = 0;
+    Object.keys(barcodePrintState.selectedIds).forEach(function(id) {
+        totalLabels += (barcodePrintState.itemCounts[id] || 1);
+    });
+    
+    var countEl = document.getElementById('barcodeSelectedCount');
+    if (countEl) countEl.textContent = count;
+    
+    var printCountEl = document.getElementById('printCountLabel');
+    if (printCountEl) {
+        printCountEl.textContent = totalLabels > 0 ? '(' + totalLabels + ' ملصق)' : '';
+    }
+}
+
+function selectAllBarcodes() {
+    barcodePrintState.visibleProducts.forEach(function(p) {
+        barcodePrintState.selectedIds[p.id] = true;
+        if (!barcodePrintState.itemCounts[p.id]) barcodePrintState.itemCounts[p.id] = 1;
+    });
+    renderBarcodeList();
+}
+
+function clearAllBarcodes() {
+    barcodePrintState.selectedIds = {};
+    renderBarcodeList();
 }
 
 function printBarcodes() {
-    var checkboxes = document.querySelectorAll('.barcode-checkbox:checked');
-    var selected = [];
-    for (var i = 0; i < checkboxes.length; i++) {
-        var id = checkboxes[i].value;
-        for (var j = 0; j < state.products.length; j++) {
-            if (state.products[j].id === id) { selected.push(state.products[j]); break; }
-        }
+    var selectedIds = Object.keys(barcodePrintState.selectedIds);
+    if (!selectedIds.length) {
+        showToast('⚠️ اختر صنف واحد على الأقل', 'warning');
+        return;
     }
-    if (!selected.length) { showToast('اختر صنف واحد على الأقل', 'warning'); return; }
     
-    var html = '<!DOCTYPE html><html dir="rtl"><head><meta charset="UTF-8"><title>ملصقات الباركود</title>' +
+    var labelSize = document.getElementById('barcodeLabelSize').value;
+    var showPrice = document.getElementById('barcodeShowPrice').checked;
+    var showName = document.getElementById('barcodeShowName').checked;
+    var showCategory = document.getElementById('barcodeShowCategory').checked;
+    
+    // أبعاد الملصق
+    var sizes = {
+        small: { w: '35mm', h: '20mm', nameSize: '7pt', codeSize: '6pt', priceSize: '8pt', barcodeH: 22 },
+        medium: { w: '50mm', h: '30mm', nameSize: '9pt', codeSize: '8pt', priceSize: '10pt', barcodeH: 28 },
+        large: { w: '70mm', h: '40mm', nameSize: '11pt', codeSize: '10pt', priceSize: '12pt', barcodeH: 38 }
+    };
+    var sz = sizes[labelSize] || sizes.medium;
+    
+    // بناء الملصقات
+    var labels = [];
+    selectedIds.forEach(function(id) {
+        var p = null;
+        for (var i = 0; i < state.products.length; i++) {
+            if (state.products[i].id === id) { p = state.products[i]; break; }
+        }
+        if (!p) return;
+        
+        var itemCount = barcodePrintState.itemCounts[id] || 1;
+        for (var k = 0; k < itemCount; k++) {
+            labels.push(p);
+        }
+    });
+    
+    if (!labels.length) {
+        showToast('لا توجد ملصقات للطباعة', 'warning');
+        return;
+    }
+    
+    var html = '<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8">' +
+        '<title>ملصقات الباركود - إلكترونك</title>' +
         '<style>' +
         '* { margin: 0; padding: 0; box-sizing: border-box; }' +
-        'body { font-family: Arial, sans-serif; padding: 10mm; background: white; }' +
-        '.label { display: inline-block; width: 50mm; height: 30mm; padding: 2mm; border: 1px dashed #ccc; margin: 2mm; text-align: center; page-break-inside: avoid; vertical-align: top; }' +
-        '.label-name { font-size: 9pt; font-weight: 700; margin-bottom: 1mm; line-height: 1.2; height: 8mm; overflow: hidden; }' +
-        '.label-code { font-size: 8pt; font-family: monospace; font-weight: 700; letter-spacing: 1px; margin-top: 1mm; }' +
-        '.label-price { font-size: 10pt; font-weight: 800; color: #1d5b8e; margin-top: 1mm; }' +
+        'body { font-family: "Cairo", Arial, sans-serif; padding: 8mm; background: white; color: #000; }' +
+        '.header { text-align: center; margin-bottom: 5mm; padding-bottom: 3mm; border-bottom: 2px solid #1d5b8e; }' +
+        '.header h1 { font-size: 14pt; color: #1d5b8e; font-weight: 800; }' +
+        '.header p { font-size: 9pt; color: #666; margin-top: 1mm; }' +
+        '.labels-container { display: flex; flex-wrap: wrap; gap: 2mm; justify-content: flex-start; }' +
+        '.label { ' +
+            'display: flex; ' +
+            'flex-direction: column; ' +
+            'align-items: center; ' +
+            'justify-content: space-between; ' +
+            'width: ' + sz.w + '; ' +
+            'height: ' + sz.h + '; ' +
+            'padding: 1.5mm; ' +
+            'border: 1px solid #ddd; ' +
+            'border-radius: 2mm; ' +
+            'background: white; ' +
+            'page-break-inside: avoid; ' +
+            'overflow: hidden; ' +
+        '}' +
+        '.label-name { ' +
+            'font-size: ' + sz.nameSize + '; ' +
+            'font-weight: 800; ' +
+            'line-height: 1.15; ' +
+            'text-align: center; ' +
+            'width: 100%; ' +
+            'max-height: 2.4em; ' +
+            'overflow: hidden; ' +
+            'display: -webkit-box; ' +
+            '-webkit-line-clamp: 2; ' +
+            '-webkit-box-orient: vertical; ' +
+        '}' +
+        '.label-category { ' +
+            'font-size: 6.5pt; ' +
+            'color: #1d5b8e; ' +
+            'font-weight: 700; ' +
+            'margin-bottom: 0.5mm; ' +
+        '}' +
+        '.label-barcode-wrap { ' +
+            'width: 100%; ' +
+            'display: flex; ' +
+            'justify-content: center; ' +
+        '}' +
+        '.label-barcode-wrap svg { ' +
+            'max-width: 100%; ' +
+            'height: auto; ' +
+        '}' +
+        '.label-code { ' +
+            'font-size: ' + sz.codeSize + '; ' +
+            'font-family: "Courier New", monospace; ' +
+            'font-weight: 700; ' +
+            'letter-spacing: 0.5px; ' +
+            'margin-top: 0.5mm; ' +
+        '}' +
+        '.label-price { ' +
+            'font-size: ' + sz.priceSize + '; ' +
+            'font-weight: 900; ' +
+            'color: #1d5b8e; ' +
+            'margin-top: 0.5mm; ' +
+        '}' +
+        '@media print { ' +
+            'body { padding: 5mm; } ' +
+            '.header { display: none; } ' +
+            '@page { margin: 5mm; } ' +
+        '}' +
         '</style></head><body>';
     
-    for (var k = 0; k < selected.length; k++) {
-        var p = selected[k];
-        html += '<div class="label">' +
-            '<div class="label-name">' + escapeHtml(p.name) + '</div>' +
-            '<svg class="barcode-svg" data-code="' + escapeHtml(p.barcode || p.sku || '') + '"></svg>' +
-            '<div class="label-code">' + escapeHtml(p.barcode || p.sku || '') + '</div>' +
-            '<div class="label-price">' + formatCurrency(p.sell_price) + '</div>' +
-        '</div>';
-    }
+    // Header (يختفي عند الطباعة)
+    html += '<div class="header">' +
+        '<h1>🏷️ إلكترونك - ملصقات الباركود</h1>' +
+        '<p>عدد الملصقات: ' + labels.length + ' • التاريخ: ' + new Date().toLocaleDateString('ar-EG') + '</p>' +
+    '</div>';
     
+    html += '<div class="labels-container">';
+    
+    labels.forEach(function(p) {
+        var categoryName = (p.category && p.category.name) || '';
+        
+        html += '<div class="label">' +
+            (showName ? '<div class="label-name">' + escapeHtml(p.name) + '</div>' : '') +
+            (showCategory && categoryName ? '<div class="label-category">' + escapeHtml(categoryName) + '</div>' : '') +
+            '<div class="label-barcode-wrap">' +
+                '<svg class="barcode-svg" data-code="' + escapeHtml(p.barcode || p.sku || '') + '"></svg>' +
+            '</div>' +
+            '<div class="label-code">' + escapeHtml(p.barcode || p.sku || '') + '</div>' +
+            (showPrice ? '<div class="label-price">' + formatCurrency(p.sell_price) + '</div>' : '') +
+        '</div>';
+    });
+    
+    html += '</div>';
+    
+    // سكريبت توليد الباركود والطباعة
     html += '<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"><\/script>' +
         '<script>' +
         'window.onload = function() {' +
@@ -3120,18 +3554,33 @@ function printBarcodes() {
         '  svgs.forEach(function(svg) {' +
         '    var code = svg.dataset.code;' +
         '    if (code && typeof JsBarcode !== "undefined") {' +
-        '      try { JsBarcode(svg, code, { format: "CODE128", width: 1.5, height: 28, displayValue: false, margin: 0 }); } catch(e) {}' +
+        '      try {' +
+        '        JsBarcode(svg, code, {' +
+        '          format: "CODE128",' +
+        '          width: 1.5,' +
+        '          height: ' + sz.barcodeH + ',' +
+        '          displayValue: false,' +
+        '          margin: 0,' +
+        '          background: "#ffffff",' +
+        '          lineColor: "#000000"' +
+        '        });' +
+        '      } catch(e) { console.error("Barcode error:", e); }' +
         '    }' +
         '  });' +
-        '  setTimeout(function() { window.print(); }, 600);' +
+        '  setTimeout(function() { window.print(); }, 800);' +
         '};' +
         '<\/script></body></html>';
     
     var win = window.open('', '_blank');
-    if (!win) { showToast('يرجى السماح بالنوافذ المنبثقة', 'error'); return; }
+    if (!win) {
+        showToast('⚠️ يرجى السماح بالنوافذ المنبثقة', 'error');
+        return;
+    }
     win.document.open();
     win.document.write(html);
     win.document.close();
+    
+    showToast('✅ تم تحضير ' + labels.length + ' ملصق للطباعة', 'success');
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -3631,16 +4080,69 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     if (confirmDel) confirmDel.addEventListener('click', confirmDelete);
     
+    // ═══════════════════════════════════════════════════════════
+    // 🖨️ Barcode Print Events - احترافي
+    // ═══════════════════════════════════════════════════════════
     var printBtn = document.getElementById('printBarcodesBtn');
     var closeBc = document.getElementById('closeBarcodeModal');
     var cancelBc = document.getElementById('cancelBarcodeBtn');
     var doPrint = document.getElementById('doPrintBarcodes');
-    var bcSearch = document.getElementById('barcodeSearch');
+    
     if (printBtn) printBtn.addEventListener('click', openBarcodePrintModal);
     if (closeBc) closeBc.addEventListener('click', function() { document.getElementById('barcodePrintModal').classList.remove('show'); });
     if (cancelBc) cancelBc.addEventListener('click', function() { document.getElementById('barcodePrintModal').classList.remove('show'); });
     if (doPrint) doPrint.addEventListener('click', printBarcodes);
-    if (bcSearch) bcSearch.addEventListener('input', function(e) { renderBarcodeList(e.target.value); });
+    
+    // Barcode search
+    var bcSearch = document.getElementById('barcodeSearch');
+    if (bcSearch) {
+        var bcSearchTimeout;
+        bcSearch.addEventListener('input', function(e) {
+            clearTimeout(bcSearchTimeout);
+            var val = e.target.value;
+            bcSearchTimeout = setTimeout(function() {
+                barcodePrintState.currentSearch = val;
+                renderBarcodeList();
+            }, 200);
+        });
+    }
+    
+    // Barcode filter
+    var bcFilterSelect = document.getElementById('barcodeFilterSelect');
+    if (bcFilterSelect) {
+        bcFilterSelect.addEventListener('change', function(e) {
+            barcodePrintState.currentFilter = e.target.value;
+            renderBarcodeList();
+        });
+    }
+    
+    // Barcode category
+    var bcCategorySelect = document.getElementById('barcodeCategorySelect');
+    if (bcCategorySelect) {
+        bcCategorySelect.addEventListener('change', function(e) {
+            barcodePrintState.currentCategory = e.target.value;
+            renderBarcodeList();
+        });
+    }
+    
+    // Select all / clear all / select visible
+    var selectAllBtn = document.getElementById('selectAllBarcodesBtn');
+    if (selectAllBtn) selectAllBtn.addEventListener('click', selectAllBarcodes);
+    
+    var clearAllBtn = document.getElementById('clearAllBarcodesBtn');
+    if (clearAllBtn) clearAllBtn.addEventListener('click', clearAllBarcodes);
+    
+    var selectVisibleBtn = document.getElementById('selectVisibleBarcodesBtn');
+    if (selectVisibleBtn) {
+        selectVisibleBtn.addEventListener('click', function() {
+            barcodePrintState.visibleProducts.forEach(function(p) {
+                barcodePrintState.selectedIds[p.id] = true;
+                if (!barcodePrintState.itemCounts[p.id]) barcodePrintState.itemCounts[p.id] = 1;
+            });
+            renderBarcodeList();
+            showToast('تم تحديد ' + barcodePrintState.visibleProducts.length + ' صنف', 'success', 2000);
+        });
+    }
     
     var expBtn = document.getElementById('exportExcelBtn');
     if (expBtn) expBtn.addEventListener('click', exportExcel);
@@ -3698,8 +4200,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 60000);
     
     startInactivityMonitor();
-    console.log('%c📦 صفحة المخزون جاهزة - مع دعم SVG Icons ✅', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
+    console.log('%c📦 صفحة المخزون جاهزة - مع دعم SVG Icons ونظام طباعة باركود احترافي ✅', 'color: #1d5b8e; font-size: 16px; font-weight: bold;');
     console.log('%c⚡ ' + Object.keys(SVG_ICONS).length + ' رمز إلكتروني SVG (مقاومة، مكثف، دايود، ترانزستور، MOSFET وغيرها)', 'color: #10b981; font-size: 12px;');
+    console.log('%c🖨️ نظام طباعة الباركود: فلترة ذكية + تحديد الكل + أحجام متعددة + معاينة', 'color: #f59e0b; font-size: 12px;');
 });
 
 window.ProductsApp = {
@@ -3709,6 +4212,7 @@ window.ProductsApp = {
     formatCurrency: formatCurrency,
     openAddModal: openAddModal,
     openViewModal: openViewModal,
+    openBarcodePrintModal: openBarcodePrintModal,
     loadNotifications: loadNotifications,
     checkDuplicate: checkDuplicate,
     SVG_ICONS: SVG_ICONS,
