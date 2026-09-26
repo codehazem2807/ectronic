@@ -460,6 +460,34 @@ img { max-width: 100%; height: auto; display: block; }
     gap: 1rem; margin-bottom: 1rem;
 }
 .settings-grid .full { grid-column: 1 / -1; }
+.cleanup-panel {
+    background: linear-gradient(135deg, rgba(29,91,142,0.05), rgba(16,185,129,0.04));
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    margin-top: 0.5rem;
+}
+.cleanup-panel .card-title {
+    margin-bottom: 0.9rem;
+    color: var(--tech-blue);
+    font-size: 1rem;
+}
+.toggle-row {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.75rem 0.9rem; background: var(--bg-primary);
+    border: 1px solid var(--border-color); border-radius: var(--radius-md);
+    min-height: 48px;
+}
+.toggle-row input[type="checkbox"] {
+    width: 18px; height: 18px; accent-color: var(--tech-blue);
+    cursor: pointer; flex-shrink: 0;
+}
+.toggle-row span {
+    font-size: 0.85rem; font-weight: 700; color: var(--text-primary);
+}
+.cleanup-actions {
+    display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;
+}
 
 .form-group { margin-bottom: 0; }
 .form-label {
@@ -996,6 +1024,29 @@ img { max-width: 100%; height: auto; display: block; }
                                 <i class="fas fa-percent"></i> خصم افتراضي (%)
                             </label>
                             <input type="number" class="form-input" id="settingDefaultDiscount" placeholder="0" min="0" max="100" step="0.01" value="0">
+                        </div>
+                        <div class="form-group full">
+                            <div class="cleanup-panel">
+                                <h4 class="card-title"><i class="fas fa-database"></i> تنظيف بيانات التشغيل</h4>
+                                <div class="settings-grid">
+                                    <div class="form-group full">
+                                        <div class="cleanup-actions">
+                                            <button type="button" class="btn btn-secondary btn-sm" id="backupCleanupBtn">
+                                                <i class="fas fa-file-excel"></i> تنزيل نسخة Excel كاملة
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-sm" id="runFullCleanupBtn">
+                                                <i class="fas fa-trash"></i> نسخ احتياطي ثم حذف الكل
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group full">
+                                        <div class="form-hint" style="margin-top: 0.25rem;">
+                                            <i class="fas fa-shield-halved"></i>
+                                            تُحفظ كل بيانات التشغيل في ملف Excel قبل الحذف. لا يتم حذف الأصناف أو الفئات أو تعديل كميات المخزون أو حذف حسابات الدخول والإعدادات.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -2135,6 +2186,144 @@ function fillSettingsForm() {
     setVal('settingDefaultDiscount', s.default_discount || 0);
 }
 
+function getCleanupTableNames() {
+    return ['invoice_items', 'payments', 'repair_timeline', 'favorites', 'stock_movements',
+        'supplier_orders', 'service_ratings', 'notifications', 'shifts', 'invoices',
+        'repair_orders', 'customers', 'suppliers', 'audit_log'];
+}
+
+async function collectCleanupData(sb) {
+    var tables = getCleanupTableNames();
+    var data = {};
+    var pageSize = 1000;
+
+    for (var i = 0; i < tables.length; i++) {
+        var tableName = tables[i];
+        var rows = [];
+        var offset = 0;
+        while (true) {
+            var result = await sb.from(tableName).select('*').order('id', { ascending: true }).range(offset, offset + pageSize - 1);
+            if (result.error) throw new Error('تعذرت قراءة جدول ' + tableName);
+            var page = result.data || [];
+            rows = rows.concat(page);
+            if (page.length < pageSize) break;
+            offset += pageSize;
+        }
+        data[tableName] = rows;
+    }
+    return data;
+}
+
+async function downloadCleanupWorkbook(data) {
+    if (typeof XLSX === 'undefined') await ensureXlsxLib();
+
+    var wb = XLSX.utils.book_new();
+    var manifest = [['اسم الجدول', 'عدد السجلات']];
+    Object.keys(data).forEach(function(tableName) {
+        var rows = data[tableName];
+        manifest.push([tableName, rows.length]);
+        if (rows.length) {
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), tableName.slice(0, 31));
+        }
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(manifest), 'ملخص النسخة');
+    var timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    XLSX.writeFile(wb, 'backup_full_cleanup_' + timestamp + '.xlsx');
+}
+
+function ensureXlsxLib() {
+    if (typeof XLSX !== 'undefined') return Promise.resolve();
+    return new Promise(function(resolve, reject) {
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+}
+
+async function exportCleanupBackup() {
+    var sb = getSupabaseClient();
+    if (!sb || !navigator.onLine) {
+        showToast('لا يوجد اتصال بالخادم، لا يمكن إنشاء النسخة الاحتياطية الآن', 'error');
+        return false;
+    }
+
+    try {
+        var data = await collectCleanupData(sb);
+        await downloadCleanupWorkbook(data);
+        showToast('تم إنشاء نسخة Excel كاملة', 'success');
+        return true;
+    } catch (err) {
+        console.error(err);
+        showToast(err.message || 'تعذر إنشاء النسخة الاحتياطية', 'error');
+        return false;
+    }
+}
+
+async function runFullCleanup() {
+    var sb = getSupabaseClient();
+    if (!sb || !navigator.onLine) {
+        showToast('لا يوجد اتصال بالخادم للحذف', 'error');
+        return;
+    }
+
+    if (!confirm('سيتم تنزيل نسخة Excel كاملة أولاً، ثم حذف بيانات الفواتير والعملاء والموردين والوارد والحركات والإشعارات والصيانة والورديات وسجل الحركات. ستظل الأصناف والفئات وكميات المخزون وحسابات الدخول والإعدادات كما هي. هل تريد الاستمرار؟')) {
+        return;
+    }
+
+    var data;
+    try {
+        data = await collectCleanupData(sb);
+        await downloadCleanupWorkbook(data);
+    } catch (err) {
+        console.error(err);
+        showToast(err.message || 'فشلت النسخة الاحتياطية، لم يتم حذف أي بيانات', 'error');
+        return;
+    }
+
+    var tables = getCleanupTableNames();
+    var totalDeleted = 0;
+    var session = getSession();
+
+    for (var i = 0; i < tables.length; i++) {
+        var tableName = tables[i];
+        var rows = data[tableName];
+        for (var j = 0; j < rows.length; j += 200) {
+            var batch = rows.slice(j, j + 200);
+            var ids = batch.map(function(row) { return row && row.id; });
+            if (ids.some(function(id) { return id === undefined || id === null; })) {
+                showToast('توقّف الحذف: يوجد سجل بلا معرّف في جدول ' + tableName + '. النسخة الاحتياطية تم تنزيلها.', 'error');
+                return;
+            }
+            var deleteResult;
+            try {
+                deleteResult = await sb.from(tableName).delete().in('id', ids).select('id');
+            } catch (err) {
+                console.error('فشل حذف الجدول', tableName, err);
+                showToast('انقطع الاتصال عند جدول ' + tableName + '. النسخة الاحتياطية تم تنزيلها وقد يكون بعض ما سبق قد حُذف.', 'error', 7000);
+                return;
+            }
+            if (deleteResult.error || (deleteResult.data || []).length !== batch.length) {
+                console.error('فشل حذف الجدول', tableName, deleteResult.error);
+                showToast('تعطل الحذف عند جدول ' + tableName + '. النسخة الاحتياطية تم تنزيلها وقد يكون بعض ما سبق قد حُذف.', 'error', 7000);
+                return;
+            }
+            totalDeleted += batch.length;
+        }
+    }
+
+    sb.from('audit_log').insert({
+        user_id: session && session.user ? session.user.id : null,
+        action: 'DELETE',
+        table_name: 'full_cleanup',
+        record_id: 'cleanup',
+        new_data: { deleted_count: totalDeleted, backup_created: true }
+    }).then(function(){}, function(){})
+
+    showToast('تم تنزيل النسخة الاحتياطية وحذف ' + totalDeleted + ' سجل تشغيل', 'success', 6000);
+}
+
 function saveSettings(e) {
     e.preventDefault();
     
@@ -2158,7 +2347,7 @@ function saveSettings(e) {
         address: document.getElementById('settingAddress').value.trim(),
         invoice_notes: document.getElementById('settingInvoiceNotes').value.trim(),
         currency: document.getElementById('settingCurrency').value.trim() || 'ج.م',
-        default_discount: parseFloat(document.getElementById('settingDefaultDiscount').value) || 0
+        default_discount: parseFloat(document.getElementById('settingDefaultDiscount').value) || 0,
     };
     
     // حفظ كل إعداد بشكل منفصل
@@ -2458,6 +2647,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('resetSettingsBtn')?.addEventListener('click', function() {
         if (confirm('هل تريد إعادة تعيين الإعدادات؟')) fillSettingsForm();
     });
+    document.getElementById('backupCleanupBtn')?.addEventListener('click', exportCleanupBackup);
+    document.getElementById('runFullCleanupBtn')?.addEventListener('click', runFullCleanup);
     
     // Export
     document.getElementById('exportBtn')?.addEventListener('click', exportData);
