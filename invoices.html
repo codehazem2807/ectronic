@@ -1905,6 +1905,11 @@ img { max-width: 100%; height: auto; display: block; }
                             مدة الضمان
                         </label>
                         <div class="warranty-options" id="warrantyOptions">
+                            <button type="button" class="warranty-option" data-months="5">
+                                <i class="fas fa-hourglass-half"></i>
+                                <span class="warranty-option-label">5 شهور</span>
+                                <span class="warranty-option-desc">مدة مخصصة</span>
+                            </button>
                             <button type="button" class="warranty-option" data-months="6">
                                 <i class="fas fa-medal"></i>
                                 <span class="warranty-option-label">6 شهور</span>
@@ -1924,6 +1929,11 @@ img { max-width: 100%; height: auto; display: block; }
                                 <i class="fas fa-crown"></i>
                                 <span class="warranty-option-label">سنتين</span>
                                 <span class="warranty-option-desc">24 شهر</span>
+                            </button>
+                            <button type="button" class="warranty-option" data-months="30">
+                                <i class="fas fa-gem"></i>
+                                <span class="warranty-option-label">سنتين ونصف</span>
+                                <span class="warranty-option-desc">30 شهر</span>
                             </button>
                             <button type="button" class="warranty-option" data-months="36">
                                 <i class="fas fa-gem"></i>
@@ -2350,10 +2360,12 @@ function getPaymentMethodText(method) {
 function getWarrantyText(months) {
     var m = parseInt(months) || 0;
     if (m === 0) return 'بدون ضمان';
+    if (m === 5) return '5 شهور';
     if (m === 6) return '6 شهور';
     if (m === 12) return 'سنة';
     if (m === 18) return 'سنة ونصف';
     if (m === 24) return 'سنتين';
+    if (m === 30) return 'سنتين ونصف';
     if (m === 36) return '3 سنين';
     return m + ' شهر';
 }
@@ -4560,10 +4572,12 @@ function printWarranty() {
     
     var warrantyText = '';
     var warrantySubtext = '';
-    if (warrantyMonths === 6) { warrantyText = 'ستة شهور'; warrantySubtext = '6 MONTHS'; }
+    if (warrantyMonths === 5) { warrantyText = 'خمسة شهور'; warrantySubtext = '5 MONTHS'; }
+    else if (warrantyMonths === 6) { warrantyText = 'ستة شهور'; warrantySubtext = '6 MONTHS'; }
     else if (warrantyMonths === 12) { warrantyText = 'سنة كاملة'; warrantySubtext = '1 YEAR'; }
     else if (warrantyMonths === 18) { warrantyText = 'سنة ونصف'; warrantySubtext = '18 MONTHS'; }
     else if (warrantyMonths === 24) { warrantyText = 'سنتان'; warrantySubtext = '2 YEARS'; }
+    else if (warrantyMonths === 30) { warrantyText = 'سنتان ونصف'; warrantySubtext = '2.5 YEARS'; }
     else if (warrantyMonths === 36) { warrantyText = 'ثلاث سنوات'; warrantySubtext = '3 YEARS'; }
     else { warrantyText = warrantyMonths + ' شهر'; warrantySubtext = warrantyMonths + ' MONTHS'; }
     
