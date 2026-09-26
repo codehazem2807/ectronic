@@ -1920,6 +1920,11 @@ img { max-width: 100%; height: auto; display: block; }
                                 <span class="warranty-option-label">سنة</span>
                                 <span class="warranty-option-desc">12 شهر</span>
                             </button>
+                            <button type="button" class="warranty-option" data-months="14">
+                                <i class="fas fa-award"></i>
+                                <span class="warranty-option-label">سنة وشهرين</span>
+                                <span class="warranty-option-desc">14 شهر</span>
+                            </button>
                             <button type="button" class="warranty-option" data-months="18">
                                 <i class="fas fa-star"></i>
                                 <span class="warranty-option-label">سنة ونصف</span>
@@ -2363,6 +2368,7 @@ function getWarrantyText(months) {
     if (m === 5) return '5 شهور';
     if (m === 6) return '6 شهور';
     if (m === 12) return 'سنة';
+    if (m === 14) return 'سنة وشهرين';
     if (m === 18) return 'سنة ونصف';
     if (m === 24) return 'سنتين';
     if (m === 30) return 'سنتين ونصف';
@@ -4575,6 +4581,7 @@ function printWarranty() {
     if (warrantyMonths === 5) { warrantyText = 'خمسة شهور'; warrantySubtext = '5 MONTHS'; }
     else if (warrantyMonths === 6) { warrantyText = 'ستة شهور'; warrantySubtext = '6 MONTHS'; }
     else if (warrantyMonths === 12) { warrantyText = 'سنة كاملة'; warrantySubtext = '1 YEAR'; }
+    else if (warrantyMonths === 14) { warrantyText = 'سنة وشهرين'; warrantySubtext = '1 YEAR & 2 MONTHS'; }
     else if (warrantyMonths === 18) { warrantyText = 'سنة ونصف'; warrantySubtext = '18 MONTHS'; }
     else if (warrantyMonths === 24) { warrantyText = 'سنتان'; warrantySubtext = '2 YEARS'; }
     else if (warrantyMonths === 30) { warrantyText = 'سنتان ونصف'; warrantySubtext = '2.5 YEARS'; }
