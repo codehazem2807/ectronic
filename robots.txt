@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# استثناء الملفات الإدارية من الفهرسة (اختياري)
+Disallow: /admin.html
+Disallow: /audit-log.html
+Disallow: /db-config.js
+
+# Sitemap
+Sitemap: https://ectronic.vercel.app/sitemap.xml
