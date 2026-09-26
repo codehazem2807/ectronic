@@ -1029,6 +1029,14 @@ img { max-width: 100%; height: auto; display: block; }
                             <div class="cleanup-panel">
                                 <h4 class="card-title"><i class="fas fa-database"></i> تنظيف بيانات التشغيل</h4>
                                 <div class="settings-grid">
+                                    <div class="form-group">
+                                        <label class="form-label" for="cleanupDateFrom">من تاريخ</label>
+                                        <input type="date" class="form-input" id="cleanupDateFrom">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="cleanupDateTo">إلى تاريخ</label>
+                                        <input type="date" class="form-input" id="cleanupDateTo">
+                                    </div>
                                     <div class="form-group full">
                                         <div class="cleanup-actions">
                                             <button type="button" class="btn btn-secondary btn-sm" id="backupCleanupBtn">
@@ -1037,12 +1045,15 @@ img { max-width: 100%; height: auto; display: block; }
                                             <button type="button" class="btn btn-danger btn-sm" id="runFullCleanupBtn">
                                                 <i class="fas fa-trash"></i> نسخ احتياطي ثم حذف الكل
                                             </button>
+                                            <button type="button" class="btn btn-danger btn-sm" id="runAllMovementsCleanupBtn">
+                                                <i class="fas fa-bell-slash"></i> حذف كل الحركات والإشعارات
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="form-group full">
                                         <div class="form-hint" style="margin-top: 0.25rem;">
                                             <i class="fas fa-shield-halved"></i>
-                                            تُحفظ كل بيانات التشغيل في ملف Excel قبل الحذف. لا يتم حذف الأصناف أو الفئات أو تعديل كميات المخزون أو حذف حسابات الدخول والإعدادات.
+                                            اختر تاريخ البداية والنهاية؛ سيتم حفظ السجلات المطابقة في Excel قبل حذفها. السجلات بلا تاريخ، والأصناف والفئات وكميات المخزون وحسابات الدخول والإعدادات لا تتأثر.
                                         </div>
                                     </div>
                                 </div>
@@ -2192,8 +2203,8 @@ function getCleanupTableNames() {
         'repair_orders', 'customers', 'suppliers', 'audit_log'];
 }
 
-async function collectCleanupData(sb) {
-    var tables = getCleanupTableNames();
+async function collectCleanupData(sb, tableNames) {
+    var tables = tableNames || getCleanupTableNames();
     var data = {};
     var pageSize = 1000;
 
@@ -2214,7 +2225,7 @@ async function collectCleanupData(sb) {
     return data;
 }
 
-async function downloadCleanupWorkbook(data) {
+async function downloadCleanupWorkbook(data, filePrefix) {
     if (typeof XLSX === 'undefined') await ensureXlsxLib();
 
     var wb = XLSX.utils.book_new();
@@ -2228,7 +2239,84 @@ async function downloadCleanupWorkbook(data) {
     });
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(manifest), 'ملخص النسخة');
     var timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    XLSX.writeFile(wb, 'backup_full_cleanup_' + timestamp + '.xlsx');
+    XLSX.writeFile(wb, (filePrefix || 'backup_full_cleanup') + '_' + timestamp + '.xlsx');
+}
+
+function getCleanupDateRange() {
+    var fromValue = document.getElementById('cleanupDateFrom')?.value;
+    var toValue = document.getElementById('cleanupDateTo')?.value;
+    if (!fromValue || !toValue) {
+        showToast('حدد تاريخ البداية والنهاية أولاً', 'warning');
+        return null;
+    }
+
+    var from = new Date(fromValue + 'T00:00:00').getTime();
+    var to = new Date(toValue + 'T23:59:59.999').getTime();
+    if (!Number.isFinite(from) || !Number.isFinite(to) || from > to) {
+        showToast('تاريخ البداية يجب ألا يأتي بعد تاريخ النهاية', 'warning');
+        return null;
+    }
+    return { from: from, to: to, fromValue: fromValue, toValue: toValue };
+}
+
+function getCleanupRowTimestamp(row) {
+    var dateFields = ['created_at', 'createdAt', 'date', 'invoice_date', 'payment_date',
+        'order_date', 'issue_date', 'movement_date', 'start_time', 'end_time',
+        'received_at', 'delivered_at', 'event_date', 'timestamp', 'updated_at', 'deleted_at'];
+    for (var i = 0; i < dateFields.length; i++) {
+        var value = row && row[dateFields[i]];
+        if (!value) continue;
+        var timestamp = typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)
+            ? new Date(value + 'T12:00:00').getTime()
+            : Date.parse(value);
+        if (Number.isFinite(timestamp)) return timestamp;
+    }
+    return null;
+}
+
+function filterCleanupDataByDate(data, range) {
+    var filtered = {};
+    var total = 0;
+    Object.keys(data).forEach(function(tableName) {
+        filtered[tableName] = data[tableName].filter(function(row) {
+            var timestamp = getCleanupRowTimestamp(row);
+            var matches = timestamp !== null && timestamp >= range.from && timestamp <= range.to;
+            if (matches) total += 1;
+            return matches;
+        });
+    });
+    return { data: filtered, total: total };
+}
+
+async function deleteCleanupData(sb, data) {
+    var tables = Object.keys(data);
+    var totalDeleted = 0;
+
+    for (var i = 0; i < tables.length; i++) {
+        var tableName = tables[i];
+        var rows = data[tableName];
+        for (var j = 0; j < rows.length; j += 200) {
+            var batch = rows.slice(j, j + 200);
+            var ids = batch.map(function(row) { return row && row.id; });
+            if (ids.some(function(id) { return id === undefined || id === null; })) {
+                return { totalDeleted: totalDeleted, tableName: tableName, error: 'missing_id' };
+            }
+
+            var deleteResult;
+            try {
+                deleteResult = await sb.from(tableName).delete().in('id', ids).select('id');
+            } catch (err) {
+                console.error('فشل حذف الجدول', tableName, err);
+                return { totalDeleted: totalDeleted, tableName: tableName, error: 'request_failed' };
+            }
+            if (deleteResult.error || (deleteResult.data || []).length !== batch.length) {
+                console.error('فشل حذف الجدول', tableName, deleteResult.error);
+                return { totalDeleted: totalDeleted, tableName: tableName, error: 'delete_incomplete' };
+            }
+            totalDeleted += batch.length;
+        }
+    }
+    return { totalDeleted: totalDeleted, tableName: null, error: null };
 }
 
 function ensureXlsxLib() {
@@ -2251,7 +2339,7 @@ async function exportCleanupBackup() {
 
     try {
         var data = await collectCleanupData(sb);
-        await downloadCleanupWorkbook(data);
+        await downloadCleanupWorkbook(data, 'backup_full_cleanup');
         showToast('تم إنشاء نسخة Excel كاملة', 'success');
         return true;
     } catch (err) {
@@ -2268,49 +2356,33 @@ async function runFullCleanup() {
         return;
     }
 
-    if (!confirm('سيتم تنزيل نسخة Excel كاملة أولاً، ثم حذف بيانات الفواتير والعملاء والموردين والوارد والحركات والإشعارات والصيانة والورديات وسجل الحركات. ستظل الأصناف والفئات وكميات المخزون وحسابات الدخول والإعدادات كما هي. هل تريد الاستمرار؟')) {
+    var range = getCleanupDateRange();
+    if (!range) return;
+    if (!confirm('سيتم تنزيل نسخة Excel للسجلات من ' + range.fromValue + ' إلى ' + range.toValue + ' ثم حذفها. السجلات بلا تاريخ والأصناف والفئات وكميات المخزون وحسابات الدخول والإعدادات ستظل كما هي. هل تريد الاستمرار؟')) {
         return;
     }
 
     var data;
     try {
-        data = await collectCleanupData(sb);
-        await downloadCleanupWorkbook(data);
+        var collected = await collectCleanupData(sb);
+        var selection = filterCleanupDataByDate(collected, range);
+        if (!selection.total) {
+            showToast('لا توجد سجلات مؤرخة داخل الفترة المحددة', 'info');
+            return;
+        }
+        data = selection.data;
+        await downloadCleanupWorkbook(data, 'backup_cleanup_' + range.fromValue + '_to_' + range.toValue);
     } catch (err) {
         console.error(err);
         showToast(err.message || 'فشلت النسخة الاحتياطية، لم يتم حذف أي بيانات', 'error');
         return;
     }
 
-    var tables = getCleanupTableNames();
-    var totalDeleted = 0;
     var session = getSession();
-
-    for (var i = 0; i < tables.length; i++) {
-        var tableName = tables[i];
-        var rows = data[tableName];
-        for (var j = 0; j < rows.length; j += 200) {
-            var batch = rows.slice(j, j + 200);
-            var ids = batch.map(function(row) { return row && row.id; });
-            if (ids.some(function(id) { return id === undefined || id === null; })) {
-                showToast('توقّف الحذف: يوجد سجل بلا معرّف في جدول ' + tableName + '. النسخة الاحتياطية تم تنزيلها.', 'error');
-                return;
-            }
-            var deleteResult;
-            try {
-                deleteResult = await sb.from(tableName).delete().in('id', ids).select('id');
-            } catch (err) {
-                console.error('فشل حذف الجدول', tableName, err);
-                showToast('انقطع الاتصال عند جدول ' + tableName + '. النسخة الاحتياطية تم تنزيلها وقد يكون بعض ما سبق قد حُذف.', 'error', 7000);
-                return;
-            }
-            if (deleteResult.error || (deleteResult.data || []).length !== batch.length) {
-                console.error('فشل حذف الجدول', tableName, deleteResult.error);
-                showToast('تعطل الحذف عند جدول ' + tableName + '. النسخة الاحتياطية تم تنزيلها وقد يكون بعض ما سبق قد حُذف.', 'error', 7000);
-                return;
-            }
-            totalDeleted += batch.length;
-        }
+    var deletion = await deleteCleanupData(sb, data);
+    if (deletion.error) {
+        showToast('تعطل الحذف عند جدول ' + deletion.tableName + '. النسخة الاحتياطية تم تنزيلها وقد يكون بعض ما سبق قد حُذف.', 'error', 7000);
+        return;
     }
 
     sb.from('audit_log').insert({
@@ -2318,10 +2390,58 @@ async function runFullCleanup() {
         action: 'DELETE',
         table_name: 'full_cleanup',
         record_id: 'cleanup',
-        new_data: { deleted_count: totalDeleted, backup_created: true }
+        new_data: { deleted_count: deletion.totalDeleted, backup_created: true }
     }).then(function(){}, function(){})
 
-    showToast('تم تنزيل النسخة الاحتياطية وحذف ' + totalDeleted + ' سجل تشغيل', 'success', 6000);
+    showToast('تم تنزيل النسخة الاحتياطية وحذف ' + deletion.totalDeleted + ' سجل من الفترة المحددة', 'success', 6000);
+}
+
+async function runAllMovementsCleanup() {
+    var sb = getSupabaseClient();
+    if (!sb || !navigator.onLine) {
+        showToast('لا يوجد اتصال بالخادم للحذف', 'error');
+        return;
+    }
+
+    var tables = ['stock_movements', 'notifications', 'audit_log'];
+    if (!confirm('سيتم تنزيل نسخة Excel كاملة لحركات المخزون وسجل الحركات والإشعارات، ثم حذفها كلها بغض النظر عن التاريخ. الأصناف والفئات وكميات المخزون ستظل كما هي. هل تريد الاستمرار؟')) {
+        return;
+    }
+
+    var data;
+    try {
+        data = await collectCleanupData(sb, tables);
+        await downloadCleanupWorkbook(data, 'backup_all_movements_notifications');
+    } catch (err) {
+        console.error(err);
+        showToast(err.message || 'فشلت النسخة الاحتياطية، لم يتم حذف أي بيانات', 'error');
+        return;
+    }
+
+    var totalRecords = Object.keys(data).reduce(function(total, tableName) {
+        return total + data[tableName].length;
+    }, 0);
+    if (!totalRecords) {
+        showToast('لا توجد حركات أو إشعارات لحذفها', 'info');
+        return;
+    }
+
+    var deletion = await deleteCleanupData(sb, data);
+    if (deletion.error) {
+        showToast('تعطل الحذف عند جدول ' + deletion.tableName + '. النسخة الاحتياطية تم تنزيلها وقد يكون بعض ما سبق قد حُذف.', 'error', 7000);
+        return;
+    }
+
+    var session = getSession();
+    sb.from('audit_log').insert({
+        user_id: session && session.user ? session.user.id : null,
+        action: 'DELETE',
+        table_name: 'movement_notification_cleanup',
+        record_id: 'cleanup',
+        new_data: { deleted_count: deletion.totalDeleted, backup_created: true }
+    }).then(function(){}, function(){})
+
+    showToast('تم تنزيل النسخة الاحتياطية وحذف ' + deletion.totalDeleted + ' سجل حركة وإشعار', 'success', 6000);
 }
 
 function saveSettings(e) {
@@ -2649,6 +2769,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     document.getElementById('backupCleanupBtn')?.addEventListener('click', exportCleanupBackup);
     document.getElementById('runFullCleanupBtn')?.addEventListener('click', runFullCleanup);
+    document.getElementById('runAllMovementsCleanupBtn')?.addEventListener('click', runAllMovementsCleanup);
     
     // Export
     document.getElementById('exportBtn')?.addEventListener('click', exportData);
