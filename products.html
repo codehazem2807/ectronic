@@ -2193,6 +2193,7 @@ var state = {
     editingProduct: null,
     deletingProduct: null,
     imageFile: null,
+    imageRemoved: false,
     scanner: null,
     notifications: [],
     notificationsRefreshTimer: null,
@@ -2740,6 +2741,7 @@ function openViewModal(id) {
 function openAddModal() {
     state.editingProduct = null;
     state.imageFile = null;
+    state.imageRemoved = false;
     document.getElementById('productModalTitle').textContent = 'إضافة صنف جديد';
     document.getElementById('productModalIcon').className = 'fas fa-plus';
     document.getElementById('saveProductText').textContent = 'حفظ';
@@ -2769,6 +2771,7 @@ function openEditModal(id) {
     if (!p) return;
     state.editingProduct = p;
     state.imageFile = null;
+    state.imageRemoved = false;
     document.getElementById('productModalTitle').textContent = 'تعديل الصنف';
     document.getElementById('productModalIcon').className = 'fas fa-pen';
     document.getElementById('saveProductText').textContent = 'حفظ التعديلات';
@@ -2897,6 +2900,7 @@ function saveProduct(e) {
     var text = document.getElementById('saveProductText');
     var isEditing = !!state.editingProduct;
     var editingId = isEditing ? state.editingProduct.id : null;
+    var imageRemoved = state.imageRemoved;
     
     btn.disabled = true;
     spinner.style.display = 'block';
@@ -2964,12 +2968,12 @@ function saveProduct(e) {
                         showToast('فشل رفع الصورة، سيتم الحفظ بدونها', 'warning', 3000);
                         return isEditing && state.editingProduct ? state.editingProduct.image_url : null;
                     });
-            } else if (isEditing && state.editingProduct && state.editingProduct.image_url) {
+            } else if (isEditing && !imageRemoved && state.editingProduct && state.editingProduct.image_url) {
                 imagePromise = Promise.resolve(state.editingProduct.image_url);
             }
             
             return imagePromise.then(function(imageUrl) {
-                if (imageUrl) productData.image_url = imageUrl;
+                if (imageUrl || (isEditing && imageRemoved)) productData.image_url = imageUrl;
                 if (isEditing) return updateProduct(productData, session, sb);
                 else return insertProduct(productData, session, sb);
             });
@@ -4027,6 +4031,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (removeImgBtn) removeImgBtn.addEventListener('click', function(e) {
         e.preventDefault(); e.stopPropagation();
         state.imageFile = null;
+        state.imageRemoved = true;
         resetImageUpload();
     });
     
@@ -4037,6 +4042,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (file.size > 5 * 1024 * 1024) { showToast('حجم الصورة أكبر من 5 ميجا', 'error'); e.target.value = ''; return; }
         if (!file.type.startsWith('image/')) { showToast('الملف ليس صورة', 'error'); e.target.value = ''; return; }
         state.imageFile = file;
+        state.imageRemoved = false;
         var reader = new FileReader();
         reader.onload = function(ev) {
             document.getElementById('imagePreview').src = ev.target.result;
