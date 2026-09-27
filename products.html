@@ -1190,6 +1190,7 @@ img { max-width: 100%; height: auto; display: block; }
     <div class="sidebar-section">
         <div class="sidebar-section-title">الصيانة</div>
         <a href="repairs.html" class="sidebar-link" data-perm="can_view_repairs"><i class="fas fa-screwdriver-wrench"></i><span>أوامر الصيانة</span></a>
+        <a href="maintenance-notes.html" class="sidebar-link"><i class="fas fa-note-sticky"></i><span>ملاحظات الصيانة</span></a>
     </div>
     <div class="sidebar-section">
         <div class="sidebar-section-title">التقارير</div>
@@ -2463,11 +2464,13 @@ function renderProductCard(p) {
     if (qty <= 0) qtyBadge = '<span class="badge badge-danger"><i class="fas fa-circle-xmark"></i> نفذ</span>';
     else if (qty <= minQty) qtyBadge = '<span class="badge badge-warning"><i class="fas fa-triangle-exclamation"></i> منخفض</span>';
     
-    // ✅ عرض أيقونة الفئة (SVG أو FA)
     var iconHtml = '<div class="product-icon-svg">' + renderIconHTML(categoryIcon) + '</div>';
+    var imageHtml = p.image_url
+        ? '<img class="product-image" src="' + escapeHtml(p.image_url) + '" alt="' + escapeHtml(p.name) + '" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';">' + iconHtml.replace('class="product-icon-svg"', 'class="product-icon-svg" style="display:none;"')
+        : iconHtml;
     
     return '<div class="product-card" data-id="' + p.id + '" data-view-id="' + p.id + '">' +
-        '<div class="product-image-wrapper">' + iconHtml +
+        '<div class="product-image-wrapper">' + imageHtml +
             '<div class="product-badges">' + qtyBadge + '</div>' +
             '<button class="product-favorite ' + (isFav ? 'active' : '') + '" data-action="favorite" data-id="' + p.id + '" title="المفضلة"><i class="' + (isFav ? 'fas' : 'far') + ' fa-star"></i></button>' +
         '</div>' +
